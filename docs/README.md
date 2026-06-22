@@ -12,6 +12,7 @@ GenOffice V2 설계·이식·운영에 관한 문서 모음입니다.
 4. [04-ROADMAP.md](./04-ROADMAP.md) — 단계별 작업 계획
 5. [05-GEN-CHART.md](./05-GEN-CHART.md) — GenChart V2 재설계 (API·headless·gate)
 6. [06-PACKAGE-REVIEW-PLAN.md](./06-PACKAGE-REVIEW-PLAN.md) — 패키지별 소스 검토 순서·분담 (theme → ui → …)
+7. [07-HANDOFF.md](./07-HANDOFF.md) — 세션 종료/재개용 작업 이어하기 메모
 
 ## 문서 목록
 
@@ -23,6 +24,7 @@ GenOffice V2 설계·이식·운영에 관한 문서 모음입니다.
 | [04-ROADMAP.md](./04-ROADMAP.md) | Phase별 마이그레이션 로드맵과 우선순위 |
 | [05-GEN-CHART.md](./05-GEN-CHART.md) | GenChart V2 재설계 — V1 부채, 목표 API, 품질 Gate |
 | [06-PACKAGE-REVIEW-PLAN.md](./06-PACKAGE-REVIEW-PLAN.md) | 패키지 소스 검토 순서, 작업 분담, 패키지별 체크리스트 |
+| [07-HANDOFF.md](./07-HANDOFF.md) | 작업 중단 후 재개를 위한 handoff 문서 |
 
 ## 앞으로 추가될 문서 (예정)
 
