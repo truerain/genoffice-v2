@@ -12,7 +12,7 @@ Use this file as the shared instruction source across Codex, ChatGPT, Claude, Ge
 - The package scope is `@gen-office/*`.
 - The primary demo app is `apps/demo`.
 - The integrated Storybook app is `apps/storybook-all`.
-- Project-level design docs live under `docs/`. Start with [`docs/README.md`](./docs/README.md).
+- Project-level design docs live under `.docs/`. Start with [`.docs/README.md`](./.docs/README.md).
 
 ## Work Split
 
@@ -21,12 +21,12 @@ Two tracks run in parallel:
 | Track | Owner | Scope |
 | --- | --- | --- |
 | **Grid** | Another agent | `packages/gen-datagrid` through Gate 8 / MVP acceptance |
-| **Package review** | Human-led review with agent help | All other packages and apps, bottom-up per [`docs/06-PACKAGE-REVIEW-PLAN.md`](./docs/06-PACKAGE-REVIEW-PLAN.md) |
+| **Package review** | Human-led review with agent help | All other packages and apps, bottom-up per [`.docs/06-PACKAGE-REVIEW-PLAN.md`](./.docs/06-PACKAGE-REVIEW-PLAN.md) |
 
 When working in this repository:
 
 - Do **not** add or restore V1 packages `gen-grid`, `gen-grid-crud`, or `gen-grid-chart`.
-- Do **not** port V1 `GenChart.tsx` monolith into V2; follow [`docs/05-GEN-CHART.md`](./docs/05-GEN-CHART.md).
+- Do **not** port V1 `GenChart.tsx` monolith into V2; follow [`.docs/05-GEN-CHART.md`](./.docs/05-GEN-CHART.md).
 - Prefer the package review order: `tsconfig` → `theme` → `utils` → `ui` → `mdi` → `gen-chart` → … → apps.
 - Touch `gen-datagrid-crud`, `gen-datagrid-chart`, or demo grid pages only after `gen-datagrid` public API is stable.
 
@@ -55,7 +55,7 @@ Keep package responsibilities clear.
 - `packages/gen-datagrid`: **core** div-based data grid (TanStack Table + div renderer). Owned by the grid track.
 - `packages/gen-datagrid-crud`: CRUD toolbar, row status, dirty integration, Excel export on top of GenDataGrid.
 - `packages/gen-datagrid-chart`: grid selection range → chart model integration.
-- `packages/gen-chart`: headless + composable chart components (V2 redesign; see `docs/05-GEN-CHART.md`).
+- `packages/gen-chart`: headless + composable chart components (V2 redesign; see `.docs/05-GEN-CHART.md`).
 
 **Not in V2:** `gen-grid`, `gen-grid-crud`, `gen-grid-chart`, and V1 `gen-chart` implementation code.
 
@@ -73,24 +73,26 @@ Large feature components with heavy third-party engines should usually become se
 ## Documentation Rules
 
 - Update documentation when changing public APIs, package boundaries, behavior contracts, setup steps, or architectural decisions.
-- Put repository-level documentation under `docs/`.
-- Put package-specific documentation under the relevant package when it applies to one package only.
+- **V2 documentation location:** use `.docs/` (dot-docs), not `docs/`.
+  - Repository-level: `.docs/` at the repo root (overview, roadmap, architecture).
+  - Package-level: `packages/<name>/.docs/` (review logs, API notes, implementation logs).
+- Do not create new V2 documentation under `docs/` or `packages/*/docs/`. V1 paths under `frontend/docs/` and `frontend/packages/*/docs/` are external references only.
 - Do not leave important implementation decisions only in chat history.
 - Keep README files focused on orientation, setup, and public usage.
 - Key V2 references:
-  - [`docs/01-OVERVIEW.md`](./docs/01-OVERVIEW.md) — goals and MVP
-  - [`docs/02-ARCHITECTURE.md`](./docs/02-ARCHITECTURE.md) — structure and dependencies
-  - [`docs/03-V1-RELATIONSHIP.md`](./docs/03-V1-RELATIONSHIP.md) — what to port vs exclude from V1
-  - [`docs/04-ROADMAP.md`](./docs/04-ROADMAP.md) — phases and milestones
-  - [`docs/05-GEN-CHART.md`](./docs/05-GEN-CHART.md) — chart redesign
-  - [`docs/06-PACKAGE-REVIEW-PLAN.md`](./docs/06-PACKAGE-REVIEW-PLAN.md) — package review order
+  - [`.docs/01-OVERVIEW.md`](./.docs/01-OVERVIEW.md) — goals and MVP
+  - [`.docs/02-ARCHITECTURE.md`](./.docs/02-ARCHITECTURE.md) — structure and dependencies
+  - [`.docs/03-V1-RELATIONSHIP.md`](./.docs/03-V1-RELATIONSHIP.md) — what to port vs exclude from V1
+  - [`.docs/04-ROADMAP.md`](./.docs/04-ROADMAP.md) — phases and milestones
+  - [`.docs/05-GEN-CHART.md`](./.docs/05-GEN-CHART.md) — chart redesign
+  - [`.docs/06-PACKAGE-REVIEW-PLAN.md`](./.docs/06-PACKAGE-REVIEW-PLAN.md) — package review order
 
 ## Work Log Rules
 
 - Every file-changing task must leave a written log.
-- For repository-level changes, update `docs/logs/work-log.md` (create the file when implementation starts if it does not exist yet).
-- For architecture, package boundary, or technology decisions, update `docs/logs/decisions.md`.
-- For package-specific changes during the **package review track**, prefer `packages/<name>/docs/review-log.md` as defined in `docs/06-PACKAGE-REVIEW-PLAN.md`. Packages with deeper doc trees (for example `gen-datagrid`) may use their existing log paths such as `docs/log/implementation-log.md`.
+- For repository-level changes, update `.docs/logs/work-log.md` (create the file when implementation starts if it does not exist yet).
+- For architecture, package boundary, or technology decisions, update `.docs/logs/decisions.md`.
+- For package-specific changes during the **package review track**, prefer `packages/<name>/.docs/review-log.md` as defined in `.docs/06-PACKAGE-REVIEW-PLAN.md`. Packages may also use `packages/<name>/.docs/implementation-log.md` (for example `packages/theme/.docs/implementation-log.md`).
 - Write all work log and decision log entries in **Korean**.
 - Log entries should be concise but must include the date, summary, changed area, and relevant files.
 - Keep log files in reverse chronological order.
@@ -108,7 +110,7 @@ Large feature components with heavy third-party engines should usually become se
 - A request to "review", "analyze", "plan", "recommend", "explain", or "think through" is not permission to edit files.
 - Start modifying files only after the user clearly requests implementation, for example: "implement it", "make the change", "edit the file", "apply this", "코딩해줘", "수정해줘", or equivalent wording.
 - If the user asks a direct question, answer the question first and do not make code changes unless implementation is also explicitly requested.
-- Read `README.md`, this `AGENTS.md`, and the relevant `docs/` file before making significant changes.
+- Read `README.md`, this `AGENTS.md`, and the relevant `.docs/` file before making significant changes.
 - When porting from V1, read the V1 source and V2 docs together; do not assume V1 structure is still valid in V2.
 - Inspect existing code and package conventions before proposing new abstractions.
 - Prefer existing patterns, local helpers, and package boundaries over new one-off structures.
@@ -159,7 +161,7 @@ Examples:
 
 ```md
 <!--
- @file packages/gen-datagrid/docs/reference/api-structure.md
+ @file packages/gen-datagrid/.docs/reference/api-structure.md
  @description Documents the public API grouping for GenDataGrid.
 
  @created 2026-06-22
@@ -172,7 +174,7 @@ Do not add such headers to formats that do not support comments, such as JSON.
 
 When touching `packages/gen-datagrid` (grid track):
 
-- Follow the Gate and architecture docs under `packages/gen-datagrid/docs/` (ported from or synced with V1).
+- Follow the Gate and architecture docs under `packages/gen-datagrid/.docs/` (ported from or synced with V1).
 - Preserve the div DOM contract: `data-gen-datagrid-root`, `data-grid-id`, `data-gen-datagrid-cell`.
 - Do not introduce `<table>` rendering or V1 `gen-grid` selectors.
 - Do not add a compatibility layer that maps GenGrid APIs to GenDataGrid.
@@ -181,7 +183,7 @@ When touching `packages/gen-datagrid` (grid track):
 
 When touching `packages/gen-chart`:
 
-- Follow [`docs/05-GEN-CHART.md`](./docs/05-GEN-CHART.md): headless `createGenChartModel` first, then composable React (`CartesianChart`, series slots).
+- Follow [`.docs/05-GEN-CHART.md`](./.docs/05-GEN-CHART.md): headless `createGenChartModel` first, then composable React (`CartesianChart`, series slots).
 - Do not copy V1 `packages/gen-chart/src/GenChart.tsx`.
 - Do not expose a single monolith `GenChart` with `kind` discriminated union as the primary V2 API unless the user explicitly changes that decision in docs.
 
@@ -198,7 +200,7 @@ When touching `packages/gen-datagrid-crud` or demo pages that use the grid:
 
 Use the narrowest meaningful verification for the change.
 
-When `docs/06-BUILD_GUIDE.md` exists, use it for install, build, run, and troubleshooting. Until then, refer to [`docs/README.md`](./docs/README.md) and the V1 [`frontend/docs/01.BUILD_GUIDE.md`](../frontend/docs/01.BUILD_GUIDE.md) for command patterns, adjusting paths for the V2 workspace.
+When `.docs/06-BUILD_GUIDE.md` exists, use it for install, build, run, and troubleshooting. Until then, refer to [`.docs/README.md`](./.docs/README.md) and the V1 [`frontend/docs/01.BUILD_GUIDE.md`](../frontend/docs/01.BUILD_GUIDE.md) for command patterns, adjusting paths for the V2 workspace.
 
 Common commands (after the monorepo scaffold exists):
 

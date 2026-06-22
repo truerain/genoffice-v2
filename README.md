@@ -15,7 +15,7 @@ V1이 table DOM 기반 `@gen-office/gen-grid`를 중심으로 성장했다면, V
 | 백엔드 | [`backend`](../backend) — API 변경 없이 연동 가능 |
 | 패키지 스코프 | `@gen-office/*` (내부 워크스페이스 기준) |
 | gen-datagrid | **다른 agent**에서 Gate 8까지 완성 |
-| 나머지 packages | **직접 소스 검토** — `theme` → `utils` → `ui` → … 순 ([검토 계획](./docs/06-PACKAGE-REVIEW-PLAN.md)) |
+| 나머지 packages | **직접 소스 검토** — `theme` → `utils` → `ui` → … 순 ([검토 계획](./.docs/06-PACKAGE-REVIEW-PLAN.md)) |
 
 ## V2에서 바뀌는 핵심
 
@@ -58,7 +58,7 @@ genoffice-v2/
     gen-chart/         차트 컴포넌트 (V2 신규 설계·구현)
     tsconfig/          공유 TypeScript 설정
 
-  docs/                V2 설계·로드맵·아키텍처 문서
+  .docs/               V2 설계·로드맵·아키텍처 문서
 ```
 
 ## 패키지 의존 방향
@@ -73,17 +73,17 @@ apps → feature packages → ui → theme/utils
 
 ## 문서
 
-상세 개요와 설계 방향은 [`docs/`](./docs/)를 참고하세요.
+상세 개요와 설계 방향은 [`.docs/`](./.docs/)를 참고하세요.
 
 | 문서 | 설명 |
 | --- | --- |
-| [docs/README.md](./docs/README.md) | 문서 목차 |
-| [docs/01-OVERVIEW.md](./docs/01-OVERVIEW.md) | 프로젝트 개요·목표·범위 |
-| [docs/02-ARCHITECTURE.md](./docs/02-ARCHITECTURE.md) | 아키텍처·패키지 경계 |
-| [docs/03-V1-RELATIONSHIP.md](./docs/03-V1-RELATIONSHIP.md) | V1(`frontend`)과의 관계·이식 원칙 |
-| [docs/04-ROADMAP.md](./docs/04-ROADMAP.md) | 단계별 마이그레이션 로드맵 |
-| [docs/05-GEN-CHART.md](./docs/05-GEN-CHART.md) | GenChart V2 재설계·API·품질 Gate |
-| [docs/06-PACKAGE-REVIEW-PLAN.md](./docs/06-PACKAGE-REVIEW-PLAN.md) | 패키지별 소스 검토 순서·분담 |
+| [.docs/README.md](./.docs/README.md) | 문서 목차 |
+| [.docs/01-OVERVIEW.md](./.docs/01-OVERVIEW.md) | 프로젝트 개요·목표·범위 |
+| [.docs/02-ARCHITECTURE.md](./.docs/02-ARCHITECTURE.md) | 아키텍처·패키지 경계 |
+| [.docs/03-V1-RELATIONSHIP.md](./.docs/03-V1-RELATIONSHIP.md) | V1(`frontend`)과의 관계·이식 원칙 |
+| [.docs/04-ROADMAP.md](./.docs/04-ROADMAP.md) | 단계별 마이그레이션 로드맵 |
+| [.docs/05-GEN-CHART.md](./.docs/05-GEN-CHART.md) | GenChart V2 재설계·API·품질 Gate |
+| [.docs/06-PACKAGE-REVIEW-PLAN.md](./.docs/06-PACKAGE-REVIEW-PLAN.md) | 패키지별 소스 검토 순서·분담 |
 
 ## V1과의 관계
 
