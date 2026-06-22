@@ -1,0 +1,104 @@
+/**
+ * @file packages/theme/src/styles/tokens/components/grid.css
+ * @description Component-level CSS variables for data grid chrome and cell states.
+ * @created 2026-06-22
+ */
+:root {
+  /* Grid Container */
+  --grid-bg: var(--color-bg-primary);
+  --grid-border: var(--color-border-default);
+  --grid-border-radius: 6px;
+  --grid-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+
+  /* Grid Header */
+  --grid-header-bg: var(--color-bg-tertiary);
+  --grid-header-text: var(--color-fg-primary);
+  --grid-header-border: var(--color-border-default); /*var(--color-border-strong);*/
+  --grid-header-font-weight: 500;
+  --grid-header-height: 44px;
+
+  --grid-header-bg-hover: var(--color-bg-secondary);
+  --grid-header-bg-active: var(--color-bg-secondary);
+  --grid-header-sort-icon: var(--color-fg-secondary);
+
+  /* Grid Rows */
+  --grid-row-bg: transparent;
+    --grid-row-bg-hover: color-mix(in srgb, var(--base-brand) 8%, var(--grid-row-bg));
+    --grid-row-bg-selected: color-mix(in srgb, var(--base-brand) 14%, var(--grid-row-bg));
+  --grid-row-bg-disabled: var(--color-bg-tertiary);
+  --grid-row-text: var(--color-fg-primary);
+  --grid-row-border: var(--color-border-default);
+  --grid-row-font-weight: 350;
+
+  /* Grid Cells */
+  --grid-cell-bg: var(--color-bg-primary);
+  --grid-cell-text: var(--color-fg-primary);
+  --grid-cell-border: var(--color-border-default);
+  --grid-cell-padding-x: 6px;
+  --grid-cell-padding-y: 8px;
+  --grid-cell-font-size: 14px;
+
+    --grid-cell-bg-hover: color-mix(in srgb, var(--base-brand) 8%, var(--grid-cell-bg));
+    --grid-cell-bg-selected: color-mix(in srgb, var(--base-brand) 14%, var(--grid-cell-bg));
+    --grid-cell-bg-focus: var(--grid-cell-bg);
+
+  /* Pinned / Sticky Columns */
+  --grid-cell-bg-pinned: var(--color-bg-primary);
+  --grid-cell-border-pinned: var(--color-border-default);
+  --grid-cell-shadow-pinned: 2px 0 4px rgba(0, 0, 0, 0.06);
+
+  --grid-header-bg-pinned: var(--color-bg-tertiary);
+  --grid-header-border-pinned: var(--color-border-strong);
+  --grid-header-shadow-pinned: 2px 0 4px rgba(0, 0, 0, 0.08);
+
+  /* Selection / Checkbox Column */
+  --grid-selection-bg: var(--color-bg-primary);
+  --grid-selection-bg-hover: color-mix(in srgb, var(--base-brand) 10%, var(--grid-selection-bg));
+  --grid-selection-check: var(--color-fg-secondary);
+  --grid-selection-border: color-mix(in srgb, var(--base-brand) 55%, var(--grid-border));
+
+  /* Row Status Column */
+  --grid-row-status-created-bg: var(--color-success-light);
+  --grid-row-status-created-fg: var(--color-success);
+  --grid-row-status-updated-bg: var(--grid-cell-bg-focus);
+  --grid-row-status-updated-fg: var(--grid-selection-border);
+  --grid-row-status-deleted-bg: var(--color-danger-light);
+  --grid-row-status-deleted-fg: var(--color-danger);
+  --grid-row-status-clean-fg: var(--grid-cell-text);
+  --grid-row-status-border: var(--grid-border);
+  --grid-row-status-badge-size: 18px;
+  --grid-row-status-badge-radius: 999px;
+  --grid-row-status-font-size: 12px;
+  --grid-row-status-font-weight: 700;
+
+  /* Empty / Loading / Skeleton States */
+  --grid-empty-text: var(--color-fg-secondary);
+  --grid-empty-bg: var(--color-bg-primary);
+
+  --grid-loading-bg: var(--color-bg-primary);
+  --grid-skeleton-bg: var(--color-bg-tertiary);
+  --grid-skeleton-shimmer: linear-gradient(
+    90deg,
+    var(--color-bg-tertiary) 25%,
+    var(--color-border-default) 37%,
+    var(--color-bg-tertiary) 63%
+  );
+
+  /* Scroll / Divider / Resize Handle */
+  --grid-scrollbar-thumb: var(--color-border-strong);
+  --grid-scrollbar-track: var(--color-bg-secondary);
+
+  --grid-column-resizer: var(--color-border-strong);
+  --grid-column-resizer-hover: var(--color-fg-secondary);
+
+  /* Typography (Optional) */
+  --grid-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Noto Sans KR', sans-serif;
+  --grid-font-size: 14px;
+  --grid-line-height: 1.4;
+
+  /* Z-index Layering */
+  --grid-z-header: 20;
+  --grid-z-pinned: 15;
+  --grid-z-cell-overlay: 30;
+}

@@ -1,0 +1,18 @@
+/**
+ * @file packages/theme/src/index.css
+ * @description Main Css
+ * @created 2026-06-22
+ */
+
+
+/* CSS Variables */
+@import './styles/variables.css';
+
+/* Global Styles */
+@import './styles/global.css';
+
+/* Optional: Reset Styles */
+/*@import './styles/reset.css';*/
+
+/* Optional: LG Smart Font */
+/*@import './styles/fonts/lg-smart.css';*/

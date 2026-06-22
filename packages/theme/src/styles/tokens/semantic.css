@@ -1,0 +1,34 @@
+/**
+ * @file packages/theme/src/styles/tokens/semantic.css
+ * @description Semantic color aliases mapped from base tokens for UI consumption.
+ * @created 2026-06-22
+ */
+:root {
+  /* UI Semantic Aliases (for @gen-office/ui) */
+  /* Backgrounds (Semantic) */
+  --color-bg-primary: var(--color-background);
+  --color-bg-secondary: var(--color-surface);
+  --color-bg-tertiary: var(--color-surface-hover);
+
+  /* Foregrounds (Semantic) */
+  --color-fg-primary: var(--color-text);
+  --color-fg-secondary: var(--color-text-secondary);
+  --color-fg-tertiary: var(--color-text-secondary);
+  --color-fg-inverse: oklch(0.985 0 0);
+
+  /* Borders (Semantic) */
+  --color-border-default: var(--color-border);
+  --color-border-subtle: var(--color-border);
+
+  /* Brand (Semantic) */
+  --color-brand-secondary: var(--color-secondary);
+
+  /* Status (Semantic, ui expects these names) */
+  --color-status-success: var(--color-success);
+  --color-status-warning: var(--color-warning);
+  --color-status-error: var(--color-danger);
+  --color-status-info: var(--color-info);
+
+  /* Optional: if ui uses this (Semantic) */
+  --color-text-tertiary: var(--color-text-secondary);
+}

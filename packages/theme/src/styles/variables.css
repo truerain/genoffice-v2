@@ -1,0 +1,11 @@
+/**
+ * @file packages/theme/src/styles/variables.css
+ * @description Aggregates base, semantic, component, and dark theme CSS variable layers.
+ * @created 2026-06-22
+ */
+@import './tokens/base.css';
+@import './tokens/semantic.css';
+@import './tokens/components/grid.css';
+@import './tokens/components/button.css';
+@import './tokens/components/dialog.css';
+@import './tokens/theme-dark.css';

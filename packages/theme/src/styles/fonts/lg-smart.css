@@ -1,0 +1,60 @@
+/**
+ * @file packages/theme/src/styles/fonts/lg-smart.css
+ * @description LG Smart and system font stacks with optional brand font activation.
+ * @created 2026-06-22
+ */
+
+/* LG Smart: 웹폰트 파일은 별도 제공. 라이선스 확보 시 @font-face 경로를 설정하세요. */
+
+@font-face {
+  font-family: 'LG Smart';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/LG_Smart_Light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'LG Smart';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/LG_Smart_Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'LG Smart';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/LG_Smart_Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'LG Smart';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/LG_Smart_Bold.woff') format('woff');
+}
+  
+
+
+/**
+ * 현재는 시스템 폰트 fallback만 사용
+ * 
+ * - Apple SD Gothic Neo: macOS/iOS 한글 폰트
+ * - Malgun Gothic: Windows 한글 폰트 (맑은 고딕)
+ * - Segoe UI: Windows 영문 폰트
+ */
+
+:root {
+  --font-family-primary:  -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard Variable", Pretendard, Roboto, "Noto Sans KR", "Segoe UI", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-family-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+/* LG Smart 폰트를 사용하는 경우 */
+:root[data-use-lg-font='true'] {
+  --font-family-primary: 'LG Smart';
+  --font-family-mono: 'LG Smart', monospace;
+}
