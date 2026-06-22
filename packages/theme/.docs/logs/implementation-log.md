@@ -10,6 +10,16 @@
 
 ### V1에서 V2로 수작업 소스이관
 
+### Vitest 자동 테스트 추가
+
+- `test/` — useTheme, ThemeProvider, themePresets, cssTokens (16 tests)
+- `pnpm test` / `pnpm test:watch` 스크립트
+
+### Storybook theme 스토리
+
+- `src/stories/Theme.stories.tsx` — ModeAndContext, SemanticColors, ComponentTokens, ChartPalette, Typography
+- `apps/storybook` — SB 10 addon 정리, preview에서 `index.css` + ThemeProvider
+
 ### 패키지 구조 문서 추가
 
 - `.docs/architecture.md` — 디렉터리·토큰 계층·React 런타임·빌드 export (Mermaid 다이어그램)

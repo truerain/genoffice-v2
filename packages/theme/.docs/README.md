@@ -12,7 +12,7 @@
 
 | 문서 | 내용 |
 | --- | --- |
-| [architecture.md](./architecture.md) | **패키지 구조**, CSS 토큰 계층, React 런타임, 빌드·export (Mermaid 포함) |
+| [architecture.md](./architecture.md) | **패키지 구조**, CSS 토큰 계층, React 런타임, 빌드·export, 테스트 (Mermaid 포함) |
 | [ref/token-mapping.md](./ref/token-mapping.md) | 컴포넌트 토큰 ↔ 소스·사용처 매핑표 |
 | [logs/implementation-log.md](./logs/implementation-log.md) | 구현·검토 변경 로그 |
 

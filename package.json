@@ -6,7 +6,8 @@
     "build": "turbo run build",
     "dev": "turbo run dev --filter=@gen-office/demo",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "storybook": "turbo run --filter=@gen-office/storybook dev"
   },
   "devDependencies": {
     "turbo": "latest",

@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig/react-library.json",
+  "compilerOptions": {
+    "types": ["node", "@testing-library/jest-dom"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": true,
+    "lib": ["ESNext", "DOM", "DOM.Iterable"]
+  },
+  "include": ["./**/*", "../vitest.config.ts", "../src"]
+}

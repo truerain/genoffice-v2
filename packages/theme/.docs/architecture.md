@@ -282,4 +282,21 @@ export function App() {
 - [ ] `src/index.ts` / `src/index.css` export·import 경로
 - [ ] `package.json` `exports` 필드
 - [ ] `pnpm -C packages/theme build` 통과
+- [ ] `pnpm -C packages/theme test` 통과
 - [ ] 본 문서·token-mapping·implementation-log 갱신
+
+---
+
+## 8. 자동 테스트
+
+```bash
+pnpm -C packages/theme test        # 1회 실행
+pnpm -C packages/theme test:watch  # watch 모드
+```
+
+| 파일 | 검증 내용 |
+| --- | --- |
+| `test/useTheme.test.tsx` | Provider 계약, `toggleMode` |
+| `test/ThemeProvider.test.tsx` | `data-theme`, localStorage, CSS 변수 노출 |
+| `test/themePresets.test.ts` | JS 프리셋(`lightTheme`, chart tokens) 형태 |
+| `test/cssTokens.test.ts` | 토큰 CSS 파일에 필수 변수 존재 |
