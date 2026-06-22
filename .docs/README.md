@@ -33,8 +33,8 @@ GenOffice V2 설계·이식·운영에 관한 문서 모음입니다.
 | `06-BUILD_GUIDE.md` | 설치, 빌드, 실행, 트러블슈팅 |
 | `AGENTS.md` (루트) | AI 코딩 에이전트 공통 규칙 |
 | `packages/gen-datagrid-crud/` 설계 문서 | CRUD 레이어 API·이식 범위 |
-| `packages/gen-chart/docs/` | GenChart API reference, chart gates (C0~C8) |
-| `packages/gen-datagrid/` Gate 8 체크리스트 | MVP acceptance 상세 기준 |
+| `packages/gen-chart/.docs/` | GenChart API reference, chart gates (C0~C8) |
+| `packages/gen-datagrid/.docs/` Gate 8 체크리스트 | MVP acceptance 상세 기준 |
 
 ## 외부 참조 (V1)
 
@@ -50,9 +50,15 @@ V2 이식·설계 시 자주 참조하는 V1 문서입니다.
 | [`frontend/docs/gen-chart/visx-rewrite-plan.md`](../../frontend/docs/gen-chart/visx-rewrite-plan.md) | V1 visx 전환·monolith API (참고용, 이식 안 함) |
 | [`frontend/docs/01.BUILD_GUIDE.md`](../../frontend/docs/01.BUILD_GUIDE.md) | V1 빌드 가이드 (이식 후 V2용으로 갱신 예정) |
 
+## 문서 위치 (V2)
+
+- **리포지토리 수준**: `.docs/` (본 문서군)
+- **패키지 수준**: `packages/<name>/.docs/` (검토 로그, API, 구현 메모)
+- V1 `frontend/docs/`, `frontend/packages/*/docs/`는 참조용 외부 경로입니다.
+
 ## 문서 작성 규칙
 
 - V2 문서는 **한국어**로 작성합니다.
 - 아키텍처·패키지 경계·MVP 범위가 바뀌면 해당 문서와 루트 `README.md`를 함께 갱신합니다.
-- 구현이 진행되면 `docs/` 아래에 패키지별·기능별 상세 문서를 추가합니다.
+- 구현이 진행되면 각 패키지의 `packages/<name>/.docs/` 아래에 상세 문서를 추가합니다.
 - V1 문서를 복사할 때는 V2 기준으로 내용을 맞추고, 단순 복제로 outdated 정보가 남지 않게 합니다.
