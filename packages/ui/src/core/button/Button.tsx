@@ -10,7 +10,7 @@
  */
 import { forwardRef } from 'react';
 import { Slot } from '@radix-ui/react-slot';
-import { cn } from '@gen-office/utils';
+import { clsx } from 'clsx';
 import type { ButtonProps } from './Button.types';
 import styles from './Button.module.css';
 
@@ -33,7 +33,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const isDisabled = disabled || loading;
     
-    const buttonClassName = cn(
+    const buttonClassName = clsx(
       styles.button,
       styles[variant],
       styles[size],

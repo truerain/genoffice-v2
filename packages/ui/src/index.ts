@@ -5,7 +5,7 @@
  *
  * @remark
  * - Side-effect: ./index.css (theme tokens)
- * - Export components as each Gate completes (Button, Label, Separator, Badge, Input, Textarea, …)
+ * - Export components as each Gate completes (… Checkbox, Switch, Radio, Slider)
  */
 import './index.css';
 
@@ -15,3 +15,7 @@ export * from './core/separator';
 export * from './core/badge';
 export * from './core/input';
 export * from './core/textarea';
+export * from './core/checkbox';
+export * from './core/switch';
+export * from './core/radio';
+export * from './core/slider';

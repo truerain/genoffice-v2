@@ -8,6 +8,42 @@
 
 ## 2026-06-23
 
+### Radio · Slider core 이식 (사용자) — clsx·헤더·문서·test
+
+- **Radio:** `Radio.tsx`, types, css, `SimpleRadioGroup` — 헤더, V1 hex → theme 토큰, `useId()` id 스코프
+- **Radio stories:** `UI/Core/Radio`, `UI/Core/SimpleRadioGroup`, core `Label`
+- **Slider:** 헤더, `--color-brand-secondary` → `--color-primary`, focus ring 토큰
+- `slider.stories.tsx` → `Slider.stories.tsx`, `UI/Core/Slider`
+- `test/core/Radio.test.tsx`, `SimpleRadioGroup.test.tsx`, `Slider.test.tsx`
+- `.docs/core/radio.md`, `slider.md`
+
+### Switch core 이식 (사용자) — clsx·헤더·문서·test
+
+- `Switch.tsx`, `Switch.types.ts`, `Switch.module.css`, `index.ts` — 파일 헤더, V1 hex → theme 토큰
+- `index.tsx` → `index.ts` (패키지 convention)
+- `Switch.stories.tsx` — core `Label` 연동, `AllStates`·`FormExample` 추가
+- `test/core/Switch.test.tsx`, `.docs/core/switch.md`
+- `pnpm -C packages/ui test` (29) · `build` 통과
+
+### Checkbox core 이식 (사용자) — clsx·헤더·문서·test
+
+- `Checkbox.tsx` — `cn` → `clsx`, 파일 헤더
+- `Checkbox.types.ts` — `ComponentPropsWithoutRef` 명시 import
+- `Checkbox.module.css` — V1 마젠타 hex → `--button-focus-ring`, `--color-primary-dark`, `--color-fg-inverse`
+- `checkbox.stories.tsx` → `Checkbox.stories.tsx`, title `UI/Core/Checkbox`
+- `test/core/Checkbox.test.tsx`, `.docs/core/checkbox.md`
+
+### Checkbox stories 점검
+
+- `Checkbox.stories.tsx` — `UI/Core/Checkbox`, 파일 헤더, core `Label` 연동
+- `ErrorChecked`, `WithRequiredLabel`, `FormExample` 스토리 추가
+- standalone 스토리에 `aria-label` (autodocs·a11y)
+
+### ui build — theme CSS `@import` resolve
+
+- `vite.config.ts`, `vitest.config.ts` — `@gen-office/theme/index.css` → `../theme/src/index.css` alias
+- PostCSS가 패키지명을 로컬 경로로 해석하던 오류 수정 (`pnpm -C packages/ui build` 통과)
+
 ### Input·Textarea core 이식 (사용자) — 정리
 
 - 파일 헤더, `UI/Core/*` 스토리, `Texttarea.stories.tsx` → `Textarea.stories.tsx` 오타 수정

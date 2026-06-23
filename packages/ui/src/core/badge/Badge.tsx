@@ -9,7 +9,7 @@
  * - className merge via @gen-office/utils cn (V1 compat; migrate to clsx later)
  */
 import { forwardRef } from 'react';
-import { cn } from '@gen-office/utils';
+import { clsx } from 'clsx';
 import type { BadgeProps } from './Badge.types';
 import styles from './Badge.module.css';
 
@@ -27,7 +27,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   ) => (
     <span
       ref={ref}
-      className={cn(
+      className={clsx(
         styles.badge,
         styles[variant],
         styles[size],

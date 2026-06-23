@@ -18,7 +18,7 @@ import {
   type FocusEventHandler,
 } from 'react';
 import * as LabelPrimitive from '@radix-ui/react-label';
-import { cn } from '@gen-office/utils';
+import { clsx } from 'clsx';
 import type { InputProps } from './Input.types';
 import styles from './Input.module.css';
 
@@ -108,11 +108,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-      <div className={cn(styles.wrapper, fullWidth && styles.fullWidthWrapper)}>
+      <div className={clsx(styles.wrapper, fullWidth && styles.fullWidthWrapper)}>
         {label && (
           <LabelPrimitive.Root
             htmlFor={id}
-            className={cn(
+            className={clsx(
               styles.label,
               error && styles.labelError,
               required && styles.labelRequired
@@ -134,7 +134,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             }}
             id={id}
             type={type}
-            className={cn(
+            className={clsx(
               styles.input,
               hasPrefix && styles.inputWithPrefix,
               hasSuffix && styles.inputWithSuffix,
@@ -152,10 +152,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           {hasPrefix && (
-            <div className={cn(styles.prefix, prefixClassName)}>{prefixContent}</div>
+            <div className={clsx(styles.prefix, prefixClassName)}>{prefixContent}</div>
           )}
           {hasSuffix && (
-            <div className={cn(styles.suffix, suffixClassName)}>
+            <div className={clsx(styles.suffix, suffixClassName)}>
               {canClear && (
                 <button
                   type="button"
@@ -174,7 +174,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {helperText && (
           <span
             id={helperId}
-            className={cn(styles.helperText, error && styles.helperTextError)}
+            className={clsx(styles.helperText, error && styles.helperTextError)}
           >
             {helperText}
           </span>

@@ -11,7 +11,14 @@ import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { resolve } from 'path';
 
+const themeCss = resolve(__dirname, '../theme/src/index.css');
+
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@gen-office/theme/index.css': themeCss,
+    },
+  },
   esbuild: {
     jsx: 'automatic',
   },

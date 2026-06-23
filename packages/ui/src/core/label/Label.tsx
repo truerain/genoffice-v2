@@ -10,7 +10,7 @@
  */
 import { forwardRef } from 'react';
 import * as LabelPrimitive from '@radix-ui/react-label';
-import { cn } from '@gen-office/utils';
+import { clsx } from 'clsx';
 import type { LabelProps } from './Label.types';
 import styles from './Label.module.css';
 
@@ -18,7 +18,7 @@ export const Label = forwardRef<HTMLLabelElement, LabelProps>(
   ({ className, children, required = false, error = false, ...props }, ref) => (
     <LabelPrimitive.Root
       ref={ref}
-      className={cn(
+      className={clsx(
         styles.root,
         error && styles.error,
         required && styles.required,

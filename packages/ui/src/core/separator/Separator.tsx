@@ -10,7 +10,7 @@
  */
 import { forwardRef } from 'react';
 import * as SeparatorPrimitive from '@radix-ui/react-separator';
-import { cn } from '@gen-office/utils';
+import { clsx } from 'clsx';
 import type { SeparatorProps } from './Separator.types';
 import styles from './Separator.module.css';
 
@@ -23,7 +23,7 @@ export const Separator = forwardRef<HTMLDivElement, SeparatorProps>(
       ref={ref}
       orientation={orientation}
       decorative={decorative}
-      className={cn(
+      className={clsx(
         styles.root,
         styles[variant],
         orientation === 'vertical' ? styles.vertical : styles.horizontal,

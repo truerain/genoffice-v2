@@ -9,7 +9,7 @@
  */
 import { forwardRef, useId } from 'react';
 import * as LabelPrimitive from '@radix-ui/react-label';
-import { cn } from '@gen-office/utils';
+import { clsx } from 'clsx';
 import type { TextareaProps } from './Textarea.types';
 import styles from './Textarea.module.css';
 
@@ -40,11 +40,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const helperId = `${id}-helper`;
 
     return (
-      <div className={cn(styles.wrapper, fullWidth && styles.fullWidthWrapper)}>
+      <div className={clsx(styles.wrapper, fullWidth && styles.fullWidthWrapper)}>
         {label && (
           <LabelPrimitive.Root
             htmlFor={id}
-            className={cn(
+            className={clsx(
               styles.label,
               error && styles.labelError,
               required && styles.labelRequired
@@ -57,7 +57,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         <textarea
           ref={ref}
           id={id}
-          className={cn(
+          className={clsx(
             styles.textarea,
             resizeClassMap[resize],
             error && styles.error,
@@ -72,7 +72,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         {helperText && (
           <span
             id={helperId}
-            className={cn(styles.helperText, error && styles.helperTextError)}
+            className={clsx(styles.helperText, error && styles.helperTextError)}
           >
             {helperText}
           </span>

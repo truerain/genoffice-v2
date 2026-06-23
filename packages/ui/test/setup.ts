@@ -11,3 +11,11 @@ import '../src/index.css';
 afterEach(() => {
   cleanup();
 });
+
+class ResizeObserverMock {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
+globalThis.ResizeObserver = ResizeObserverMock;

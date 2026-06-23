@@ -4,8 +4,16 @@
  * @created 2026-06-23
  */
 import { defineConfig } from 'vitest/config';
+import { resolve } from 'path';
+
+const themeCss = resolve(__dirname, '../theme/src/index.css');
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@gen-office/theme/index.css': themeCss,
+    },
+  },
   esbuild: {
     jsx: 'automatic',
   },

@@ -53,8 +53,8 @@ component 전용 theme 토큰(`--label-*`)은 없습니다. semantic 색만 사�
 ## Storybook
 
 - **title:** `UI/Core/Label`
-- Input 연동 스토리는 core `Input` 사용; Checkbox는 미이식 시 native 유지
-- Input·Checkbox Gate 완료 후 `WithInput` 등을 core 컴포넌트로 교체
+- Input 연동 스토리는 core `Input` 사용
+- Checkbox Gate 완료 — `WithCheckbox` 스토리를 core `Checkbox`로 교체 가능 ([checkbox.md](./checkbox.md))
 
 ## Gate 체크리스트 (Wave 1-2)
 
