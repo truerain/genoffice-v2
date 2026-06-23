@@ -8,6 +8,14 @@
 
 ## 2026-06-23
 
+### @gen-office/ui Separator core 이식 정리
+
+- 헤더·스토리 taxonomy·`packages/ui/.docs/core/separator.md`
+
+### @gen-office/ui Label core 이식 정리
+
+- ref 타입·스토리 의존성 수정, `packages/ui/.docs/core/label.md` 추가
+
 ### Storybook 사이드바 — Theme 맨 아래 정렬
 
 - `storySort.order: ['UI', '*', 'Theme']`; Theme stories `title: 'Theme/Theme'` (단일 레벨 root는 sort 미적용)

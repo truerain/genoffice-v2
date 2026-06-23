@@ -8,6 +8,20 @@
 
 ## 2026-06-23
 
+### Separator core 이식 (사용자) — 헤더·문서 정리
+
+- `Separator.types.ts` — `ComponentPropsWithoutRef` 명시 import
+- `Separator.stories.tsx` — `UI/Core/Separator`, Variants 스토리, `decorative` argType
+- 파일 헤더·`.docs/core/separator.md`, `SeparatorVariant` export
+- `pnpm -C packages/ui build` 통과
+
+### Label core 이식 (사용자) — 오류·문서 정리
+
+- `Label.tsx` — `forwardRef` 타입 `HTMLLabelElement` (기존 `HTMLButtonElement` 오류 수정)
+- `Label.stories.tsx` — `UI/Core/Label`, Input/Checkbox 미이식 → native `StoryInput` 헬퍼
+- 파일 헤더·`.docs/core/label.md` 추가, architecture·README 갱신
+- `pnpm -C packages/ui build` 통과
+
 ### Button `brand` variant·토큰 제거
 
 - `Button.types.ts`, `Button.module.css`, `Button.stories.tsx` — `brand` 전면 삭제

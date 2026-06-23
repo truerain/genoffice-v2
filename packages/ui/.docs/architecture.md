@@ -52,12 +52,15 @@ packages/ui/
 │   ├── index.ts                 public barrel (+ index.css side-effect)
 │   ├── index.css                @import @gen-office/theme/index.css + ui globals
 │   ├── core/                    Radix·단일 primitive (Phase 1)
-│   │   └── Button/
-│   │       ├── Button.tsx
-│   │       ├── Button.types.ts
-│   │       ├── Button.module.css
-│   │       ├── Button.stories.tsx
-│   │       └── index.ts
+│   │   ├── button/
+│   │   │   ├── Button.tsx
+│   │   │   └── …
+│   │   └── label/
+│   │       ├── Label.tsx
+│   │       └── …
+│   │   └── separator/
+│   │       ├── Separator.tsx
+│   │       └── …
 │   └── composed/                core 조합 (Phase 2)
 │       └── DatePicker/ …
 ├── test/
@@ -74,7 +77,7 @@ packages/ui/
 | | `core/` | `composed/` |
 | --- | --- | --- |
 | 역할 | Radix primitive 래퍼 1:1 | core 2개+ · 도메인 UX (FilterBar, DatePicker) |
-| 예 | Button, Input, Dialog | AlertDialog, Combobox, SplitLayout |
+| 예 | Button, Label, Separator, Input, Dialog | AlertDialog, Combobox, SplitLayout |
 | Story title | `UI/Core/<Name>` | `UI/Composed/<Name>` |
 | 선행 | theme 토큰 | 해당 core export 완료 |
 
