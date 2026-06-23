@@ -8,6 +8,34 @@
 
 ## 2026-06-23
 
+### 디자이너·퍼블리셔용 디자인 토큰 가이드
+
+- `.docs/08-DESIGN-TOKENS-GUIDE.md` — 색상 추가·변경 절차, 역할별 온보딩, 체크리스트
+- `.docs/README.md`, `packages/theme/.docs/README.md` 링크 추가
+
+### Button `brand` variant·토큰 전면 제거
+
+- theme: `--button-brand-*` 삭제 (`button.css`)
+- ui: `ButtonVariant`에서 `brand` 제거, `.brand` CSS·스토리 삭제
+- `cssTokens.test.ts`: `--button-brand` 부재 assert 추가
+
+### @gen-office/theme primary near-black (#171717)
+
+- 마젠타 primary 폐기 → near-black CTA; danger Bootstrap red와 시각 분리
+- `base.css`, `theme-dark.css`, `button.css`, 테스트·문서 갱신
+
+### @gen-office/ui 이관 Plan·아키텍처 문서
+
+- `packages/ui/.docs/architecture.md` — Radix 래퍼, clsx, Vitest + Storybook Gate
+- `packages/ui/.docs/migration-plan.md` — Wave 0~5, core 우선 이관 순서
+- 다음 구현: Wave 0 스캐폴드 → Button 첫 Gate
+
+### @gen-office/ui package.json React 19·V2 스택 정렬
+
+- V1(React 18 / Storybook 8) → V2 monorepo 기준: React 19.2.7, Storybook 10.4.6, Vite 6.4.3
+- SB8 전용 패키지 제거(`addon-essentials`, `blocks`, `core` 등), `addon-docs` 추가
+- `peerDependencies`: `react`/`react-dom` `^19.0.0` (`theme`와 동일)
+
 ### @gen-office/utils 패키지 검토 마무리
 
 - review-log 종료 표시, 다음 순서 `ui`
