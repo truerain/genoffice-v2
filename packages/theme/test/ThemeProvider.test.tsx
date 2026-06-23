@@ -78,12 +78,12 @@ describe('ThemeProvider', () => {
     expect(document.documentElement.getAttribute('data-theme')).toBe('dark');
   });
 
-  it('exposes theme colors read from CSS variables', async () => {
+  it('exposes primary color read from CSS variables', async () => {
     let capturedPrimary = '';
 
     function ColorProbe() {
       const { theme } = useTheme();
-      capturedPrimary = theme.colors.background.primary;
+      capturedPrimary = theme.colors.primary.default;
       return null;
     }
 
@@ -96,5 +96,6 @@ describe('ThemeProvider', () => {
     await waitFor(() => {
       expect(capturedPrimary).not.toBe('');
     });
+    expect(capturedPrimary.toLowerCase()).toMatch(/#c6004d|rgb\(198,\s*0,\s*77\)/);
   });
 });

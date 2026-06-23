@@ -14,14 +14,11 @@
   --color-fg-primary: var(--color-text);
   --color-fg-secondary: var(--color-text-secondary);
   --color-fg-tertiary: var(--color-text-secondary);
-  --color-fg-inverse: oklch(0.985 0 0);
+  --color-fg-inverse: #ffffff;
 
   /* Borders (Semantic) */
   --color-border-default: var(--color-border);
   --color-border-subtle: var(--color-border);
-
-  /* Brand (Semantic) */
-  --color-brand-secondary: var(--color-secondary);
 
   /* Status (Semantic, ui expects these names) */
   --color-status-success: var(--color-success);

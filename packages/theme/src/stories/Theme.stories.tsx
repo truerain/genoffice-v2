@@ -3,10 +3,10 @@
  * @description Storybook stories for @gen-office/theme tokens and ThemeProvider.
  * @created 2026-06-22
  */
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryFn, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
-import React from 'react';
-import { darkChartTokens, lightChartTokens, ThemeProvider, useTheme } from '@gen-office/theme';
+import { useTheme } from '../hooks/useTheme';
+import { ThemeProvider } from '../provider/ThemeProvider';
 
 const meta = {
   title: 'Theme',
@@ -14,7 +14,7 @@ const meta = {
     layout: 'padded',
   },
   decorators: [
-    (Story) => (
+    (Story: StoryFn) => (
       <ThemeProvider defaultMode="light" storageKey="gen-office-storybook-theme">
         <Story />
       </ThemeProvider>
@@ -120,7 +120,7 @@ function ThemeModePanel() {
 
 function SemanticColorsPanel() {
   const { theme } = useTheme();
-  const { background, foreground, brand, status, border } = theme.colors;
+  const { background, foreground, primary, status, border } = theme.colors;
 
   return (
     <SwatchGrid>
@@ -129,7 +129,8 @@ function SemanticColorsPanel() {
       <ColorSwatch label="bg.tertiary" value={background.tertiary} />
       <ColorSwatch label="fg.primary" value={foreground.primary} />
       <ColorSwatch label="fg.secondary" value={foreground.secondary} />
-      <ColorSwatch label="brand.primary" value={brand.primary} />
+      <ColorSwatch label="primary.default" value={primary.default} />
+      <ColorSwatch label="primary.dark" value={primary.dark} />
       <ColorSwatch label="status.success" value={status.success} />
       <ColorSwatch label="status.warning" value={status.warning} />
       <ColorSwatch label="status.error" value={status.error} />
@@ -151,24 +152,6 @@ function ComponentTokensPanel() {
       <CssVarSwatch label="Grid border" cssVar="--grid-border" />
       <CssVarSwatch label="Grid header bg" cssVar="--grid-header-bg" />
     </SwatchGrid>
-  );
-}
-
-function ChartPalettePanel() {
-  const { mode } = useTheme();
-  const tokens = mode === 'dark' ? darkChartTokens : lightChartTokens;
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <p style={{ margin: 0, color: 'var(--color-fg-secondary)' }}>
-        Chart preset ({mode}): `lightChartTokens` / `darkChartTokens`
-      </p>
-      <SwatchGrid>
-        {tokens.color.seriesPalette.map((color, index) => (
-          <ColorSwatch key={color} label={`series[${index}]`} value={color} />
-        ))}
-      </SwatchGrid>
-    </div>
   );
 }
 
@@ -208,10 +191,6 @@ export const SemanticColors: Story = {
 
 export const ComponentTokens: Story = {
   render: () => <ComponentTokensPanel />,
-};
-
-export const ChartPalette: Story = {
-  render: () => <ChartPalettePanel />,
 };
 
 export const Typography: Story = {

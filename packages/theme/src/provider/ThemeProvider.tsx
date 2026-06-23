@@ -15,6 +15,14 @@ interface ThemeProviderProps {
   storageKey?: string;
 }
 
+const emptyThemeColors = (): Theme['colors'] => ({
+  background: { primary: '', secondary: '', tertiary: '' },
+  foreground: { primary: '', secondary: '', tertiary: '', inverse: '' },
+  primary: { default: '', light: '', dark: '' },
+  status: { success: '', warning: '', error: '', info: '' },
+  border: { default: '', subtle: '', strong: '' },
+});
+
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   children,
   defaultMode = 'light',
@@ -30,59 +38,48 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
     return defaultMode;
   });
 
-  const readThemeFromCss = useCallback(
-    (nextMode: ThemeMode): Theme => {
-      if (typeof window === 'undefined') {
-        return {
-          mode: nextMode,
-          colors: {
-            background: { primary: '', secondary: '', tertiary: '' },
-            foreground: { primary: '', secondary: '', tertiary: '', inverse: '' },
-            brand: { primary: '', secondary: '' },
-            status: { success: '', warning: '', error: '', info: '' },
-            border: { default: '', subtle: '', strong: '' },
-          },
-        };
-      }
+  const readThemeFromCss = useCallback((nextMode: ThemeMode): Theme => {
+    if (typeof window === 'undefined') {
+      return { mode: nextMode, colors: emptyThemeColors() };
+    }
 
-      const root = document.documentElement;
-      const styles = window.getComputedStyle(root);
-      const getVar = (name: string) => styles.getPropertyValue(name).trim();
+    const root = document.documentElement;
+    const styles = window.getComputedStyle(root);
+    const getVar = (name: string) => styles.getPropertyValue(name).trim();
 
-      return {
-        mode: nextMode,
-        colors: {
-          background: {
-            primary: getVar('--color-bg-primary'),
-            secondary: getVar('--color-bg-secondary'),
-            tertiary: getVar('--color-bg-tertiary'),
-          },
-          foreground: {
-            primary: getVar('--color-fg-primary'),
-            secondary: getVar('--color-fg-secondary'),
-            tertiary: getVar('--color-fg-tertiary'),
-            inverse: getVar('--color-fg-inverse'),
-          },
-          brand: {
-            primary: getVar('--color-primary'),
-            secondary: getVar('--color-brand-secondary'),
-          },
-          status: {
-            success: getVar('--color-status-success'),
-            warning: getVar('--color-status-warning'),
-            error: getVar('--color-status-error'),
-            info: getVar('--color-status-info'),
-          },
-          border: {
-            default: getVar('--color-border-default'),
-            subtle: getVar('--color-border-subtle'),
-            strong: getVar('--color-border-strong'),
-          },
+    return {
+      mode: nextMode,
+      colors: {
+        background: {
+          primary: getVar('--color-bg-primary'),
+          secondary: getVar('--color-bg-secondary'),
+          tertiary: getVar('--color-bg-tertiary'),
         },
-      };
-    },
-    []
-  );
+        foreground: {
+          primary: getVar('--color-fg-primary'),
+          secondary: getVar('--color-fg-secondary'),
+          tertiary: getVar('--color-fg-tertiary'),
+          inverse: getVar('--color-fg-inverse'),
+        },
+        primary: {
+          default: getVar('--color-primary'),
+          light: getVar('--color-primary-light'),
+          dark: getVar('--color-primary-dark'),
+        },
+        status: {
+          success: getVar('--color-status-success'),
+          warning: getVar('--color-status-warning'),
+          error: getVar('--color-status-error'),
+          info: getVar('--color-status-info'),
+        },
+        border: {
+          default: getVar('--color-border-default'),
+          subtle: getVar('--color-border-subtle'),
+          strong: getVar('--color-border-strong'),
+        },
+      },
+    };
+  }, []);
 
   const [theme, setTheme] = useState<Theme>(() => readThemeFromCss(mode));
 
@@ -93,7 +90,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
         localStorage.setItem(storageKey, newMode);
       }
     },
-    [storageKey]
+    [storageKey],
   );
 
   const toggleMode = useCallback(() => {
@@ -102,10 +99,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
 
   useEffect(() => {
     const root = document.documentElement;
-
-    // Set data attribute for CSS selectors
     root.setAttribute('data-theme', mode);
-    
     setTheme(readThemeFromCss(mode));
   }, [mode, readThemeFromCss]);
 

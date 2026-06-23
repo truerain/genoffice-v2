@@ -4,40 +4,46 @@
  * @created 2026-06-22
  */
 
-/* LG Smart: 웹폰트 파일은 별도 제공. 라이선스 확보 시 @font-face 경로를 설정하세요. */
 
+/* 숫자(0-9) Arial Narrow 적용 */
+@font-face {
+  font-family: 'LG스마트체';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: local('Arial Narrow');
+  unicode-range: U+0030-0039;
+}
+
+/* 숫자외 나머지 */
+@font-face {
+  font-family: 'LG스마트체';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: local('LG스마트체 Regular'), local('LG스마트체'), local('LG Smart');
+  unicode-range: U+0000-002F, U+003A-FFFF; /* 숫자 제외 한글, 영문, 특수문자 등 */
+}
+
+/* 숫자(0-9) Arial Narrow 적용 */
 @font-face {
   font-family: 'LG Smart';
   font-style: normal;
-  font-weight: 300;
+  font-weight: 100 900;
   font-display: swap;
-  src: url('/fonts/LG_Smart_Light.woff') format('woff');
+  src: local('Arial Narrow');
+  unicode-range: U+0030-0039;
 }
 
+/* 숫자외 나머지 */
 @font-face {
   font-family: 'LG Smart';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 100 900;
   font-display: swap;
-  src: url('/fonts/LG_Smart_Regular.woff') format('woff');
+  src: local('LG스마트체 Regular'), local('LG스마트체'), local('LG Smart');
+  unicode-range: U+0000-002F, U+003A-FFFF; /* 숫자 제외 한글, 영문, 특수문자 등 */
 }
-
-@font-face {
-  font-family: 'LG Smart';
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('/fonts/LG_Smart_Regular.woff') format('woff');
-}
-
-@font-face {
-  font-family: 'LG Smart';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/fonts/LG_Smart_Bold.woff') format('woff');
-}
-  
 
 
 /**
@@ -49,8 +55,8 @@
  */
 
 :root {
-  --font-family-primary:  -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard Variable", Pretendard, Roboto, "Noto Sans KR", "Segoe UI", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-  --font-family-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
+  --font-family-primary: 'LG스마트체', 'LG Smart', 'Roboto', 'Noto Sans KR', 'Segoe UI', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+  --font-family-mono: 'LG스마트체', 'LG Smart', 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
 /* LG Smart 폰트를 사용하는 경우 */

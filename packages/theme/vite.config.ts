@@ -9,7 +9,10 @@ import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [
-    dts({ insertTypesEntry: true }) // TypeScript 타입을 추출하여 dist에 생성
+    dts({
+      insertTypesEntry: true,
+      exclude: ['src/stories/**'],
+    })
   ],
   build: {
     lib: {

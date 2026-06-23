@@ -23,8 +23,8 @@
 
   /* Grid Rows */
   --grid-row-bg: transparent;
-    --grid-row-bg-hover: color-mix(in srgb, var(--base-brand) 8%, var(--grid-row-bg));
-    --grid-row-bg-selected: color-mix(in srgb, var(--base-brand) 14%, var(--grid-row-bg));
+    --grid-row-bg-hover: color-mix(in srgb, var(--color-primary) 8%, var(--grid-row-bg));
+    --grid-row-bg-selected: color-mix(in srgb, var(--color-primary) 14%, var(--grid-row-bg));
   --grid-row-bg-disabled: var(--color-bg-tertiary);
   --grid-row-text: var(--color-fg-primary);
   --grid-row-border: var(--color-border-default);
@@ -38,8 +38,8 @@
   --grid-cell-padding-y: 8px;
   --grid-cell-font-size: 14px;
 
-    --grid-cell-bg-hover: color-mix(in srgb, var(--base-brand) 8%, var(--grid-cell-bg));
-    --grid-cell-bg-selected: color-mix(in srgb, var(--base-brand) 14%, var(--grid-cell-bg));
+    --grid-cell-bg-hover: color-mix(in srgb, var(--color-primary) 8%, var(--grid-cell-bg));
+    --grid-cell-bg-selected: color-mix(in srgb, var(--color-primary) 14%, var(--grid-cell-bg));
     --grid-cell-bg-focus: var(--grid-cell-bg);
 
   /* Pinned / Sticky Columns */
@@ -53,9 +53,9 @@
 
   /* Selection / Checkbox Column */
   --grid-selection-bg: var(--color-bg-primary);
-  --grid-selection-bg-hover: color-mix(in srgb, var(--base-brand) 10%, var(--grid-selection-bg));
+  --grid-selection-bg-hover: color-mix(in srgb, var(--color-primary) 10%, var(--grid-selection-bg));
   --grid-selection-check: var(--color-fg-secondary);
-  --grid-selection-border: color-mix(in srgb, var(--base-brand) 55%, var(--grid-border));
+  --grid-selection-border: color-mix(in srgb, var(--color-primary) 55%, var(--grid-border));
 
   /* Row Status Column */
   --grid-row-status-created-bg: var(--color-success-light);

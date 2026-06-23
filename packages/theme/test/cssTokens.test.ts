@@ -24,8 +24,6 @@ const semanticVars = [
   '--color-status-error',
 ];
 
-const baseVars = ['--color-primary', '--color-border-strong'];
-
 const componentVars: Record<string, string[]> = {
   'components/button.css': ['--button-primary-bg', '--button-focus-ring'],
   'components/dialog.css': ['--dialog-bg', '--dialog-border'],
@@ -40,11 +38,13 @@ describe('CSS token files', () => {
     }
   });
 
-  it('base.css defines primitives read by ThemeProvider', () => {
+  it('base.css defines primary accent and bootstrap status colors', () => {
     const css = readTokenFile('base.css');
-    for (const name of baseVars) {
-      expect(css, `missing ${name}`).toContain(name);
-    }
+    expect(css).toContain('--color-primary: #c6004d');
+    expect(css).toContain('--color-primary-light: #fde8ef');
+    expect(css).toContain('--color-primary-dark: #9e003e');
+    expect(css).toContain('--color-success: #28a745');
+    expect(css).not.toContain('--color-brand');
   });
 
   it('theme-dark.css scopes overrides to data-theme=dark', () => {
