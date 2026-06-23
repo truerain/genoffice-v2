@@ -1,0 +1,50 @@
+[14:47:15.139] [INFO] storybook v10.4.6
+[14:47:16.424] [DEBUG] Getting package.json info for C:/Workspaces/gen-office/genoffice-v2/apps/storybook/package.json...
+[14:47:23.701] [INFO] Starting...
+[14:47:23.807] [WARN] No story files found for the specified pattern: [34m..\..\packages\*\src\**\*.mdx[39m
+[14:47:24.269] [DEBUG] Starting preview..
+[14:47:31.336] [WARN] 🚨 Error: Error sorting stories with sort parameter (a, b) => {
+  const rootA = storyRoot(a);
+  const rootB = storyRoot(b);
+  // Theme category always last; everything else alphabetical by id.
+  if (rootA === 'Theme' && rootB !== 'Theme') return 1;
+  if (rootB === 'Theme' && rootA !== 'Theme') return -1;
+  return a.id.localeCompare(b.id, undefined, {
+    numeric: true
+  });
+}:
+
+> storyRoot is not defined
+
+Are you using a V6-style sort function in V7 mode?
+
+More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#v7-style-story-sort
+[14:47:31.340] [ERROR] Failed to build the preview
+[14:47:31.346] [ERROR] [38;2;241;97;97mError: Error sorting stories with sort parameter (a, b) => {
+  const rootA = storyRoot(a);
+  const rootB = storyRoot(b);
+  // Theme category always last; everything else alphabetical by id.
+  if (rootA === 'Theme' && rootB !== 'Theme') return 1;
+  if (rootB === 'Theme' && rootA !== 'Theme') return -1;
+  return a.id.localeCompare(b.id, undefined, {
+    numeric: true
+  });
+}:
+
+> storyRoot is not defined
+
+Are you using a V6-style sort function in V7 mode?
+
+More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#v7-style-story-sort[39m
+    at sortStoriesV7 (file:///C:/Workspaces/gen-office/genoffice-v2/node_modules/.pnpm/storybook@10.4.6_@testing-library+dom@10.4.1_@types+react@19.2.17_prettier@3.8.4_react-dom@19_gjt3t7sd4u3kg75bvlyaq4djua/node_modules/storybook/dist/core-server/index.js:12203:11)
+    at _StoryIndexGenerator.sortStories (file:///C:/Workspaces/gen-office/genoffice-v2/node_modules/.pnpm/storybook@10.4.6_@testing-library+dom@10.4.1_@types+react@19.2.17_prettier@3.8.4_react-dom@19_gjt3t7sd4u3kg75bvlyaq4djua/node_modules/storybook/dist/core-server/index.js:19451:12)
+    at _StoryIndexGenerator.getIndexAndStats (file:///C:/Workspaces/gen-office/genoffice-v2/node_modules/.pnpm/storybook@10.4.6_@testing-library+dom@10.4.1_@types+react@19.2.17_prettier@3.8.4_react-dom@19_gjt3t7sd4u3kg75bvlyaq4djua/node_modules/storybook/dist/core-server/index.js:19479:31)
+    at async _StoryIndexGenerator.getIndex (file:///C:/Workspaces/gen-office/genoffice-v2/node_modules/.pnpm/storybook@10.4.6_@testing-library+dom@10.4.1_@types+react@19.2.17_prettier@3.8.4_react-dom@19_gjt3t7sd4u3kg75bvlyaq4djua/node_modules/storybook/dist/core-server/index.js:19457:13)
+    at async config (file:///C:/Workspaces/gen-office/genoffice-v2/node_modules/.pnpm/@storybook+builder-vite@10.4.6_esbuild@0.25.12_rollup@4.62.2_storybook@10.4.6_@testing-librar_umowmnmtsw4hzpurkgamnmzo2m/node_modules/@storybook/builder-vite/dist/_node-chunks/chunk-KJIVQEGR.js:188:19)
+    at async runConfigHook (file:///C:/Workspaces/gen-office/genoffice-v2/node_modules/.pnpm/vite@6.4.3_@types+node@22.15.32_yaml@2.9.0/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:49618:17)
+    at async resolveConfig (file:///C:/Workspaces/gen-office/genoffice-v2/node_modules/.pnpm/vite@6.4.3_@types+node@22.15.32_yaml@2.9.0/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:48924:12)
+    at async _createServer (file:///C:/Workspaces/gen-office/genoffice-v2/node_modules/.pnpm/vite@6.4.3_@types+node@22.15.32_yaml@2.9.0/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:38478:66)
+    at async Module.start (file:///C:/Workspaces/gen-office/genoffice-v2/node_modules/.pnpm/@storybook+builder-vite@10.4.6_esbuild@0.25.12_rollup@4.62.2_storybook@10.4.6_@testing-librar_umowmnmtsw4hzpurkgamnmzo2m/node_modules/@storybook/builder-vite/dist/index.js:1606:17)
+    at async storybookDevServer (file:///C:/Workspaces/gen-office/genoffice-v2/node_modules/.pnpm/storybook@10.4.6_@testing-library+dom@10.4.1_@types+react@19.2.17_prettier@3.8.4_react-dom@19_gjt3t7sd4u3kg75bvlyaq4djua/node_modules/storybook/dist/core-server/index.js:11496:158)
+[14:47:31.350] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.

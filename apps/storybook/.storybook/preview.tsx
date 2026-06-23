@@ -5,6 +5,13 @@ import '../../../packages/theme/src/index.css';
 
 const preview: Preview = {
   parameters: {
+    options: {
+      // Root kinds only (first title segment). Use Theme/Theme in stories — not title: 'Theme'.
+      storySort: {
+        order: ['*','UI', 'Theme'],
+        method: 'alphabetical',
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,

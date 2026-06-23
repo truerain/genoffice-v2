@@ -2,6 +2,10 @@
  * @file packages/theme/src/stories/Theme.stories.tsx
  * @description Storybook stories for @gen-office/theme tokens and ThemeProvider.
  * @created 2026-06-22
+ *
+ * @remark
+ * - title `Theme/Theme` (not single-level `Theme`): Storybook storySort matches root
+ *   kinds from the first path segment; a lone root is treated differently in the sidebar.
  */
 import type { Meta, StoryFn, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
@@ -9,7 +13,7 @@ import { useTheme } from '../hooks/useTheme';
 import { ThemeProvider } from '../provider/ThemeProvider';
 
 const meta = {
-  title: 'Theme',
+  title: 'Theme/Theme',
   parameters: {
     layout: 'padded',
   },

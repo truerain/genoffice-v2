@@ -12,7 +12,7 @@ import { Button } from './Button';
 import { Save, ArrowRight, Download, Trash2, Plus, Search } from 'lucide-react';
 
 const meta = {
-  title: 'Primitives/Button',
+  title: 'UI/Core/Button',
   component: Button,
   parameters: {
     layout: 'centered',

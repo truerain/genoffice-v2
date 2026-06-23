@@ -8,6 +8,10 @@
 
 ## 2026-06-23
 
+### Storybook 사이드바 — Theme 맨 아래 정렬
+
+- `storySort.order: ['UI', '*', 'Theme']`; Theme stories `title: 'Theme/Theme'` (단일 레벨 root는 sort 미적용)
+
 ### 디자이너·퍼블리셔용 디자인 토큰 가이드
 
 - `.docs/08-DESIGN-TOKENS-GUIDE.md` — 색상 추가·변경 절차, 역할별 온보딩, 체크리스트
