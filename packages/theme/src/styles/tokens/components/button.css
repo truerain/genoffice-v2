@@ -2,10 +2,14 @@
  * @file packages/theme/src/styles/tokens/components/button.css
  * @description Component-level CSS variables for button variants and states.
  * @created 2026-06-22
+ *
+ * @remark
+ * - Primary maps to near-black --color-primary (distinct from danger red)
+ * - Primary/danger use theme --button-* tokens
  */
 :root {
   /* Focus */
-  --button-focus-ring: rgba(198, 0, 77, 0.2);
+  --button-focus-ring: rgba(23, 23, 23, 0.2);
 
   /* Default */
   --button-default-bg: var(--color-bg-secondary);
@@ -21,7 +25,7 @@
   --button-primary-bg-active: var(--color-primary-dark);
   --button-primary-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.12),
     0 0.0625rem 0.125rem rgba(0, 0, 0, 0.08);
-  --button-primary-shadow-hover: 0 0.125rem 0.375rem rgba(198, 0, 77, 0.25),
+  --button-primary-shadow-hover: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.18),
     0 0.125rem 0.25rem rgba(0, 0, 0, 0.12);
 
   /* Secondary */
@@ -35,12 +39,12 @@
   /* Outline */
   --button-outline-text: var(--color-primary);
   --button-outline-border: var(--color-primary);
-  --button-outline-bg-hover: rgba(198, 0, 77, 0.04);
+  --button-outline-bg-hover: rgba(23, 23, 23, 0.04);
   --button-outline-text-hover: var(--color-primary-dark);
   --button-outline-border-hover: var(--color-primary-dark);
-  --button-outline-bg-active: rgba(198, 0, 77, 0.08);
-  --button-outline-text-active: #7d0027;
-  --button-outline-border-active: #7d0027;
+  --button-outline-bg-active: rgba(23, 23, 23, 0.08);
+  --button-outline-text-active: #0a0a0a;
+  --button-outline-border-active: #0a0a0a;
 
   /* Ghost */
   --button-ghost-text: var(--color-fg-secondary);
@@ -70,16 +74,16 @@
   /* Link */
   --button-link-text: var(--color-primary);
   --button-link-text-hover: var(--color-primary-dark);
-  --button-link-text-active: #374151;
-  --button-link-loading-ring: rgba(198, 0, 77, 0.2);
+  --button-link-text-active: var(--color-fg-secondary);
+  --button-link-loading-ring: rgba(23, 23, 23, 0.2);
+}
 
-  /*
-   * V1 ui migration aliases — same as primary; do not use in new code.
-   */
-  --button-brand-bg: var(--button-primary-bg);
-  --button-brand-text: var(--button-primary-text);
-  --button-brand-bg-hover: var(--button-primary-bg-hover);
-  --button-brand-bg-active: var(--button-primary-bg-active);
-  --button-brand-shadow: var(--button-primary-shadow);
-  --button-brand-shadow-hover: var(--button-primary-shadow-hover);
+[data-theme='dark'] {
+  --button-focus-ring: rgba(250, 250, 250, 0.25);
+  --button-primary-text: var(--color-fg-inverse);
+  --button-outline-bg-hover: rgba(250, 250, 250, 0.06);
+  --button-outline-bg-active: rgba(250, 250, 250, 0.1);
+  --button-outline-text-active: #ffffff;
+  --button-outline-border-active: #ffffff;
+  --button-link-loading-ring: rgba(250, 250, 250, 0.25);
 }

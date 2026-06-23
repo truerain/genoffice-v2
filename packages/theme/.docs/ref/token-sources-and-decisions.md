@@ -20,8 +20,8 @@
 | --- | --- |
 | Source of truth | **CSS 변수만** (`index.css` → tokens) |
 | 색 표기 | **#rrggbb hex** (1층·semantic) |
-| 강조색 | **`--color-primary` = `#C6004D`** (light `#FDE8EF`, dark `#9E003E`; dark mode hover `#EC008B`) |
-| status | **Bootstrap** (`#28a745`, `#ffc107`, `#dc3545`, `#17a2b8`) |
+| 강조색 | **`--color-primary` = `#171717`** (light hover `#262626`; dark CTA `#fafafa`) |
+| status | **Bootstrap** (`#28a745`, `#ffc107`, `#dc3545`, `#17a2b8`) — danger와 primary 분리 |
 | brand | **제거** (`--color-brand` 없음). V1 ui용 `--button-brand-*`는 primary alias |
 | JS 프리셋 | **`lightTheme` / `darkTheme` 제거**. `useTheme()`만 사용 |
 | ChartTokens | **`gen-chart` 패키지**에서 정의 (theme export 없음) |

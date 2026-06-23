@@ -96,6 +96,6 @@ describe('ThemeProvider', () => {
     await waitFor(() => {
       expect(capturedPrimary).not.toBe('');
     });
-    expect(capturedPrimary.toLowerCase()).toMatch(/#c6004d|rgb\(198,\s*0,\s*77\)/);
+    expect(capturedPrimary.toLowerCase()).toMatch(/#171717|rgb\(23,\s*23,\s*23\)/);
   });
 });

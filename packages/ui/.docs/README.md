@@ -1,0 +1,37 @@
+<!--
+ @file packages/ui/.docs/README.md
+ @description Package documentation index for @gen-office/ui.
+
+ @created 2026-06-23
+-->
+# @gen-office/ui 문서
+
+Radix UI 기반 **도메인 중립** React 컴포넌트 패키지입니다.  
+V1 [`frontend/packages/ui`](../../../frontend/packages/ui)를 **core → composed** 순으로 이식합니다.
+
+## 문서
+
+| 문서 | 내용 |
+| --- | --- |
+| [architecture.md](./architecture.md) | 패키지 구조·Radix 래퍼·CSS·테스트·Storybook |
+| [migration-plan.md](./migration-plan.md) | 코어 컴포넌트 이관 순서·컴포넌트별 Gate 체크리스트 |
+| [logs/implementation-log.md](./logs/implementation-log.md) | 컴포넌트 이관 작업 로그 (이관 시 갱신) |
+
+## 선행 패키지
+
+- `@gen-office/theme` — CSS 변수·`ThemeProvider`
+- `@gen-office/utils` — format / normalize / validation (className은 **`clsx` 직접**)
+
+## 빌드·테스트·Storybook
+
+```bash
+pnpm -C packages/ui build
+pnpm -C packages/ui test
+pnpm -C apps/storybook dev          # 통합 Storybook (packages/ui stories 자동 수집)
+```
+
+## 이관 원칙 (요약)
+
+1. **한 번에 한 core 컴포넌트** — 이관 → 자동 test → Storybook 수동 확인 → 로그
+2. **composed는 core 안정 후** — DatePicker·Combobox 등
+3. **V1 monolith 복사 금지** — `cn` → `clsx`, V1 `brand` variant는 이식하지 않음

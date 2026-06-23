@@ -26,16 +26,16 @@
   --color-border: #404040;
   --color-border-strong: #6b6b6b;
 
-  --color-primary: #c6004d;
-  --color-primary-light: #f5b6c8;
-  --color-primary-dark: #ec008b;
+  --color-primary: #fafafa;
+  --color-primary-light: var(--base-neutral-100);
+  --color-primary-dark: #ffffff;
 
   --color-secondary: #3a3a3a;
   --color-secondary-light: #4a4a4a;
   --color-secondary-dark: #2a2a2a;
 
   --color-header-bg: var(--color-primary);
-  --color-header-border: #1a1a1a;
+  --color-header-border: var(--base-neutral-200);
 
   /* Grid */
   --grid-bg: var(--color-bg-primary);

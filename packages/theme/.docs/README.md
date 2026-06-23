@@ -10,6 +10,16 @@
 
 ## 읽는 순서
 
+| 역할 | 문서 |
+| --- | --- |
+| 디자이너·퍼블리셔 | [08-DESIGN-TOKENS-GUIDE.md](../../../.docs/08-DESIGN-TOKENS-GUIDE.md) (온보딩) |
+| 개발·구조 | [architecture.md](./architecture.md) |
+| 정책 배경 | [ref/token-sources-and-decisions.md](./ref/token-sources-and-decisions.md) |
+| 토큰 매핑 | [ref/token-mapping.md](./ref/token-mapping.md) |
+| 변경 이력 | [logs/implementation-log.md](./logs/implementation-log.md) |
+
+### 상세 순서 (개발)
+
 | 문서 | 내용 |
 | --- | --- |
 | [architecture.md](./architecture.md) | **패키지 구조**, hex 토큰 정책, CSS 3층, React·빌드·연동 (Mermaid) |

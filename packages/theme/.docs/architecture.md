@@ -10,15 +10,16 @@
 GenOffice V2의 디자인 토큰·글로벌 스타일·테마 React API를 제공하는 **기반 패키지**입니다.  
 `ui`, `gen-chart`, `apps/demo` 등 상위 패키지는 **CSS 변수**와 **ThemeProvider / useTheme**에 의존합니다.
 
-### 색상 정책 (2026-06-23 확정)
+### 색상 정책 (2026-06-23 확정, primary 갱신)
 
 | 원칙 | 내용 |
 | --- | --- |
 | Source of truth | **CSS 변수만** (`index.css` → `styles/tokens/*`) |
 | 색 표기 | 1층·semantic **#rrggbb hex** |
-| 강조색 | **`--color-primary` = `#C6004D`** (light `#FDE8EF`, dark `#9E003E`; dark hover `#EC008B`) |
-| status | Bootstrap (`#28a745`, `#ffc107`, `#dc3545`, `#17a2b8`) |
-| brand | **`--color-brand` 없음**. V1 ui 이식용 `--button-brand-*`는 `--button-primary-*` alias |
+| 강조색 (primary) | **`#171717`** (hover `#262626`, tint `--base-neutral-100`). **주 액션** — danger와 분리 |
+| dark primary | **`#fafafa`** (hover `#ffffff`) — dark 배경 위 CTA |
+| status | Bootstrap (`#28a745`, `#ffc107`, `#dc3545`, `#17a2b8`) — **danger는 red 유지** |
+| brand | **`--color-brand`·`--button-brand-*` 없음** — primary만 사용 |
 | JS 색 상수 | **`lightTheme` / `ChartTokens` export 없음** — `useTheme()`만 |
 | 차트 | `ChartTokens`·preset은 **`@gen-office/gen-chart`** 소유 |
 
@@ -125,7 +126,7 @@ flowchart BT
 | 배경 | `--color-background` → `--color-bg-primary` | `#ffffff` |
 | 전경 | `--color-text` → `--color-fg-primary` | `#1d1d1b` |
 | 테두리 | `--color-border` → `--color-border-default` | `#e0e0e0` |
-| 강조 | `--color-primary` | `#c6004d` |
+| 강조 | `--color-primary` | `#171717` |
 | status | `--color-success` … `--color-status-*` | Bootstrap hex |
 
 `--color-brand`는 정의하지 않습니다. Primary 버튼·링크·그리드 selection tint는 모두 `--color-primary` 계열을 참조합니다.
@@ -134,7 +135,7 @@ flowchart BT
 
 | 파일 | 역할 |
 | --- | --- |
-| `button.css` | variant별 배경·테두리·focus ring. `--button-brand-*`는 primary alias (V1 ui) |
+| `button.css` | variant별 배경·테두리·focus ring (`--button-primary-*` 등) |
 | `dialog.css` | 모달 chrome |
 | `grid.css` | 헤더·행·셀·selection·row-status. hover/selected는 `color-mix(in srgb, var(--color-primary) …)` |
 
@@ -296,7 +297,7 @@ export function App() {
 ### ui
 
 - CSS Modules: `var(--button-primary-bg)`, `var(--color-bg-primary)` 등
-- 새 코드는 `--button-brand-*` 대신 **primary** 토큰 사용
+- Button primary는 `--button-primary-*`·`--color-primary` 사용
 - 토큰 변경 시 [token-mapping.md](./ref/token-mapping.md) 갱신
 
 ### gen-chart
@@ -344,5 +345,5 @@ pnpm -C packages/theme test:watch
 | 파일 | 검증 |
 | --- | --- |
 | `test/useTheme.test.tsx` | Provider 밖에서 throw, `toggleMode` |
-| `test/ThemeProvider.test.tsx` | `data-theme`, localStorage, `primary.default` ≈ `#c6004d` |
+| `test/ThemeProvider.test.tsx` | `data-theme`, localStorage, `primary.default` ≈ `#171717` |
 | `test/cssTokens.test.ts` | semantic/component 변수, hex primary, `--color-brand` 부재 |

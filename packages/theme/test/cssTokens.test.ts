@@ -40,11 +40,12 @@ describe('CSS token files', () => {
 
   it('base.css defines primary accent and bootstrap status colors', () => {
     const css = readTokenFile('base.css');
-    expect(css).toContain('--color-primary: #c6004d');
-    expect(css).toContain('--color-primary-light: #fde8ef');
-    expect(css).toContain('--color-primary-dark: #9e003e');
+    expect(css).toContain('--color-primary: #171717');
+    expect(css).toContain('--color-primary-light: var(--base-neutral-100)');
+    expect(css).toContain('--color-primary-dark: #262626');
     expect(css).toContain('--color-success: #28a745');
     expect(css).not.toContain('--color-brand');
+    expect(css).not.toContain('--button-brand');
   });
 
   it('theme-dark.css scopes overrides to data-theme=dark', () => {

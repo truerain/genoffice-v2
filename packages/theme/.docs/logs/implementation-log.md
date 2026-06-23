@@ -8,6 +8,17 @@
 
 ## 2026-06-23
 
+### `--button-brand-*` alias 제거
+
+- `button.css`에서 V1 ui 호환 alias 삭제
+- ui Button `brand` variant·스토리 제거
+
+### primary near-black (#171717)
+
+- `--color-primary` 마젠타 → `#171717` (hover `#262626`); dark CTA `#fafafa`
+- `button.css` focus/outline/shadow neutral화; danger Bootstrap red 유지
+- 테스트·decisions·architecture 갱신
+
 ### architecture.md 토큰 정책·구조 전면 갱신
 
 - 2026-06-23 색상 결정(hex primary, brand 제거, ChartTokens gen-chart 이전) 반영
@@ -16,7 +27,7 @@
 ### 색상 토큰 정책 반영 (결정 확정)
 
 - CSS hex 통일, primary `#C6004D` / light `#FDE8EF` / dark `#9E003E`, Bootstrap status
-- `--color-brand` 제거, `--button-brand-*` → primary alias (V1 ui 이식)
+- `--color-brand`·`--button-brand-*` 제거
 - `lightTheme`, `darkTheme`, `ChartTokens` 파일·export 제거
 - `Theme.colors.brand` → `colors.primary` (`default` / `light` / `dark`)
 - `ThemeProvider` 매핑 수정, grid `color-mix` → `--color-primary`

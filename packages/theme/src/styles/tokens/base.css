@@ -22,10 +22,10 @@
 
   --base-tint-workarea: #f5f5f5;
 
-  /* Primary accent (#C6004D) */
-  --color-primary: #c6004d;
-  --color-primary-light: #fde8ef;
-  --color-primary-dark: #9e003e;
+  /* Primary action (near-black, distinct from --color-danger) */
+  --color-primary: #171717;
+  --color-primary-light: var(--base-neutral-100);
+  --color-primary-dark: #262626;
 
   /* Secondary Colors */
   --color-secondary: #f5f5f5;
@@ -35,7 +35,7 @@
   /* Header/TitleBar Colors (Base) */
   --color-header-bg: var(--color-primary);
   --color-header-text: #ffffff;
-  --color-header-border: #9e003e;
+  --color-header-border: var(--color-primary-dark);
 
   /* Background Colors (Base) */
   --color-background: #ffffff;
