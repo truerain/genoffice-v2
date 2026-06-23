@@ -62,7 +62,7 @@ component 전용 `--separator-*` 토큰은 없습니다.
 - [x] `forwardRef` → `HTMLDivElement` (Button·Label과 동일 DOM 타입 규칙)
 - [x] theme border semantic 변수만 사용
 - [x] `pnpm -C packages/ui build`
-- [ ] `Separator.test.tsx` (Vitest)
+- [x] `Separator.test.tsx` (Vitest)
 - [ ] Storybook 수동: horizontal·vertical·variant
 
 ## V1 대비

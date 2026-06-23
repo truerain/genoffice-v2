@@ -1,0 +1,90 @@
+/**
+ * @file packages/ui/src/core/badge/Badge.module.css
+ * @description Presentation styles for Badge (theme semantic tokens).
+ * @created 2026-06-23
+ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem; /* 4px */
+  border-radius: 9999px;
+  font-family: var(--font-family-primary);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+/* Sizes */
+.sm {
+  height: 1.25rem; /* 20px */
+  padding: 0 0.5rem; /* 8px */
+  font-size: 0.6875rem; /* 11px */
+}
+
+.md {
+  height: 1.5rem; /* 24px */
+  padding: 0 0.625rem; /* 10px */
+  font-size: 0.75rem; /* 12px */
+}
+
+.lg {
+  height: 1.75rem; /* 28px */
+  padding: 0 0.75rem; /* 12px */
+  font-size: 0.8125rem; /* 13px */
+}
+
+/* Variants */
+.default {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-fg-primary);
+  border: 1px solid var(--color-border-default);
+}
+
+.primary {
+  background-color: var(--color-primary);
+  color: var(--color-fg-inverse);
+}
+
+.secondary {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-fg-secondary);
+  border: 1px solid var(--color-border-default);
+}
+
+.success {
+  background-color: var(--color-status-success);
+  color: var(--color-fg-inverse);
+}
+
+.warning {
+  background-color: var(--color-status-warning);
+  color: var(--color-fg-inverse);
+}
+
+.error {
+  background-color: var(--color-status-error);
+  color: var(--color-fg-inverse);
+}
+
+.info {
+  background-color: var(--color-status-info);
+  color: var(--color-fg-inverse);
+}
+
+.outline {
+  background-color: transparent;
+  color: var(--color-fg-primary);
+  border: 1px solid var(--color-border-strong);
+}
+
+/* Dot */
+.dot {
+  width: 0.375rem; /* 6px */
+  height: 0.375rem; /* 6px */
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.withDot {
+  padding-left: 0.5rem;
+}

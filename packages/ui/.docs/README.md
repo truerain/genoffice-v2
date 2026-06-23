@@ -16,6 +16,9 @@ V1 [`frontend/packages/ui`](../../../frontend/packages/ui)를 **core → compose
 | [architecture.md](./architecture.md) | 패키지 구조·Radix 래퍼·CSS·테스트·Storybook |
 | [core/label.md](./core/label.md) | Label 컴포넌트 API·토큰·Gate |
 | [core/separator.md](./core/separator.md) | Separator 컴포넌트 API·토큰·Gate |
+| [core/badge.md](./core/badge.md) | Badge 컴포넌트 API·토큰·Gate |
+| [core/input.md](./core/input.md) | Input 컴포넌트 API·토큰·Gate |
+| [core/textarea.md](./core/textarea.md) | Textarea 컴포넌트 API·토큰·Gate |
 | [migration-plan.md](./migration-plan.md) | 코어 컴포넌트 이관 순서·컴포넌트별 Gate 체크리스트 |
 | [logs/implementation-log.md](./logs/implementation-log.md) | 컴포넌트 이관 작업 로그 (이관 시 갱신) |
 

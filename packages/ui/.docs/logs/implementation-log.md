@@ -8,6 +8,26 @@
 
 ## 2026-06-23
 
+### Input·Textarea core 이식 (사용자) — 정리
+
+- 파일 헤더, `UI/Core/*` 스토리, `Texttarea.stories.tsx` → `Textarea.stories.tsx` 오타 수정
+- focus ring V1 magenta rgba → `--button-focus-ring` / status `color-mix`
+- `Label.stories` → core `Input` 사용
+- `test/core/Input.test.tsx`, `Textarea.test.tsx`, `.docs/core/input.md`, `textarea.md`
+
+### Wave 0 — Vitest 스캐폴드
+
+- `vitest.config.ts`, `test/setup.ts`, `test/core/Button.test.tsx`
+- `package.json` — `test`, `test:watch` 스크립트 및 RTL·vitest devDeps
+- `test/core/Label.test.tsx`, `Separator.test.tsx`, `Badge.test.tsx` 추가
+
+### Badge core 이식 (사용자) — 헤더·export·문서 정리
+
+- `src/index.ts`에 badge export 추가 (누락)
+- status variant `color: white` → `var(--color-fg-inverse)`
+- `UI/Core/Badge` 스토리, secondary·outline argTypes/AllVariants
+- `.docs/core/badge.md`, 로그·architecture 갱신
+
 ### Separator core 이식 (사용자) — 헤더·문서 정리
 
 - `Separator.types.ts` — `ComponentPropsWithoutRef` 명시 import

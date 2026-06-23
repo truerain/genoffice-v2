@@ -53,7 +53,7 @@ component 전용 theme 토큰(`--label-*`)은 없습니다. semantic 색만 사�
 ## Storybook
 
 - **title:** `UI/Core/Label`
-- Input·Checkbox 미이식 구간: 스토리에서 native `<input>` / `StoryInput` 헬퍼 사용
+- Input 연동 스토리는 core `Input` 사용; Checkbox는 미이식 시 native 유지
 - Input·Checkbox Gate 완료 후 `WithInput` 등을 core 컴포넌트로 교체
 
 ## Gate 체크리스트 (Wave 1-2)
@@ -61,7 +61,7 @@ component 전용 theme 토큰(`--label-*`)은 없습니다. semantic 색만 사�
 - [x] `forwardRef` → `HTMLLabelElement` (Button과 동일 DOM 타입 규칙)
 - [x] theme CSS 변수만 사용 (hex 하드코드 없음)
 - [x] `pnpm -C packages/ui build`
-- [ ] `Label.test.tsx` (Vitest — Wave 0 스캐폴드 후)
+- [x] `Label.test.tsx` (Vitest)
 - [ ] Storybook 수동: required / error / htmlFor 포커스
 
 ## V1 대비
@@ -70,6 +70,6 @@ component 전용 theme 토큰(`--label-*`)은 없습니다. semantic 색만 사�
 | --- | --- |
 | `cn` from utils | 동일 (추후 `clsx` 전환 예정) |
 | Story `Primitives/Label` | `UI/Core/Label` |
-| Input/Checkbox 스토리 import | native control까지, core 이식 후 교체 |
+| Input 스토리 | core `Input` 사용 |
 
 관련: [architecture.md](../architecture.md), [migration-plan.md](../migration-plan.md)

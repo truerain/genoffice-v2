@@ -8,6 +8,18 @@
 
 ## 2026-06-23
 
+### @gen-office/ui Input·Textarea core 이식 정리
+
+- export·스토리·테스트·문서; Label 스토리 Input 연동
+
+### @gen-office/ui Wave 0 Vitest 스캐폴드
+
+- `pnpm -C packages/ui test` 스크립트·RTL devDeps·Button smoke test
+
+### @gen-office/ui Badge core 이식 정리
+
+- barrel export·토큰·문서 (`packages/ui/.docs/core/badge.md`)
+
 ### @gen-office/ui Separator core 이식 정리
 
 - 헤더·스토리 taxonomy·`packages/ui/.docs/core/separator.md`

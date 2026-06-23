@@ -20,6 +20,8 @@
     "build": "vite build",
     "clean": "rm -rf dist",
     "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -57,15 +59,20 @@
     "@storybook/addon-links": "10.4.6",
     "@storybook/react": "10.4.6",
     "@storybook/react-vite": "10.4.6",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
     "@types/node": "22.15.32",
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
+    "jsdom": "29.1.1",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "storybook": "10.4.6",
     "typescript": "5.9.3",
     "vite": "6.4.3",
-    "vite-plugin-dts": "5.0.2"
+    "vite-plugin-dts": "5.0.2",
+    "vitest": "4.1.9"
   },
   "peerDependencies": {
     "react": "^19.0.0",
