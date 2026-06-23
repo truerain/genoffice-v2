@@ -140,6 +140,18 @@ The header should state:
 - repository-relative file path
 - purpose of the file
 - creation date when useful
+- optional **`@remark`** section for exports, function lists, usage notes, deprecations, or constraints that do not fit in `@description`
+
+### `@remark` section
+
+Add `@remark` when the file exposes multiple public symbols or non-obvious rules worth keeping at the top of the file.
+
+- Place it after `@created` (or after `@description` when `@created` is omitted).
+- Leave one blank JSDoc line before `@remark`.
+- Keep it concise: bullet lists are preferred over long prose.
+- List **public** exports (functions, types, constants). Omit private helpers unless they explain important behavior.
+- Note deprecations, default locale/units, wire-format aliases, throw vs boolean semantics, and cross-file dependencies when useful.
+- Update `@remark` when public exports or documented behavior change.
 
 Examples:
 
@@ -148,6 +160,24 @@ Examples:
  * @file packages/ui/src/core/Button/Button.tsx
  * @description Primary button component for GenOffice V2.
  * @created 2026-06-22
+ *
+ * @remark
+ * - Exports: Button, buttonVariants
+ * - Uses theme tokens from @gen-office/theme; no hard-coded colors
+ */
+```
+
+```ts
+/**
+ * @file packages/utils/src/format/date.ts
+ * @description Date parse/format helpers for wire formats and ko-KR display.
+ * @created 2026-06-23
+ *
+ * @remark
+ * - Wire: parseDateString, formatDateString (DateWireFormat, DateYmdSeparator)
+ * - Display: formatDateDisplay, formatDateTime, formatTime, formatRelativeTime
+ * - iso date = parseDateString(value, 'ymd', '-')
+ * - V1 names (parseApiDate, formatDate, …) remain as @deprecated aliases
  */
 ```
 
@@ -156,6 +186,10 @@ Examples:
  * @file packages/theme/src/styles/global.css
  * @description Global CSS variables and base styles.
  * @created 2026-06-22
+ *
+ * @remark
+ * - Loaded once by ThemeProvider
+ * - CSS variables are the source of truth for color tokens
  */
 ```
 
@@ -165,6 +199,10 @@ Examples:
  @description Documents the public API grouping for GenDataGrid.
 
  @created 2026-06-22
+
+ @remark
+ - Gate docs live under packages/gen-datagrid/.docs/
+ - Public API groups: core, selection, editing
 -->
 ```
 

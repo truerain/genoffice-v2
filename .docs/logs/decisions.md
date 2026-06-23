@@ -2,6 +2,12 @@
 
 ## 2026-06-23
 
+### @gen-office/utils `cn` vs `clsx` 정책
+
+- **`cn`:** V1 `ui`/`mdi` 이식 호환용으로 `@gen-office/utils`에 유지 (clsx thin wrapper).
+- **V2 신규·수정:** className 병합은 각 패키지가 **`clsx` 직접 의존**해 사용. utils에 `cn` 확장·신규 export 하지 않음.
+- ui 이식 완료 후 `cn` 모듈 제거 검토.
+
 ### @gen-office/theme 색상 토큰 정책
 
 - **1층 팔레트:** CSS 변수가 유일한 source of truth. 색 값은 `#rrggbb` hex.
