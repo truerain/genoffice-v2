@@ -62,4 +62,6 @@ Thumb 개수는 `value` / `defaultValue` 배열 길이에 따릅니다.
 - [x] `src/index.ts` export
 - [ ] Storybook 수동: keyboard · range · light/dark
 
+> **Deferred:** thumb 값 tooltip — UI 이관 완료 후 ([deferred.md](../deferred.md) D-001)
+
 관련: [architecture.md](../architecture.md), [migration-plan.md](../migration-plan.md)

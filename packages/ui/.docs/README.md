@@ -14,6 +14,7 @@ V1 [`frontend/packages/ui`](../../../frontend/packages/ui)를 **core → compose
 | 문서 | 내용 |
 | --- | --- |
 | [architecture.md](./architecture.md) | 패키지 구조·Radix 래퍼·CSS·테스트·Storybook |
+| [core/button.md](./core/button.md) | Button 컴포넌트 API·토큰·Gate (Wave 1 템플릿) |
 | [core/label.md](./core/label.md) | Label 컴포넌트 API·토큰·Gate |
 | [core/separator.md](./core/separator.md) | Separator 컴포넌트 API·토큰·Gate |
 | [core/badge.md](./core/badge.md) | Badge 컴포넌트 API·토큰·Gate |
@@ -24,6 +25,7 @@ V1 [`frontend/packages/ui`](../../../frontend/packages/ui)를 **core → compose
 | [core/radio.md](./core/radio.md) | Radio · SimpleRadioGroup API·토큰·Gate |
 | [core/slider.md](./core/slider.md) | Slider 컴포넌트 API·토큰·Gate |
 | [migration-plan.md](./migration-plan.md) | 코어 컴포넌트 이관 순서·컴포넌트별 Gate 체크리스트 |
+| [deferred.md](./deferred.md) | **UI 이관 완료 후** 진행할 enhancement 목록 |
 | [logs/implementation-log.md](./logs/implementation-log.md) | 컴포넌트 이관 작업 로그 (이관 시 갱신) |
 
 ## 선행 패키지

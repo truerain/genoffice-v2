@@ -6,6 +6,7 @@
  * @remark
  * - size: sm | md | lg via CSS module modifiers
  * - Thumb count follows value/defaultValue array length
+ * - forwardRef to HTMLSpanElement (Radix Slider root)
  */
 import { forwardRef } from 'react';
 import * as SliderPrimitive from '@radix-ui/react-slider';
@@ -19,26 +20,25 @@ const sizeClassName: Record<NonNullable<SliderProps['size']>, string> = {
   lg: styles.sizeLg,
 };
 
-export const Slider = forwardRef<
-  React.ElementRef<typeof SliderPrimitive.Root>,
-  SliderProps
->(({ className, error = false, size = 'md', ...props }, ref) => {
-  const thumbCount = props.value?.length ?? props.defaultValue?.length ?? 1;
+export const Slider = forwardRef<HTMLSpanElement, SliderProps>(
+  ({ className, error = false, size = 'md', ...props }, ref) => {
+    const thumbCount = props.value?.length ?? props.defaultValue?.length ?? 1;
 
-  return (
-    <SliderPrimitive.Root
-      ref={ref}
-      className={clsx(styles.root, sizeClassName[size], error && styles.error, className)}
-      {...props}
-    >
-      <SliderPrimitive.Track className={styles.track}>
-        <SliderPrimitive.Range className={styles.range} />
-      </SliderPrimitive.Track>
-      {Array.from({ length: thumbCount }).map((_, index) => (
-        <SliderPrimitive.Thumb key={index} className={styles.thumb} />
-      ))}
-    </SliderPrimitive.Root>
-  );
-});
+    return (
+      <SliderPrimitive.Root
+        ref={ref}
+        className={clsx(styles.root, sizeClassName[size], error && styles.error, className)}
+        {...props}
+      >
+        <SliderPrimitive.Track className={styles.track}>
+          <SliderPrimitive.Range className={styles.range} />
+        </SliderPrimitive.Track>
+        {Array.from({ length: thumbCount }).map((_, index) => (
+          <SliderPrimitive.Thumb key={index} className={styles.thumb} />
+        ))}
+      </SliderPrimitive.Root>
+    );
+  }
+);
 
 Slider.displayName = SliderPrimitive.Root.displayName;

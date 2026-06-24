@@ -8,6 +8,16 @@
 
 ## 2026-06-23
 
+### Deferred 목록 생성 (UI 이관 완료 후 진행)
+
+- `.docs/deferred.md` — D-001 Slider thumb 값 tooltip/value bubble
+- `.docs/README.md`, `migration-plan.md`, `core/slider.md` 링크
+
+### Button core 문서 추가
+
+- `.docs/core/button.md` — API·variant/size·asChild·loading·토큰·Gate·V1 대비
+- `.docs/README.md` — button.md 링크 (Wave 1 템플릿)
+
 ### Radio · Slider core 이식 (사용자) — clsx·헤더·문서·test
 
 - **Radio:** `Radio.tsx`, types, css, `SimpleRadioGroup` — 헤더, V1 hex → theme 토큰, `useId()` id 스코프

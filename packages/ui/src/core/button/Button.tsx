@@ -5,7 +5,7 @@
  *
  * @remark
  * - Uses @radix-ui/react-slot for asChild
- * - className merge via @gen-office/utils cn (V1 compat; migrate to clsx later)
+ * - className merge via clsx
  * - Styles: Button.module.css + theme --button-* tokens
  */
 import { forwardRef } from 'react';

@@ -8,6 +8,15 @@
 
 ## 2026-06-23
 
+### @gen-office/ui deferred 목록
+
+- `packages/ui/.docs/deferred.md` — Wave 1–5 이관 후 enhancement (D-001 Slider value bubble)
+
+### @gen-office/ui Button core 문서
+
+- `packages/ui/.docs/core/button.md` — API·variant·asChild·loading·Gate
+- `packages/ui/.docs/README.md` 링크 추가
+
 ### @gen-office/ui Input·Textarea core 이식 정리
 
 - export·스토리·테스트·문서; Label 스토리 Input 연동

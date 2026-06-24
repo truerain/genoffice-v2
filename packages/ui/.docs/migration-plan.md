@@ -212,3 +212,5 @@ Radix 컴포넌트는 `getByRole('checkbox' | 'switch' | 'tab' …)` 우선.
 3. Wave 1 나머지 순차 진행
 
 상세 아키텍처: [architecture.md](./architecture.md)
+
+이관 완료 후 enhancement: [deferred.md](./deferred.md)

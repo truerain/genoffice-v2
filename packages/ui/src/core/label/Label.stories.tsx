@@ -5,10 +5,11 @@
  *
  * @remark
  * - title: UI/Core/Label
- * - WithInput uses @gen-office/ui Input; checkbox remains native until Checkbox Gate
+ * - WithInput / WithCheckbox use core Input and Checkbox
  */
 import type { CSSProperties } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { Checkbox } from '../checkbox';
 import { Input } from '../input';
 import { Label } from './Label';
 
@@ -96,7 +97,7 @@ export const WithErrorInput: Story = {
 export const WithCheckbox: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-      <input id="terms" type="checkbox" />
+      <Checkbox id="terms" />
       <Label htmlFor="terms">I accept the terms and conditions</Label>
     </div>
   ),
@@ -127,7 +128,7 @@ export const FormExample: Story = {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-        <input id="form-newsletter" type="checkbox" />
+        <Checkbox id="form-newsletter" />
         <Label htmlFor="form-newsletter">Subscribe to newsletter</Label>
       </div>
     </form>
