@@ -6,7 +6,31 @@
 -->
 # UI 구현 로그
 
-## 2026-06-23
+## 2026-06-24
+
+### SimpleRadioGroup → StandardRadioGroup
+
+- `StandardRadioGroup.tsx`, stories, `StandardRadioGroup.test.tsx` — `RadioGroup` primitive 유지
+- `index.ts`, `.docs/core/radio.md`, `migration-plan.md` 갱신
+
+### StandardDialog 스토리 높이 · 리사이즈 측정
+
+- `StandardDialog.stories.tsx` — `initialHeight`, `DemoBody`, Storybook decorator(`minHeight: 32rem`)
+- `StandardDialog.tsx` — resizable 측정 시 `initialHeight` 미만으로 축소되지 않도록 보정
+
+### Dialog close 버튼 헤더 정렬
+
+- `Dialog.module.css` — close inset을 header padding과 동기화, header `min-height`·`padding-right` 예약
+
+### Dialog Gate · StandardDialog rename
+
+- `SimpleDialog` → `StandardDialog`; `Dialog` primitive 유지
+- tests, `StandardDialog.stories.tsx`, `.docs/core/dialog.md`, README
+
+### Dialog rename 롤백 · 명칭 검토안
+
+- `BaseDialog*` rename 원복 — `Dialog` + `SimpleDialog` 유지
+- `decisions.md` — Dialog/BaseDialog 명칭 검토안(미적용)
 
 ### Deferred 목록 생성 (UI 이관 완료 후 진행)
 
@@ -17,6 +41,8 @@
 
 - `.docs/core/button.md` — API·variant/size·asChild·loading·토큰·Gate·V1 대비
 - `.docs/README.md` — button.md 링크 (Wave 1 템플릿)
+
+## 2026-06-23
 
 ### Radio · Slider core 이식 (사용자) — clsx·헤더·문서·test
 

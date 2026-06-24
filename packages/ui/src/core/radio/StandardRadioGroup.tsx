@@ -1,11 +1,11 @@
 /**
- * @file packages/ui/src/core/radio/SimpleRadioGroup.tsx
- * @description Options-array convenience wrapper over RadioGroup + Radio + Label.
- * @created 2026-06-23
+ * @file packages/ui/src/core/radio/StandardRadioGroup.tsx
+ * @description Back-office default radio group — options API over RadioGroup + Radio + Label.
+ * @created 2026-06-24
  *
  * @remark
- * - Exports: SimpleRadioGroup, SimpleRadioGroupProps, RadioOption
- * - Uses core Label for each option; ids scoped with useId()
+ * - Exports: StandardRadioGroup, StandardRadioGroupProps, RadioOption
+ * - Apps use StandardRadioGroup; custom layouts use RadioGroup + Radio
  */
 import { forwardRef, useId } from 'react';
 import { Label } from '../label';
@@ -18,7 +18,7 @@ export interface RadioOption {
   disabled?: boolean;
 }
 
-export interface SimpleRadioGroupProps extends Omit<RadioGroupProps, 'children'> {
+export interface StandardRadioGroupProps extends Omit<RadioGroupProps, 'children'> {
   /** Radio options array */
   options: RadioOption[];
   /** Layout direction @default 'vertical' */
@@ -27,7 +27,7 @@ export interface SimpleRadioGroupProps extends Omit<RadioGroupProps, 'children'>
   error?: boolean;
 }
 
-export const SimpleRadioGroup = forwardRef<HTMLDivElement, SimpleRadioGroupProps>(
+export const StandardRadioGroup = forwardRef<HTMLDivElement, StandardRadioGroupProps>(
   ({ options = [], orientation = 'vertical', error, ...props }, ref) => {
     const groupId = useId();
 
@@ -71,4 +71,4 @@ export const SimpleRadioGroup = forwardRef<HTMLDivElement, SimpleRadioGroupProps
   }
 );
 
-SimpleRadioGroup.displayName = 'SimpleRadioGroup';
+StandardRadioGroup.displayName = 'StandardRadioGroup';

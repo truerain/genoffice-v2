@@ -4,6 +4,6 @@
  * @created 2026-06-23
  */
 export { Radio, RadioGroup } from './Radio';
-export { SimpleRadioGroup } from './SimpleRadioGroup';
+export { StandardRadioGroup } from './StandardRadioGroup';
 export type { RadioProps, RadioGroupProps } from './Radio.types';
-export type { SimpleRadioGroupProps, RadioOption } from './SimpleRadioGroup';
+export type { StandardRadioGroupProps, RadioOption } from './StandardRadioGroup';

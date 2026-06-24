@@ -1,17 +1,18 @@
 /**
- * @file packages/ui/src/core/radio/SimpleRadioGroup.stories.tsx
- * @description Storybook stories for SimpleRadioGroup options API.
- * @created 2026-06-23
+ * @file packages/ui/src/core/radio/StandardRadioGroup.stories.tsx
+ * @description Storybook stories for StandardRadioGroup (back-office default radio group).
+ * @created 2026-06-24
  *
  * @remark
- * - title: UI/Core/SimpleRadioGroup
+ * - title: UI/Core/StandardRadioGroup
+ * - Custom layouts: UI/Core/Radio (RadioGroup + Radio)
  */
 import type { Meta, StoryObj } from '@storybook/react';
-import { SimpleRadioGroup } from './SimpleRadioGroup';
+import { StandardRadioGroup } from './StandardRadioGroup';
 
 const meta = {
-  title: 'UI/Core/SimpleRadioGroup',
-  component: SimpleRadioGroup,
+  title: 'UI/Core/StandardRadioGroup',
+  component: StandardRadioGroup,
   parameters: {
     layout: 'centered',
   },
@@ -31,7 +32,7 @@ const meta = {
       control: 'boolean',
     },
   },
-} satisfies Meta<typeof SimpleRadioGroup>;
+} satisfies Meta<typeof StandardRadioGroup>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

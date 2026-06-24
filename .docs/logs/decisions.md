@@ -1,4 +1,24 @@
+<!--
+ @file .docs/logs/decisions.md
+ @description Architecture and technology decision log for GenOffice V2.
+
+ @created 2026-06-23
+-->
 # GenOffice V2 결정 로그
+
+역시간순. 같은 날짜 섹션 안에서도 **최신 항목이 위**.
+
+## 2026-06-24
+
+### @gen-office/ui StandardRadioGroup 적용
+
+- `SimpleRadioGroup` → `StandardRadioGroup` (`RadioGroup` + `Radio` primitive 유지)
+- 앱 폼 기본 라디오 API; 커스텀 레이아웃은 `RadioGroup` + `Radio`
+
+### @gen-office/ui StandardDialog 적용
+
+- `SimpleDialog` → `StandardDialog` (Dialog primitive 이름 유지)
+- 앱 화면 기본 모달 API; composed·커스텀은 `Dialog*` compound
 
 ## 2026-06-23
 

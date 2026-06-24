@@ -77,7 +77,7 @@ Radix 없음 또는 단일 primitive. **패턴 확립용** — Button을 1번으
 | --- | --- | --- |
 | 7 | Checkbox | `@radix-ui/react-checkbox` |
 | 8 | Switch | `@radix-ui/react-switch` |
-| 9 | Radio (+ SimpleRadioGroup) | `@radix-ui/react-radio-group` |
+| 9 | Radio (+ StandardRadioGroup) | `@radix-ui/react-radio-group` |
 | 10 | Slider | `@radix-ui/react-slider` |
 
 **추가 test 포인트:** keyboard · `aria-checked` / `aria-valuenow`
@@ -88,7 +88,7 @@ Radix 없음 또는 단일 primitive. **패턴 확립용** — Button을 1번으
 
 | 순서 | 컴포넌트 | V1 Radix | 비고 |
 | --- | --- | --- | --- |
-| 11 | Dialog (+ SimpleDialog) | `@radix-ui/react-dialog` | focus trap |
+| 11 | Dialog (+ **StandardDialog**) | `@radix-ui/react-dialog` | focus trap |
 | 12 | Drawer | V1 custom / dialog 계열 | V1 구현 확인 후 이식 |
 | 13 | Popover | `@radix-ui/react-popover` | |
 | 14 | DropdownMenu | `@radix-ui/react-dropdown-menu` | |

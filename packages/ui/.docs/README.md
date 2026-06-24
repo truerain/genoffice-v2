@@ -22,8 +22,9 @@ V1 [`frontend/packages/ui`](../../../frontend/packages/ui)를 **core → compose
 | [core/textarea.md](./core/textarea.md) | Textarea 컴포넌트 API·토큰·Gate |
 | [core/checkbox.md](./core/checkbox.md) | Checkbox 컴포넌트 API·토큰·Gate |
 | [core/switch.md](./core/switch.md) | Switch 컴포넌트 API·토큰·Gate |
-| [core/radio.md](./core/radio.md) | Radio · SimpleRadioGroup API·토큰·Gate |
+| [core/radio.md](./core/radio.md) | Radio · StandardRadioGroup API·토큰·Gate |
 | [core/slider.md](./core/slider.md) | Slider 컴포넌트 API·토큰·Gate |
+| [core/dialog.md](./core/dialog.md) | Dialog · StandardDialog API·Gate |
 | [migration-plan.md](./migration-plan.md) | 코어 컴포넌트 이관 순서·컴포넌트별 Gate 체크리스트 |
 | [deferred.md](./deferred.md) | **UI 이관 완료 후** 진행할 enhancement 목록 |
 | [logs/implementation-log.md](./logs/implementation-log.md) | 컴포넌트 이관 작업 로그 (이관 시 갱신) |

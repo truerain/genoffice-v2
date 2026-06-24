@@ -16,12 +16,12 @@ packages/ui/src/core/radio/
 ├── Radio.types.ts
 ├── Radio.module.css
 ├── Radio.stories.tsx
-├── SimpleRadioGroup.tsx
-├── SimpleRadioGroup.stories.tsx
+├── StandardRadioGroup.tsx
+├── StandardRadioGroup.stories.tsx
 └── index.ts
 ```
 
-Public export: `Radio`, `RadioGroup`, `SimpleRadioGroup`, 관련 props/types
+Public export: `Radio`, `RadioGroup`, `StandardRadioGroup`, 관련 props/types
 
 ## API
 
@@ -34,7 +34,7 @@ Public export: `Radio`, `RadioGroup`, `SimpleRadioGroup`, 관련 props/types
 | `value` / `defaultValue` | RadioGroup | Radix controlled / uncontrolled |
 | … | — | Radix `RadioGroup.Root` / `Item` 나머지 props |
 
-### SimpleRadioGroup
+### StandardRadioGroup
 
 | Prop | 타입 | 기본 | 설명 |
 | --- | --- | --- | --- |
@@ -42,7 +42,7 @@ Public export: `Radio`, `RadioGroup`, `SimpleRadioGroup`, 관련 props/types
 | `orientation` | `'horizontal' \| 'vertical'` | `'vertical'` | 배치 방향 |
 | `error` | `boolean` | — | 각 Radio + Label error 상태 |
 
-라벨은 `SimpleRadioGroup`이 core `Label`로 연결합니다. primitive `Radio`는 라벨을 포함하지 않습니다.
+라벨은 `StandardRadioGroup`이 core `Label`로 연결합니다. primitive `Radio`는 라벨을 포함하지 않습니다.
 
 ## 스타일·토큰
 
@@ -57,12 +57,12 @@ Public export: `Radio`, `RadioGroup`, `SimpleRadioGroup`, 관련 props/types
 ## Storybook
 
 - **Radio:** `UI/Core/Radio`
-- **SimpleRadioGroup:** `UI/Core/SimpleRadioGroup`
+- **StandardRadioGroup:** `UI/Core/StandardRadioGroup`
 
 ## Gate 체크리스트 (Wave 2-9)
 
 - [x] `clsx`, 파일 헤더, theme 토큰 (V1 hex 제거)
-- [x] `Radio.test.tsx`, `SimpleRadioGroup.test.tsx`
+- [x] `Radio.test.tsx`, `StandardRadioGroup.test.tsx`
 - [x] `src/index.ts` export
 - [ ] Storybook 수동: keyboard · aria · light/dark
 

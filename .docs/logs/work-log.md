@@ -6,7 +6,23 @@
 -->
 # GenOffice V2 작업 로그
 
-## 2026-06-23
+## 2026-06-24
+
+### @gen-office/ui SimpleRadioGroup → StandardRadioGroup
+
+- `StandardRadioGroup.tsx`, types, stories, test — `RadioGroup` primitive 유지
+- `.docs/core/radio.md`, `migration-plan.md`, `decisions.md`
+
+### @gen-office/ui Dialog Gate · StandardDialog rename
+
+- `SimpleDialog` → **`StandardDialog`** (`StandardDialog.tsx`, types, stories)
+- `Dialog` compound primitive 유지 — 헤더·types·`:focus-visible` 토큰
+- `Dialog.test.tsx`, `StandardDialog.test.tsx`, `.docs/core/dialog.md`
+
+### @gen-office/ui Dialog rename 롤백
+
+- `BaseDialog*` 소스 변경 원복 → `Dialog` + `SimpleDialog` (이관 당시 구조)
+- `decisions.md` — Dialog/BaseDialog 명칭은 **검토안(미적용)** 으로 정리
 
 ### @gen-office/ui deferred 목록
 
@@ -16,6 +32,8 @@
 
 - `packages/ui/.docs/core/button.md` — API·variant·asChild·loading·Gate
 - `packages/ui/.docs/README.md` 링크 추가
+
+## 2026-06-23
 
 ### @gen-office/ui Input·Textarea core 이식 정리
 
