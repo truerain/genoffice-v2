@@ -5,7 +5,7 @@
  *
  * @remark
  * - Side-effect: ./index.css (theme tokens)
- * - Export components as each Gate completes (… Slider, Dialog, StandardDialog)
+ * - Export components as each Gate completes (… Slider, Dialog, StandardDialog, Drawer)
  */
 import './index.css';
 
@@ -25,3 +25,4 @@ export * from './core/slider';
 
 // core step 3 components (overlay)
 export * from './core/dialog';
+export * from './core/drawer';

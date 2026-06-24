@@ -8,6 +8,12 @@
 
 ## 2026-06-24
 
+### Drawer Gate (Wave 3-12) — 완료
+
+- `Drawer.tsx` — V1 custom 이식, `clsx`, close `:focus-visible`, overlay `data-testid`
+- `Drawer.stories.tsx`, `Drawer.test.tsx`, `.docs/core/drawer.md`, `src/index.ts` export
+- Storybook 수동 Gate 통과, title `UI/Core3-overlays/Drawer`
+
 ### SimpleRadioGroup → StandardRadioGroup
 
 - `StandardRadioGroup.tsx`, stories, `StandardRadioGroup.test.tsx` — `RadioGroup` primitive 유지

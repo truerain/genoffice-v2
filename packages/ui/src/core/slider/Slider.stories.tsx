@@ -21,7 +21,7 @@ const column: CSSProperties = {
 };
 
 const meta = {
-  title: 'UI/Core/Slider',
+  title: 'UI/Core2-form-toggles/Slider',
   component: Slider,
   parameters: {
     layout: 'centered',

@@ -29,8 +29,8 @@ function DemoBody({ lines = 3 }: { lines?: number }) {
   );
 }
 
-const meta = {
-  title: 'UI/Core/StandardDialog',
+const meta: Meta<typeof StandardDialog> = {
+  title: 'UI/Core3-overlays/StandardDialog',
   component: StandardDialog,
   parameters: {
     layout: 'padded',
@@ -43,12 +43,14 @@ const meta = {
     ),
   ],
   tags: ['autodocs'],
-} satisfies Meta<typeof StandardDialog>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+/** Controlled open state lives in render(); CSF args not used */
+type RenderStory = Pick<Story, 'render'>;
 
-export const Default: Story = {
+export const Default: RenderStory = {
   render: () => {
     const [open, setOpen] = useState(false);
 
@@ -68,7 +70,7 @@ export const Default: Story = {
   },
 };
 
-export const WithFooter: Story = {
+export const WithFooter: RenderStory = {
   render: () => {
     const [open, setOpen] = useState(false);
 
@@ -96,7 +98,7 @@ export const WithFooter: Story = {
   },
 };
 
-export const Resizable: Story = {
+export const Resizable: RenderStory = {
   render: () => {
     const [open, setOpen] = useState(false);
 
@@ -120,7 +122,7 @@ export const Resizable: Story = {
   },
 };
 
-export const Sizes: Story = {
+export const Sizes: RenderStory = {
   render: () => {
     const [size, setSize] = useState<'sm' | 'md' | 'lg' | 'xl'>('md');
     const [open, setOpen] = useState(false);

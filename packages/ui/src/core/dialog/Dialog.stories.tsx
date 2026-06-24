@@ -24,7 +24,7 @@ import { Input } from '../input';
 import { Label } from '../label';
 
 const meta = {
-  title: 'UI/Core/Dialog',
+  title: 'UI/Core3-overlays/Dialog',
   component: Dialog,
   parameters: {
     layout: 'centered',

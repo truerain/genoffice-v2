@@ -11,7 +11,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { StandardRadioGroup } from './StandardRadioGroup';
 
 const meta = {
-  title: 'UI/Core/StandardRadioGroup',
+  title: 'UI/Core2-form-toggles/StandardRadioGroup',
   component: StandardRadioGroup,
   parameters: {
     layout: 'centered',

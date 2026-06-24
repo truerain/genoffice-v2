@@ -25,7 +25,7 @@ const column: CSSProperties = {
 };
 
 const meta = {
-  title: 'UI/Core/Checkbox',
+  title: 'UI/Core2-form-toggles/Checkbox',
   component: Checkbox,
   parameters: {
     layout: 'centered',

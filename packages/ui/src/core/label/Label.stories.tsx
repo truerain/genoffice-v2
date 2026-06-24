@@ -21,7 +21,7 @@ const fieldStack: CSSProperties = {
 };
 
 const meta = {
-  title: 'UI/Core/Label',
+  title: 'UI/Core-leaf/Label',
   component: Label,
   parameters: {
     layout: 'centered',

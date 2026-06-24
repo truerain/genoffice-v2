@@ -10,7 +10,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Badge } from './Badge';
 
 const meta = {
-  title: 'UI/Core/Badge',
+  title: 'UI/Core-leaf/Badge',
   component: Badge,
   parameters: {
     layout: 'centered',

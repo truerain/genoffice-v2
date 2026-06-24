@@ -8,6 +8,11 @@
 
 ## 2026-06-24
 
+### @gen-office/ui Drawer Gate (Wave 3-12)
+
+- V1 custom Drawer → `core/drawer` — stories, test, docs, export
+- Portal·focus trap 없음 (V1 parity)
+
 ### @gen-office/ui SimpleRadioGroup → StandardRadioGroup
 
 - `StandardRadioGroup.tsx`, types, stories, test — `RadioGroup` primitive 유지

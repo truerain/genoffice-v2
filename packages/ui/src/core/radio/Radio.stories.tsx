@@ -25,7 +25,7 @@ const column: CSSProperties = {
 };
 
 const meta = {
-  title: 'UI/Core/Radio',
+  title: 'UI/Core2-form-toggles/Radio',
   component: Radio,
   parameters: {
     layout: 'centered',

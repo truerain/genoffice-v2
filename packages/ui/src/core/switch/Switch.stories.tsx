@@ -25,7 +25,7 @@ const column: CSSProperties = {
 };
 
 const meta = {
-  title: 'UI/Core/Switch',
+  title: 'UI/Core2-form-toggles/Switch',
   component: Switch,
   parameters: {
     layout: 'centered',
