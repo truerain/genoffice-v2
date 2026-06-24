@@ -1,0 +1,37 @@
+/**
+ * @file packages/ui/src/core/tooltip/Tooltip.module.css
+ * @description Presentation styles for Tooltip content.
+ * @created 2026-06-24
+ */
+.content {
+  z-index: 60;
+  max-width: 18rem;
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.625rem;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--color-fg-inverse);
+  background: var(--color-fg-primary);
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.16);
+  animation: tooltip-in 120ms ease-out;
+}
+
+.content:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 0.125rem var(--button-focus-ring);
+}
+
+.arrow {
+  fill: var(--color-fg-primary);
+}
+
+@keyframes tooltip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

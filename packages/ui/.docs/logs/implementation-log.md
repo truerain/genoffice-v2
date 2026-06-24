@@ -8,6 +8,11 @@
 
 ## 2026-06-24
 
+### Tooltip · Toast · Progress (Wave 5-ext)
+
+- Radix compound/tooltip·toast, Progress variant/size
+- `UI/Core5-feedback/*`, test/docs/export
+
 ### GroupedSelect 구상 문서 · Deferred D-002
 
 - `.docs/composed/grouped-select.md` — multi-field Select chrome (Popover + StandardSelect × N)

@@ -111,6 +111,20 @@ Radix 없음 또는 단일 primitive. **패턴 확립용** — Button을 1번으
 
 ---
 
+## 5b. Wave 5-ext — Core feedback (Radix extensions)
+
+V1 parity 밖이지만 백오피스에서 반복 사용되는 Radix primitive를 core에 추가.
+
+| 순서 | 컴포넌트 | Radix | 비고 |
+| --- | --- | --- | --- |
+| 20 | Tooltip | `@radix-ui/react-tooltip` | `TooltipProvider` 앱 루트 |
+| 21 | Toast | `@radix-ui/react-toast` | compound · `ToastViewport` 필수 |
+| 22 | Progress | `@radix-ui/react-progress` | `variant` · indeterminate (`value={null}`) |
+
+Story title: `UI/Core5-feedback/<Name>`
+
+---
+
 ## 6. Wave 5 — Composed (core 완료 후)
 
 core export 안정 후 진행. 순서는 **의존 그래프** 기준.

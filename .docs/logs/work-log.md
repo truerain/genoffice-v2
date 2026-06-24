@@ -8,6 +8,11 @@
 
 ## 2026-06-24
 
+### @gen-office/ui Tooltip · Toast · Progress (Wave 5-ext)
+
+- `@radix-ui/react-tooltip`, `react-toast`, `react-progress` core 추가
+- stories, tests, `.docs/core/{tooltip,toast,progress}.md`, `migration-plan.md` Wave 5-ext
+
 ### @gen-office/ui Breadcrumb · Tabs · Tree Gate (Wave 4)
 
 - Breadcrumb — `clsx`, `:focus-visible`, stories/test/docs (`UI/Core4-navigation/Breadcrumb`)

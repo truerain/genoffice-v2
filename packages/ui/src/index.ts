@@ -5,7 +5,7 @@
  *
  * @remark
  * - Side-effect: ./index.css (theme tokens)
- * - Export components as each Gate completes (… Wave 4: breadcrumb, calendar, tabs, tree)
+ * - Export components as each Gate completes (… Wave 5-ext: tooltip, toast, progress)
  */
 import './index.css';
 
@@ -35,3 +35,8 @@ export * from './core/breadcrumb';
 export * from './core/calendar';
 export * from './core/tabs';
 export * from './core/tree';
+
+// core step 5 components (feedback — Radix extensions)
+export * from './core/tooltip';
+export * from './core/toast';
+export * from './core/progress';
