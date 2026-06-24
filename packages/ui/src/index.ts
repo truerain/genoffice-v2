@@ -5,7 +5,7 @@
  *
  * @remark
  * - Side-effect: ./index.css (theme tokens)
- * - Export components as each Gate completes (… Slider, Dialog, StandardDialog, Drawer)
+ * - Export components as each Gate completes (… Drawer, Popover, DropdownMenu, Select, StandardSelect)
  */
 import './index.css';
 
@@ -26,3 +26,6 @@ export * from './core/slider';
 // core step 3 components (overlay)
 export * from './core/dialog';
 export * from './core/drawer';
+export * from './core/popover';
+export * from './core/dropdown-menu';
+export * from './core/select';

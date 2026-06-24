@@ -8,6 +8,17 @@
 
 ## 2026-06-24
 
+### GroupedSelect 구상 문서 · Deferred D-002
+
+- `.docs/composed/grouped-select.md` — multi-field Select chrome (Popover + StandardSelect × N)
+- `deferred.md` D-002, `select.md`·`README.md` cross-link
+
+### Popover · DropdownMenu · Select Gate (Wave 3-13~15)
+
+- V1 이식 — `clsx`, 파일 헤더, `:focus-visible` 토큰, stories/test/docs/export
+- `SimpleSelect` → **`StandardSelect`** (index·stories 정리)
+- Storybook: `UI/Core3-overlays/{Popover,DropdownMenu,Select,StandardSelect}`
+
 ### Drawer Gate (Wave 3-12) — 완료
 
 - `Drawer.tsx` — V1 custom 이식, `clsx`, close `:focus-visible`, overlay `data-testid`

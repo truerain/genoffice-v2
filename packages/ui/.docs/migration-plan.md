@@ -92,7 +92,7 @@ Radix 없음 또는 단일 primitive. **패턴 확립용** — Button을 1번으
 | 12 | Drawer | V1 custom / dialog 계열 | V1 구현 확인 후 이식 |
 | 13 | Popover | `@radix-ui/react-popover` | |
 | 14 | DropdownMenu | `@radix-ui/react-dropdown-menu` | |
-| 15 | Select (+ SimpleSelect) | `@radix-ui/react-select` | portal · 키보드 |
+| 15 | Select (+ **StandardSelect**) | `@radix-ui/react-select` | portal · 키보드 |
 
 **추가 test 포인트:** open/close, Escape (RTL `userEvent`)
 

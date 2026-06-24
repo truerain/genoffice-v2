@@ -8,7 +8,11 @@
 
 ## 2026-06-24
 
-### @gen-office/ui Drawer Gate (Wave 3-12)
+### @gen-office/ui Popover · DropdownMenu · Select Gate
+
+- Wave 3-13~15 — stories, tests, docs, `src/index.ts` export, `StandardSelect` rename
+
+### @gen-office/ui Drawer Gate (Wave 3-12) — 완료
 
 - V1 custom Drawer → `core/drawer` — stories, test, docs, export
 - Portal·focus trap 없음 (V1 parity)
