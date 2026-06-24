@@ -105,9 +105,9 @@ Radix 없음 또는 단일 primitive. **패턴 확립용** — Button을 1번으
 | 16 | Tabs | `@radix-ui/react-tabs` | |
 | 17 | Breadcrumb | — | |
 | 18 | Tree | — | 복잡도 높음 — story 비중 크게 |
-| 19 | Calendar | — | `react-day-picker` 의존 (core 내 Calendar) |
+| 19 | Calendar | — | `@daypicker/react` v10 (DayPicker) 의존 (core 내 Calendar) |
 
-> **Calendar**는 V1에서 `react-day-picker` 사용. core에 두되 DatePicker(composed)와 API 경계를 story에서 명시.
+> **Calendar**는 V1에서 `react-day-picker` 사용. V2는 **`@daypicker/react` v10** 패키지명으로 교체. core에 두되 DatePicker(composed)와 API 경계를 story에서 명시.
 
 ---
 

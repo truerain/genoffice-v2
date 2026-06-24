@@ -5,7 +5,7 @@
  *
  * @remark
  * - Side-effect: ./index.css (theme tokens)
- * - Export components as each Gate completes (… Drawer, Popover, DropdownMenu, Select, StandardSelect)
+ * - Export components as each Gate completes (… Wave 4: breadcrumb, calendar, tabs, tree)
  */
 import './index.css';
 
@@ -29,3 +29,9 @@ export * from './core/drawer';
 export * from './core/popover';
 export * from './core/dropdown-menu';
 export * from './core/select';
+
+// core step 4 components (navigation)
+export * from './core/breadcrumb';
+export * from './core/calendar';
+export * from './core/tabs';
+export * from './core/tree';

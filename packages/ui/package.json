@@ -26,6 +26,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@daypicker/react": "^10.0.1",
     "@gen-office/theme": "workspace:*",
     "@gen-office/utils": "workspace:*",
     "@radix-ui/react-checkbox": "^1.3.3",
@@ -50,8 +51,7 @@
     "@tiptap/starter-kit": "^2.14.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
-    "lucide-react": "^0.562.0",
-    "react-day-picker": "^9.6.5"
+    "lucide-react": "^0.562.0"
   },
   "devDependencies": {
     "@storybook/addon-a11y": "10.4.6",

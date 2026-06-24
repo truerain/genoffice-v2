@@ -8,6 +8,18 @@
 
 ## 2026-06-24
 
+### @gen-office/ui Breadcrumb · Tabs · Tree Gate (Wave 4)
+
+- Breadcrumb — `clsx`, `:focus-visible`, stories/test/docs (`UI/Core4-navigation/Breadcrumb`)
+- Tabs — `cn`→`clsx`, semantic fg 토큰, stories title 정리, test/docs
+- Tree — stories, test, a11y `role="tree"`, focus ring, docs
+
+### @gen-office/ui Calendar — @daypicker/react v10
+
+- `react-day-picker` → **`@daypicker/react` ^10.0.1** — v10 `classNames` 키·`.rdp-root` CSS 변수
+- `date-fns ^4.1.0` — DayPicker transitive 4.4.0과 호환 확인
+- `Calendar.stories.tsx`, `test/core/Calendar.test.tsx`, `.docs/core/calendar.md`
+
 ### @gen-office/ui Popover · DropdownMenu · Select Gate
 
 - Wave 3-13~15 — stories, tests, docs, `src/index.ts` export, `StandardSelect` rename
