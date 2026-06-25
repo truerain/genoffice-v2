@@ -8,6 +8,13 @@
 
 ## 2026-06-25
 
+### @gen-office/ui AlertDialog · ConfirmDialog Gate (Wave 5 — C1/C2)
+
+- V1 `composed/AlertDialog` · `ConfirmDialog` 이식 — `Dialog` compound + `Button`, variant 아이콘
+- Gate — 파일 헤더, `clsx`, close `aria-label`·`:focus-visible`, `처리중...` 로딩 문구
+- stories `UI/Composed/{AlertDialog,ConfirmDialog}`, tests, `.docs/composed/{alert-dialog,confirm-dialog}.md`
+- `comfirmDialog` 오타 폴더 없음 확인 (이미 정리됨)
+
 ### @gen-office/ui Toast Storybook · `ToastViewport portalled`
 
 - preview frame 클리핑 — story frame / `fullscreen` / `portalled`(`document.body`) 정리

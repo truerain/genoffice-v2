@@ -40,3 +40,6 @@ export * from './core/tree';
 export * from './core/tooltip';
 export * from './core/toast';
 export * from './core/progress';
+
+export * from './composed/alertDialog';
+export * from './composed/confirmDialog';

@@ -8,6 +8,16 @@
 
 ## 2026-06-25
 
+### AlertDialog · ConfirmDialog Gate (Wave 5 — C1/C2)
+
+- `composed/alertDialog`, `composed/confirmDialog` — headers, `clsx`, focus ring, V1 `처리중...`
+- stories `UI/Composed/*`, `test/composed/*`, `.docs/composed/alert-dialog.md`, `confirm-dialog.md`
+
+### Dialog header `padding-right` 조정
+
+- `Dialog.module.css` — `:has(.close)`일 때만 close(2rem) 공간 예약; `showClose={false}`(AlertDialog)는 균일 padding
+- 여분 `0.25rem` gap 제거
+
 ### ToastViewport `portalled` — Storybook frame 탈출
 
 - `createPortal(document.body)` — `fixed`만으로는 Storybook canvas transform/overflow에 갇힘

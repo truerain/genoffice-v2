@@ -131,11 +131,15 @@
   gap: 0.375rem;
   text-align: left;
   padding: var(--dialog-close-inset);
-  padding-right: calc(var(--dialog-close-inset) + 2rem + 0.25rem);
-  min-height: calc(var(--dialog-close-inset) * 2 + 2rem);
   box-sizing: border-box;
   background-color: var(--dialog-header-bg);
   border-bottom: 1px solid var(--dialog-header-border);
+}
+
+/* absolute .close가 있을 때만 우측 여백 예약 (AlertDialog 등 showClose=false는 제외) */
+.content:has(.close) .header {
+  padding-right: calc(var(--dialog-close-inset) + 2rem);
+  min-height: calc(var(--dialog-close-inset) * 2 + 2rem);
 }
 
 .body {
@@ -194,8 +198,8 @@
     padding: 1.25rem;
   }
 
-  .header {
-    padding-right: calc(1.25rem + 2rem + 0.25rem);
+  .content:has(.close) .header {
+    padding-right: calc(1.25rem + 2rem);
     min-height: calc(1.25rem * 2 + 2rem);
   }
 }
