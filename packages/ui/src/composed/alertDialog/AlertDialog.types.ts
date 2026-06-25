@@ -2,6 +2,9 @@
  * @file packages/ui/src/composed/alertDialog/AlertDialog.types.ts
  * @description Type definitions for AlertDialog.
  * @created 2026-06-25
+ *
+ * @remark
+ * - Exports: AlertDialogProps, AlertDialogVariant
  */
 import type { ReactNode } from 'react';
 

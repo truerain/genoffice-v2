@@ -43,3 +43,4 @@ export * from './core/progress';
 
 export * from './composed/alertDialog';
 export * from './composed/confirmDialog';
+export * from './composed/splitLayout';

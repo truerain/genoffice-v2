@@ -2,6 +2,12 @@
  * @file packages/ui/src/composed/alertDialog/AlertDialog.tsx
  * @description Alert-style dialog built on Dialog compound primitives.
  * @created 2026-06-25
+ *
+ * @remark
+ * - Not @radix-ui/react-alert-dialog; uses core/dialog + core/button
+ * - Exports: AlertDialog
+ * - async onConfirm closes on success; reject keeps dialog open
+ * - variant: info | warning | error | success (error → destructive confirm)
  */
 import { useState } from 'react';
 import {

@@ -2,6 +2,10 @@
  * @file packages/ui/src/composed/alertDialog/AlertDialog.module.css
  * @description Styles for AlertDialog variant chrome and layout.
  * @created 2026-06-25
+ *
+ * @remark
+ * - variant left border + icon chip via --color-info/warning/error/success tokens
+ * - header close :focus-visible uses --button-focus-ring
  */
 
 .info {

@@ -13,6 +13,10 @@
 - `composed/alertDialog`, `composed/confirmDialog` — headers, `clsx`, focus ring, V1 `처리중...`
 - stories `UI/Composed/*`, `test/composed/*`, `.docs/composed/alert-dialog.md`, `confirm-dialog.md`
 
+### composed 파일 헤더 `@remark` 보강
+
+- `alertDialog`, `confirmDialog`, `splitLayout` — AGENTS.md 규약에 맞게 export·의존·Storybook title 등 `@remark` 추가
+
 ### Dialog header `padding-right` 조정
 
 - `Dialog.module.css` — `:has(.close)`일 때만 close(2rem) 공간 예약; `showClose={false}`(AlertDialog)는 균일 padding

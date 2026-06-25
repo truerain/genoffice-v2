@@ -2,6 +2,9 @@
  * @file packages/ui/src/composed/confirmDialog/ConfirmDialog.stories.tsx
  * @description Storybook stories for ConfirmDialog.
  * @created 2026-06-25
+ *
+ * @remark
+ * - title: UI/Composed/ConfirmDialog
  */
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';

@@ -2,6 +2,9 @@
  * @file packages/ui/src/composed/alertDialog/AlertDialog.stories.tsx
  * @description Storybook stories for AlertDialog.
  * @created 2026-06-25
+ *
+ * @remark
+ * - title: UI/Composed/AlertDialog
  */
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
