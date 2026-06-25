@@ -1,0 +1,21 @@
+/**
+ * @file packages/theme/src/styles/tokens/components/filter-bar.css
+ * @description Component-level CSS variables for FilterBar field sizing and layout.
+ * @created 2026-06-25
+ */
+:root {
+  --filter-field-width-xs: 120px;
+  --filter-field-width-sm: 160px;
+  --filter-field-width-md: 200px;
+  --filter-field-width-lg: 280px;
+  --filter-field-width-xl: 360px;
+
+  --filter-field-gap: var(--spacing-md);
+  --filter-bar-actions-gap: var(--spacing-sm);
+  --filter-bar-actions-min-width: 5rem;
+  --filter-bar-collapse-toggle-size: 2rem;
+
+  --filter-bar-border: var(--color-border-default);
+  --filter-bar-bg: var(--color-bg-secondary);
+  --filter-bar-radius: var(--border-radius-lg, 0.5rem);
+}

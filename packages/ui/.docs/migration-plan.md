@@ -134,14 +134,17 @@ core export 안정 후 진행. 순서는 **의존 그래프** 기준.
 | C1 | AlertDialog | Dialog |
 | C2 | ConfirmDialog | Dialog |
 | C3 | SplitLayout | — |
-| C4 | MasterDetailLayout | SplitLayout |
-| C5 | FilterBar / SearchInput / SimpleFilterBar | Input, Button |
-| C6 | DatePicker / RangeDatePicker / MonthPicker / RangeMonthPicker | Calendar, Popover, Input |
-| C7 | Combobox / MultiCombobox | Popover, Input |
-| C8 | TreeCombobox | Tree, Combobox |
-| C9 | PopupInput / ModalInput | Dialog, Input |
-| C10 | TreeView | Tree |
-| C11 | **RichTextEditor** | TipTap — **분리 보류** 검토 |
+| C4 | **FilterBar** (`FilterBar.Item`), **StandardFilterBar** | Input, Button, Select; combo 필드는 C6 이후 |
+| C5 | DatePicker / RangeDatePicker / MonthPicker / RangeMonthPicker | Calendar, Popover, Input |
+| C6 | Combobox / MultiCombobox | Popover, Input |
+| C7 | TreeCombobox | Tree, Combobox |
+| C8 | PopupInput / ModalInput | Dialog, Input |
+| C9 | TreeView | Tree |
+| C10 | **RichTextEditor** | TipTap — **분리 보류** 검토 |
+
+> **제외:** V1 `MasterDetailLayout` — 앱 미사용 thin wrapper; 마스터-디테일은 `SplitLayout` 직접 + `PageHeader` 등 화면 chrome으로 조합. [decisions.md](../../../.docs/logs/decisions.md).
+>
+> **C4 명명:** V1 `FilterBar` 유지; V1 `SimpleFilterBar` → **`StandardFilterBar`** (`StandardDialog`·`StandardSelect` 패턴). V1 `SearchInput` — `StandardFilterBar` 내부 구현, **public export 없음**.
 
 Story title: `UI/Composed/<Name>`
 
@@ -149,7 +152,7 @@ Story title: `UI/Composed/<Name>`
 
 ## 7. V1 public export 대조
 
-V1 `src/index.ts` 기준 core 18 + composed 14. Wave 1~4로 core, Wave 5로 composed 커버.
+V1 `src/index.ts` 기준 core 18 + composed 14 (**`MasterDetailLayout` 제외 시 13**). Wave 1~4로 core, Wave 5로 composed 커버.
 
 | V1 core | Wave |
 | --- | --- |
@@ -213,6 +216,8 @@ Radix 컴포넌트는 `getByRole('checkbox' | 'switch' | 'tab' …)` 우선.
 | 항목 | 결정 |
 | --- | --- |
 | `cn` | 이식 시 `clsx`로 치환 (utils `cn` import 제거) |
+| `MasterDetailLayout` | V2 **미이관** — V1 export만 존재·앱 미사용; `SplitLayout` 직접 사용 |
+| Filter composed | **`FilterBar`** compound + **`StandardFilterBar`** (V1 `SimpleFilterBar`); `SearchInput` 비공개 |
 | RichTextEditor | Wave 5 마지막; `@gen-office/html-editor` 분리 **보류** |
 | ui package storybook script | 통합 `apps/storybook` **주**; package script는 디버그용 |
 | V1 자동 test 없음 | V2 Gate부터 **필수** — 회귀 방지 |

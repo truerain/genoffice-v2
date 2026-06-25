@@ -1,0 +1,224 @@
+/**
+ * @file packages/ui/src/composed/filterBar/FilterBar.module.css
+ * @description CSS Modules for FilterBar layout chrome.
+ * @created 2026-06-25
+ *
+ * @remark
+ * - Tokens: --filter-field-width-*, --filter-field-gap, --filter-bar-actions-gap
+ * - Two-zone layout: filterFields (12-col grid) + filterActionsColumn (right, stacked)
+ */
+.filterBar {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: var(--spacing-md);
+  background: transparent;
+  position: relative;
+}
+
+.filterBarHasBorderToggle {
+  padding-bottom: calc(var(--spacing-md) + var(--filter-bar-collapse-toggle-size, 2rem) / 2);
+}
+
+.filterBarBorderlessBottom {
+  border-bottom: 1px solid var(--filter-bar-border, var(--color-border-default));
+}
+
+.filterBarBorderlessBottom .collapseTogglePill {
+  background: var(--color-bg-primary);
+}
+
+.filterBarMain {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--filter-field-gap, var(--spacing-md));
+  width: 100%;
+}
+
+.filterFields {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--filter-field-gap, var(--spacing-md));
+  align-items: end;
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+}
+
+.filterCollapseBorder {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 50%);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.collapseToggleButton {
+  min-width: var(--filter-bar-collapse-toggle-size, 2rem);
+  height: var(--filter-bar-collapse-toggle-size, 2rem);
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.collapseTogglePill {
+  border-radius: var(--border-radius-md, 0.375rem);
+  background: var(--filter-bar-bg, var(--color-bg-secondary));
+}
+
+.collapseToggleIcon {
+  min-width: 2rem;
+  width: 2rem;
+  height: 2rem;
+}
+
+.filterItemSizeXs {
+  grid-column: span 2;
+  min-width: 0;
+}
+
+.filterItemSizeSm {
+  grid-column: span 2;
+  min-width: 0;
+}
+
+.filterItemSizeMd {
+  grid-column: span 3;
+  min-width: 0;
+}
+
+.filterItemSizeLg {
+  grid-column: span 4;
+  min-width: 0;
+}
+
+.filterItemSizeXl {
+  grid-column: span 6;
+  min-width: 0;
+}
+
+.filterItemSizeFill {
+  grid-column: span 6;
+  min-width: min(100%, var(--filter-field-width-md, 200px));
+}
+
+.filterItemLegacy {
+  grid-column: span 3;
+  min-width: 0;
+}
+
+.filterActionsColumn {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--filter-bar-actions-gap, var(--spacing-sm));
+  min-width: var(--filter-bar-actions-min-width, 5rem);
+}
+
+.filterRowInline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--filter-field-gap, var(--spacing-md));
+  width: 100%;
+}
+
+.filterRowInline .filterFields {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--filter-field-gap, var(--spacing-md));
+  width: auto;
+  min-width: 0;
+}
+
+.filterRowInline .filterItemSizeXs {
+  flex: 0 0 var(--filter-field-width-xs, 120px);
+  width: var(--filter-field-width-xs, 120px);
+  grid-column: auto;
+}
+
+.filterRowInline .filterItemSizeSm {
+  flex: 0 0 var(--filter-field-width-sm, 160px);
+  width: var(--filter-field-width-sm, 160px);
+  grid-column: auto;
+}
+
+.filterRowInline .filterItemSizeMd {
+  flex: 0 0 var(--filter-field-width-md, 200px);
+  width: var(--filter-field-width-md, 200px);
+  grid-column: auto;
+}
+
+.filterRowInline .filterItemSizeLg {
+  flex: 0 0 var(--filter-field-width-lg, 280px);
+  width: var(--filter-field-width-lg, 280px);
+  grid-column: auto;
+}
+
+.filterRowInline .filterItemSizeXl {
+  flex: 0 0 var(--filter-field-width-xl, 360px);
+  width: var(--filter-field-width-xl, 360px);
+  grid-column: auto;
+}
+
+.filterRowInline .filterItemSizeFill {
+  flex: 1 1 var(--filter-field-width-md, 200px);
+  width: auto;
+  min-width: var(--filter-field-width-md, 200px);
+  grid-column: auto;
+}
+
+.filterRowInline .filterItemLegacy {
+  flex: 0 0 auto;
+  grid-column: auto;
+}
+
+.filterActionsInline {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--filter-bar-actions-gap, var(--spacing-sm));
+  margin-left: auto;
+}
+
+.filterItemTitle {
+  font-size: var(--font-size-base, 0.875rem);
+  color: var(--color-fg-primary);
+  margin-bottom: var(--spacing-xs, 0.25rem);
+}
+
+.filterItem {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.filterItemHorizontal {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.filterItemHorizontal .filterItemTitle {
+  margin-bottom: 0;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.filterItemControl {
+  width: 100%;
+  min-width: 0;
+}
+
+.filterItemHorizontal .filterItemControl {
+  flex: 1 1 0%;
+  width: auto;
+}

@@ -1,0 +1,14 @@
+/**
+ * @file packages/ui/src/composed/filterBar/StandardFilterBar.module.css
+ * @description Default chrome for StandardFilterBar (bordered panel).
+ * @created 2026-06-25
+ *
+ * @remark
+ * - Applied via FilterBar className; compound FilterBar without this class stays borderless
+ * - Tokens: --filter-bar-border, --filter-bar-bg, --filter-bar-radius
+ */
+.root {
+  border: 1px solid var(--filter-bar-border, var(--color-border-default));
+  border-radius: var(--filter-bar-radius, var(--border-radius-lg, 0.5rem));
+  background: var(--filter-bar-bg, var(--color-bg-secondary));
+}

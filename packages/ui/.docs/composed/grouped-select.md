@@ -91,7 +91,7 @@ type GroupedSelectProps = {
 | --- | --- |
 | 패키지 경계 | **`composed`** (`packages/ui/src/composed/grouped-select/` 예상) |
 | 선행 Gate | Wave 3 **Popover**, **StandardSelect** |
-| 인접 composed | **FilterBar** (C5) — GroupedSelect + Input + Button을 포함할 수 있음 |
+| 인접 composed | **FilterBar** / **StandardFilterBar** (C4) — GroupedSelect + Input + Button을 포함할 수 있음 |
 | Storybook | `UI/Composed/GroupedSelect` |
 
 core `StandardSelect` / `Select*` API는 변경하지 않습니다.
@@ -101,7 +101,9 @@ core `StandardSelect` / `Select*` API는 변경하지 않습니다.
 ```text
 StandardSelect     → 폼 필드 1개 (단일 value)
 GroupedSelect      → 관련 Select N개 → 화면 1칸 (composed)
-FilterBar          → 검색/필터 바 전체 (GroupedSelect + Input + Button …)
+FilterBar          → compound 레이아웃 (`FilterBar.Item`)
+StandardFilterBar  → fields[] 선언형 (V1 SimpleFilterBar)
+GroupedSelect      → 관련 Select N개 → 화면 1칸 (composed)
 Combobox           → 옵션 많을 때 검색 가능 단일 선택
 MultiCombobox      → 다중 선택 (별 과제)
 ```
@@ -114,12 +116,12 @@ MultiCombobox      → 다중 선택 (별 과제)
 - [ ] 키보드·focus: Popover 안 Select 포커스 이동
 - [ ] `formatSummary` 기본 동작 (미선택·부분 선택)
 - [ ] Storybook + RTL test
-- [ ] FilterBar(C5)와 API 경계 문서화
+- [ ] FilterBar / StandardFilterBar (C4)와 API 경계 문서화
 
 ## 왜 지금 하지 않는가
 
 - Wave 3 overlay Gate·Wave 4–5 composed 이관이 우선
-- FilterBar와 **적용/초기화 UX**를 함께 정하는 편이 낫음
+- FilterBar / StandardFilterBar와 **적용/초기화 UX**를 함께 정하는 편이 낫음
 - V1 parity 범위 밖 **신규 composed**
 
 관련: [select.md](../core/select.md), [popover.md](../core/popover.md), [migration-plan.md](../migration-plan.md), [deferred.md](../deferred.md)

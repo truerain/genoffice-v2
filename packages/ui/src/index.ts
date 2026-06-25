@@ -5,7 +5,7 @@
  *
  * @remark
  * - Side-effect: ./index.css (theme tokens)
- * - Export components as each Gate completes (… Wave 5-ext: tooltip, toast, progress)
+ * - Export components as each Gate completes (… Wave 5 C4: filterBar)
  */
 import './index.css';
 
@@ -44,3 +44,4 @@ export * from './core/progress';
 export * from './composed/alertDialog';
 export * from './composed/confirmDialog';
 export * from './composed/splitLayout';
+export * from './composed/filterBar';

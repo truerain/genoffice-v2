@@ -1,0 +1,16 @@
+/**
+ * @file packages/ui/src/composed/filterBar/SearchInput.module.css
+ * @description Styles for internal SearchInput.
+ * @created 2026-06-25
+ *
+ * @remark
+ * - Icon color: --color-fg-tertiary
+ */
+.searchWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.searchIcon {
+  color: var(--color-fg-tertiary);
+}

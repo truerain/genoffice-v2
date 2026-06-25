@@ -8,6 +8,29 @@
 
 역시간순. 같은 날짜 섹션 안에서도 **최신 항목이 위**.
 
+## 2026-06-25
+
+### @gen-office/ui FilterBar 레이아웃 표준 — 2-zone · size preset
+
+- **fields / actions 분리** — `actionsPlacement="column"` 기본; actions는 fields **오른쪽 세로 column**
+- **필드 너비** — `FilterBarFieldSize` (`xs`~`xl`, `fill`); theme `--filter-field-width-*`
+- **정렬** — fields 영역 12-column CSS Grid, `align-items: end`; `flex`/`width`는 legacy
+- **`inline`** — V1 한 줄 flex 호환; 신규 화면은 `column` + `size` 사용
+- **simple/detail** — chevron on bottom border (`border`); borderless = `border-bottom` only; `divider` removed
+
+### @gen-office/ui Filter composed 명명 — `FilterBar` + `StandardFilterBar`
+
+- **FilterBar** + `FilterBar.Item` — V1 compound 레이아웃 유지 (grid action **bar**·데이터 **row**와 구분)
+- V1 **SimpleFilterBar** → **StandardFilterBar** (`StandardDialog`·`StandardSelect` 패턴)
+- V1 **SearchInput** — 내부 전용, public export 없음
+- `FilterRow`·`FilterGroup` 등 대안은 grid `row` 혼동·`*Group` 의미 축으로 보류
+
+### @gen-office/ui `MasterDetailLayout` V2 미이관
+
+- V1 `composed/MasterDetailLayout` — `SplitLayout` + optional `title`/`actions` 헤더 thin wrapper
+- **앱/demo 사용 0건**; admin 화면은 `SplitLayout` 직접 + `PageHeader` 패턴
+- V2 Wave 5에서 **제외**; `migration-plan.md` C4 삭제·이후 순번 조정
+
 ## 2026-06-24
 
 ### @gen-office/ui StandardRadioGroup 적용

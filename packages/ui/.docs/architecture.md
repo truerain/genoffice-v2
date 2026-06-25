@@ -81,7 +81,7 @@ packages/ui/
 
 | | `core/` | `composed/` |
 | --- | --- | --- |
-| 역할 | Radix primitive 래퍼 1:1 | core 2개+ · 도메인 UX (FilterBar, DatePicker) |
+| 역할 | Radix primitive 래퍼 1:1 | core 2개+ · 도메인 UX (`FilterBar`, `StandardFilterBar`, DatePicker) |
 | 예 | Button, Label, Separator, Badge, Input, Dialog | AlertDialog, Combobox, SplitLayout |
 | Story title | `UI/Core/<Name>` | `UI/Composed/<Name>` |
 | 선행 | theme 토큰 | 해당 core export 완료 |

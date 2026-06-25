@@ -8,4 +8,5 @@
 @import './tokens/components/grid.css';
 @import './tokens/components/button.css';
 @import './tokens/components/dialog.css';
+@import './tokens/components/filter-bar.css';
 @import './tokens/theme-dark.css';

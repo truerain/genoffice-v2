@@ -8,6 +8,41 @@
 
 ## 2026-06-25
 
+### FilterBar collapse chevron toggle
+
+- `collapseToggle` `border` (bottom-edge) | `actions-icon`; `divider` deprecated
+- `FilterBarCollapseToggle.tsx`, theme `--filter-bar-collapse-toggle-size`
+- stories `BorderlessCollapsibleBottomEdge`, `BorderlessCollapsibleActionsIcon`
+
+### FilterBar simple/detail collapse
+
+- `collapsible`, `collapsedCount`, field `simple`, toggle in actions column
+- `filterBarCollapse.ts`, stories `Collapsible`, tests
+
+### FilterBar 2-zone layout · size preset
+
+- `filterFields` (12-col grid) + `filterActionsColumn`; `actionsPlacement` column | inline
+- `FilterBarFieldSize` xs~xl + fill; theme `filter-bar.css`; `resolveFilterItemSize.ts`
+- stories·tests·`filter-bar.md`·`decisions.md` 갱신
+
+### FilterBar · StandardFilterBar Gate (Wave 5 — C4)
+
+- V1 `composed/FilterBar` 이식 — compound + `StandardFilterBar` (V1 SimpleFilterBar)
+- `clsx`, 토큰, `SearchInput` 비공개, combo 필드 C6 placeholder
+- stories, tests, `.docs/composed/filter-bar.md`
+- `filterRow` `align-items: flex-end`, 검색 버튼 `fullWidth` 제거 — Item·actions 겹침 방지
+- `StandardFilterBar` 기본 bordered panel (`StandardFilterBar.module.css`)
+- `FilterBar.Item` `layout` vertical | horizontal, `itemLayout` 기본값
+
+### Filter composed 명명 — FilterBar · StandardFilterBar
+
+- V1 `SimpleFilterBar` → `StandardFilterBar`; `SearchInput` 비공개 export
+- `migration-plan.md` C4·§10, `decisions.md`, `grouped-select.md`, `deferred.md`
+
+### `MasterDetailLayout` V2 제외 (문서)
+
+- V1 미사용 wrapper — Wave 5에서 제외; `migration-plan.md`·`split-layout.md`·`decisions.md` 반영
+
 ### SplitLayout Gate (Wave 5 — C3)
 
 - `composed/splitLayout` — stories, test, `.docs/composed/split-layout.md`, export

@@ -45,7 +45,7 @@ V1 → V2 **core·composed 이관**( [migration-plan.md](./migration-plan.md) Wa
 **하지 않는 이유 (지금):**
 
 - Wave 3 Select·Popover Gate 직후 — composed 착수 전
-- FilterBar(C5)와 적용/초기화 UX를 함께 정하는 편이 낫음
+- FilterBar / StandardFilterBar (C4)와 적용/초기화 UX를 함께 정하는 편이 낫음
 - V1 parity·Wave 1–5 이관 범위 밖 (신규 composed)
 
 **구현 시 체크:**

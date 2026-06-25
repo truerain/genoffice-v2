@@ -8,6 +8,46 @@
 
 ## 2026-06-25
 
+### @gen-office/ui FilterBar collapse chevron toggle
+
+- `collapseToggle` border | actions-icon; borderless bottom-edge only (no divider line)
+
+### @gen-office/ui FilterBar simple/detail collapse
+
+- `collapsible`, `collapsedCount`, `simple` field, `expandLabel`/`collapseLabel`; actions column 토글 버튼
+
+### @gen-office/ui FilterBar actions column 배치
+
+- `actionsPlacement` `footer` → `column` — fields 오른쪽 세로 stack; `ColumnActions` story
+
+### @gen-office/ui FilterBar 레이아웃 표준 (2-zone · size preset)
+
+- fields grid + footer actions; `FilterBarFieldSize`, theme `--filter-field-width-*`
+- `packages/theme/.../filter-bar.css`, `resolveFilterItemSize.ts`, stories/tests/docs
+
+### @gen-office/ui FilterBar Item 가로 배치 옵션
+
+- `FilterBarItemLayout` (`vertical` | `horizontal`) — `FilterBar.itemLayout`, `FilterBar.Item.layout`
+- `StandardFilterBar.itemLayout`, `FilterField.layout` 동일 전달
+- stories HorizontalItemLayout, tests 2건, `filter-bar.md` API 문서
+- Default·Horizontal 스토리 필드 6개, decorator maxWidth 960px
+
+### @gen-office/ui FilterBar · StandardFilterBar Gate (Wave 5 — C4)
+
+- `composed/filterBar` — FilterBar compound, StandardFilterBar, SearchInput 내부 전용
+- combo/multi-combo → C6 Combobox 연동 전 placeholder
+- stories `UI/Composed/{FilterBar,StandardFilterBar}`, tests, `filter-bar.md`
+
+### @gen-office/ui Filter composed 명명 — FilterBar · StandardFilterBar
+
+- V1 SimpleFilterBar → StandardFilterBar; SearchInput 내부 전용
+- `migration-plan.md` C4, `decisions.md`, grouped-select·deferred 참조 갱신
+
+### @gen-office/ui `MasterDetailLayout` 문서 제외
+
+- V2 미이관 결정 — `migration-plan.md` C4 제거, C5~C11 → C4~C10 재번호
+- `split-layout.md` MasterDetailLayout 언급 삭제; `decisions.md` 기록
+
 ### @gen-office/ui SplitLayout Gate (Wave 5 — C3)
 
 - V1 `composed/SplitLayout` 이식 — flex 2-pane, pointer resize, CSS vars
