@@ -12,7 +12,7 @@ describe('FilterBar', () => {
   it('renders filter items and column actions', () => {
     const { container } = render(
       <FilterBar actions={<button type="button">Search</button>}>
-        <FilterBar.Item title="Name">
+        <FilterBar.Item label="Name">
           <input aria-label="name" />
         </FilterBar.Item>
       </FilterBar>
@@ -28,7 +28,7 @@ describe('FilterBar', () => {
   it('applies size preset class', () => {
     const { container } = render(
       <FilterBar>
-        <FilterBar.Item title="Code" size="xs">
+        <FilterBar.Item label="Code" size="xs">
           <span>Field</span>
         </FilterBar.Item>
       </FilterBar>
@@ -63,7 +63,7 @@ describe('FilterBar', () => {
     expect(item.style.width).toBe('180px');
   });
 
-  it('omits title row when title is not provided', () => {
+  it('omits label row when label is not provided', () => {
     render(
       <FilterBar>
         <FilterBar.Item>
@@ -79,7 +79,7 @@ describe('FilterBar', () => {
   it('renders horizontal item layout class', () => {
     const { container } = render(
       <FilterBar>
-        <FilterBar.Item title="Code" layout="horizontal">
+        <FilterBar.Item label="Code" layout="horizontal">
           <input aria-label="code" />
         </FilterBar.Item>
       </FilterBar>
@@ -91,7 +91,7 @@ describe('FilterBar', () => {
   it('inherits itemLayout from FilterBar', () => {
     const { container } = render(
       <FilterBar itemLayout="horizontal">
-        <FilterBar.Item title="Name">
+        <FilterBar.Item label="Name">
           <input aria-label="name" />
         </FilterBar.Item>
       </FilterBar>
@@ -103,7 +103,7 @@ describe('FilterBar', () => {
   it('renders inline actions placement', () => {
     const { container } = render(
       <FilterBar actions={<button type="button">Search</button>} actionsPlacement="inline">
-        <FilterBar.Item title="Name">
+        <FilterBar.Item label="Name">
           <input aria-label="name" />
         </FilterBar.Item>
       </FilterBar>
@@ -118,19 +118,19 @@ describe('FilterBar', () => {
     const user = userEvent.setup();
     const { container } = render(
       <FilterBar collapsible collapsedCount={3} actions={<button type="button">Search</button>}>
-        <FilterBar.Item title="Field A" size="sm">
+        <FilterBar.Item label="Field A" size="sm">
           <span>value-a</span>
         </FilterBar.Item>
-        <FilterBar.Item title="Field B" size="sm">
+        <FilterBar.Item label="Field B" size="sm">
           <span>value-b</span>
         </FilterBar.Item>
-        <FilterBar.Item title="Field C" size="sm">
+        <FilterBar.Item label="Field C" size="sm">
           <span>value-c</span>
         </FilterBar.Item>
-        <FilterBar.Item title="Field D" size="sm">
+        <FilterBar.Item label="Field D" size="sm">
           <span>value-d</span>
         </FilterBar.Item>
-        <FilterBar.Item title="Field E" size="sm">
+        <FilterBar.Item label="Field E" size="sm">
           <span>value-e</span>
         </FilterBar.Item>
       </FilterBar>
@@ -150,6 +150,22 @@ describe('FilterBar', () => {
     expect(screen.queryByText('Field D')).not.toBeInTheDocument();
   });
 
+  it('shows only simple-marked items when collapsible', () => {
+    render(
+      <FilterBar collapsible collapsedCount={3} actions={<button type="button">Search</button>}>
+        <FilterBar.Item label="Always" size="sm" simple>
+          <span>always</span>
+        </FilterBar.Item>
+        <FilterBar.Item label="Hidden" size="sm">
+          <span>hidden</span>
+        </FilterBar.Item>
+      </FilterBar>
+    );
+
+    expect(screen.getByText('Always')).toBeInTheDocument();
+    expect(screen.queryByText('Hidden')).not.toBeInTheDocument();
+  });
+
   it('renders actions-icon collapse toggle', () => {
     const { container } = render(
       <FilterBar
@@ -158,13 +174,13 @@ describe('FilterBar', () => {
         collapseToggle="actions-icon"
         actions={<button type="button">Search</button>}
       >
-        <FilterBar.Item title="Field A" size="sm">
+        <FilterBar.Item label="Field A" size="sm">
           <span>a</span>
         </FilterBar.Item>
-        <FilterBar.Item title="Field B" size="sm">
+        <FilterBar.Item label="Field B" size="sm">
           <span>b</span>
         </FilterBar.Item>
-        <FilterBar.Item title="Field C" size="sm">
+        <FilterBar.Item label="Field C" size="sm">
           <span>c</span>
         </FilterBar.Item>
       </FilterBar>
@@ -182,13 +198,13 @@ describe('FilterBar', () => {
         collapseToggle="border"
         actions={<button type="button">Search</button>}
       >
-        <FilterBar.Item title="Field A" size="sm">
+        <FilterBar.Item label="Field A" size="sm">
           <span>a</span>
         </FilterBar.Item>
-        <FilterBar.Item title="Field B" size="sm">
+        <FilterBar.Item label="Field B" size="sm">
           <span>b</span>
         </FilterBar.Item>
-        <FilterBar.Item title="Field C" size="sm">
+        <FilterBar.Item label="Field C" size="sm">
           <span>c</span>
         </FilterBar.Item>
       </FilterBar>
@@ -206,13 +222,13 @@ describe('FilterBar', () => {
         collapsedCount={2}
         actions={<button type="button">Search</button>}
       >
-        <FilterBar.Item title="Field A" size="sm">
+        <FilterBar.Item label="Field A" size="sm">
           <span>a</span>
         </FilterBar.Item>
-        <FilterBar.Item title="Field B" size="sm">
+        <FilterBar.Item label="Field B" size="sm">
           <span>b</span>
         </FilterBar.Item>
-        <FilterBar.Item title="Field C" size="sm">
+        <FilterBar.Item label="Field C" size="sm">
           <span>c</span>
         </FilterBar.Item>
       </FilterBar>

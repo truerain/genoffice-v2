@@ -32,14 +32,14 @@ const initialDemoFilters: DemoFilters = {
 const demoFields: FilterField<DemoFilters>[] = [
   {
     key: 'keyword',
-    title: 'Keyword',
+    label: 'Keyword',
     type: 'search',
     placeholder: 'Search keyword',
     size: 'fill',
   },
   {
     key: 'status',
-    title: 'Status',
+    label: 'Status',
     type: 'select',
     placeholder: 'All',
     size: 'sm',
@@ -51,7 +51,7 @@ const demoFields: FilterField<DemoFilters>[] = [
   },
   {
     key: 'department',
-    title: 'Department',
+    label: 'Department',
     type: 'select',
     placeholder: 'All',
     size: 'sm',
@@ -63,21 +63,21 @@ const demoFields: FilterField<DemoFilters>[] = [
   },
   {
     key: 'orgCode',
-    title: 'Organization',
+    label: 'Organization',
     type: 'text',
     placeholder: 'HQ',
     size: 'xs',
   },
   {
     key: 'accountCode',
-    title: 'Account',
+    label: 'Account',
     type: 'text',
     placeholder: '500100',
     size: 'sm',
   },
   {
     key: 'category',
-    title: 'Category',
+    label: 'Category',
     type: 'select',
     placeholder: 'All',
     size: 'sm',
@@ -154,7 +154,7 @@ export const TextWithEnterSearch: RenderStory = {
         fields={[
           {
             key: 'code',
-            title: 'Code',
+            label: 'Code',
             type: 'text',
             placeholder: 'Enter code',
             enterToSearch: true,

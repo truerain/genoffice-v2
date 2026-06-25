@@ -20,14 +20,14 @@ import type { FilterField, StandardFilterBarProps } from './FilterBar.types';
 import { SearchInput } from './SearchInput';
 import styles from './StandardFilterBar.module.css';
 
-function ComboFieldPending({ title }: { title?: string }) {
+function ComboFieldPending({ label }: { label?: string }) {
   return (
     <Input
       readOnly
       disabled
       value=""
       placeholder="Combobox (Wave C6)"
-      aria-label={title ?? 'Combobox field pending'}
+      aria-label={label ?? 'Combobox field pending'}
     />
   );
 }
@@ -54,6 +54,8 @@ function renderDefaultField<TFilters>(
           onChange={(next) => setFieldValue(next)}
           placeholder={field.placeholder}
           className={field.className}
+          clearable={field.clearable ?? true}
+          clearLabel={field.clearLabel}
         />
       );
     case 'select':
@@ -71,7 +73,7 @@ function renderDefaultField<TFilters>(
       );
     case 'combo':
     case 'multi-combo':
-      return <ComboFieldPending title={field.title} />;
+      return <ComboFieldPending label={field.label} />;
     case 'text':
     default:
       return (
@@ -88,7 +90,8 @@ function renderDefaultField<TFilters>(
           placeholder={field.placeholder}
           className={field.className}
           fullWidth
-          clearable
+          clearable={field.clearable ?? true}
+          clearLabel={field.clearLabel}
         />
       );
   }
@@ -141,7 +144,7 @@ export function StandardFilterBar<TFilters>({
       {fields.map((field) => (
         <FilterBar.Item
           key={String(field.key)}
-          title={field.title}
+          label={field.label}
           size={field.size}
           flex={field.flex}
           width={field.width}

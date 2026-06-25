@@ -62,7 +62,8 @@ export interface FilterBarProps extends FilterBarCollapseOptions {
 }
 
 export interface FilterBarItemProps {
-  title?: string;
+  /** Field label above or beside the control */
+  label?: string;
   children: ReactNode;
   /** Preferred width preset (maps to theme `--filter-field-width-*`) */
   size?: FilterBarFieldSize;
@@ -84,12 +85,12 @@ export interface FilterBarItemProps {
 export type FilterFieldOption = {
   label: string;
   value: string | number;
-  group?: string;
 };
 
 type FilterFieldBase<TFilters> = {
   key: keyof TFilters;
-  title?: string;
+  /** Field label (maps to FilterBar.Item label) */
+  label?: string;
   size?: FilterBarFieldSize;
   /** @deprecated Prefer `size` */
   flex?: number;
@@ -105,13 +106,12 @@ type FilterFieldBase<TFilters> = {
 export type FilterField<TFilters> =
   | (FilterFieldBase<TFilters> & {
       type: 'text' | 'search' | 'select' | 'combo' | 'multi-combo';
-      label?: string;
       placeholder?: string;
+      /** text · search — default true */
       clearable?: boolean;
+      /** text · search — clear button aria-label */
       clearLabel?: string;
       options?: FilterFieldOption[];
-      maxVisibleItems?: number;
-      optionItemHeight?: number;
     })
   | (FilterFieldBase<TFilters> & {
       type: 'custom';

@@ -8,11 +8,33 @@
 
 ## 2026-06-25
 
+### FilterBar C4 마무리 — CSS · 테스트 보강
+
+- `filterItemTitle` → `filterItemLabel` (CSS module)
+- `StandardFilterBar` test: `enterToSearch`, collapsible, `clearLabel`
+- C4 Gate checklist `filter-bar.md` 갱신
+
+### FilterField `label` · 위젯 옵션 정리
+
+- `FilterField`·`FilterBar.Item`: `title` → `label` (form 관례); 미연결 `maxVisibleItems`·`optionItemHeight`·`options.group` 제거
+- `clearable`·`clearLabel` → text · search (`Input`·`SearchInput`); default clearable `true`
+- stories·tests·`filter-bar.md` 갱신
+
+### FilterBar Storybook · 문서 정리
+
+- 제거된 `BorderlessCollapsible*` 전용 스토리 이름을 `filter-bar.md`·로그에서 정리
+- `FilterBar.stories.tsx` 미사용 `CollapsibleFieldItems`·`borderlessPageDecorator` 삭제
+- panel border는 `StandardFilterBar` CSS·compound `className`으로 구분; collapse는 `Collapsible` 등 기존 스토리로 확인
+
+### FilterBar · StandardFilterBar Storybook 수동 Gate (Wave 5 — C4)
+
+- 수동 확인 완료 — compound · select · light/dark · multi-row wrap
+- title `UI/Composed/FilterBar`, `UI/Composed/StandardFilterBar`
+
 ### FilterBar collapse chevron toggle
 
 - `collapseToggle` `border` (bottom-edge) | `actions-icon`; `divider` deprecated
 - `FilterBarCollapseToggle.tsx`, theme `--filter-bar-collapse-toggle-size`
-- stories `BorderlessCollapsibleBottomEdge`, `BorderlessCollapsibleActionsIcon`
 
 ### FilterBar simple/detail collapse
 

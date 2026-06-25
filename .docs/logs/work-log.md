@@ -8,6 +8,20 @@
 
 ## 2026-06-25
 
+### @gen-office/ui FilterBar C4 마무리
+
+- CSS `filterItemLabel`, StandardFilterBar collapse·enterToSearch·clearLabel tests
+
+### @gen-office/ui FilterField `label` · 옵션 연결
+
+- `title` → `label`; `clearable`/`clearLabel` text·search 연결; 미사용 타입 필드 제거
+- 변경: `filterBar/*`, `filter-bar.md`, tests
+
+### @gen-office/ui FilterBar Storybook · 문서 정리
+
+- `BorderlessCollapsible*` 스토리 이름·미사용 헬퍼 제거; `filter-bar.md`, `implementation-log.md` 동기화
+- 변경: `packages/ui/src/composed/filterBar/FilterBar.stories.tsx`, `packages/ui/.docs/composed/filter-bar.md`
+
 ### @gen-office/ui FilterBar collapse chevron toggle
 
 - `collapseToggle` border | actions-icon; borderless bottom-edge only (no divider line)

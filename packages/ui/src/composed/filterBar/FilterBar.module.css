@@ -188,7 +188,7 @@
   margin-left: auto;
 }
 
-.filterItemTitle {
+.filterItemLabel {
   font-size: var(--font-size-base, 0.875rem);
   color: var(--color-fg-primary);
   margin-bottom: var(--spacing-xs, 0.25rem);
@@ -207,7 +207,7 @@
   gap: var(--spacing-sm);
 }
 
-.filterItemHorizontal .filterItemTitle {
+.filterItemHorizontal .filterItemLabel {
   margin-bottom: 0;
   flex: 0 0 auto;
   white-space: nowrap;

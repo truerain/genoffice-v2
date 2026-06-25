@@ -7,7 +7,6 @@
  * - title: UI/Composed/FilterBar
  */
 import type { Meta, StoryObj } from '@storybook/react';
-import type { ReactNode } from 'react';
 import { Search } from 'lucide-react';
 import { FilterBar } from './FilterBar';
 import { Button } from '../../core/button';
@@ -41,78 +40,13 @@ const searchAction = (
   </Button>
 );
 
-/** Shared fields for collapsible borderless demos (6 items → toggle visible) */
-function CollapsibleFieldItems() {
-  return (
-    <>
-      <FilterBar.Item title="Keyword" size="fill">
-        <Input placeholder="Search keyword" clearable fullWidth />
-      </FilterBar.Item>
-      <FilterBar.Item title="Status" size="sm">
-        <StandardSelect
-          placeholder="All"
-          fullWidth
-          options={[
-            { label: 'Active', value: 'ACTIVE' },
-            { label: 'Pending', value: 'PENDING' },
-            { label: 'Closed', value: 'CLOSED' },
-          ]}
-        />
-      </FilterBar.Item>
-      <FilterBar.Item title="Department" size="sm">
-        <StandardSelect
-          placeholder="All"
-          fullWidth
-          options={[
-            { label: 'Sales', value: 'SALES' },
-            { label: 'Finance', value: 'FINANCE' },
-            { label: 'HR', value: 'HR' },
-          ]}
-        />
-      </FilterBar.Item>
-      <FilterBar.Item title="Organization" size="xs">
-        <Input placeholder="HQ" clearable fullWidth />
-      </FilterBar.Item>
-      <FilterBar.Item title="Account" size="sm">
-        <Input placeholder="500100" clearable fullWidth />
-      </FilterBar.Item>
-      <FilterBar.Item title="Category" size="sm">
-        <StandardSelect
-          placeholder="All"
-          fullWidth
-          options={[
-            { label: 'General', value: 'GENERAL' },
-            { label: 'Expense', value: 'EXPENSE' },
-            { label: 'Asset', value: 'ASSET' },
-          ]}
-        />
-      </FilterBar.Item>
-    </>
-  );
-}
-
-/** Page-like backdrop so borderless divider toggle is visible in Storybook */
-const borderlessPageDecorator = (Story: () => ReactNode) => (
-  <div
-    style={{
-      width: '100%',
-      maxWidth: 960,
-      padding: 16,
-      background: 'var(--color-bg-primary)',
-      borderRadius: 8,
-    }}
-  >
-    <Story />
-  </div>
-);
-
 export const Compound: RenderStory = {
   render: () => (
     <FilterBar actions={searchAction}>
-      <FilterBar.Item title="Keyword" size="fill">
+      <FilterBar.Item label="Keyword" size="fill">
         <Input placeholder="Search keyword" clearable fullWidth />
       </FilterBar.Item>
-      <FilterBar.Item title="Status" size="sm">
+      <FilterBar.Item label="Status" size="sm">
         <StandardSelect
           placeholder="All"
           fullWidth
@@ -123,7 +57,7 @@ export const Compound: RenderStory = {
           ]}
         />
       </FilterBar.Item>
-      <FilterBar.Item title="Department" size="sm">
+      <FilterBar.Item label="Department" size="sm">
         <StandardSelect
           placeholder="All"
           fullWidth
@@ -134,13 +68,13 @@ export const Compound: RenderStory = {
           ]}
         />
       </FilterBar.Item>
-      <FilterBar.Item title="Organization" size="xs">
+      <FilterBar.Item label="Organization" size="xs">
         <Input placeholder="HQ" clearable fullWidth />
       </FilterBar.Item>
-      <FilterBar.Item title="Account" size="sm">
+      <FilterBar.Item label="Account" size="sm">
         <Input placeholder="500100" clearable fullWidth />
       </FilterBar.Item>
-      <FilterBar.Item title="Category" size="sm">
+      <FilterBar.Item label="Category" size="sm">
         <StandardSelect
           placeholder="All"
           fullWidth
@@ -158,10 +92,10 @@ export const Compound: RenderStory = {
 export const HorizontalItemLayout: RenderStory = {
   render: () => (
     <FilterBar itemLayout="horizontal" actions={searchAction}>
-      <FilterBar.Item title="Keyword" size="fill">
+      <FilterBar.Item label="Keyword" size="fill">
         <Input placeholder="Search keyword" clearable fullWidth />
       </FilterBar.Item>
-      <FilterBar.Item title="Status" size="sm">
+      <FilterBar.Item label="Status" size="sm">
         <StandardSelect
           placeholder="All"
           fullWidth
@@ -172,7 +106,7 @@ export const HorizontalItemLayout: RenderStory = {
           ]}
         />
       </FilterBar.Item>
-      <FilterBar.Item title="Department" size="sm">
+      <FilterBar.Item label="Department" size="sm">
         <StandardSelect
           placeholder="All"
           fullWidth
@@ -183,13 +117,13 @@ export const HorizontalItemLayout: RenderStory = {
           ]}
         />
       </FilterBar.Item>
-      <FilterBar.Item title="Organization" size="xs">
+      <FilterBar.Item label="Organization" size="xs">
         <Input placeholder="HQ" clearable fullWidth />
       </FilterBar.Item>
-      <FilterBar.Item title="Account" size="sm">
+      <FilterBar.Item label="Account" size="sm">
         <Input placeholder="500100" clearable fullWidth />
       </FilterBar.Item>
-      <FilterBar.Item title="Category" size="sm">
+      <FilterBar.Item label="Category" size="sm">
         <StandardSelect
           placeholder="All"
           fullWidth
@@ -219,10 +153,10 @@ export const ColumnActions: RenderStory = {
         </>
       }
     >
-      <FilterBar.Item title="Keyword" size="fill">
+      <FilterBar.Item label="Keyword" size="fill">
         <Input placeholder="Search keyword" clearable fullWidth />
       </FilterBar.Item>
-      <FilterBar.Item title="Status" size="sm">
+      <FilterBar.Item label="Status" size="sm">
         <StandardSelect
           placeholder="All"
           fullWidth
@@ -232,7 +166,7 @@ export const ColumnActions: RenderStory = {
           ]}
         />
       </FilterBar.Item>
-      <FilterBar.Item title="Department" size="sm">
+      <FilterBar.Item label="Department" size="sm">
         <StandardSelect
           placeholder="All"
           fullWidth
@@ -249,10 +183,10 @@ export const ColumnActions: RenderStory = {
 export const Collapsible: RenderStory = {
   render: () => (
     <FilterBar collapsible collapsedCount={2} actions={searchAction}>
-      <FilterBar.Item title="Keyword" size="fill" simple>
+      <FilterBar.Item label="Keyword" size="fill" simple>
         <Input placeholder="Search keyword" clearable fullWidth />
       </FilterBar.Item>
-      <FilterBar.Item title="Status" size="sm" simple>
+      <FilterBar.Item label="Status" size="sm" simple>
         <StandardSelect
           placeholder="All"
           fullWidth
@@ -262,7 +196,7 @@ export const Collapsible: RenderStory = {
           ]}
         />
       </FilterBar.Item>
-      <FilterBar.Item title="Department" size="sm">
+      <FilterBar.Item label="Department" size="sm">
         <StandardSelect
           placeholder="All"
           fullWidth
@@ -272,10 +206,10 @@ export const Collapsible: RenderStory = {
           ]}
         />
       </FilterBar.Item>
-      <FilterBar.Item title="Organization" size="xs">
+      <FilterBar.Item label="Organization" size="xs">
         <Input placeholder="HQ" clearable fullWidth />
       </FilterBar.Item>
-      <FilterBar.Item title="Account" size="sm">
+      <FilterBar.Item label="Account" size="sm">
         <Input placeholder="500100" clearable fullWidth />
       </FilterBar.Item>
     </FilterBar>
@@ -285,10 +219,10 @@ export const Collapsible: RenderStory = {
 export const InlineActions: RenderStory = {
   render: () => (
     <FilterBar actions={searchAction} actionsPlacement="inline">
-      <FilterBar.Item title="Keyword" size="fill">
+      <FilterBar.Item label="Keyword" size="fill">
         <Input placeholder="Search keyword" clearable fullWidth />
       </FilterBar.Item>
-      <FilterBar.Item title="Status" size="sm">
+      <FilterBar.Item label="Status" size="sm">
         <StandardSelect
           placeholder="All"
           fullWidth

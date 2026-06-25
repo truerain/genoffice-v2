@@ -141,7 +141,7 @@ export function FilterBar({
 }
 
 FilterBar.Item = function FilterBarItem({
-  title,
+  label,
   children,
   size,
   flex,
@@ -163,7 +163,7 @@ FilterBar.Item = function FilterBarItem({
       )}
       style={style}
     >
-      {title ? <div className={styles.filterItemTitle}>{title}</div> : null}
+      {label ? <div className={styles.filterItemLabel}>{label}</div> : null}
       <div className={styles.filterItemControl}>{children}</div>
     </div>
   );

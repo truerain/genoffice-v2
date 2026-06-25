@@ -86,12 +86,23 @@ Public export: `FilterBar`, `StandardFilterBar`, `FilterBarFieldSize`, `FilterBa
 
 `divider` — **deprecated** (`border`와 동일). `inline` + `collapsible` 시 `actions-icon` 기본.
 
-`FilterBar.Item`: `title`, **`size`**, `layout`, **`simple`**, `children`
+`FilterBar.Item`: `label`, **`size`**, `layout`, **`simple`**, `children`
 
 | `layout` | 설명 |
 | --- | --- |
-| `vertical` (기본) | 제목 위 · 컨트롤 아래 |
-| `horizontal` | 제목 왼쪽 · 컨트롤 오른쪽 |
+| `vertical` (기본) | label 위 · 컨트롤 아래 |
+| `horizontal` | label 왼쪽 · 컨트롤 오른쪽 |
+
+### FilterField 공통 · 위젯 옵션
+
+| Prop | 적용 type | 설명 |
+| --- | --- | --- |
+| `label` | 전체 | `FilterBar.Item` label (Input·Select `label` prop과 동일 관례) |
+| `placeholder` | text · search · select | |
+| `clearable` | text · search | default `true` |
+| `clearLabel` | text · search | clear 버튼 `aria-label` |
+| `options` | select | `FilterFieldOption[]` |
+| `enterToSearch` | text | Enter 시 `onSearch` |
 
 ## StandardFilterBar (선언형)
 
@@ -135,7 +146,7 @@ fields grid: `align-items: end` — 줄마다 컨트롤 bottom 정렬.
 
 ## Storybook
 
-- **FilterBar:** `Compound`, `HorizontalItemLayout`, `ColumnActions`, `BorderlessCollapsibleBottomEdge`, `BorderlessCollapsibleActionsIcon`, `Collapsible`, `InlineActions`
+- **FilterBar:** `Compound`, `HorizontalItemLayout`, `ColumnActions`, `Collapsible`, `InlineActions`
 - **StandardFilterBar:** `Default`, `HorizontalItemLayout`, `Collapsible`, `TextWithEnterSearch`
 
 ## Gate 체크리스트 (Wave 5 — C4)
@@ -143,5 +154,6 @@ fields grid: `align-items: end` — 줄마다 컨트롤 bottom 정렬.
 - [x] 파일 헤더, `clsx`, theme 토큰, `@remark`
 - [x] V1 `SimpleFilterBar` → `StandardFilterBar`, `SearchInput` 비공개
 - [x] 2-zone layout, `size` preset, tests, stories, docs
-- [ ] Storybook 수동: compound · select · light/dark · multi-row wrap
-- [ ] C6 이후: `combo` / `multi-combo` 실제 Combobox 연동
+- [x] Storybook 수동: compound · select · light/dark · multi-row wrap
+- [x] `FilterField` `label` · `clearable`/`clearLabel` 연동, 내부 CSS `filterItemLabel`
+- [ ] C6 이후: `combo` / `multi-combo` 실제 Combobox 연동 (C4 범위 밖)

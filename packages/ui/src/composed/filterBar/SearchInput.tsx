@@ -17,6 +17,8 @@ export interface SearchInputProps {
   onChange: (value: string) => void;
   placeholder?: string;
   className?: string;
+  clearable?: boolean;
+  clearLabel?: string;
 }
 
 export function SearchInput({
@@ -24,6 +26,8 @@ export function SearchInput({
   onChange,
   placeholder = 'Search..',
   className,
+  clearable = true,
+  clearLabel,
 }: SearchInputProps) {
   return (
     <div className={clsx(styles.searchWrapper, className)}>
@@ -33,7 +37,8 @@ export function SearchInput({
         onChange={(e) => onChange(e.target.value)}
         prefixContent={<Search size={16} className={styles.searchIcon} aria-hidden />}
         fullWidth
-        clearable
+        clearable={clearable}
+        clearLabel={clearLabel}
       />
     </div>
   );
