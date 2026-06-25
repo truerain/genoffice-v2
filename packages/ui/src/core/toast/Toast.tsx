@@ -4,6 +4,7 @@
  * @created 2026-06-24
  */
 import { forwardRef } from 'react';
+import { createPortal } from 'react-dom';
 import * as ToastPrimitive from '@radix-ui/react-toast';
 import { clsx } from 'clsx';
 import type {
@@ -26,13 +27,21 @@ const variantClassName = {
 export const ToastProvider = ToastPrimitive.Provider;
 
 export const ToastViewport = forwardRef<HTMLOListElement, ToastViewportProps>(
-  ({ className, ...props }, ref) => (
-    <ToastPrimitive.Viewport
-      ref={ref}
-      className={clsx(styles.viewport, className)}
-      {...props}
-    />
-  )
+  ({ className, portalled = false, ...props }, ref) => {
+    const viewport = (
+      <ToastPrimitive.Viewport
+        ref={ref}
+        className={clsx(styles.viewport, className)}
+        {...props}
+      />
+    );
+
+    if (portalled && typeof document !== 'undefined') {
+      return createPortal(viewport, document.body);
+    }
+
+    return viewport;
+  }
 );
 
 ToastViewport.displayName = ToastPrimitive.Viewport.displayName;

@@ -6,12 +6,32 @@
 -->
 # UI 구현 로그
 
-## 2026-06-24
+## 2026-06-25
+
+### ToastViewport `portalled` — Storybook frame 탈출
+
+- `createPortal(document.body)` — `fixed`만으로는 Storybook canvas transform/overflow에 갇힘
+- `RadixSlide` story에 `portalled` 적용
+
+### Toast Storybook preview · RadixSlide
+
+- `Toast.stories.module.css` — compact frame / fullscreen / Radix slide animation
+- `RadixSlide` — `toastUseBrowserViewport`, `portalled` viewport
+
+### Breadcrumb · Tabs · Tree Gate (Wave 4)
+
+- Gate — headers, `clsx`, tests, `.docs/core/{breadcrumb,tabs,tree}.md`, stories
+
+### Calendar — @daypicker/react v10
+
+- v10 `classNames`, `.docs/core/calendar.md`, tests/stories
 
 ### Tooltip · Toast · Progress (Wave 5-ext)
 
 - Radix compound/tooltip·toast, Progress variant/size
 - `UI/Core5-feedback/*`, test/docs/export
+
+## 2026-06-24
 
 ### GroupedSelect 구상 문서 · Deferred D-002
 

@@ -6,7 +6,12 @@
 -->
 # GenOffice V2 작업 로그
 
-## 2026-06-24
+## 2026-06-25
+
+### @gen-office/ui Toast Storybook · `ToastViewport portalled`
+
+- preview frame 클리핑 — story frame / `fullscreen` / `portalled`(`document.body`) 정리
+- `RadixSlide` story — Radix docs slide-in, iframe body 우하단
 
 ### @gen-office/ui Tooltip · Toast · Progress (Wave 5-ext)
 
@@ -24,6 +29,8 @@
 - `react-day-picker` → **`@daypicker/react` ^10.0.1** — v10 `classNames` 키·`.rdp-root` CSS 변수
 - `date-fns ^4.1.0` — DayPicker transitive 4.4.0과 호환 확인
 - `Calendar.stories.tsx`, `test/core/Calendar.test.tsx`, `.docs/core/calendar.md`
+
+## 2026-06-24
 
 ### @gen-office/ui Popover · DropdownMenu · Select Gate
 

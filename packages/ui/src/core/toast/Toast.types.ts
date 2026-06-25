@@ -12,7 +12,14 @@ export interface ToastProviderProps
   extends React.ComponentPropsWithoutRef<typeof ToastPrimitive.Provider> {}
 
 export interface ToastViewportProps
-  extends React.ComponentPropsWithoutRef<typeof ToastPrimitive.Viewport> {}
+  extends React.ComponentPropsWithoutRef<typeof ToastPrimitive.Viewport> {
+  /**
+   * Portal the viewport to `document.body`.
+   * Use when toasts must escape overflow/transform ancestors (e.g. Storybook canvas, modals).
+   * @default false
+   */
+  portalled?: boolean;
+}
 
 export interface ToastProps extends React.ComponentPropsWithoutRef<typeof ToastPrimitive.Root> {
   /**

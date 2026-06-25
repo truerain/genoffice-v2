@@ -11,7 +11,7 @@
 | API | 설명 |
 | --- | --- |
 | `ToastProvider` | duration·swipe 설정 |
-| `ToastViewport` | 고정 위치 목록 (앱에 1개) |
+| `ToastViewport` | 고정 위치 목록 (앱에 1개). `portalled`로 `document.body`에 렌더 가능 |
 | `Toast` | 개별 알림 (`variant`) |
 | `ToastTitle` / `ToastDescription` | 본문 |
 | `ToastAction` / `ToastClose` | 액션·닫기 |
@@ -26,9 +26,11 @@
     <ToastDescription>Changes applied.</ToastDescription>
     <ToastClose />
   </Toast>
-  <ToastViewport />
+  <ToastViewport portalled />
 </ToastProvider>
 ```
+
+`portalled`: Storybook canvas·Dialog 등 **overflow/transform ancestor** 밖으로 viewport를 `document.body`에 렌더.
 
 `ToastAction`은 Radix 요구대로 **`altText`** 필수.
 
@@ -38,7 +40,7 @@
 
 ## Storybook
 
-- `UI/Core5-feedback/Toast`
+- `UI/Core5-feedback/Toast` — `RadixSlide`: `ToastViewport portalled` + fullscreen (iframe body 우하단)
 
 ## Gate (Wave 5-ext)
 
