@@ -6,6 +6,14 @@
 -->
 # Utils 구현 로그
 
+## 2026-06-25
+
+### C5a mask 엔진 (`format/mask`)
+
+- `format/mask.ts` — `MaskDefinition`, `resolveMaskDefinition`, `formatDigits`, `createMaskState`, paste/backspace
+- `format/maskPresets/date.ts` — `ymdMaskDefinition`, `ymMaskDefinition` (separator `-` / `/` / `.`)
+- `format/index.ts` re-export; `test/format-mask.test.ts` 6건 통과
+
 ## 2026-06-23
 
 ### `cn` vs `clsx` 정책 문서화

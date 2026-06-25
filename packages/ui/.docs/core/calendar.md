@@ -13,7 +13,7 @@
 | 엔진 | `@daypicker/react` ^10 (`react-day-picker` 10 transitive) |
 | 날짜 포맷 | `date-fns` ^4.1.0 (직접 의존 + DayPicker peer) |
 | 캡션 | `format(month, 'yyyy.M')` (V1 parity) |
-| Composed | Wave 5 `DatePicker` 등은 Calendar + Popover + Input 조합 |
+| Composed | Wave 5 `DatePicker` 등은 **MaskedInput** + Calendar + Popover ([date-picker.md](../composed/date-picker.md)) |
 
 ## 파일
 

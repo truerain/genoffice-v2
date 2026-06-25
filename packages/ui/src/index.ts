@@ -15,6 +15,7 @@ export * from './core/label';
 export * from './core/separator';
 export * from './core/badge';
 export * from './core/input';
+export * from './core/maskedInput';
 export * from './core/textarea';
 
 // core step 2 components (form toggles)
@@ -45,3 +46,4 @@ export * from './composed/alertDialog';
 export * from './composed/confirmDialog';
 export * from './composed/splitLayout';
 export * from './composed/filterBar';
+export * from './composed/datePicker'

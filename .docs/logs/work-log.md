@@ -8,6 +8,22 @@
 
 ## 2026-06-25
 
+### @gen-office/ui C5a MaskedInput Storybook 수동 Gate
+
+- focus · dark · a11y 확인 완료
+
+### @gen-office/utils C5a mask 엔진
+
+- `format/mask.ts`, `maskPresets/date.ts`, unit test 6건
+
+### @gen-office/ui C5a MaskedInput 구현
+
+- `core/maskedInput/*`, `@gen-office/utils` mask 연동, RTL test 6건
+
+### @gen-office/ui C5 — MaskedInput 선행 · DatePicker 플랜
+
+- C5a MaskedInput + C5b DatePicker; `masked-input.md`, `date-picker.md`, `migration-plan.md`, `decisions.md`
+
 ### @gen-office/ui FilterBar C4 마무리
 
 - CSS `filterItemLabel`, StandardFilterBar collapse·enterToSearch·clearLabel tests

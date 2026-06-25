@@ -8,6 +8,23 @@
 
 ## 2026-06-25
 
+### C5a MaskedInput Storybook 수동 Gate
+
+- title `UI/Core/maskedInput/MaskedInput` — focus, dark, a11y 이상 없음 확인
+- `masked-input.md` §8 수동 항목 완료
+
+### C5a MaskedInput 구현
+
+- `core/maskedInput/` — `MaskedInput`, `useMaskInput`, types, stories
+- core `Input` wrapper; preset `ymd` · `ym`; display string + `MaskState` / `onComplete`
+- `MaskedInput.test.tsx` 6건 통과 (ymd/ym typing, paste, clearable, suffix, onComplete)
+- Gate checklist `masked-input.md` §8 갱신 (수동 Storybook·cross-link 제외)
+
+### C5a/C5b 플랜 — MaskedInput · DatePicker
+
+- C5 → **C5a** core MaskedInput + utils `format/mask` → **C5b** DatePicker 리팩터
+- `.docs/core/masked-input.md`, `.docs/composed/date-picker.md`, `migration-plan.md` §5c, `decisions.md`, deferred D-003
+
 ### FilterBar C4 마무리 — CSS · 테스트 보강
 
 - `filterItemTitle` → `filterItemLabel` (CSS module)

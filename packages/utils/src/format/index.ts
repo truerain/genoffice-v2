@@ -8,5 +8,6 @@
  */
 export * from './date';
 export * from './date.v1';
+export * from './mask';
 export * from './number';
 export * from './string';

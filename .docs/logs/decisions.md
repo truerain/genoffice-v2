@@ -10,6 +10,15 @@
 
 ## 2026-06-25
 
+### @gen-office/ui C5 — MaskedInput 선행 · DatePicker 순서
+
+- **C5a** core **MaskedInput** (+ `@gen-office/utils` `format/mask`) — V1 없음; 1차 preset `ymd`·`ym`
+- **C5b** composed DatePicker 계열 — MaskedInput + Calendar + Popover; V1 raw input split chrome **미사용**
+- **구조 분리** — mask 엔진·MaskedInput은 DatePicker import 없음; `Date` parse/format은 composed만; date preset은 registry 한 종류
+- value: MaskedInput = **display string**; DatePicker = **`Date`**
+- 범용 mask(전화·사업자번호 등) → deferred **D-003**
+- 문서: `packages/ui/.docs/core/masked-input.md`, `composed/date-picker.md`; `migration-plan.md` §5c·C5a/C5b
+
 ### @gen-office/ui FilterBar 레이아웃 표준 — 2-zone · size preset
 
 - **fields / actions 분리** — `actionsPlacement="column"` 기본; actions는 fields **오른쪽 세로 column**

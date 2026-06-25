@@ -125,6 +125,19 @@ Story title: `UI/Core5-feedback/<Name>`
 
 ---
 
+## 5c. Wave 5-pre — MaskedInput (C5a · DatePicker 선행 core)
+
+V1에 없었으나 V2에서 DatePicker·폼 공통 기반으로 **composed C5b 전에** Gate 완료.
+
+| 순서 | 컴포넌트 | depends on | 비고 |
+| --- | --- | --- | --- |
+| 23 | **MaskedInput** | Input; `@gen-office/utils` `format/mask` | 1차 preset `ymd` · `ym`; 범용 mask는 [deferred.md](./deferred.md) D-003 |
+
+Story title: `UI/Core/maskedInput/MaskedInput`  
+상세: [core/masked-input.md](./core/masked-input.md)
+
+---
+
 ## 6. Wave 5 — Composed (core 완료 후)
 
 core export 안정 후 진행. 순서는 **의존 그래프** 기준.
@@ -135,7 +148,8 @@ core export 안정 후 진행. 순서는 **의존 그래프** 기준.
 | C2 | ConfirmDialog | Dialog |
 | C3 | SplitLayout | — |
 | C4 | **FilterBar** (`FilterBar.Item`), **StandardFilterBar** | Input, Button, Select; combo 필드는 C6 이후 |
-| C5 | DatePicker / RangeDatePicker / MonthPicker / RangeMonthPicker | Calendar, Popover, Input |
+| **C5a** | *(core)* **MaskedInput** | Input, utils `format/mask` — **C5b 선행** ([masked-input.md](./core/masked-input.md)) |
+| **C5b** | DatePicker / RangeDatePicker / MonthPicker / RangeMonthPicker | Calendar, Popover, **MaskedInput** ([date-picker.md](./composed/date-picker.md)) |
 | C6 | Combobox / MultiCombobox | Popover, Input |
 | C7 | TreeCombobox | Tree, Combobox |
 | C8 | PopupInput / ModalInput | Dialog, Input |
@@ -145,6 +159,8 @@ core export 안정 후 진행. 순서는 **의존 그래프** 기준.
 > **제외:** V1 `MasterDetailLayout` — 앱 미사용 thin wrapper; 마스터-디테일은 `SplitLayout` 직접 + `PageHeader` 등 화면 chrome으로 조합. [decisions.md](../../../.docs/logs/decisions.md).
 >
 > **C4 명명:** V1 `FilterBar` 유지; V1 `SimpleFilterBar` → **`StandardFilterBar`** (`StandardDialog`·`StandardSelect` 패턴). V1 `SearchInput` — `StandardFilterBar` 내부 구현, **public export 없음**.
+>
+> **C5 순서:** **C5a MaskedInput** (core, V1 없음) → **C5b DatePicker** 계열. V1 datePicker 이관본은 C5b에서 MaskedInput 기반으로 리팩터 ([date-picker.md](./composed/date-picker.md)).
 
 Story title: `UI/Composed/<Name>`
 
@@ -218,6 +234,7 @@ Radix 컴포넌트는 `getByRole('checkbox' | 'switch' | 'tab' …)` 우선.
 | `cn` | 이식 시 `clsx`로 치환 (utils `cn` import 제거) |
 | `MasterDetailLayout` | V2 **미이관** — V1 export만 존재·앱 미사용; `SplitLayout` 직접 사용 |
 | Filter composed | **`FilterBar`** compound + **`StandardFilterBar`** (V1 `SimpleFilterBar`); `SearchInput` 비공개 |
+| DatePicker / MaskedInput | **C5a MaskedInput** 선행 → **C5b DatePicker**; raw input split chrome **미사용** (Input suffix) |
 | RichTextEditor | Wave 5 마지막; `@gen-office/html-editor` 분리 **보류** |
 | ui package storybook script | 통합 `apps/storybook` **주**; package script는 디버그용 |
 | V1 자동 test 없음 | V2 Gate부터 **필수** — 회귀 방지 |
@@ -226,9 +243,9 @@ Radix 컴포넌트는 `getByRole('checkbox' | 'switch' | 'tab' …)` 우선.
 
 ## 11. 다음 액션
 
-1. **Wave 0** 스캐폴드 착수 (사용자 승인 후 구현)
-2. **Button** Gate — 템플릿 확정
-3. Wave 1 나머지 순차 진행
+1. **C5a MaskedInput** Gate 착수 (utils `format/mask` + core) — [masked-input.md](./core/masked-input.md)
+2. **C5b DatePicker** — V1 이관본 MaskedInput 기반 리팩터 — [date-picker.md](./composed/date-picker.md)
+3. Wave 5 composed C6+ 순차 진행
 
 상세 아키텍처: [architecture.md](./architecture.md)
 

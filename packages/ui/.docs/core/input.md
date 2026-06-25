@@ -46,4 +46,4 @@ Public export: `@gen-office/ui` → `Input`, `InputProps`
 - [x] build, `Input.test.tsx`
 - [ ] Storybook 수동 Gate
 
-관련: [label.md](./label.md), [migration-plan.md](../migration-plan.md)
+관련: [label.md](./label.md), [masked-input.md](./masked-input.md), [migration-plan.md](../migration-plan.md)

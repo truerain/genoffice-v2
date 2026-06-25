@@ -24,6 +24,7 @@ V1 → V2 **core·composed 이관**( [migration-plan.md](./migration-plan.md) Wa
 | --- | --- | --- | --- | --- |
 | D-001 | **Slider** | Thumb **값 tooltip / value bubble** | V1에도 없음. Radix Slider 내장 기능 아님. 드래그·키보드 조작 시 현재 값을 thumb 위에 표시하는 UX enhancement | `showValueTooltip?: boolean`, `formatValue?: (value, index) => ReactNode`, `valueTooltipVisibility?: 'drag' \| 'focus' \| 'always'`. `@radix-ui/react-tooltip` 없이 **Thumb 자식 span + CSS module** 권장. a11y: bubble은 `aria-hidden`, `aria-valuenow`가 주 정보 |
 | D-002 | **GroupedSelect** | **다중 Select 필드를 하나의 UI로 통합** | 메인 화면에 `StandardSelect` 여러 개가 나란히 있어 밀도·정렬이 나쁨. `StandardSelect.groups`(옵션 섹션)와 무관 — **필드별 단일 value**를 한 덩어리로 | composed · `Popover` + `StandardSelect` × N. `fields[]`, `value: Record<string, string>`, `formatSummary`, optional `applyOnConfirm`. 상세: [composed/grouped-select.md](./composed/grouped-select.md) |
+| D-003 | **MaskedInput** | **범용·도메인 mask 확장** | C5a는 `ymd`·`ym`만. 전화·사업자번호·금액·Range typed input·FilterField `mask`는 C5a Gate 밖 | IMask adapter 또는 utils preset 추가. 상세: [core/masked-input.md](./core/masked-input.md) §10 |
 
 ### D-001 상세 (Slider value bubble)
 
@@ -54,6 +55,19 @@ V1 → V2 **core·composed 이관**( [migration-plan.md](./migration-plan.md) Wa
 - Popover 패널 vs inline segmented layout
 - cascading `dependsOn` 및 하위 value reset
 - [composed/grouped-select.md](./composed/grouped-select.md) Gate 항목
+
+### D-003 상세 (MaskedInput 확장)
+
+**하지 않는 이유 (지금):**
+
+- C5a Gate — `ymd`·`ym`만으로 DatePicker·MonthPicker typed input 충분
+- 범용 mask 엔진·도메인 preset은 제품 요구·라이브러리 선택 후
+
+**구현 시 체크:**
+
+- C5a `MaskOptions` / utils API와 호환 확장
+- FilterBar `FilterField` mask prop, RangeDatePicker typed mask
+- [core/masked-input.md](./core/masked-input.md) §10
 
 ---
 
