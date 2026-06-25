@@ -58,7 +58,7 @@ Public export: `@gen-office/ui` → `Badge`, `BadgeProps`, `BadgeVariant`, `Badg
 - [x] `index.ts` barrel export
 - [x] `pnpm -C packages/ui build`
 - [x] `Badge.test.tsx` (Vitest)
-- [ ] Storybook 수동: variant·size·dot
+- [x] Storybook 수동: variant·size·dot
 
 ## V1 대비
 

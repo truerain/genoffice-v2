@@ -8,6 +8,12 @@
 
 ## 2026-06-25
 
+### @gen-office/ui SplitLayout Gate (Wave 5 — C3)
+
+- V1 `composed/SplitLayout` 이식 — flex 2-pane, pointer resize, CSS vars
+- stories `UI/Composed/SplitLayout`, `test/composed/SplitLayout.test.tsx`, `.docs/composed/split-layout.md`
+- 파일 헤더 `@remark` (export, layout height 계약, Storybook title)
+
 ### @gen-office/ui AlertDialog · ConfirmDialog Gate (Wave 5 — C1/C2)
 
 - V1 `composed/AlertDialog` · `ConfirmDialog` 이식 — `Dialog` compound + `Button`, variant 아이콘

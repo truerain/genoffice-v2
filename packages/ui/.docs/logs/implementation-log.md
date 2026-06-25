@@ -8,6 +8,11 @@
 
 ## 2026-06-25
 
+### SplitLayout Gate (Wave 5 — C3)
+
+- `composed/splitLayout` — stories, test, `.docs/composed/split-layout.md`, export
+- Storybook: Default, Resizable, PercentWidth, Vertical, ResizableVertical, HiddenResizeLine
+
 ### AlertDialog · ConfirmDialog Gate (Wave 5 — C1/C2)
 
 - `composed/alertDialog`, `composed/confirmDialog` — headers, `clsx`, focus ring, V1 `처리중...`
