@@ -82,14 +82,14 @@ core `Tree` primitive와 별개 — dropdown 전용 flat-tree 빌더를 composed
 
 ---
 
-## 6. Gate 체크리스트 (C7)
+## 6. Gate 체크리스트 (C7) — 완료
 
 - [x] 파일 헤더, `clsx`, `@remark`
 - [x] TreeCombobox — Input `autoSelect={false}`, PopoverAnchor
 - [x] Vitest composed tests
 - [x] Storybook `UI/Composed/TreeCombobox`
 - [x] StandardFilterBar `tree-combo`
-- [ ] Storybook 수동 — expand, filter, keyboard, clear, light/dark
+- [x] Storybook 수동 — expand, filter, keyboard, clear, light/dark, selectLeafOnly
 - [x] `implementation-log.md`
 
 ---

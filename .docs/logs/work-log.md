@@ -8,6 +8,10 @@
 
 ## 2026-06-25
 
+### @gen-office/ui C7 TreeCombobox Storybook 수동 Gate
+
+- C7 Gate 마감 (TreeCombobox + FilterBar tree-combo, selectLeafOnly 포함)
+
 ### @gen-office/ui C7 TreeCombobox Gate
 
 - TreeCombobox 정리, FilterBar tree-combo, test 5건 + stories

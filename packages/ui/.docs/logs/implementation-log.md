@@ -8,6 +8,11 @@
 
 ## 2026-06-25
 
+### C7 TreeCombobox Storybook 수동 Gate 완료
+
+- `UI/Composed/TreeCombobox`, `WithTreeComboField` — expand, filter, keyboard, clear, light/dark, selectLeafOnly 확인
+- `tree-combobox.md` §6 Gate 전항목 완료 → **C7 Gate 마감**
+
 ### TreeCombobox selectLeafOnly
 
 - default `true`: branch 클릭/Enter → expand; leaf만 선택
