@@ -8,6 +8,7 @@
  * - Calendar trigger lives in MaskedInput suffix (no split .field chrome)
  */
 import { useCallback, useEffect, useMemo, useState, type KeyboardEvent } from 'react';
+import { clsx } from 'clsx';
 import { type CalendarProps, Calendar } from '../../core/calendar';
 import { MaskedInput } from '../../core/maskedInput';
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from '../../core/popover';
@@ -31,6 +32,7 @@ export function DatePicker({
   format,
   separator = DEFAULT_DATE_SEPARATOR,
   clearable = false,
+  fullWidth = false,
   parse,
   calendarProps,
   className,
@@ -107,7 +109,7 @@ export function DatePicker({
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverAnchor asChild>
-        <div className={styles.anchor}>
+        <div className={clsx(styles.anchor, fullWidth && styles.anchorFullWidth)}>
           <MaskedInput
             mask={{ preset: 'ymd', separator }}
             value={display}

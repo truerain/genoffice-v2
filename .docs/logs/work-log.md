@@ -8,6 +8,10 @@
 
 ## 2026-06-25
 
+### @gen-office/ui FilterBar date · month 필드
+
+- StandardFilterBar + DatePicker/MonthPicker, Story `WithDateAndMonth`
+
 ### @gen-office/ui C5b DatePicker Storybook 수동 Gate
 
 - C5b Gate 완료 (C5a+C5b DatePicker 트랙 마무리)

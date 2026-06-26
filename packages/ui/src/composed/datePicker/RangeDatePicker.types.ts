@@ -20,6 +20,8 @@ export interface RangeDatePickerProps {
   format?: (date: Date) => string;
   formatOptions?: Intl.DateTimeFormatOptions;
   clearable?: boolean;
+  /** Stretch anchor to parent width (e.g. FilterBar grid cell) @default false */
+  fullWidth?: boolean;
   calendarProps?: Omit<CalendarProps, 'mode' | 'selected' | 'onSelect'>;
   className?: string;
 }

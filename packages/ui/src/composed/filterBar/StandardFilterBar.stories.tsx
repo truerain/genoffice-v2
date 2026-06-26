@@ -10,6 +10,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useMemo, useState } from 'react';
 import { StandardFilterBar } from './StandardFilterBar';
 import type { FilterField } from './FilterBar.types';
+import type { DateRange } from '../datePicker/RangeDatePicker.types';
+import type { MonthRange } from '../datePicker/RangeMonthPicker.types';
 
 type DemoFilters = {
   keyword: string;
@@ -177,6 +179,91 @@ export const Collapsible: RenderStory = {
       <StandardFilterBar
         collapsible
         collapsedCount={3}
+        value={value}
+        fields={fields}
+        onChange={setValue}
+        onSearch={() => console.log('search', value)}
+        searchLabel="검색"
+      />
+    );
+  },
+};
+
+type DateFilterValues = {
+  keyword: string;
+  fromDate?: Date;
+  baseMonth?: Date;
+  period?: DateRange;
+  monthPeriod?: MonthRange;
+};
+
+export const WithDateAndMonth: RenderStory = {
+  render: () => {
+    const [value, setValue] = useState<DateFilterValues>({
+      keyword: '',
+      fromDate: new Date(2026, 5, 1),
+      baseMonth: new Date(2026, 5, 1),
+      period: {
+        from: new Date(2026, 5, 1),
+        to: new Date(2026, 5, 15),
+      },
+      monthPeriod: {
+        from: new Date(2026, 2, 1),
+        to: new Date(2026, 7, 1),
+      },
+    });
+
+    const fields = useMemo<FilterField<DateFilterValues>[]>(
+      () => [
+        {
+          key: 'keyword',
+          label: 'Keyword',
+          type: 'search',
+          placeholder: 'Search',
+          size: 'fill',
+          simple: true,
+        },
+        {
+          key: 'fromDate',
+          label: 'From date',
+          type: 'date',
+          placeholder: 'yyyy-mm-dd',
+          size: 'sm',
+          clearable: true,
+          simple: true,
+        },
+        {
+          key: 'baseMonth',
+          label: 'Base month',
+          type: 'month',
+          placeholder: 'yyyy-mm',
+          size: 'sm',
+          clearable: true,
+        },
+        {
+          key: 'period',
+          label: 'Date range',
+          type: 'date-range',
+          placeholder: 'Select date range',
+          size: 'md',
+          clearable: true,
+        },
+        {
+          key: 'monthPeriod',
+          label: 'Month range',
+          type: 'month-range',
+          placeholder: 'Select month range',
+          size: 'md',
+          clearable: true,
+        },
+      ],
+      []
+    );
+
+    return (
+      <StandardFilterBar
+        collapsible
+        collapsedCount={2}
         value={value}
         fields={fields}
         onChange={setValue}

@@ -6,8 +6,11 @@
  * @remark
  * - Exports: FilterBarProps, FilterBarItemProps, FilterBarFieldSize, FilterBarItemLayout, FilterField, …
  * - combo / multi-combo field types require Combobox (Wave C6) in StandardFilterBar
+ * - date / month → DatePicker / MonthPicker (C5b)
+ * - date-range / month-range → RangeDatePicker / RangeMonthPicker
  */
 import type { ReactNode } from 'react';
+import type { DateYmdSeparator } from '@gen-office/utils';
 
 export type FilterBarItemLayout = 'vertical' | 'horizontal';
 
@@ -112,6 +115,30 @@ export type FilterField<TFilters> =
       /** text · search — clear button aria-label */
       clearLabel?: string;
       options?: FilterFieldOption[];
+    })
+  | (FilterFieldBase<TFilters> & {
+      type: 'date' | 'month';
+      placeholder?: string;
+      /** default true */
+      clearable?: boolean;
+      locale?: string;
+      separator?: DateYmdSeparator;
+      /** month only */
+      fromMonth?: Date;
+      /** month only */
+      toMonth?: Date;
+    })
+  | (FilterFieldBase<TFilters> & {
+      type: 'date-range' | 'month-range';
+      placeholder?: string;
+      /** default true */
+      clearable?: boolean;
+      locale?: string;
+      formatOptions?: Intl.DateTimeFormatOptions;
+      /** month-range only */
+      fromMonth?: Date;
+      /** month-range only */
+      toMonth?: Date;
     })
   | (FilterFieldBase<TFilters> & {
       type: 'custom';

@@ -12,6 +12,10 @@
   max-width: 16rem;
 }
 
+.anchorFullWidth {
+  max-width: none;
+}
+
 .calendarTrigger {
   all: unset;
   display: inline-flex;

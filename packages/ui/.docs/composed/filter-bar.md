@@ -99,8 +99,12 @@ Public export: `FilterBar`, `StandardFilterBar`, `FilterBarFieldSize`, `FilterBa
 | --- | --- | --- |
 | `label` | 전체 | `FilterBar.Item` label (Input·Select `label` prop과 동일 관례) |
 | `placeholder` | text · search · select | |
-| `clearable` | text · search | default `true` |
+| `clearable` | text · search · **date · month · date-range · month-range** | default `true` |
 | `clearLabel` | text · search | clear 버튼 `aria-label` |
+| `locale` / `separator` | **date · month** | DatePicker / MonthPicker |
+| `locale` / `formatOptions` | **date-range** | RangeDatePicker |
+| `locale` | **month-range** | RangeMonthPicker |
+| `fromMonth` / `toMonth` | **month · month-range** | MonthPicker / RangeMonthPicker |
 | `options` | select | `FilterFieldOption[]` |
 | `enterToSearch` | text | Enter 시 `onSearch` |
 
@@ -127,6 +131,10 @@ Public export: `FilterBar`, `StandardFilterBar`, `FilterBarFieldSize`, `FilterBa
 | `text` | `Input` | `enterToSearch` → Enter 시 `onSearch` |
 | `search` | `SearchInput` (internal) | 아이콘 prefix |
 | `select` | `StandardSelect` | |
+| `date` | `DatePicker` | `Date \| undefined` value |
+| `month` | `MonthPicker` | `Date \| undefined` (day=1) |
+| `date-range` | `RangeDatePicker` | `DateRange \| undefined` |
+| `month-range` | `RangeMonthPicker` | `MonthRange \| undefined` |
 | `combo` / `multi-combo` | **C6 Combobox 전 placeholder** | `custom` 사용 권장 |
 | `custom` | `render(value, onChange)` | PopupInput 등 |
 
@@ -147,7 +155,7 @@ fields grid: `align-items: end` — 줄마다 컨트롤 bottom 정렬.
 ## Storybook
 
 - **FilterBar:** `Compound`, `HorizontalItemLayout`, `ColumnActions`, `Collapsible`, `InlineActions`
-- **StandardFilterBar:** `Default`, `HorizontalItemLayout`, `Collapsible`, `TextWithEnterSearch`
+- **StandardFilterBar:** `Default`, `HorizontalItemLayout`, `Collapsible`, `TextWithEnterSearch`, `WithDateAndMonth`
 
 ## Gate 체크리스트 (Wave 5 — C4)
 

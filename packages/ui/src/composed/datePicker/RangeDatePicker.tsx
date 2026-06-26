@@ -5,6 +5,7 @@
  */
 import { useEffect, useMemo, useState } from 'react';
 import { Check, X } from 'lucide-react';
+import { clsx } from 'clsx';
 import { Button } from '../../core/button';
 import { type CalendarProps, Calendar } from '../../core/calendar';
 import { Input } from '../../core/input';
@@ -47,6 +48,7 @@ export function RangeDatePicker({
   format,
   formatOptions,
   clearable = true,
+  fullWidth = false,
   calendarProps,
   className,
 }: RangeDatePickerProps) {
@@ -74,7 +76,7 @@ export function RangeDatePicker({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverAnchor asChild>
-        <div className={styles.anchor}>
+        <div className={clsx(styles.anchor, fullWidth && styles.anchorFullWidth)}>
           <Input
             value={label}
             placeholder={placeholder}

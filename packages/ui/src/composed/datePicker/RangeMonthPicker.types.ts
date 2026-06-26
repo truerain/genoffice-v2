@@ -19,5 +19,7 @@ export interface RangeMonthPickerProps {
   locale?: string;
   format?: (date: Date) => string;
   clearable?: boolean;
+  /** Stretch anchor to parent width (e.g. FilterBar grid cell) @default false */
+  fullWidth?: boolean;
   className?: string;
 }

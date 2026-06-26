@@ -128,6 +128,92 @@ describe('StandardFilterBar', () => {
     expect(onSearch).toHaveBeenCalledTimes(1);
   });
 
+  it('renders date and month fields', () => {
+    render(
+      <StandardFilterBar
+        value={{ fromDate: new Date(2026, 5, 15), baseMonth: new Date(2026, 5, 1) }}
+        fields={[
+          {
+            key: 'fromDate',
+            label: 'From date',
+            type: 'date',
+            placeholder: 'yyyy-mm-dd',
+            size: 'md',
+          },
+          {
+            key: 'baseMonth',
+            label: 'Base month',
+            type: 'month',
+            placeholder: 'yyyy-mm',
+            size: 'sm',
+          },
+        ]}
+        onChange={vi.fn()}
+      />
+    );
+
+    expect(screen.getByText('From date')).toBeInTheDocument();
+    expect(screen.getByText('Base month')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('2026-06-15')).toBeInTheDocument();
+    expect(screen.getByDisplayValue('2026-06')).toBeInTheDocument();
+  });
+
+  it('renders date-range and month-range fields', () => {
+    render(
+      <StandardFilterBar
+        value={{
+          period: { from: new Date(2026, 5, 1), to: new Date(2026, 5, 15) },
+          monthPeriod: { from: new Date(2026, 2, 1), to: new Date(2026, 7, 1) },
+        }}
+        fields={[
+          {
+            key: 'period',
+            label: 'Date range',
+            type: 'date-range',
+            size: 'lg',
+          },
+          {
+            key: 'monthPeriod',
+            label: 'Month range',
+            type: 'month-range',
+            size: 'lg',
+          },
+        ]}
+        onChange={vi.fn()}
+      />
+    );
+
+    expect(screen.getByText('Date range')).toBeInTheDocument();
+    expect(screen.getByText('Month range')).toBeInTheDocument();
+    expect(screen.getByDisplayValue(/2026\. 06\. 01\. ~ 2026\. 06\. 15\./)).toBeInTheDocument();
+  });
+
+  it('calls onChange when date field is cleared', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+
+    render(
+      <StandardFilterBar
+        value={{ fromDate: new Date(2026, 5, 15) }}
+        fields={[
+          {
+            key: 'fromDate',
+            label: 'From date',
+            type: 'date',
+            clearable: true,
+          },
+        ]}
+        onChange={onChange}
+      />
+    );
+
+    const input = screen.getByDisplayValue('2026-06-15');
+    await user.click(input);
+    await user.click(screen.getByRole('button', { name: 'Clear' }));
+
+    expect(onChange).toHaveBeenCalledWith({ fromDate: undefined });
+  });
+
   it('toggles visible fields when collapsible', async () => {
     const user = userEvent.setup();
 

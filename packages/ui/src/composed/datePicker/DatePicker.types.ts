@@ -18,6 +18,8 @@ export interface DatePickerProps {
   separator?: DateYmdSeparator;
   parse?: (value: string) => Date | undefined;
   clearable?: boolean;
+  /** Stretch anchor to parent width (e.g. FilterBar grid cell) @default false */
+  fullWidth?: boolean;
   calendarProps?: Omit<CalendarProps, 'mode' | 'selected' | 'onSelect'>;
   className?: string;
 }

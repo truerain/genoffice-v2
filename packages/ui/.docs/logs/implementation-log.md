@@ -8,6 +8,11 @@
 
 ## 2026-06-25
 
+### FilterBar `date` · `month` · range 필드 연동
+
+- `date-range` → `RangeDatePicker`, `month-range` → `RangeMonthPicker`; range pickers `fullWidth`
+- Story `WithDateAndMonth`에 date/month/range 4종 포함
+
 ### C5b DatePicker Storybook 수동 Gate
 
 - `UI/Composed/DatePicker` — single/range/month, light/dark, keyboard; V1 UX 회귀 없음 확인

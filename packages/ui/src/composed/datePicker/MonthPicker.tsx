@@ -5,6 +5,7 @@
  */
 import { useCallback, useEffect, useMemo, useState, type KeyboardEvent } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { clsx } from 'clsx';
 import { MaskedInput } from '../../core/maskedInput';
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from '../../core/popover';
 import { CalendarTrigger } from './CalendarTrigger';
@@ -32,6 +33,7 @@ export function MonthPicker({
   format,
   separator = '-',
   clearable = false,
+  fullWidth = false,
   parse,
   className,
   editorOverlay = false,
@@ -135,7 +137,7 @@ export function MonthPicker({
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverAnchor asChild>
-        <div className={styles.anchor}>
+        <div className={clsx(styles.anchor, fullWidth && styles.anchorFullWidth)}>
           <MaskedInput
             mask={{ preset: 'ym', separator }}
             value={display}

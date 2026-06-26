@@ -18,6 +18,8 @@ export interface MonthPickerProps {
   /** Mask separator @default '-' */
   separator?: DateYmdSeparator;
   clearable?: boolean;
+  /** Stretch anchor to parent width (e.g. FilterBar grid cell) @default false */
+  fullWidth?: boolean;
   parse?: (value: string) => Date | undefined;
   className?: string;
   editorOverlay?: boolean;

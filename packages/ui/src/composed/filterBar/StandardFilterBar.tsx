@@ -6,6 +6,8 @@
  * @remark
  * - V1 SimpleFilterBar port; uses FilterBar + FilterField[]
  * - combo / multi-combo: Combobox (C6) 전까지 placeholder — type custom 사용 권장
+ * - date / month: DatePicker / MonthPicker (fullWidth anchor)
+ * - date-range / month-range: RangeDatePicker / RangeMonthPicker
  * - Default chrome: bordered panel via StandardFilterBar.module.css
  * - collapsible: simple/detail field subset via FilterBar collapse props
  */
@@ -14,11 +16,39 @@ import { clsx } from 'clsx';
 import { Button } from '../../core/button';
 import { Input } from '../../core/input';
 import { StandardSelect } from '../../core/select';
+import { DatePicker } from '../datePicker/DatePicker';
+import { MonthPicker } from '../datePicker/MonthPicker';
+import { RangeDatePicker } from '../datePicker/RangeDatePicker';
+import { RangeMonthPicker } from '../datePicker/RangeMonthPicker';
+import type { DateRange } from '../datePicker/RangeDatePicker.types';
+import type { MonthRange } from '../datePicker/RangeMonthPicker.types';
 import { FilterBar } from './FilterBar';
 import { DEFAULT_COLLAPSED_COUNT } from './filterBarCollapse';
 import type { FilterField, StandardFilterBarProps } from './FilterBar.types';
 import { SearchInput } from './SearchInput';
 import styles from './StandardFilterBar.module.css';
+
+function asOptionalDate(value: unknown): Date | undefined {
+  return value instanceof Date && !Number.isNaN(value.getTime()) ? value : undefined;
+}
+
+function asDateRange(value: unknown): DateRange | undefined {
+  if (!value || typeof value !== 'object') return undefined;
+  const range = value as DateRange;
+  const from = asOptionalDate(range.from);
+  const to = asOptionalDate(range.to);
+  if (!from && !to) return undefined;
+  return { from, to };
+}
+
+function asMonthRange(value: unknown): MonthRange | undefined {
+  if (!value || typeof value !== 'object') return undefined;
+  const range = value as MonthRange;
+  const from = asOptionalDate(range.from);
+  const to = asOptionalDate(range.to);
+  if (!from && !to) return undefined;
+  return { from, to };
+}
 
 function ComboFieldPending({ label }: { label?: string }) {
   return (
@@ -74,6 +104,57 @@ function renderDefaultField<TFilters>(
     case 'combo':
     case 'multi-combo':
       return <ComboFieldPending label={field.label} />;
+    case 'date':
+      return (
+        <DatePicker
+          value={asOptionalDate(fieldValue)}
+          onChange={(next) => setFieldValue(next)}
+          placeholder={field.placeholder}
+          clearable={field.clearable ?? true}
+          locale={field.locale}
+          separator={field.separator}
+          fullWidth
+        />
+      );
+    case 'month':
+      return (
+        <MonthPicker
+          value={asOptionalDate(fieldValue)}
+          onChange={(next) => setFieldValue(next)}
+          placeholder={field.placeholder}
+          clearable={field.clearable ?? true}
+          locale={field.locale}
+          separator={field.separator}
+          fromMonth={field.fromMonth}
+          toMonth={field.toMonth}
+          fullWidth
+        />
+      );
+    case 'date-range':
+      return (
+        <RangeDatePicker
+          value={asDateRange(fieldValue)}
+          onChange={(next) => setFieldValue(next)}
+          placeholder={field.placeholder}
+          clearable={field.clearable ?? true}
+          locale={field.locale}
+          formatOptions={field.formatOptions}
+          fullWidth
+        />
+      );
+    case 'month-range':
+      return (
+        <RangeMonthPicker
+          value={asMonthRange(fieldValue)}
+          onChange={(next) => setFieldValue(next)}
+          placeholder={field.placeholder}
+          clearable={field.clearable ?? true}
+          locale={field.locale}
+          fromMonth={field.fromMonth}
+          toMonth={field.toMonth}
+          fullWidth
+        />
+      );
     case 'text':
     default:
       return (

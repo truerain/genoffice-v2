@@ -5,6 +5,7 @@
  */
 import { useEffect, useMemo, useState } from 'react';
 import { Check, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { clsx } from 'clsx';
 import { Button } from '../../core/button';
 import { Input } from '../../core/input';
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from '../../core/popover';
@@ -54,6 +55,7 @@ export function RangeMonthPicker({
   locale,
   format,
   clearable = true,
+  fullWidth = false,
   className,
 }: RangeMonthPickerProps) {
   const [open, setOpen] = useState(false);
@@ -132,7 +134,7 @@ export function RangeMonthPicker({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverAnchor asChild>
-        <div className={styles.anchor}>
+        <div className={clsx(styles.anchor, fullWidth && styles.anchorFullWidth)}>
           <Input
             value={label}
             placeholder={placeholder}
