@@ -138,31 +138,48 @@ Story title: `UI/Core/maskedInput/MaskedInput`
 
 ---
 
-## 6. Wave 5 — Composed (core 완료 후)
+## 6. Wave 5 — Composed (`@gen-office/ui`)
 
-core export 안정 후 진행. 순서는 **의존 그래프** 기준.
+core export 안정 후 진행. **소스는 `core/` + `composed/` 두 층**만 유지합니다.
 
-| 순서 | 컴포넌트 | depends on |
-| --- | --- | --- |
-| C1 | AlertDialog | Dialog |
-| C2 | ConfirmDialog | Dialog |
-| C3 | SplitLayout | — |
-| C4 | **FilterBar** (`FilterBar.Item`), **StandardFilterBar** | Input, Button, Select; combo 필드는 C6 이후 |
-| **C5a** | *(core)* **MaskedInput** | Input, utils `format/mask` — **C5b 선행** ([masked-input.md](./core/masked-input.md)) |
-| **C5b** | DatePicker / RangeDatePicker / MonthPicker / RangeMonthPicker | Calendar, Popover, **MaskedInput** ([date-picker.md](./composed/date-picker.md)) |
-| C6 | Combobox / MultiCombobox | Popover, Input |
-| C7 | TreeCombobox | Tree, Combobox |
-| C8 | **ModalInput** | Dialog, Input |
-| C9 | TreeView | Tree |
-| C10 | **RichTextEditor** | TipTap — **분리 보류** 검토 |
+```text
+packages/ui/src/
+├── core/
+└── composed/          ← core 조합 (폼·레이아웃·피커·트리 패널 포함)
+```
 
-> **제외:** V1 `MasterDetailLayout` — 앱 미사용 thin wrapper; 마스터-디테일은 `SplitLayout` 직접 + `PageHeader` 등 화면 chrome으로 조합. [decisions.md](../../../.docs/logs/decisions.md).
+Story title: `UI/Composed/<Name>` · test: `test/composed/`
+
+| 순서 | 컴포넌트 | src | depends on | 비고 |
+| --- | --- | --- | --- | --- |
+| C1 | AlertDialog | `composed/alertDialog` | Dialog | |
+| C2 | ConfirmDialog | `composed/confirmDialog` | Dialog | |
+| C3 | **SplitLayout** | `composed/splitLayout` | — | ✅ Gate 완료 |
+| C4 | **FilterBar**, **StandardFilterBar** | `composed/filterBar` | Input, Button, Select | combo 필드 C6 이후 |
+| **C5a** | *(core)* **MaskedInput** | `core/maskedInput` | Input, utils `format/mask` | **C5b 선행** |
+| **C5b** | DatePicker 계열 | `composed/datePicker` | Calendar, Popover, MaskedInput | |
+| C6 | Combobox / MultiCombobox | `composed/combobox` | Popover, Input | ✅ |
+| C7 | TreeCombobox | `composed/treeCombobox` | Tree, Combobox | ✅ |
+| C8 | **ModalInput** | `composed/modalInput` | Dialog, Input | ✅ |
+| C9 | **TreeView** | `composed/treeView` | core `Tree` | 탐색 패널; TreeCombobox와 형제 |
+
+> **제외:** V1 `MasterDetailLayout` — `SplitLayout` + `PageHeader`로 조합. [decisions.md](../../../.docs/logs/decisions.md).
 >
-> **C4 명명:** V1 `FilterBar` 유지; V1 `SimpleFilterBar` → **`StandardFilterBar`** (`StandardDialog`·`StandardSelect` 패턴). V1 `SearchInput` — `StandardFilterBar` 내부 구현, **public export 없음**.
+> **C4 명명:** V1 `SimpleFilterBar` → **`StandardFilterBar`**. `SearchInput` — **public export 없음**.
 >
-> **C5 순서:** **C5a MaskedInput** (core, V1 없음) → **C5b DatePicker** 계열. V1 datePicker 이관본은 C5b에서 MaskedInput 기반으로 리팩터 ([date-picker.md](./composed/date-picker.md)).
+> **C5 순서:** **C5a MaskedInput** → **C5b DatePicker** ([date-picker.md](./composed/date-picker.md)).
+>
+> **UX 구분 (폴더 분리 없음):** `TreeCombobox` = dropdown 필드 · `TreeView` = 영역 탐색 패널. 둘 다 `composed/`.
 
-Story title: `UI/Composed/<Name>`
+### Wave 5 이후 — `@gen-office/html-editor` (ui 밖)
+
+| 항목 | 방향 |
+| --- | --- |
+| V1 **RichTextEditor** | **`@gen-office/ui` composed Gate 아님** |
+| V2 | 별도 패키지 `@gen-office/html-editor` (가칭) — TipTap·sanitize·toolbar |
+| ui | `@gen-office/theme`·`Button` 등 **선택적 peer**; demo는 필요 시 의존 |
+
+상세: [architecture.md](./architecture.md) · repo [`.docs/04-ROADMAP.md`](../../../.docs/04-ROADMAP.md).
 
 ---
 
@@ -235,7 +252,7 @@ Radix 컴포넌트는 `getByRole('checkbox' | 'switch' | 'tab' …)` 우선.
 | `MasterDetailLayout` | V2 **미이관** — V1 export만 존재·앱 미사용; `SplitLayout` 직접 사용 |
 | Filter composed | **`FilterBar`** compound + **`StandardFilterBar`** (V1 `SimpleFilterBar`); `SearchInput` 비공개 |
 | DatePicker / MaskedInput | **C5a MaskedInput** 선행 → **C5b DatePicker**; raw input split chrome **미사용** (Input suffix) |
-| RichTextEditor | Wave 5 마지막; `@gen-office/html-editor` 분리 **보류** |
+| RichTextEditor | **`@gen-office/html-editor` 별도 패키지** — `ui` composed Gate 제외 |
 | ui package storybook script | 통합 `apps/storybook` **주**; package script는 디버그용 |
 | V1 자동 test 없음 | V2 Gate부터 **필수** — 회귀 방지 |
 
@@ -245,7 +262,8 @@ Radix 컴포넌트는 `getByRole('checkbox' | 'switch' | 'tab' …)` 우선.
 
 1. **C5a MaskedInput** Gate 착수 (utils `format/mask` + core) — [masked-input.md](./core/masked-input.md)
 2. **C5b DatePicker** — V1 이관본 MaskedInput 기반 리팩터 — [date-picker.md](./composed/date-picker.md)
-3. Wave 5 composed C6+ 순차 진행
+3. Wave 5 **C9 TreeView** — `composed/treeView`
+4. **`@gen-office/html-editor`** 패키지 설계 (RichTextEditor — ui 밖)
 
 상세 아키텍처: [architecture.md](./architecture.md)
 

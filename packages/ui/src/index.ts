@@ -5,7 +5,7 @@
  *
  * @remark
  * - Side-effect: ./index.css (theme tokens)
- * - Export components as each Gate completes (… Wave 5 C8: modalInput)
+ * - Export: core · composed
  */
 import './index.css';
 

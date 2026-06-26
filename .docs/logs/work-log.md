@@ -8,6 +8,14 @@
 
 ## 2026-06-25
 
+### @gen-office/ui composed 구조 정리 (`panels/` 롤백)
+
+- SplitLayout `composed/` 복귀; TreeView `composed/treeView`, RichTextEditor `@gen-office/html-editor` 방향 문서화
+
+### @gen-office/ui `panels/` 디렉터리 분리
+
+- SplitLayout `composed/` → `panels/`; 문서 `.docs/panels/`; Story `UI/Panels/*`
+
 ### @gen-office/ui C8 ModalInput Storybook 수동 Gate
 
 - C8 Gate 마감 (ModalInput + scroll layout + multi tooltip 포함)

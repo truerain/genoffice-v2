@@ -8,6 +8,17 @@
 
 ## 2026-06-25
 
+### ui `panels/` 롤백 — composed 단일 구조
+
+- SplitLayout `composed/splitLayout` 복귀; `panels/`·`.docs/panels/` 제거
+- TreeView → `composed/treeView` (C9); RichTextEditor → `@gen-office/html-editor` (ui 밖)
+- `migration-plan.md` §6, `architecture.md`, `decisions.md` 갱신
+
+### `src/panels/` 디렉터리 분리
+
+- `composed/splitLayout` → `panels/splitLayout`; test `test/panels/`; Story `UI/Panels/SplitLayout`
+- `migration-plan.md` §6a composed / §6b panels; `.docs/panels/README.md`
+
 ### C8 ModalInput Storybook 수동 Gate 완료
 
 - `UI/Composed/ModalInput` — search, single/multi, table columns, confirm/cancel, clear, tooltip, scroll layout, light/dark 확인

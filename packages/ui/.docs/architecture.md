@@ -35,7 +35,7 @@ apps / mdi / gen-datagrid-crud / demo
 ```
 
 - **`@gen-office/utils`의 `cn`:** V1 호환용만. V2 `ui` 신규·수정 코드는 **`clsx` 직접 import** ( [decisions.md](../../.docs/logs/decisions.md) ).
-- **TipTap `RichTextEditor`:** Phase 2(composed) 또는 별도 `@gen-office/html-editor` 분리 **보류 가능** — 무거운 엔진은 feature 패키지 후보 ( AGENTS.md ).
+- **TipTap `RichTextEditor`:** **`@gen-office/ui` 밖** — 별도 `@gen-office/html-editor` 패키지 ( [migration-plan.md](./migration-plan.md) ).
 
 ---
 
@@ -67,11 +67,14 @@ packages/ui/
 │   │   ├── input/
 │   │   ├── maskedInput/         C5a — Input + mask (DatePicker 선행)
 │   │   └── textarea/
-│   └── composed/                core 조합 (Phase 2)
-│       └── datePicker/ …        C5b — MaskedInput + Calendar + Popover
+│   └── composed/                core 조합 (폼·레이아웃·피커·TreeView)
+│       ├── splitLayout/
+│       ├── treeView/            C9 (예정)
+│       └── datePicker/ …
 ├── test/
 │   ├── setup.ts                 jsdom · theme CSS · RTL
-│   └── core/                    컴포넌트별 *.test.tsx
+│   ├── core/
+│   └── composed/
 ├── package.json
 ├── tsconfig.json
 ├── vite.config.ts
@@ -82,10 +85,13 @@ packages/ui/
 
 | | `core/` | `composed/` |
 | --- | --- | --- |
-| 역할 | Radix primitive 래퍼 1:1 | core 2개+ · 도메인 UX (`FilterBar`, `StandardFilterBar`, DatePicker) |
-| 예 | Button, Label, Separator, Badge, Input, **MaskedInput**, Dialog | AlertDialog, Combobox, SplitLayout, **DatePicker** |
-| Story title | `UI/Core/<Name>` | `UI/Composed/<Name>` |
-| 선행 | theme 토큰 | 해당 core export 완료 |
+| 역할 | Radix primitive 1:1 | core 2개+ · 도메인 UX |
+| 예 | Button, Input, Dialog, **Tree** | Combobox, **SplitLayout**, **TreeView**, FilterBar, ModalInput |
+| Story | `UI/Core/…` | `UI/Composed/<Name>` |
+| test | `test/core/` | `test/composed/` |
+
+- **`RichTextEditor`:** `@gen-office/html-editor` — ui composed **아님**.
+- **GenDataGrid** 등 무거운 엔진은 `ui` 밖 feature 패키지.
 
 ---
 

@@ -10,6 +10,13 @@
 
 ## 2026-06-25
 
+### @gen-office/ui 소스 구조 — `composed/` 단일, RichTextEditor ui 밖
+
+- **`src/panels/` 도입 보류·롤백** — SplitLayout `composed/splitLayout` 유지; TreeView도 `composed/treeView`
+- **UX 구분은 문서로** — TreeCombobox(필드) vs TreeView(탐색 패널); 물리 폴더 분리는 규모상 불필요
+- **RichTextEditor** — V1 composed 이관 대신 **`@gen-office/html-editor` 별도 패키지**; `ui` Wave 5 Gate 제외
+- 문서: `migration-plan.md` §6, `architecture.md`
+
 ### @gen-office/ui C5 — MaskedInput 선행 · DatePicker 순서
 
 - **C5a** core **MaskedInput** (+ `@gen-office/utils` `format/mask`) — V1 없음; 1차 preset `ymd`·`ym`

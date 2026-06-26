@@ -20,7 +20,7 @@ core **Input** (trigger) + **Dialog** (검색·목록·확인/취소) 패턴이�
 ```text
 C7  TreeCombobox
 C8  ModalInput                        ← 본 문서
-C9  TreeView
+C9  TreeView (`composed/treeView`)
 ```
 
 > **PopupInput 제외:** flat 옵션은 Combobox/TreeCombobox, 커스텀 팝오버 슬롯은 V2 범위 밖. lookup은 ModalInput으로 통일.
