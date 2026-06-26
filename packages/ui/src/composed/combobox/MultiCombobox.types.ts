@@ -1,5 +1,5 @@
 /**
- * @file packages/ui/src/composed/comboBox/MultiCombobox.types.ts
+ * @file packages/ui/src/composed/combobox/MultiCombobox.types.ts
  * @description Public props for MultiCombobox.
  * @created 2026-06-25
  *

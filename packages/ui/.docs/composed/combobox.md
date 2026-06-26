@@ -5,7 +5,7 @@
  @created 2026-06-25
 
  @remark
- - V1 이관: packages/ui/src/composed/comboBox/
+ - V1 이관: packages/ui/src/composed/combobox/
  - FilterBar combo / multi-combo 연동 (C6)
 -->
 # Combobox · MultiCombobox

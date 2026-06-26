@@ -27,9 +27,9 @@ import { FilterBar } from './FilterBar';
 import { DEFAULT_COLLAPSED_COUNT } from './filterBarCollapse';
 import type { FilterField, StandardFilterBarProps } from './FilterBar.types';
 import { SearchInput } from './SearchInput';
-import { Combobox } from '../comboBox/Combobox';
-import { MultiCombobox } from '../comboBox/MultiCombobox';
-import type { ComboboxOption } from '../comboBox/Combobox.types';
+import { Combobox } from '../combobox/Combobox';
+import { MultiCombobox } from '../combobox/MultiCombobox';
+import type { ComboboxOption } from '../combobox/Combobox.types';
 import { TreeCombobox } from '../treeCombobox/TreeCombobox';
 import styles from './StandardFilterBar.module.css';
 

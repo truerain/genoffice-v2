@@ -1,5 +1,5 @@
 /**
- * @file packages/ui/src/composed/comboBox/MultiCombobox.tsx
+ * @file packages/ui/src/composed/combobox/MultiCombobox.tsx
  * @description Searchable multi-select combobox on core Input + Popover.
  * @created 2026-06-25
  *

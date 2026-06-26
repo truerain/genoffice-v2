@@ -1,5 +1,5 @@
 /**
- * @file packages/ui/src/composed/comboBox/index.ts
+ * @file packages/ui/src/composed/combobox/index.ts
  * @description Public exports for Combobox composed family.
  * @created 2026-06-25
  */

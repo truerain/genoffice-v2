@@ -1,5 +1,5 @@
 /**
- * @file packages/ui/src/composed/comboBox/Combobox.types.ts
+ * @file packages/ui/src/composed/combobox/Combobox.types.ts
  * @description Public props for Combobox.
  * @created 2026-06-25
  *

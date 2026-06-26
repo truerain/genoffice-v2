@@ -1,5 +1,5 @@
 /**
- * @file packages/ui/src/composed/comboBox/Combobox.tsx
+ * @file packages/ui/src/composed/combobox/Combobox.tsx
  * @description Searchable single-select combobox on core Input + Popover.
  * @created 2026-06-25
  *

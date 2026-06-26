@@ -6,9 +6,9 @@
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Combobox } from '../../src/composed/comboBox/Combobox';
-import { MultiCombobox } from '../../src/composed/comboBox/MultiCombobox';
-import type { ComboboxOption } from '../../src/composed/comboBox/Combobox.types';
+import { Combobox } from '../../src/composed/combobox/Combobox';
+import { MultiCombobox } from '../../src/composed/combobox/MultiCombobox';
+import type { ComboboxOption } from '../../src/composed/combobox/Combobox.types';
 
 const options: ComboboxOption[] = [
   { label: 'Alpha', value: 'A' },

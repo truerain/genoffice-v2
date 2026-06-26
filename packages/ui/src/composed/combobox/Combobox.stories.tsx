@@ -1,5 +1,5 @@
 /**
- * @file packages/ui/src/composed/comboBox/Combobox.stories.tsx
+ * @file packages/ui/src/composed/combobox/Combobox.stories.tsx
  * @description Storybook stories for Combobox composed family (C6).
  * @created 2026-06-25
  *
