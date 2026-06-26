@@ -8,6 +8,12 @@
 
 ## 2026-06-25
 
+### C7 TreeCombobox Gate
+
+- `composed/treeCombobox/*` — V1 이관본 정리: 헤더, `PopoverAnchor`, `autoSelect={false}`, default export 제거
+- `TreeCombobox.test.tsx` 5건, stories; StandardFilterBar `tree-combo` + `WithTreeComboField`
+- `tree-combobox.md`, `filter-bar.md` 갱신
+
 ### C6 Combobox Storybook 수동 Gate 완료
 
 - `UI/Composed/Combobox`, `WithComboFields` — filter, keyboard, clear, grouped, light/dark 확인

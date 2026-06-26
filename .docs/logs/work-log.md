@@ -8,6 +8,10 @@
 
 ## 2026-06-25
 
+### @gen-office/ui C7 TreeCombobox Gate
+
+- TreeCombobox 정리, FilterBar tree-combo, test 5건 + stories
+
 ### @gen-office/ui C6 Combobox Storybook 수동 Gate
 
 - C6 Gate 마감 (Combobox + FilterBar combo 연동 포함)

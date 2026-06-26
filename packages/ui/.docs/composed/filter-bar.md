@@ -137,6 +137,7 @@ Public export: `FilterBar`, `StandardFilterBar`, `FilterBarFieldSize`, `FilterBa
 | `month-range` | `RangeMonthPicker` | `MonthRange \| undefined` |
 | `combo` | `Combobox` | `string` value |
 | `multi-combo` | `MultiCombobox` | `string[]` value |
+| `tree-combo` | `TreeCombobox` | `string` value; `treeOptions` (flat id/parentId) |
 | `custom` | `render(value, onChange)` | PopupInput 등 |
 
 ## 스타일·토큰 (`@gen-office/theme`)
@@ -156,7 +157,7 @@ fields grid: `align-items: end` — 줄마다 컨트롤 bottom 정렬.
 ## Storybook
 
 - **FilterBar:** `Compound`, `HorizontalItemLayout`, `ColumnActions`, `Collapsible`, `InlineActions`
-- **StandardFilterBar:** `Default`, `HorizontalItemLayout`, `Collapsible`, `TextWithEnterSearch`, `WithDateAndMonth`, `WithComboFields`
+- **StandardFilterBar:** `Default`, `HorizontalItemLayout`, `Collapsible`, `TextWithEnterSearch`, `WithDateAndMonth`, `WithComboFields`, `WithTreeComboField`
 
 ## Gate 체크리스트 (Wave 5 — C4)
 
@@ -166,3 +167,4 @@ fields grid: `align-items: end` — 줄마다 컨트롤 bottom 정렬.
 - [x] Storybook 수동: compound · select · light/dark · multi-row wrap
 - [x] `FilterField` `label` · `clearable`/`clearLabel` 연동, 내부 CSS `filterItemLabel`
 - [x] C6: `combo` / `multi-combo` → Combobox / MultiCombobox 연동
+- [x] C7: `tree-combo` → TreeCombobox 연동

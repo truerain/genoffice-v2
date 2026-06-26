@@ -5,12 +5,14 @@
  *
  * @remark
  * - Exports: FilterBarProps, FilterBarItemProps, FilterBarFieldSize, FilterBarItemLayout, FilterField, …
- * - combo / multi-combo field types require Combobox (Wave C6) in StandardFilterBar
+ * - combo / multi-combo field types → Combobox (C6)
+ * - tree-combo → TreeCombobox (C7)
  * - date / month → DatePicker / MonthPicker (C5b)
  * - date-range / month-range → RangeDatePicker / RangeMonthPicker
  */
 import type { ReactNode } from 'react';
 import type { DateYmdSeparator } from '@gen-office/utils';
+import type { TreeComboboxOption } from '../treeCombobox/TreeCombobox.types';
 
 export type FilterBarItemLayout = 'vertical' | 'horizontal';
 
@@ -139,6 +141,14 @@ export type FilterField<TFilters> =
       fromMonth?: Date;
       /** month-range only */
       toMonth?: Date;
+    })
+  | (FilterFieldBase<TFilters> & {
+      type: 'tree-combo';
+      placeholder?: string;
+      /** default true */
+      clearable?: boolean;
+      clearLabel?: string;
+      treeOptions: TreeComboboxOption[];
     })
   | (FilterFieldBase<TFilters> & {
       type: 'custom';

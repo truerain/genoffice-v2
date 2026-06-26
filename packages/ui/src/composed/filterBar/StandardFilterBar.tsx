@@ -6,6 +6,7 @@
  * @remark
  * - V1 SimpleFilterBar port; uses FilterBar + FilterField[]
  * - combo / multi-combo: Combobox / MultiCombobox (C6)
+ * - tree-combo: TreeCombobox (C7)
  * - date / month: DatePicker / MonthPicker (fullWidth anchor)
  * - date-range / month-range: RangeDatePicker / RangeMonthPicker
  * - Default chrome: bordered panel via StandardFilterBar.module.css
@@ -29,6 +30,7 @@ import { SearchInput } from './SearchInput';
 import { Combobox } from '../comboBox/Combobox';
 import { MultiCombobox } from '../comboBox/MultiCombobox';
 import type { ComboboxOption } from '../comboBox/Combobox.types';
+import { TreeCombobox } from '../treeCombobox/TreeCombobox';
 import styles from './StandardFilterBar.module.css';
 
 function mapFilterOptions(options?: { label: string; value: string | number }[]): ComboboxOption[] {
@@ -129,6 +131,18 @@ function renderDefaultField<TFilters>(
         />
       );
     }
+    case 'tree-combo':
+      return (
+        <TreeCombobox
+          value={String(fieldValue ?? '')}
+          onValueChange={(next) => setFieldValue(next)}
+          placeholder={field.placeholder}
+          options={field.treeOptions}
+          clearable={field.clearable ?? true}
+          clearLabel={field.clearLabel}
+          fullWidth
+        />
+      );
     case 'date':
       return (
         <DatePicker

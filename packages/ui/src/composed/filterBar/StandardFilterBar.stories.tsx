@@ -340,3 +340,56 @@ export const WithComboFields: RenderStory = {
     );
   },
 };
+
+type TreeFilterValues = {
+  keyword: string;
+  org: string;
+};
+
+const orgTreeOptions = [
+  { id: 'hq', parentId: null, value: 'HQ', label: 'Headquarters' },
+  { id: 'sales', parentId: 'hq', value: 'SALES', label: 'Sales Division' },
+  { id: 'finance', parentId: 'hq', value: 'FINANCE', label: 'Finance Division' },
+  { id: 'east', parentId: 'sales', value: 'EAST', label: 'East Region' },
+  { id: 'seoul', parentId: 'east', value: 'SEOUL', label: 'Seoul Office' },
+];
+
+export const WithTreeComboField: RenderStory = {
+  render: () => {
+    const [value, setValue] = useState<TreeFilterValues>({ keyword: '', org: '' });
+
+    const fields = useMemo<FilterField<TreeFilterValues>[]>(
+      () => [
+        {
+          key: 'keyword',
+          label: 'Keyword',
+          type: 'search',
+          placeholder: 'Search',
+          size: 'fill',
+          simple: true,
+        },
+        {
+          key: 'org',
+          label: 'Organization',
+          type: 'tree-combo',
+          placeholder: 'All organizations',
+          treeOptions: orgTreeOptions,
+          clearable: true,
+          size: 'md',
+          simple: true,
+        },
+      ],
+      []
+    );
+
+    return (
+      <StandardFilterBar
+        value={value}
+        fields={fields}
+        onChange={setValue}
+        onSearch={() => console.log('search', value)}
+        searchLabel="검색"
+      />
+    );
+  },
+};
