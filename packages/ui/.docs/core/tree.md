@@ -70,4 +70,4 @@ Public export: `Tree`, `TreeProps`, `TreeId`
 - [x] `Tree.test.tsx`, `Tree.stories.tsx`, `src/index.ts` export
 - [ ] Storybook 수동: expand/select · indent · light/dark
 
-관련: [migration-plan.md](../migration-plan.md) Wave 5 TreeView
+관련: [migration-plan.md](../migration-plan.md) C9, [tree-view.md](../composed/tree-view.md)

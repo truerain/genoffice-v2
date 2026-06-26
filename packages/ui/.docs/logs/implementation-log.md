@@ -8,6 +8,17 @@
 
 ## 2026-06-25
 
+### C9 TreeView Storybook 수동 Gate 완료
+
+- `UI/Composed/TreeView`, `WithSplitLayout` — expand/collapse all, selection, light/dark 확인
+- `tree-view.md` §6 Gate 전항목 완료 → **C9 Gate 마감**
+
+### C9 TreeView Gate
+
+- `composed/treeView/*` — V2 정리: 헤더, `core/tree` import, expand/collapse `aria-label`
+- `TreeView.test.tsx` 5건, stories `UI/Composed/TreeView` (+ `WithSplitLayout`)
+- `tree-view.md` Gate 문서
+
 ### ui `panels/` 롤백 — composed 단일 구조
 
 - SplitLayout `composed/splitLayout` 복귀; `panels/`·`.docs/panels/` 제거

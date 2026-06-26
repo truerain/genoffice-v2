@@ -8,6 +8,14 @@
 
 ## 2026-06-25
 
+### @gen-office/ui C9 TreeView Storybook 수동 Gate
+
+- C9 Gate 마감 (TreeView + SplitLayout 조합 story 포함)
+
+### @gen-office/ui C9 TreeView Gate
+
+- TreeView V2 정리, stories, test 5건, gate 문서 (`tree-view.md`)
+
 ### @gen-office/ui composed 구조 정리 (`panels/` 롤백)
 
 - SplitLayout `composed/` 복귀; TreeView `composed/treeView`, RichTextEditor `@gen-office/html-editor` 방향 문서화

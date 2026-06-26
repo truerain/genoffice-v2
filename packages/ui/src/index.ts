@@ -5,7 +5,7 @@
  *
  * @remark
  * - Side-effect: ./index.css (theme tokens)
- * - Export: core · composed
+ * - Export: core · composed (… C9: treeView)
  */
 import './index.css';
 
@@ -50,3 +50,4 @@ export * from './composed/datePicker';
 export * from './composed/combobox';
 export * from './composed/treeCombobox';
 export * from './composed/modalInput';
+export * from './composed/treeView';

@@ -161,7 +161,7 @@ Story title: `UI/Composed/<Name>` · test: `test/composed/`
 | C6 | Combobox / MultiCombobox | `composed/combobox` | Popover, Input | ✅ |
 | C7 | TreeCombobox | `composed/treeCombobox` | Tree, Combobox | ✅ |
 | C8 | **ModalInput** | `composed/modalInput` | Dialog, Input | ✅ |
-| C9 | **TreeView** | `composed/treeView` | core `Tree` | 탐색 패널; TreeCombobox와 형제 |
+| C9 | **TreeView** | `composed/treeView` | core `Tree` | ✅ Gate 완료 |
 
 > **제외:** V1 `MasterDetailLayout` — `SplitLayout` + `PageHeader`로 조합. [decisions.md](../../../.docs/logs/decisions.md).
 >
