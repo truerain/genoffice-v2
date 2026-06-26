@@ -152,7 +152,7 @@ core export 안정 후 진행. 순서는 **의존 그래프** 기준.
 | **C5b** | DatePicker / RangeDatePicker / MonthPicker / RangeMonthPicker | Calendar, Popover, **MaskedInput** ([date-picker.md](./composed/date-picker.md)) |
 | C6 | Combobox / MultiCombobox | Popover, Input |
 | C7 | TreeCombobox | Tree, Combobox |
-| C8 | PopupInput / ModalInput | Dialog, Input |
+| C8 | **ModalInput** | Dialog, Input |
 | C9 | TreeView | Tree |
 | C10 | **RichTextEditor** | TipTap — **분리 보류** 검토 |
 

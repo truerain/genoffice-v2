@@ -8,6 +8,27 @@
 
 ## 2026-06-25
 
+### C8 ModalInput Storybook 수동 Gate 완료
+
+- `UI/Composed/ModalInput` — search, single/multi, table columns, confirm/cancel, clear, tooltip, scroll layout, light/dark 확인
+- `modal-input.md` §6 Gate 전항목 완료 → **C8 Gate 마감**
+
+### ModalInput multi selectedTooltip
+
+- MultiCombobox와 동일: `selectedTooltip='auto'`, `formatSelectedTooltip`, modal open 시 비활성, test 3건
+
+### ModalInput dialog scroll layout
+
+- 모달 전체 스크롤 제거: `.dialog` flex column + `overflow: hidden`, header/footer 고정
+- 목록(`.listWrap`)만 스크롤; `modalHeight` 기본값 제거(optional), 지정 시 `max-height` 상한
+
+### C8 ModalInput Gate
+
+- `composed/modalInput/*` — V2 정리: 파일 헤더, default export 제거, named export only
+- PopupInput 제외 결정 반영 — C8 ModalInput 단독
+- `ModalInput.test.tsx` 7건, stories `UI/Composed/ModalInput`
+- `modal-input.md`, `migration-plan.md` C8, `filter-bar.md` custom 안내 갱신
+
 ### C7 TreeCombobox Storybook 수동 Gate 완료
 
 - `UI/Composed/TreeCombobox`, `WithTreeComboField` — expand, filter, keyboard, clear, light/dark, selectLeafOnly 확인

@@ -138,7 +138,7 @@ Public export: `FilterBar`, `StandardFilterBar`, `FilterBarFieldSize`, `FilterBa
 | `combo` | `Combobox` | `string` value |
 | `multi-combo` | `MultiCombobox` | `string[]` value |
 | `tree-combo` | `TreeCombobox` | `string` value; `treeOptions` (flat id/parentId); `selectLeafOnly` (default true) |
-| `custom` | `render(value, onChange)` | PopupInput 등 |
+| `custom` | `render(value, onChange)` | ModalInput 등 커스텀 위젯 |
 
 ## 스타일·토큰 (`@gen-office/theme`)
 
@@ -168,3 +168,4 @@ fields grid: `align-items: end` — 줄마다 컨트롤 bottom 정렬.
 - [x] `FilterField` `label` · `clearable`/`clearLabel` 연동, 내부 CSS `filterItemLabel`
 - [x] C6: `combo` / `multi-combo` → Combobox / MultiCombobox 연동
 - [x] C7: `tree-combo` → TreeCombobox 연동
+- [x] C8: `custom` field — ModalInput 등 커스텀 위젯 (`modal-input.md` 참고)

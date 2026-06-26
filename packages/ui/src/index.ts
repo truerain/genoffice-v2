@@ -5,7 +5,7 @@
  *
  * @remark
  * - Side-effect: ./index.css (theme tokens)
- * - Export components as each Gate completes (… Wave 5 C4: filterBar)
+ * - Export components as each Gate completes (… Wave 5 C8: modalInput)
  */
 import './index.css';
 
@@ -49,3 +49,4 @@ export * from './composed/filterBar';
 export * from './composed/datePicker';
 export * from './composed/combobox';
 export * from './composed/treeCombobox';
+export * from './composed/modalInput';

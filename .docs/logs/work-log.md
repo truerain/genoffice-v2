@@ -8,6 +8,15 @@
 
 ## 2026-06-25
 
+### @gen-office/ui C8 ModalInput Storybook 수동 Gate
+
+- C8 Gate 마감 (ModalInput + scroll layout + multi tooltip 포함)
+
+### @gen-office/ui C8 ModalInput Gate
+
+- ModalInput V2 Gate: 헤더·named export, stories, test 7건, gate 문서 (`modal-input.md`)
+- C8 계획 ModalInput 단독으로 변경 (PopupInput 제외)
+
 ### @gen-office/ui C7 TreeCombobox Storybook 수동 Gate
 
 - C7 Gate 마감 (TreeCombobox + FilterBar tree-combo, selectLeafOnly 포함)
