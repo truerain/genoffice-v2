@@ -10,6 +10,14 @@
 
 ## 2026-06-25
 
+### @gen-office/ui V1 이관 마감
+
+- **Wave 5 composed C1~C9** Gate 완료 (AlertDialog … TreeView)
+- **제외·별도:** PopupInput 제거, RichTextEditor → `@gen-office/html-editor`
+- **정리:** orphan `popupInput/` 삭제; canonical `combobox/` 유지
+- **다음 패키지 리뷰:** `mdi`
+- 문서: `packages/ui/.docs/review-log.md`, `migration-plan.md` §11
+
 ### @gen-office/ui 소스 구조 — `composed/` 단일, RichTextEditor ui 밖
 
 - **`src/panels/` 도입 보류·롤백** — SplitLayout `composed/splitLayout` 유지; TreeView도 `composed/treeView`

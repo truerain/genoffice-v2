@@ -260,11 +260,10 @@ Radix 컴포넌트는 `getByRole('checkbox' | 'switch' | 'tab' …)` 우선.
 
 ## 11. 다음 액션
 
-1. **C5a MaskedInput** Gate 착수 (utils `format/mask` + core) — [masked-input.md](./core/masked-input.md)
-2. **C5b DatePicker** — V1 이관본 MaskedInput 기반 리팩터 — [date-picker.md](./composed/date-picker.md)
-3. Wave 5 **C9 TreeView** — `composed/treeView`
-4. **`@gen-office/html-editor`** 패키지 설계 (RichTextEditor — ui 밖)
+**@gen-office/ui V1 이관 마감 (2026-06-25).** 이하는 ui 밖·후속 트랙.
+
+1. **`@gen-office/html-editor`** 패키지 설계 (V1 RichTextEditor)
+2. **`mdi`** 패키지 리뷰 — [06-PACKAGE-REVIEW-PLAN.md](../../../.docs/06-PACKAGE-REVIEW-PLAN.md)
+3. ui enhancement: [deferred.md](./deferred.md) (GroupedSelect, Slider tooltip, …)
 
 상세 아키텍처: [architecture.md](./architecture.md)
-
-이관 완료 후 enhancement: [deferred.md](./deferred.md)

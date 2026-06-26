@@ -8,6 +8,11 @@
 
 ## 2026-06-25
 
+### @gen-office/ui V1 이관 마감
+
+- C1~C9 composed Gate 완료; orphan `popupInput/` 제거; `review-log.md` 작성
+- 다음 트랙: `mdi`, `@gen-office/html-editor`
+
 ### @gen-office/ui C9 TreeView Storybook 수동 Gate
 
 - C9 Gate 마감 (TreeView + SplitLayout 조합 story 포함)

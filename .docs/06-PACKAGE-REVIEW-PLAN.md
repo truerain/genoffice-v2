@@ -106,11 +106,11 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 
 ### 3. `ui`
 
-- [ ] `core` vs `composed` 경계
-- [ ] Radix 래퍼·`forwardRef`·CSS module 패턴
-- [ ] `RichTextEditor`(TipTap) — V2에서 `ui`에 둘지 `html-editor` 분리 보류
-- [ ] Storybook story 범위 (패키지 내 vs storybook-all)
-- [ ] theme 토큰 사용 일관성
+- [x] `core` vs `composed` 경계 — `composed/` 단일 (panels 분리 롤백)
+- [x] Radix 래퍼·`forwardRef`·CSS module 패턴 — Wave Gate 완료
+- [x] `RichTextEditor` — **`@gen-office/html-editor` 별도** (`ui` 미포함)
+- [x] Storybook — `apps/storybook-all` 통합 + 패키지 stories
+- [x] V1 composed C1~C9 이관 마감 — [packages/ui/.docs/review-log.md](../packages/ui/.docs/review-log.md)
 
 **V1 참조**: [`frontend/packages/ui`](../../frontend/packages/ui)
 

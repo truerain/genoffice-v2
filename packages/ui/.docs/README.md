@@ -33,6 +33,7 @@ V1 [`frontend/packages/ui`](../../../frontend/packages/ui)를 **core → compose
 | [composed/grouped-select.md](./composed/grouped-select.md) | GroupedSelect 구상 (Deferred D-002) |
 | [composed/date-picker.md](./composed/date-picker.md) | DatePicker 계열 C5b Gate (MaskedInput 선행) |
 | [migration-plan.md](./migration-plan.md) | 코어 컴포넌트 이관 순서·컴포넌트별 Gate 체크리스트 |
+| [review-log.md](./review-log.md) | 패키지 리뷰·**V1 이관 마감** 기록 |
 | [deferred.md](./deferred.md) | **UI 이관 완료 후** 진행할 enhancement 목록 |
 | [logs/implementation-log.md](./logs/implementation-log.md) | 컴포넌트 이관 작업 로그 (이관 시 갱신) |
 
@@ -52,5 +53,5 @@ pnpm -C apps/storybook dev          # 통합 Storybook (packages/ui stories 자�
 ## 이관 원칙 (요약)
 
 1. **한 번에 한 core 컴포넌트** — 이관 → 자동 test → Storybook 수동 확인 → 로그
-2. **composed는 core 안정 후** — **C5a MaskedInput** → C5b DatePicker · Combobox 등
+2. **composed는 core 안정 후** — MaskedInput → DatePicker · Combobox 등 (Wave 5 **마감** — [review-log.md](./review-log.md))
 3. **V1 monolith 복사 금지** — `cn` → `clsx`, V1 `brand` variant는 이식하지 않음

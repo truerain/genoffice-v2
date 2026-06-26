@@ -8,6 +8,11 @@
 
 ## 2026-06-25
 
+### V1 이관 마감 정리
+
+- orphan `composed/popupInput/` 삭제 (export·git 미추적 잔존). `combobox/`는 canonical 유지 (Windows에서는 `comboBox`와 동일 경로)
+- `review-log.md` 작성; `migration-plan.md` §11 후속 트랙으로 갱신
+
 ### C9 TreeView Storybook 수동 Gate 완료
 
 - `UI/Composed/TreeView`, `WithSplitLayout` — expand/collapse all, selection, light/dark 확인
