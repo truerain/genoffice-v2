@@ -137,7 +137,7 @@ Public export: `FilterBar`, `StandardFilterBar`, `FilterBarFieldSize`, `FilterBa
 | `month-range` | `RangeMonthPicker` | `MonthRange \| undefined` |
 | `combo` | `Combobox` | `string` value |
 | `multi-combo` | `MultiCombobox` | `string[]` value |
-| `tree-combo` | `TreeCombobox` | `string` value; `treeOptions` (flat id/parentId) |
+| `tree-combo` | `TreeCombobox` | `string` value; `treeOptions` (flat id/parentId); `selectLeafOnly` (default true) |
 | `custom` | `render(value, onChange)` | PopupInput 등 |
 
 ## 스타일·토큰 (`@gen-office/theme`)

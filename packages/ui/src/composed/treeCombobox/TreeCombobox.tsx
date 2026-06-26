@@ -7,6 +7,8 @@
  * - Exports: TreeCombobox
  * - options: flat id/parentId list; internal buildTree + collectVisibleNodes
  * - keyboard: ArrowUp/Down navigate, Left/Right expand/collapse, Enter select
+ * - expandRootsOnOpen (default): root + selection path on first open
+ * - selectLeafOnly (default true): branch nodes expand/collapse only
  */
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import type { CSSProperties, KeyboardEvent } from 'react';
@@ -176,6 +178,34 @@ function getNextEnabledKey(
   return null;
 }
 
+const DEFAULT_VISIBLE_ROWS = 6;
+
+function collectInitialExpandedKeys(
+  tree: TreeData,
+  selectedNodeKey: string | null,
+  expandRootsOnOpen: boolean
+) {
+  const keys = new Set<string>();
+
+  if (expandRootsOnOpen) {
+    for (const rootKey of tree.rootKeys) {
+      if ((tree.childrenByKey.get(rootKey)?.length ?? 0) > 0) {
+        keys.add(rootKey);
+      }
+    }
+  }
+
+  if (selectedNodeKey) {
+    let current = tree.parentByKey.get(selectedNodeKey) ?? null;
+    while (current) {
+      keys.add(current);
+      current = tree.parentByKey.get(current) ?? null;
+    }
+  }
+
+  return keys;
+}
+
 export function TreeCombobox({
   options,
   value,
@@ -205,6 +235,8 @@ export function TreeCombobox({
   expandedIds,
   defaultExpandedIds,
   onExpandedIdsChange,
+  expandRootsOnOpen = true,
+  selectLeafOnly = true,
 }: TreeComboboxProps) {
   const generatedId = useId();
   const inputId = providedId ?? generatedId;
@@ -213,6 +245,7 @@ export function TreeCombobox({
   const inputRef = useRef<HTMLInputElement>(null);
   const clearingRef = useRef(false);
   const optionRefs = useRef<Map<string, HTMLButtonElement | null>>(new Map());
+  const openExpandAppliedRef = useRef(false);
 
   const [open, setOpen] = useState(false);
   const [highlightedKey, setHighlightedKey] = useState<string | null>(null);
@@ -275,10 +308,25 @@ export function TreeCombobox({
 
   const selectNode = (node: TreeComboboxOption) => {
     if (node.disabled) return;
+    const nodeKey = keyOf(node.id);
+    if (selectLeafOnly && (tree.childrenByKey.get(nodeKey)?.length ?? 0) > 0) {
+      return;
+    }
     onValueChange?.(node.value, node);
     setInputValue(node.label);
     setShowAllOnOpen(false);
     setOpen(false);
+  };
+
+  const activateNode = (item: VisibleNode) => {
+    if (item.node.disabled) return;
+    if (selectLeafOnly && item.hasChildren) {
+      if (!item.isExpanded) {
+        toggleExpanded(item.key);
+      }
+      return;
+    }
+    selectNode(item.node);
   };
 
   const focusNode = (nodeKey: string | null) => {
@@ -354,7 +402,7 @@ export function TreeCombobox({
       if (!open || !highlightedKey) return;
       event.preventDefault();
       const current = visibleNodes.find((node) => node.key === highlightedKey);
-      if (current) selectNode(current.node);
+      if (current) activateNode(current);
       return;
     }
 
@@ -381,7 +429,7 @@ export function TreeCombobox({
     if (event.key === 'Enter' && highlightedKey) {
       event.preventDefault();
       const current = visibleNodes.find((node) => node.key === highlightedKey);
-      if (current) selectNode(current.node);
+      if (current) activateNode(current);
       return;
     }
 
@@ -451,6 +499,44 @@ export function TreeCombobox({
   }, [open, visibleNodes, highlightedKey, selectedNodeKey]);
 
   useEffect(() => {
+    if (!open) {
+      openExpandAppliedRef.current = false;
+      return;
+    }
+    if (openExpandAppliedRef.current) return;
+    if (isExpandedControlled || effectiveFilterValue.trim()) return;
+
+    openExpandAppliedRef.current = true;
+
+    const initialKeys = collectInitialExpandedKeys(
+      tree,
+      selectedNodeKey,
+      expandRootsOnOpen
+    );
+    if (initialKeys.size === 0) return;
+
+    const next = new Set(expandedSet);
+    let changed = false;
+    for (const key of initialKeys) {
+      if (!next.has(key)) {
+        next.add(key);
+        changed = true;
+      }
+    }
+    if (changed) {
+      emitExpandedChange(next);
+    }
+  }, [
+    open,
+    isExpandedControlled,
+    effectiveFilterValue,
+    expandRootsOnOpen,
+    tree,
+    selectedNodeKey,
+    expandedSet,
+  ]);
+
+  useEffect(() => {
     if (disabled && open) {
       setOpen(false);
     }
@@ -462,10 +548,10 @@ export function TreeCombobox({
     setOpen(nextOpen);
   };
 
-  const computedMaxHeight =
-    maxVisibleItems && maxVisibleItems > 0
-      ? maxVisibleItems * optionItemHeight + 8
-      : undefined;
+  const resolvedMaxVisibleItems = maxVisibleItems ?? DEFAULT_VISIBLE_ROWS;
+  const computedMaxHeight = resolvedMaxVisibleItems * optionItemHeight + 8;
+  const computedMinHeight =
+    open && !effectiveFilterValue.trim() ? DEFAULT_VISIBLE_ROWS * optionItemHeight + 8 : undefined;
 
   const toggleOpen = () => {
     if (disabled) return;
@@ -529,7 +615,10 @@ export function TreeCombobox({
         className={clsx(styles.content, listClassName)}
         align="start"
         sideOffset={6}
-        style={computedMaxHeight ? { maxHeight: `${computedMaxHeight}px` } : undefined}
+        style={{
+          maxHeight: `${computedMaxHeight}px`,
+          ...(computedMinHeight ? { minHeight: `${computedMinHeight}px` } : {}),
+        }}
         onOpenAutoFocus={(event) => event.preventDefault()}
         onCloseAutoFocus={(event) => event.preventDefault()}
         onInteractOutside={handleInteractOutside}
@@ -546,6 +635,8 @@ export function TreeCombobox({
               } as CSSProperties;
               const optionId = `${inputId}-tree-option-${item.key}`;
               const blockToggle = effectiveFilterValue.trim().length > 0;
+              const isBranchOnly = selectLeafOnly && item.hasChildren;
+              const isOptionDisabled = item.node.disabled;
 
               return (
                 <div
@@ -582,19 +673,20 @@ export function TreeCombobox({
                     role="treeitem"
                     aria-level={item.depth + 1}
                     aria-expanded={item.hasChildren ? item.isExpanded : undefined}
-                    aria-selected={isActive}
-                    aria-disabled={item.node.disabled}
-                    disabled={item.node.disabled}
+                    aria-selected={isActive && !isBranchOnly}
+                    aria-disabled={isOptionDisabled || isBranchOnly}
+                    disabled={isOptionDisabled}
                     ref={(node) => {
                       optionRefs.current.set(item.key, node);
                     }}
                     className={clsx(
                       styles.option,
                       isActive && styles.optionActive,
-                      item.node.disabled && styles.optionDisabled
+                      isOptionDisabled && styles.optionDisabled,
+                      isBranchOnly && styles.optionNonSelectable
                     )}
                     onMouseDown={(event) => event.preventDefault()}
-                    onClick={() => selectNode(item.node)}
+                    onClick={() => activateNode(item)}
                     onKeyDown={handleListKeyDown}
                   >
                     <span className={styles.optionLabel}>{item.node.label}</span>

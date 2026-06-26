@@ -134,6 +134,20 @@
   opacity: 0.7;
 }
 
+.optionNonSelectable {
+  cursor: default;
+}
+
+.optionNonSelectable:hover,
+.optionNonSelectable.optionActive {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-fg-primary);
+}
+
+.optionNonSelectable.optionActive .optionDescription {
+  color: var(--color-fg-tertiary);
+}
+
 .optionLabel {
   line-height: 1.4;
 }

@@ -98,3 +98,18 @@ export const WithFilter: Story = {
     />
   ),
 };
+
+export const BranchSelectable: Story = {
+  render: () => {
+    const [value, setValue] = useState('');
+    return (
+      <TreeCombobox
+        options={orgTree}
+        value={value}
+        onValueChange={(next) => setValue(next)}
+        selectLeafOnly={false}
+        placeholder="Branch nodes selectable"
+      />
+    );
+  },
+};

@@ -41,16 +41,94 @@ describe('TreeCombobox', () => {
     );
   });
 
-  it('expands a parent node to reveal children', async () => {
+  it('expands root nodes on first open by default', async () => {
     const user = userEvent.setup();
 
     render(<TreeCombobox options={treeOptions} placeholder="Pick org" />);
+
+    await user.click(screen.getByPlaceholderText('Pick org'));
+    expect(screen.getByRole('treeitem', { name: 'Sales Division' })).toBeInTheDocument();
+    expect(screen.getByRole('treeitem', { name: 'Finance Division' })).toBeInTheDocument();
+  });
+
+  it('expands a parent node manually when expandRootsOnOpen is false', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <TreeCombobox
+        options={treeOptions}
+        placeholder="Pick org"
+        expandRootsOnOpen={false}
+      />
+    );
 
     await user.click(screen.getByPlaceholderText('Pick org'));
     expect(screen.queryByRole('treeitem', { name: 'Sales Division' })).not.toBeInTheDocument();
 
     await user.click(screen.getByRole('button', { name: 'Expand node' }));
     expect(screen.getByRole('treeitem', { name: 'Sales Division' })).toBeInTheDocument();
+  });
+
+  it('does not select branch nodes when selectLeafOnly is true', async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+
+    render(
+      <TreeCombobox
+        options={treeOptions}
+        placeholder="Pick org"
+        onValueChange={onValueChange}
+      />
+    );
+
+    await user.click(screen.getByPlaceholderText('Pick org'));
+    await user.click(screen.getByRole('treeitem', { name: 'Headquarters' }));
+
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(screen.getByRole('treeitem', { name: 'Sales Division' })).toBeInTheDocument();
+  });
+
+  it('allows branch selection when selectLeafOnly is false', async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+
+    render(
+      <TreeCombobox
+        options={treeOptions}
+        placeholder="Pick org"
+        selectLeafOnly={false}
+        onValueChange={onValueChange}
+      />
+    );
+
+    await user.click(screen.getByPlaceholderText('Pick org'));
+    await user.click(screen.getByRole('treeitem', { name: 'Headquarters' }));
+
+    expect(onValueChange).toHaveBeenCalledWith(
+      'HQ',
+      expect.objectContaining({ label: 'Headquarters' })
+    );
+  });
+
+  it('selects leaf nodes by default', async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+
+    render(
+      <TreeCombobox
+        options={treeOptions}
+        placeholder="Pick org"
+        onValueChange={onValueChange}
+      />
+    );
+
+    await user.click(screen.getByPlaceholderText('Pick org'));
+    await user.click(screen.getByRole('treeitem', { name: 'Finance Division' }));
+
+    expect(onValueChange).toHaveBeenCalledWith(
+      'FINANCE',
+      expect.objectContaining({ label: 'Finance Division' })
+    );
   });
 
   it('filters nodes and shows matching ancestors', async () => {
@@ -111,7 +189,7 @@ describe('StandardFilterBar tree-combo', () => {
 
     expect(screen.getByText('Organization')).toBeInTheDocument();
     await user.click(screen.getByPlaceholderText('Pick org'));
-    await user.click(screen.getByRole('treeitem', { name: 'Headquarters' }));
-    expect(onChange).toHaveBeenCalledWith({ org: 'HQ' });
+    await user.click(screen.getByRole('treeitem', { name: 'Finance Division' }));
+    expect(onChange).toHaveBeenCalledWith({ org: 'FINANCE' });
   });
 });

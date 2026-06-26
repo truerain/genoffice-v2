@@ -30,10 +30,21 @@ C7  TreeCombobox                    ← 본 문서
 | --- | --- |
 | `id` | 노드 고유 id (`string \| number`) |
 | `parentId` | 부모 id; root는 `null` / omit |
-| `value` | 선택 값 (leaf·branch 모두 선택 가능) |
+| `value` | 선택 값 (leaf; `selectLeafOnly={false}` 시 branch도 가능) |
 | `label` | 표시 텍스트 |
 
 filter 시 매칭 노드 + ancestor + descendant를 flat list로 펼칩니다.
+
+첫 open 시 (uncontrolled, filter 없음):
+
+- **`expandRootsOnOpen`** (default `true`) — root 노드 자동 expand
+- 선택 값이 있으면 해당 노드까지 ancestor path도 expand
+- popover **min-height** 6행 — 한 줄짜리 얇은 패널 방지
+
+| Prop | 기본 | 설명 |
+| --- | --- | --- |
+| `selectLeafOnly` | `true` | branch는 expand/collapse만; leaf만 value 선택 |
+| `expandRootsOnOpen` | `true` | 첫 open 시 root expand |
 
 ---
 

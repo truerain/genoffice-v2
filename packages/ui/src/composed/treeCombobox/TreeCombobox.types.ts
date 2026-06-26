@@ -47,4 +47,8 @@ export interface TreeComboboxProps {
   expandedIds?: readonly TreeComboboxId[];
   defaultExpandedIds?: readonly TreeComboboxId[];
   onExpandedIdsChange?: (next: TreeComboboxId[]) => void;
+  /** Expand root nodes (and path to selection) on first open. Default true. */
+  expandRootsOnOpen?: boolean;
+  /** Allow selecting branch nodes. Default false (leaf only). */
+  selectLeafOnly?: boolean;
 }

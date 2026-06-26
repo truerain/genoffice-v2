@@ -141,6 +141,7 @@ function renderDefaultField<TFilters>(
           clearable={field.clearable ?? true}
           clearLabel={field.clearLabel}
           fullWidth
+          selectLeafOnly={field.selectLeafOnly}
         />
       );
     case 'date':

@@ -8,6 +8,16 @@
 
 ## 2026-06-25
 
+### TreeCombobox selectLeafOnly
+
+- default `true`: branch 클릭/Enter → expand; leaf만 선택
+- `selectLeafOnly={false}` opt-out; FilterBar `tree-combo` field prop
+
+### TreeCombobox first-open panel UX
+
+- `expandRootsOnOpen` (default): root + selection path auto-expand on open
+- popover min-height 6 rows; `expandRootsOnOpen={false}` opt-out
+
 ### C7 TreeCombobox Gate
 
 - `composed/treeCombobox/*` — V1 이관본 정리: 헤더, `PopoverAnchor`, `autoSelect={false}`, default export 제거

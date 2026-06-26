@@ -149,6 +149,8 @@ export type FilterField<TFilters> =
       clearable?: boolean;
       clearLabel?: string;
       treeOptions: TreeComboboxOption[];
+      /** default true — leaf nodes only */
+      selectLeafOnly?: boolean;
     })
   | (FilterFieldBase<TFilters> & {
       type: 'custom';
