@@ -1,8 +1,16 @@
+/**
+ * @file packages/ui/src/composed/datePicker/RangeMonthPicker.tsx
+ * @description Month range picker — readOnly Input + Popover + month range grid.
+ * @created 2026-06-25
+ */
 import { useEffect, useMemo, useState } from 'react';
-import { Calendar as CalendarIcon, Check, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { Check, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { Button } from '../../core/button';
+import { Input } from '../../core/input';
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from '../../core/popover';
+import { CalendarTrigger } from './CalendarTrigger';
 import type { MonthRange, RangeMonthPickerProps } from './RangeMonthPicker.types';
+import { monthKey, normalizeMonth } from './datePickerUtils';
 import styles from './DatePicker.module.css';
 
 const defaultFormatter = (date: Date, locale?: string) => {
@@ -16,11 +24,6 @@ const defaultFormatter = (date: Date, locale?: string) => {
 const monthLabelFormatter = (month: number, locale?: string) =>
   new Intl.DateTimeFormat(locale || undefined, { month: 'short' }).format(new Date(2000, month, 1));
 
-const normalizeMonth = (date?: Date) =>
-  date ? new Date(date.getFullYear(), date.getMonth(), 1) : undefined;
-
-const monthKey = (date: Date) => date.getFullYear() * 12 + date.getMonth();
-
 const normalizeRange = (range?: MonthRange): MonthRange | undefined => {
   if (!range?.from && !range?.to) return undefined;
   const from = normalizeMonth(range.from);
@@ -32,7 +35,7 @@ const normalizeRange = (range?: MonthRange): MonthRange | undefined => {
   return { from, to };
 };
 
-const formatRange = (range: MonthRange | undefined, locale?: string, format?: (date: Date) => string) => {
+const formatRangeLabel = (range: MonthRange | undefined, locale?: string, format?: (date: Date) => string) => {
   if (!range?.from && !range?.to) return '';
   const formatDate = (date: Date) => (format ? format(date) : defaultFormatter(date, locale));
   if (range.from && range.to) return `${formatDate(range.from)} ~ ${formatDate(range.to)}`;
@@ -60,7 +63,9 @@ export function RangeMonthPicker({
     () => normalizeRange(value),
     [value?.from?.getTime(), value?.to?.getTime()]
   );
-  const [displayYear, setDisplayYear] = useState(() => normalizedValue?.from?.getFullYear() ?? new Date().getFullYear());
+  const [displayYear, setDisplayYear] = useState(
+    () => normalizedValue?.from?.getFullYear() ?? new Date().getFullYear()
+  );
   const [draftValue, setDraftValue] = useState<MonthRange | undefined>(normalizedValue);
 
   const isWithinRange = (date?: Date) => {
@@ -91,9 +96,7 @@ export function RangeMonthPicker({
 
   const selectedValue = open ? draftValue : normalizedValue;
 
-  const label = useMemo(() => {
-    return formatRange(selectedValue, locale, format);
-  }, [selectedValue, locale, format]);
+  const label = useMemo(() => formatRangeLabel(selectedValue, locale, format), [selectedValue, locale, format]);
 
   const canGoPrevYear = minYear === undefined || displayYear > minYear;
   const canGoNextYear = maxYear === undefined || displayYear < maxYear;
@@ -129,33 +132,25 @@ export function RangeMonthPicker({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverAnchor asChild>
-        <div className={styles.field} data-disabled={disabled}>
-          <input
-            type="text"
-            className={styles.input}
+        <div className={styles.anchor}>
+          <Input
             value={label}
             placeholder={placeholder}
             disabled={disabled}
             readOnly
+            autoSelect={false}
+            fullWidth
             onFocus={() => setOpen(true)}
             onClick={() => setOpen(true)}
+            suffix={
+              <PopoverTrigger asChild>
+                <CalendarTrigger aria-label="Open month range picker" disabled={disabled} />
+              </PopoverTrigger>
+            }
           />
-          <PopoverTrigger asChild>
-            <button
-              type="button"
-              className={styles.triggerButton}
-              aria-label="Open month range picker"
-              disabled={disabled}
-            >
-              <CalendarIcon className={styles.triggerIcon} />
-            </button>
-          </PopoverTrigger>
         </div>
       </PopoverAnchor>
-      <PopoverContent
-        align={align}
-        className={`${styles.monthPopover} ${className ?? ''}`.trim()}
-      >
+      <PopoverContent align={align} className={`${styles.monthPopover} ${className ?? ''}`.trim()}>
         <div className={styles.monthContent}>
           <div className={styles.monthHeader}>
             <button

@@ -1,52 +1,43 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+/**
+ * @file packages/ui/src/composed/datePicker/MonthPicker.tsx
+ * @description Single month picker — MaskedInput (ym) + Popover + month grid.
+ * @created 2026-06-25
+ */
+import { useCallback, useEffect, useMemo, useState, type KeyboardEvent } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { MaskedInput } from '../../core/maskedInput';
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from '../../core/popover';
+import { CalendarTrigger } from './CalendarTrigger';
 import type { MonthPickerProps } from './MonthPicker.types';
+import {
+  formatDateForYmMask,
+  monthKey,
+  normalizeMonth,
+  parseYmDisplay,
+} from './datePickerUtils';
 import styles from './DatePicker.module.css';
-
-const defaultFormatter = (date: Date, locale?: string) => {
-  const formatter = new Intl.DateTimeFormat(locale || undefined, {
-    year: 'numeric',
-    month: '2-digit',
-  });
-  return formatter.format(date);
-};
 
 const monthLabelFormatter = (month: number, locale?: string) =>
   new Intl.DateTimeFormat(locale || undefined, { month: 'short' }).format(new Date(2000, month, 1));
-
-const parseYearMonth = (raw: string) => {
-  const normalized = raw.trim();
-  const match = normalized.match(/^(\d{4})[-/.]?(\d{1,2})$/);
-  if (!match) return undefined;
-  const year = Number(match[1]);
-  const month = Number(match[2]);
-  if (!Number.isInteger(year) || !Number.isInteger(month) || month < 1 || month > 12) return undefined;
-  return new Date(year, month - 1, 1);
-};
-
-const normalizeMonth = (date?: Date) =>
-  date ? new Date(date.getFullYear(), date.getMonth(), 1) : undefined;
-
-const monthKey = (date: Date) => date.getFullYear() * 12 + date.getMonth();
 
 export function MonthPicker({
   value,
   onChange,
   fromMonth,
   toMonth,
-  placeholder = 'Select month',
+  placeholder = 'yyyy-mm',
   disabled,
   align = 'start',
   locale,
   format,
-  clearable: _clearable,
+  separator = '-',
+  clearable = false,
   parse,
   className,
   editorOverlay = false,
 }: MonthPickerProps) {
   const [open, setOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [display, setDisplay] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const normalizedFromMonth = normalizeMonth(fromMonth);
   const normalizedToMonth = normalizeMonth(toMonth);
@@ -64,53 +55,74 @@ export function MonthPicker({
   const minYear = normalizedFromMonth?.getFullYear();
   const maxYear = normalizedToMonth?.getFullYear();
 
-  const label = useMemo(() => {
-    if (!value) return '';
-    return format ? format(value) : defaultFormatter(value, locale);
-  }, [value, format, locale]);
+  const formattedValue = useMemo(
+    () => (value ? formatDateForYmMask(value, format) : ''),
+    [value, format]
+  );
+
+  const syncDraftFromDisplay = useCallback((): Date | undefined => {
+    return normalizeMonth(parseYmDisplay(display, parse));
+  }, [display, parse]);
+
+  const applyDraft = useCallback(
+    (nextDraft: Date | undefined) => {
+      setDraftValue(nextDraft);
+      if (nextDraft) {
+        setDisplayYear(nextDraft.getFullYear());
+      }
+    },
+    []
+  );
 
   useEffect(() => {
-    if (!isEditing) setInputValue(label);
-  }, [label, isEditing]);
+    if (!isEditing) setDisplay(formattedValue);
+  }, [formattedValue, isEditing]);
 
   useEffect(() => {
     if (open) return;
     setIsEditing(false);
-    setInputValue(label);
-  }, [label, open]);
+    setDisplay(formattedValue);
+  }, [formattedValue, open]);
 
   useEffect(() => {
-    if (open) {
-      setDraftValue(value);
+    if (!open) return;
+    const parsed = syncDraftFromDisplay();
+    if (parsed && isWithinRange(parsed)) applyDraft(parsed);
+  }, [open, syncDraftFromDisplay, applyDraft]);
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    setOpen(nextOpen);
+    if (!nextOpen) return;
+
+    const parsed = syncDraftFromDisplay();
+    const nextDraft = parsed && isWithinRange(parsed) ? parsed : value;
+    applyDraft(nextDraft);
+
+    if (!nextDraft) {
       const fallbackYear = new Date().getFullYear();
-      const baseYear = value?.getFullYear() ?? fallbackYear;
       const boundedYear =
-        minYear !== undefined && baseYear < minYear
+        minYear !== undefined && fallbackYear < minYear
           ? minYear
-          : maxYear !== undefined && baseYear > maxYear
+          : maxYear !== undefined && fallbackYear > maxYear
             ? maxYear
-            : baseYear;
+            : fallbackYear;
       setDisplayYear(boundedYear);
     }
-  }, [maxYear, minYear, open, value]);
-
-  const parseInput = (rawValue: string) => {
-    if (!rawValue.trim()) return undefined;
-    if (parse) return parse(rawValue.trim());
-    return parseYearMonth(rawValue);
   };
 
-  const commitInput = () => {
-    const next = parseInput(inputValue);
-    if (!inputValue.trim()) {
+  const commitDisplay = () => {
+    if (!display.trim()) {
       onChange?.(undefined);
       return true;
     }
-    if (next && isWithinRange(next)) {
-      onChange?.(next);
-      setDisplayYear(next.getFullYear());
+
+    const parsed = normalizeMonth(parseYmDisplay(display, parse));
+    if (parsed && isWithinRange(parsed)) {
+      onChange?.(parsed);
+      setDisplayYear(parsed.getFullYear());
       return true;
     }
+
     return false;
   };
 
@@ -121,15 +133,31 @@ export function MonthPicker({
   const canGoNextYear = maxYear === undefined || displayYear < maxYear;
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverAnchor asChild>
-        <div className={styles.field} data-disabled={disabled}>
-          <input
-            type="text"
-            className={styles.input}
-            value={inputValue}
+        <div className={styles.anchor}>
+          <MaskedInput
+            mask={{ preset: 'ym', separator }}
+            value={display}
+            onChange={(next) => {
+              setDisplay(next);
+              setIsEditing(true);
+              if (!next) onChange?.(undefined);
+            }}
+            onComplete={(next) => {
+              const parsed = normalizeMonth(parseYmDisplay(next, parse));
+              if (parsed && isWithinRange(parsed)) applyDraft(parsed);
+            }}
             placeholder={placeholder}
             disabled={disabled}
+            autoSelect={false}
+            fullWidth
+            clearable={clearable}
+            onClear={() => {
+              setDisplay('');
+              setIsEditing(false);
+              onChange?.(undefined);
+            }}
             onFocus={() => setIsEditing(true)}
             onBlur={(event) => {
               const nextTarget = event.relatedTarget as HTMLElement | null;
@@ -137,26 +165,20 @@ export function MonthPicker({
                 return;
               }
               setIsEditing(false);
-              const committed = commitInput();
-              if (!committed) setInputValue(label);
+              const committed = commitDisplay();
+              if (!committed) setDisplay(formattedValue);
             }}
-            onChange={(event) => setInputValue(event.target.value)}
-            onKeyDown={(event) => {
+            onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => {
               if (event.key !== 'Enter') return;
-              const committed = commitInput();
+              const committed = commitDisplay();
               if (committed) setOpen(false);
             }}
+            suffix={
+              <PopoverTrigger asChild>
+                <CalendarTrigger aria-label="Open month picker" disabled={disabled} />
+              </PopoverTrigger>
+            }
           />
-          <PopoverTrigger asChild>
-            <button
-              type="button"
-              className={styles.triggerButton}
-              aria-label="Open month picker"
-              disabled={disabled}
-            >
-              <CalendarIcon className={styles.triggerIcon} />
-            </button>
-          </PopoverTrigger>
         </div>
       </PopoverAnchor>
       <PopoverContent
@@ -200,10 +222,10 @@ export function MonthPicker({
                   data-selected={isSelectedMonth(month) ? 'true' : 'false'}
                   disabled={disabledMonth}
                   onClick={() => {
-                    setDraftValue(candidate);
+                    applyDraft(candidate);
                     onChange?.(candidate);
                     setIsEditing(false);
-                    setInputValue(format ? format(candidate) : defaultFormatter(candidate, locale));
+                    setDisplay(formatDateForYmMask(candidate, format));
                     setOpen(false);
                   }}
                 >

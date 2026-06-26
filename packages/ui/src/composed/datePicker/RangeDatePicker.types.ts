@@ -1,5 +1,14 @@
-import type { DateRange } from 'react-day-picker';
+/**
+ * @file packages/ui/src/composed/datePicker/RangeDatePicker.types.ts
+ * @description Public props for RangeDatePicker.
+ * @created 2026-06-25
+ */
 import type { CalendarProps } from '../../core/calendar';
+
+export type DateRange = {
+  from?: Date;
+  to?: Date;
+};
 
 export interface RangeDatePickerProps {
   value?: DateRange;

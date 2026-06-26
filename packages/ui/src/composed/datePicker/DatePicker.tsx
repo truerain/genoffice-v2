@@ -1,125 +1,164 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Calendar as CalendarIcon } from 'lucide-react';
-import type { PropsSingle } from 'react-day-picker';
+/**
+ * @file packages/ui/src/composed/datePicker/DatePicker.tsx
+ * @description Single-date picker — MaskedInput (ymd) + Popover + Calendar.
+ * @created 2026-06-25
+ *
+ * @remark
+ * - value: Date?; typed commit via parseDateString / custom parse
+ * - Calendar trigger lives in MaskedInput suffix (no split .field chrome)
+ */
+import { useCallback, useEffect, useMemo, useState, type KeyboardEvent } from 'react';
 import { type CalendarProps, Calendar } from '../../core/calendar';
+import { MaskedInput } from '../../core/maskedInput';
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from '../../core/popover';
+import type { DateYmdSeparator } from '@gen-office/utils';
+import { CalendarTrigger } from './CalendarTrigger';
 import type { DatePickerProps } from './DatePicker.types';
+import {
+  DEFAULT_DATE_SEPARATOR,
+  formatDateForYmdMask,
+  parseYmdDisplay,
+} from './datePickerUtils';
 import styles from './DatePicker.module.css';
-
-const defaultFormatter = (date: Date, locale?: string, options?: Intl.DateTimeFormatOptions) => {
-  const formatter = new Intl.DateTimeFormat(locale || undefined, {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    ...options,
-  });
-  return formatter.format(date);
-};
 
 export function DatePicker({
   value,
   onChange,
-  placeholder = 'Select date',
+  placeholder = 'yyyy-mm-dd',
   disabled,
   align = 'start',
   locale,
   format,
-  formatOptions,
-  clearable: _clearable,
+  separator = DEFAULT_DATE_SEPARATOR,
+  clearable = false,
   parse,
   calendarProps,
   className,
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [display, setDisplay] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [draftValue, setDraftValue] = useState<Date | undefined>(value);
+  const [calendarMonth, setCalendarMonth] = useState(() => new Date());
 
-  const label = useMemo(() => {
-    if (!value) return '';
-    return format ? format(value) : defaultFormatter(value, locale, formatOptions);
-  }, [value, format, locale, formatOptions]);
+  const formattedValue = useMemo(
+    () => (value ? formatDateForYmdMask(value, separator as DateYmdSeparator, format) : ''),
+    [value, format, separator]
+  );
+
+  const syncDraftFromDisplay = useCallback((): Date | undefined => {
+    return parseYmdDisplay(display, separator as DateYmdSeparator, parse);
+  }, [display, separator, parse]);
+
+  const applyDraft = useCallback(
+    (nextDraft: Date | undefined) => {
+      setDraftValue(nextDraft);
+      if (nextDraft) {
+        setCalendarMonth(new Date(nextDraft.getFullYear(), nextDraft.getMonth(), 1));
+      }
+    },
+    []
+  );
 
   useEffect(() => {
-    if (!isEditing) setInputValue(label);
-  }, [label, isEditing]);
+    if (!isEditing) setDisplay(formattedValue);
+  }, [formattedValue, isEditing]);
 
   useEffect(() => {
-    if (open) setDraftValue(value);
-  }, [open, value]);
+    if (!open) return;
+    const parsed = syncDraftFromDisplay();
+    if (parsed) applyDraft(parsed);
+  }, [open, syncDraftFromDisplay, applyDraft]);
 
-  const handleSelect: PropsSingle['onSelect'] = (next) => {
-    const nextValue = next ?? undefined;
-    setDraftValue(nextValue);
-    onChange?.(nextValue);
-    setOpen(false);
+  const handleOpenChange = (nextOpen: boolean) => {
+    setOpen(nextOpen);
+    if (nextOpen) {
+      const parsed = syncDraftFromDisplay();
+      applyDraft(parsed ?? value);
+    }
   };
 
-  const parseInput = (rawValue: string) => {
-    if (!rawValue.trim()) return undefined;
-    if (parse) return parse(rawValue.trim());
-    const parsed = new Date(rawValue.trim());
-    return Number.isNaN(parsed.getTime()) ? undefined : parsed;
-  };
-
-  const commitInput = () => {
-    const next = parseInput(inputValue);
-    if (!inputValue.trim()) {
+  const commitDisplay = () => {
+    if (!display.trim()) {
       onChange?.(undefined);
       return true;
     }
-    if (next) {
-      onChange?.(next);
+
+    const parsed = parseYmdDisplay(display, separator as DateYmdSeparator, parse);
+    if (parsed && !Number.isNaN(parsed.getTime())) {
+      onChange?.(parsed);
       return true;
     }
+
     return false;
+  };
+
+  const handleSelect = (next: Date | undefined) => {
+    const nextValue = next ?? undefined;
+    applyDraft(nextValue);
+    onChange?.(nextValue);
+    setIsEditing(false);
+    setDisplay(nextValue ? formatDateForYmdMask(nextValue, separator as DateYmdSeparator, format) : '');
+    setOpen(false);
   };
 
   const selectedValue = open ? draftValue : value;
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverAnchor asChild>
-        <div className={styles.field} data-disabled={disabled}>
-          <input
-            type="text"
-            className={styles.input}
-            value={inputValue}
+        <div className={styles.anchor}>
+          <MaskedInput
+            mask={{ preset: 'ymd', separator }}
+            value={display}
+            onChange={(next) => {
+              setDisplay(next);
+              setIsEditing(true);
+              if (!next) onChange?.(undefined);
+            }}
+            onComplete={(next) => {
+              const parsed = parseYmdDisplay(next, separator as DateYmdSeparator, parse);
+              if (parsed) applyDraft(parsed);
+            }}
             placeholder={placeholder}
             disabled={disabled}
+            autoSelect={false}
+            fullWidth
+            clearable={clearable}
+            onClear={() => {
+              setDisplay('');
+              setIsEditing(false);
+              onChange?.(undefined);
+            }}
             onFocus={() => setIsEditing(true)}
             onBlur={() => {
               setIsEditing(false);
-              const committed = commitInput();
-              if (!committed) setInputValue(label);
+              const committed = commitDisplay();
+              if (!committed) setDisplay(formattedValue);
             }}
-            onChange={(event) => setInputValue(event.target.value)}
-            onKeyDown={(event) => {
+            onKeyDown={(event: KeyboardEvent<HTMLInputElement>) => {
               if (event.key !== 'Enter') return;
-              const committed = commitInput();
+              const committed = commitDisplay();
               if (committed) setOpen(false);
             }}
+            suffix={
+              <PopoverTrigger asChild>
+                <CalendarTrigger aria-label="Open calendar" disabled={disabled} />
+              </PopoverTrigger>
+            }
           />
-          <PopoverTrigger asChild>
-            <button
-              type="button"
-              className={styles.triggerButton}
-              aria-label="Open calendar"
-              disabled={disabled}
-            >
-              <CalendarIcon className={styles.triggerIcon} />
-            </button>
-          </PopoverTrigger>
         </div>
       </PopoverAnchor>
-      <PopoverContent align={align} className={className}>
+      <PopoverContent align={align} className={className} data-date-picker-popover="true">
         <div className={styles.content}>
           <Calendar
             mode="single"
-            selected={selectedValue}
-            onSelect={handleSelect}
             locale={locale as CalendarProps['locale']}
             {...calendarProps}
+            selected={selectedValue}
+            onSelect={handleSelect}
+            month={calendarMonth}
+            onMonthChange={setCalendarMonth}
           />
         </div>
       </PopoverContent>

@@ -35,6 +35,14 @@ export const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
       onComplete,
     });
 
+    const {
+      onChange: handleMaskChange,
+      onKeyDown: handleMaskKeyDown,
+      onPaste,
+      onCompositionStart,
+      onCompositionEnd,
+    } = inputHandlers;
+
     const mergeRef = useCallback(
       (node: HTMLInputElement | null) => {
         setInputRef(node);
@@ -58,7 +66,14 @@ export const MaskedInput = forwardRef<HTMLInputElement, MaskedInputProps>(
         autoSelect={autoSelect}
         value={display}
         onClear={onClear}
-        {...inputHandlers}
+        onChange={handleMaskChange}
+        onKeyDown={(event) => {
+          handleMaskKeyDown(event);
+          inputProps.onKeyDown?.(event);
+        }}
+        onPaste={onPaste}
+        onCompositionStart={onCompositionStart}
+        onCompositionEnd={onCompositionEnd}
       />
     );
   }

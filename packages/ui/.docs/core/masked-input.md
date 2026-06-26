@@ -255,7 +255,7 @@ Range 계열 typed input은 D-003 또는 C5b enhancement로 분리 가능.
 - [x] Storybook — Default, YmdSeparator, Disabled, WithSuffix, Clearable
 - [x] Storybook 수동 — focus, dark, a11y
 - [x] `src/index.ts` export
-- [ ] [input.md](./input.md) · [calendar.md](./calendar.md) cross-link
+- [x] [input.md](./input.md) · [calendar.md](./calendar.md) cross-link
 - [x] `implementation-log.md` 항목
 
 ---

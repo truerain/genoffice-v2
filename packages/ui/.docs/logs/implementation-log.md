@@ -8,6 +8,19 @@
 
 ## 2026-06-25
 
+### C5b DatePicker Storybook 수동 Gate
+
+- `UI/Composed/DatePicker` — single/range/month, light/dark, keyboard; V1 UX 회귀 없음 확인
+- C5b Gate `date-picker.md` §5 완료
+
+### C5b DatePicker — MaskedInput 연동
+
+- `composed/datePicker/*` — DatePicker·MonthPicker `MaskedInput`; Range* `Input` readOnly + suffix trigger
+- `datePickerUtils.ts`, `CalendarTrigger` (forwardRef for PopoverTrigger)
+- split `.field` CSS 제거; `clearable`·`separator` prop; `react-day-picker` import 제거
+- `DatePicker.test.tsx` 6건, `DatePicker.stories.tsx`; MaskedInput `onKeyDown` 병합
+- Input↔Calendar 동기화: popover open 시 `display` parse → `draftValue`·`calendarMonth`; `onComplete` 연동
+
 ### C5a MaskedInput Storybook 수동 Gate
 
 - title `UI/Core/maskedInput/MaskedInput` — focus, dark, a11y 이상 없음 확인

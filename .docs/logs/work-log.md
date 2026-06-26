@@ -8,6 +8,14 @@
 
 ## 2026-06-25
 
+### @gen-office/ui C5b DatePicker Storybook 수동 Gate
+
+- C5b Gate 완료 (C5a+C5b DatePicker 트랙 마무리)
+
+### @gen-office/ui C5b DatePicker MaskedInput 연동
+
+- 4컴포넌트 리팩터, composed test 6건, Storybook stories
+
 ### @gen-office/ui C5a MaskedInput Storybook 수동 Gate
 
 - focus · dark · a11y 확인 완료

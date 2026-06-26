@@ -50,28 +50,31 @@ V1 raw `<input>` + `DatePicker.module.css` `.field` split chrome은 **C5b에서 
 
 ---
 
-## 4. 현재 이관본 → C5b 작업
+## 4. C5b 완료 내역
 
-| 항목 | 현재 | C5b 목표 |
-| --- | --- | --- |
-| 텍스트 필드 | raw `<input>`, `.field` CSS | `MaskedInput` |
-| 타입 import | `react-day-picker` | `@daypicker/react` |
-| `clearable` | Date/Month 미연결 | MaskedInput `clearable` |
-| 파일 헤더·tests·stories | 없음 | Gate 필수 |
-| `editorOverlay` | MonthPicker grid attr | 유지 여부 C5b에서 결정·문서화 |
+| 항목 | 결과 |
+| --- | --- |
+| 텍스트 필드 | `MaskedInput` (Date/Month) · `Input` readOnly (Range) |
+| 타입 import | `react-day-picker` 제거; `DateRange`는 composed 로컬 타입 |
+| `clearable` | DatePicker · MonthPicker → MaskedInput 연결 |
+| split `.field` CSS | 제거; `CalendarTrigger` suffix + popover/month grid CSS만 유지 |
+| `editorOverlay` | MonthPicker `data-gen-grid-editor-overlay` 유지 |
+| tests · stories | `DatePicker.test.tsx` 7건, `DatePicker.stories.tsx` |
+
+**C5b Gate:** 2026-06-25 수동 Storybook·V1 UX 확인 완료.
 
 ---
 
 ## 5. Gate 체크리스트 (C5b)
 
-- [ ] C5a MaskedInput Gate 완료
-- [ ] 4컴포넌트 MaskedInput + Popover + Calendar 정합
-- [ ] `@daypicker/react` 타입 정리
-- [ ] Vitest composed tests
-- [ ] Storybook `UI/Composed/DatePicker` 등
-- [ ] Storybook 수동 — single/range/month, light/dark, keyboard
-- [ ] `implementation-log.md`
-- [ ] V1 대비 UX 회귀 없음 (수동)
+- [x] C5a MaskedInput Gate 완료
+- [x] 4컴포넌트 MaskedInput + Popover + Calendar 정합
+- [x] `@daypicker/react` / CalendarProps 정리 (`react-day-picker` import 제거)
+- [x] Vitest composed tests
+- [x] Storybook `UI/Composed/DatePicker` 등
+- [x] Storybook 수동 — single/range/month, light/dark, keyboard
+- [x] `implementation-log.md`
+- [x] V1 대비 UX 회귀 없음 (수동)
 
 ---
 

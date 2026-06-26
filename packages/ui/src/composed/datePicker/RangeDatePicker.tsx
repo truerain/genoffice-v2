@@ -1,11 +1,16 @@
+/**
+ * @file packages/ui/src/composed/datePicker/RangeDatePicker.tsx
+ * @description Date range picker — readOnly Input + Popover + range Calendar.
+ * @created 2026-06-25
+ */
 import { useEffect, useMemo, useState } from 'react';
-import { Calendar as CalendarIcon, Check, X } from 'lucide-react';
-import type { DateRange, PropsRange } from 'react-day-picker';
-
+import { Check, X } from 'lucide-react';
 import { Button } from '../../core/button';
 import { type CalendarProps, Calendar } from '../../core/calendar';
+import { Input } from '../../core/input';
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from '../../core/popover';
-import type { RangeDatePickerProps } from './RangeDatePicker.types';
+import { CalendarTrigger } from './CalendarTrigger';
+import type { DateRange, RangeDatePickerProps } from './RangeDatePicker.types';
 import styles from './DatePicker.module.css';
 
 const defaultFormatter = (date: Date, locale?: string, options?: Intl.DateTimeFormatOptions) => {
@@ -18,7 +23,7 @@ const defaultFormatter = (date: Date, locale?: string, options?: Intl.DateTimeFo
   return formatter.format(date);
 };
 
-function formatRange(
+function formatRangeLabel(
   range: DateRange | undefined,
   locale?: string,
   format?: (date: Date) => string,
@@ -52,7 +57,7 @@ export function RangeDatePicker({
     if (open) setDraftValue(value);
   }, [open, value]);
 
-  const handleSelect: PropsRange['onSelect'] = (next) => {
+  const handleSelect = (next: DateRange | undefined) => {
     setDraftValue(next ?? undefined);
   };
 
@@ -62,34 +67,29 @@ export function RangeDatePicker({
 
   const selectedValue = open ? draftValue : value;
   const label = useMemo(
-    () => formatRange(selectedValue, locale, format, formatOptions),
+    () => formatRangeLabel(selectedValue, locale, format, formatOptions),
     [selectedValue, locale, format, formatOptions]
   );
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverAnchor asChild>
-        <div className={styles.field} data-disabled={disabled}>
-          <input
-            type="text"
-            className={styles.input}
+        <div className={styles.anchor}>
+          <Input
             value={label}
             placeholder={placeholder}
             disabled={disabled}
             readOnly
+            autoSelect={false}
+            fullWidth
             onFocus={() => setOpen(true)}
             onClick={() => setOpen(true)}
+            suffix={
+              <PopoverTrigger asChild>
+                <CalendarTrigger aria-label="Open range calendar" disabled={disabled} />
+              </PopoverTrigger>
+            }
           />
-          <PopoverTrigger asChild>
-            <button
-              type="button"
-              className={styles.triggerButton}
-              aria-label="Open range calendar"
-              disabled={disabled}
-            >
-              <CalendarIcon className={styles.triggerIcon} />
-            </button>
-          </PopoverTrigger>
         </div>
       </PopoverAnchor>
       <PopoverContent align={align} className={className}>

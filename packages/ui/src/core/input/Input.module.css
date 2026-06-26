@@ -94,6 +94,9 @@
   border-radius: 999px;
   color: var(--color-fg-tertiary);
   background: var(--color-bg-primary);
+  font-size: 0.9375rem;
+  line-height: 1;
+  transform: translateY(-0.0625rem);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.12s ease, color 0.12s ease, background-color 0.12s ease;

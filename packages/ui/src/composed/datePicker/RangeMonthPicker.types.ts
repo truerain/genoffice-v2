@@ -1,3 +1,8 @@
+/**
+ * @file packages/ui/src/composed/datePicker/RangeMonthPicker.types.ts
+ * @description Public props for RangeMonthPicker.
+ * @created 2026-06-25
+ */
 export type MonthRange = {
   from?: Date;
   to?: Date;
