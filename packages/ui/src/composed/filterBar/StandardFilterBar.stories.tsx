@@ -273,3 +273,70 @@ export const WithDateAndMonth: RenderStory = {
     );
   },
 };
+
+type ComboFilterValues = {
+  keyword: string;
+  dept: string;
+  tags: string[];
+};
+
+export const WithComboFields: RenderStory = {
+  render: () => {
+    const [value, setValue] = useState<ComboFilterValues>({
+      keyword: '',
+      dept: '',
+      tags: [],
+    });
+
+    const fields = useMemo<FilterField<ComboFilterValues>[]>(
+      () => [
+        {
+          key: 'keyword',
+          label: 'Keyword',
+          type: 'search',
+          placeholder: 'Search',
+          size: 'fill',
+          simple: true,
+        },
+        {
+          key: 'dept',
+          label: 'Department',
+          type: 'combo',
+          placeholder: 'All departments',
+          size: 'md',
+          clearable: true,
+          simple: true,
+          options: [
+            { label: 'Sales', value: 'SALES' },
+            { label: 'Finance', value: 'FINANCE' },
+            { label: 'HR', value: 'HR' },
+          ],
+        },
+        {
+          key: 'tags',
+          label: 'Tags',
+          type: 'multi-combo',
+          placeholder: 'Select tags',
+          size: 'md',
+          clearable: true,
+          options: [
+            { label: 'Urgent', value: 'URG' },
+            { label: 'Review', value: 'REV' },
+            { label: 'Archive', value: 'ARC' },
+          ],
+        },
+      ],
+      []
+    );
+
+    return (
+      <StandardFilterBar
+        value={value}
+        fields={fields}
+        onChange={setValue}
+        onSearch={() => console.log('search', value)}
+        searchLabel="검색"
+      />
+    );
+  },
+};

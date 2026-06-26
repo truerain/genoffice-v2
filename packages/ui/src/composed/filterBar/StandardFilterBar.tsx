@@ -5,7 +5,7 @@
  *
  * @remark
  * - V1 SimpleFilterBar port; uses FilterBar + FilterField[]
- * - combo / multi-combo: Combobox (C6) 전까지 placeholder — type custom 사용 권장
+ * - combo / multi-combo: Combobox / MultiCombobox (C6)
  * - date / month: DatePicker / MonthPicker (fullWidth anchor)
  * - date-range / month-range: RangeDatePicker / RangeMonthPicker
  * - Default chrome: bordered panel via StandardFilterBar.module.css
@@ -26,7 +26,17 @@ import { FilterBar } from './FilterBar';
 import { DEFAULT_COLLAPSED_COUNT } from './filterBarCollapse';
 import type { FilterField, StandardFilterBarProps } from './FilterBar.types';
 import { SearchInput } from './SearchInput';
+import { Combobox } from '../comboBox/Combobox';
+import { MultiCombobox } from '../comboBox/MultiCombobox';
+import type { ComboboxOption } from '../comboBox/Combobox.types';
 import styles from './StandardFilterBar.module.css';
+
+function mapFilterOptions(options?: { label: string; value: string | number }[]): ComboboxOption[] {
+  return (options ?? []).map((opt) => ({
+    label: opt.label,
+    value: String(opt.value),
+  }));
+}
 
 function asOptionalDate(value: unknown): Date | undefined {
   return value instanceof Date && !Number.isNaN(value.getTime()) ? value : undefined;
@@ -48,18 +58,6 @@ function asMonthRange(value: unknown): MonthRange | undefined {
   const to = asOptionalDate(range.to);
   if (!from && !to) return undefined;
   return { from, to };
-}
-
-function ComboFieldPending({ label }: { label?: string }) {
-  return (
-    <Input
-      readOnly
-      disabled
-      value=""
-      placeholder="Combobox (Wave C6)"
-      aria-label={label ?? 'Combobox field pending'}
-    />
-  );
 }
 
 function renderDefaultField<TFilters>(
@@ -102,8 +100,35 @@ function renderDefaultField<TFilters>(
         />
       );
     case 'combo':
-    case 'multi-combo':
-      return <ComboFieldPending label={field.label} />;
+      return (
+        <Combobox
+          value={String(fieldValue ?? '')}
+          onValueChange={(next) => setFieldValue(next)}
+          placeholder={field.placeholder}
+          options={mapFilterOptions(field.options)}
+          clearable={field.clearable ?? true}
+          clearLabel={field.clearLabel}
+          fullWidth
+        />
+      );
+    case 'multi-combo': {
+      const multiValue = Array.isArray(fieldValue)
+        ? fieldValue.map(String)
+        : fieldValue
+          ? [String(fieldValue)]
+          : [];
+      return (
+        <MultiCombobox
+          values={multiValue}
+          onValuesChange={(next) => setFieldValue(next)}
+          placeholder={field.placeholder}
+          options={mapFilterOptions(field.options)}
+          clearable={field.clearable ?? true}
+          clearLabel={field.clearLabel}
+          fullWidth
+        />
+      );
+    }
     case 'date':
       return (
         <DatePicker

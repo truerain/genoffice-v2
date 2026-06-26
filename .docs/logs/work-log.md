@@ -8,6 +8,18 @@
 
 ## 2026-06-25
 
+### @gen-office/ui C6 Combobox Storybook 수동 Gate
+
+- C6 Gate 마감 (Combobox + FilterBar combo 연동 포함)
+
+### @gen-office/ui MultiCombobox selected tooltip
+
+- `selectedTooltip='auto'`, `formatSelectedTooltip`, test 3건 추가
+
+### @gen-office/ui C6 Combobox Gate
+
+- Combobox/MultiCombobox 정리, FilterBar combo 연동, test 5건 + stories
+
 ### @gen-office/ui FilterBar date · month 필드
 
 - StandardFilterBar + DatePicker/MonthPicker, Story `WithDateAndMonth`

@@ -214,6 +214,50 @@ describe('StandardFilterBar', () => {
     expect(onChange).toHaveBeenCalledWith({ fromDate: undefined });
   });
 
+  it('renders combo and multi-combo fields', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+
+    render(
+      <StandardFilterBar
+        value={{ dept: '', tags: [] as string[] }}
+        fields={[
+          {
+            key: 'dept',
+            label: 'Department',
+            type: 'combo',
+            placeholder: 'Pick dept',
+            options: [
+              { label: 'Sales', value: 'SALES' },
+              { label: 'Finance', value: 'FIN' },
+            ],
+            size: 'md',
+          },
+          {
+            key: 'tags',
+            label: 'Tags',
+            type: 'multi-combo',
+            placeholder: 'Pick tags',
+            options: [
+              { label: 'Urgent', value: 'URG' },
+              { label: 'Review', value: 'REV' },
+            ],
+            size: 'md',
+          },
+        ]}
+        onChange={onChange}
+      />
+    );
+
+    expect(screen.getByText('Department')).toBeInTheDocument();
+    expect(screen.getByText('Tags')).toBeInTheDocument();
+    expect(screen.queryByPlaceholderText('Combobox (Wave C6)')).not.toBeInTheDocument();
+
+    await user.click(screen.getByPlaceholderText('Pick dept'));
+    await user.click(screen.getByRole('option', { name: 'Finance' }));
+    expect(onChange).toHaveBeenCalledWith({ dept: 'FIN', tags: [] });
+  });
+
   it('toggles visible fields when collapsible', async () => {
     const user = userEvent.setup();
 

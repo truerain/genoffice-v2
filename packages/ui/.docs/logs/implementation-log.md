@@ -8,6 +8,23 @@
 
 ## 2026-06-25
 
+### C6 Combobox Storybook 수동 Gate 완료
+
+- `UI/Composed/Combobox`, `WithComboFields` — filter, keyboard, clear, grouped, light/dark 확인
+- `combobox.md` §6 Gate 체크리스트 전항목 완료 → **C6 Gate 마감**
+
+### MultiCombobox selected tooltip
+
+- `selectedTooltip` (`auto` 기본): 2개 이상 선택 시 hover/focus tooltip에 전체 label 목록
+- `formatSelectedTooltip`, popover open 시 tooltip 비활성, label 없을 때 `aria-label` 보강
+- tooltip `side="top"` — option list popover(아래)와 구분
+
+### C6 Combobox / MultiCombobox Gate
+
+- `composed/comboBox/*` — V1 이관본 정리: 파일 헤더, `PopoverAnchor`, Input `autoSelect={false}`, default export 제거
+- `Combobox.test.tsx` 5건, `Combobox.stories.tsx`; StandardFilterBar `combo` / `multi-combo` 연동
+- Story `WithComboFields`, `filter-bar.md`·`combobox.md` Gate 문서
+
 ### FilterBar `date` · `month` · range 필드 연동
 
 - `date-range` → `RangeDatePicker`, `month-range` → `RangeMonthPicker`; range pickers `fullWidth`

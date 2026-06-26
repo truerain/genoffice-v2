@@ -99,13 +99,13 @@ Public export: `FilterBar`, `StandardFilterBar`, `FilterBarFieldSize`, `FilterBa
 | --- | --- | --- |
 | `label` | 전체 | `FilterBar.Item` label (Input·Select `label` prop과 동일 관례) |
 | `placeholder` | text · search · select | |
-| `clearable` | text · search · **date · month · date-range · month-range** | default `true` |
-| `clearLabel` | text · search | clear 버튼 `aria-label` |
+| `clearable` | text · search · **date · month · date-range · month-range · combo · multi-combo** | default `true` |
+| `clearLabel` | text · search · **combo · multi-combo** | clear 버튼 `aria-label` |
 | `locale` / `separator` | **date · month** | DatePicker / MonthPicker |
 | `locale` / `formatOptions` | **date-range** | RangeDatePicker |
 | `locale` | **month-range** | RangeMonthPicker |
 | `fromMonth` / `toMonth` | **month · month-range** | MonthPicker / RangeMonthPicker |
-| `options` | select | `FilterFieldOption[]` |
+| `options` | select · **combo · multi-combo** | `FilterFieldOption[]` |
 | `enterToSearch` | text | Enter 시 `onSearch` |
 
 ## StandardFilterBar (선언형)
@@ -135,7 +135,8 @@ Public export: `FilterBar`, `StandardFilterBar`, `FilterBarFieldSize`, `FilterBa
 | `month` | `MonthPicker` | `Date \| undefined` (day=1) |
 | `date-range` | `RangeDatePicker` | `DateRange \| undefined` |
 | `month-range` | `RangeMonthPicker` | `MonthRange \| undefined` |
-| `combo` / `multi-combo` | **C6 Combobox 전 placeholder** | `custom` 사용 권장 |
+| `combo` | `Combobox` | `string` value |
+| `multi-combo` | `MultiCombobox` | `string[]` value |
 | `custom` | `render(value, onChange)` | PopupInput 등 |
 
 ## 스타일·토큰 (`@gen-office/theme`)
@@ -155,7 +156,7 @@ fields grid: `align-items: end` — 줄마다 컨트롤 bottom 정렬.
 ## Storybook
 
 - **FilterBar:** `Compound`, `HorizontalItemLayout`, `ColumnActions`, `Collapsible`, `InlineActions`
-- **StandardFilterBar:** `Default`, `HorizontalItemLayout`, `Collapsible`, `TextWithEnterSearch`, `WithDateAndMonth`
+- **StandardFilterBar:** `Default`, `HorizontalItemLayout`, `Collapsible`, `TextWithEnterSearch`, `WithDateAndMonth`, `WithComboFields`
 
 ## Gate 체크리스트 (Wave 5 — C4)
 
@@ -164,4 +165,4 @@ fields grid: `align-items: end` — 줄마다 컨트롤 bottom 정렬.
 - [x] 2-zone layout, `size` preset, tests, stories, docs
 - [x] Storybook 수동: compound · select · light/dark · multi-row wrap
 - [x] `FilterField` `label` · `clearable`/`clearLabel` 연동, 내부 CSS `filterItemLabel`
-- [ ] C6 이후: `combo` / `multi-combo` 실제 Combobox 연동 (C4 범위 밖)
+- [x] C6: `combo` / `multi-combo` → Combobox / MultiCombobox 연동

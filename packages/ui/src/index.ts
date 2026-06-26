@@ -46,4 +46,5 @@ export * from './composed/alertDialog';
 export * from './composed/confirmDialog';
 export * from './composed/splitLayout';
 export * from './composed/filterBar';
-export * from './composed/datePicker'
+export * from './composed/datePicker';
+export * from './composed/comboBox';
