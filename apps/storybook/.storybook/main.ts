@@ -27,7 +27,7 @@ const config: StorybookConfig = {
         dedupe: ['react', 'react-dom'],
         alias: {
           ...config.resolve?.alias,
-          '@gen-office/theme': join(themeSrc, 'index.ts'),
+          '@gen-office/theme/index.css': join(themeSrc, 'index.css'),
         },
       },
       optimizeDeps: {

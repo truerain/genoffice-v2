@@ -10,6 +10,31 @@
 -->
 # @gen-office/mdi 검토 로그
 
+## 2026-06-27 — Storybook Gate
+
+### stories
+
+`packages/mdi/src/components/MDIContainer/MDIContainer.stories.tsx` — title: `MDI/MDIContainer`
+
+| Story | 검증 |
+| --- | --- |
+| Default | 3탭 오픈, Input 상태 보존 |
+| MaxTabs | maxTabs=2, onMaxTabsReached 카운터 |
+| BottomTabs | tabPosition bottom |
+| ContextMenu | tabBarLabels 한글, 우클릭 메뉴 |
+| ClosableFalse | pin 탭 + Close Others |
+| Empty | custom emptyContent |
+
+### storybook 앱
+
+- `apps/storybook/package.json` — `@gen-office/mdi`, `@gen-office/ui` workspace 의존
+- `.storybook/main.ts` — `@gen-office/theme/index.css` alias (CSS import 충돌 방지)
+- `.storybook/preview.tsx` — storySort `MDI` 추가
+
+### 검증
+
+- [x] `pnpm -C apps/storybook build` — MDIContainer.stories 포함
+
 ## 2026-06-27 — P2 V2 컨벤션·접근성·i18n
 
 ### 변경 요약

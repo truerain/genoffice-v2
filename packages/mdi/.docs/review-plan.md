@@ -171,7 +171,7 @@ flowchart LR
 | P1 | ✅ 완료 | 2026-06-27 |
 | P2 | ✅ 완료 | 2026-06-27 |
 | P3 | ⬜ 보류 | — |
-| Storybook Gate | ⬜ 미착수 | — |
+| Storybook Gate | ✅ 완료 | 2026-06-27 |
 | review-log 검토 마감 | ⬜ 미착수 | — |
 
 ---

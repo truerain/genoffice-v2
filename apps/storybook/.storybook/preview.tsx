@@ -8,7 +8,7 @@ const preview: Preview = {
     options: {
       // Root kinds only (first title segment). Use Theme/Theme in stories — not title: 'Theme'.
       storySort: {
-        order: ['*','UI', 'Theme'],
+        order: ['*', 'MDI', 'UI', 'Theme'],
         method: 'alphabetical',
       },
     },

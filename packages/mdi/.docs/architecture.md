@@ -349,13 +349,13 @@ flowchart LR
 
 ---
 
-## 9. 테스트·Storybook (현재)
+## 9. 테스트·Storybook
 
 | 항목 | 상태 |
 | --- | --- |
-| Vitest | `test/setup.ts` 준비, 테스트 파일 0건 (`passWithNoTests`) |
-| Storybook | `apps/storybook` glob 대상; mdi story 미작성 |
-| 권장 1차 테스트 | `mdiStore` add/remove/maxTabs/closeOther, `MDIContainer` empty state |
+| Vitest | 25 tests — store, TabBar, MDIContainer |
+| Storybook | `MDI/MDIContainer` — Default, MaxTabs, BottomTabs, ContextMenu, ClosableFalse, Empty |
+| 수동 Gate | `pnpm -C apps/storybook dev` → 탭 전환·입력 보존·우클릭 메뉴·키보드 |
 
 ---
 
@@ -366,7 +366,7 @@ flowchart LR
 | 항목 | 우선순위 | 설명 |
 | --- | --- | --- |
 | 파일 헤더 | P2 | V1 `// packages/mdi/...` → V2 JSDoc `@file` 형식 |
-| Storybook | P1~ | TabBar overflow·context menu·maxTabs 시나리오 |
+| Storybook | P1~ | ~~미작성~~ ✅ Gate §6 |
 
 ---
 

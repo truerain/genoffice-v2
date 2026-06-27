@@ -3,7 +3,8 @@
 Tab 기반 Multiple Document Interface (MDI) 컴포넌트 패키지
 
 > 구조·컴포넌트 계층·상태 흐름: [architecture.md](./architecture.md)  
-> 검토·개선 우선순위: [review-plan.md](./review-plan.md)
+> 검토 Plan: [review-plan.md](./review-plan.md)  
+> Storybook: `pnpm -C apps/storybook dev` → **MDI/MDIContainer**
 
 ## Features
 

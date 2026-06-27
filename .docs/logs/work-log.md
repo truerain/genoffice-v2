@@ -10,6 +10,10 @@
 
 ## 2026-06-27
 
+### @gen-office/mdi Storybook Gate
+
+- MDIContainer stories 6종; storybook build green; apps/storybook mdi·ui deps
+
 ### @gen-office/mdi P2 V2 컨벤션·a11y·i18n
 
 - clsx 전환, types 분리, TabBar 키보드·포커스·tabBarLabels; 테스트 25건
