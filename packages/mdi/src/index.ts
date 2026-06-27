@@ -5,12 +5,13 @@
  *
  * @remark
  * - Side-effect: ./index.css (theme tokens)
- * - Exports: MDIContainer, TabBar, Tab, TabPanel, useMDIStore, types
+ * - Exports: MDIContainer, TabBar, Tab, TabPanel, useMDIStore, MDIStoreProvider, createMDIStore, types
  */
 import './index.css';
 
 export { MDIContainer, TabBar, Tab, TabPanel } from './components';
-export { useMDIStore } from './store/mdiStore';
+export { useMDIStore, createMDIStore } from './store/mdiStore';
+export { MDIStoreProvider } from './store/MDIStoreProvider';
 
 export type {
   MDITab,

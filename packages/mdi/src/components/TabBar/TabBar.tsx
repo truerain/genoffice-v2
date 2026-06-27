@@ -4,16 +4,24 @@
  * @created 2026-06-27
  */
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
+import { createPortal } from 'react-dom';
+import type { KeyboardEvent as ReactKeyboardEvent, MouseEvent as ReactMouseEvent } from 'react';
 import { clsx } from 'clsx';
 import { DEFAULT_TAB_BAR_LABELS, type TabBarProps } from '../../types';
-import { useMDIStore } from '../../store/mdiStore';
+import { useMDIStore, useMDIStoreApi } from '../../store/mdiStore';
+import { useSyncTabBarScrollToActiveTab } from '../../hooks/useSyncTabBarScrollToActiveTab';
 import { focusTabById } from '../../utils/tabFocus';
+import {
+  scrollTabElementIntoTabBarWhenReady,
+  syncTabBarScrollToActiveTab,
+} from '../../utils/tabScroll';
+import { clampViewportPosition } from '../../utils/clampViewportPosition';
 import { isTabListNavigationKey, resolveNextTabIndex } from '../../utils/tabListKeyboard';
 import { Tab } from '../Tab';
 import styles from './TabBar.module.css';
 
 export const TabBar = ({ position, labels, className }: TabBarProps) => {
+  const storeApi = useMDIStoreApi();
   const tabs = useMDIStore((state) => state.tabs);
   const activeTabId = useMDIStore((state) => state.activeTabId);
   const setActiveTab = useMDIStore((state) => state.setActiveTab);
@@ -29,6 +37,7 @@ export const TabBar = ({ position, labels, className }: TabBarProps) => {
   );
   const contextMenuRef = useRef<HTMLDivElement | null>(null);
   const tabListRef = useRef<HTMLDivElement | null>(null);
+  const tabListWrapRef = useRef<HTMLDivElement | null>(null);
 
   const hasClosableTabs = useMemo(() => tabs.some((tab) => tab.closable !== false), [tabs]);
   const canCloseOthers = useMemo(() => tabs.length > 1, [tabs.length]);
@@ -38,9 +47,45 @@ export const TabBar = ({ position, labels, className }: TabBarProps) => {
   );
   const canCloseCurrent = contextTab?.closable !== false;
 
-  const focusActiveTab = useCallback(() => {
-    queueMicrotask(() => focusTabById(useMDIStore.getState().activeTabId));
+  useSyncTabBarScrollToActiveTab(activeTabId, tabListWrapRef);
+
+  const syncScrollToTab = useCallback((tabId: string) => {
+    syncTabBarScrollToActiveTab(tabId, tabListWrapRef.current);
   }, []);
+
+  const activeTabRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (!node || !tabListWrapRef.current) return;
+      scrollTabElementIntoTabBarWhenReady(node, tabListWrapRef.current);
+    },
+    [activeTabId],
+  );
+
+  const focusActiveTab = useCallback(() => {
+    queueMicrotask(() => {
+      const currentActiveId = storeApi.getState().activeTabId;
+      if (!currentActiveId) return;
+      syncScrollToTab(currentActiveId);
+      focusTabById(currentActiveId);
+    });
+  }, [storeApi, syncScrollToTab]);
+
+  const selectTab = useCallback(
+    (tabId: string) => {
+      setActiveTab(tabId);
+      syncScrollToTab(tabId);
+    },
+    [setActiveTab, syncScrollToTab],
+  );
+
+  const selectTabWithFocus = useCallback(
+    (tabId: string) => {
+      setActiveTab(tabId);
+      syncScrollToTab(tabId);
+      requestAnimationFrame(() => focusTabById(tabId));
+    },
+    [setActiveTab, syncScrollToTab],
+  );
 
   const handleCloseTab = useCallback(
     (tabId: string) => {
@@ -48,14 +93,6 @@ export const TabBar = ({ position, labels, className }: TabBarProps) => {
       focusActiveTab();
     },
     [focusActiveTab, removeTab],
-  );
-
-  const activateTab = useCallback(
-    (tabId: string) => {
-      setActiveTab(tabId);
-      focusTabById(tabId);
-    },
-    [setActiveTab],
   );
 
   const handleTabListKeyDown = useCallback(
@@ -71,35 +108,53 @@ export const TabBar = ({ position, labels, className }: TabBarProps) => {
       if (nextIndex === null) return;
 
       event.preventDefault();
-      const nextId = tabIds[nextIndex];
-      activateTab(nextId);
+      selectTabWithFocus(tabIds[nextIndex]);
     },
-    [activateTab, tabs],
+    [selectTabWithFocus, tabs],
   );
+
+  const openContextMenu = useCallback((tabId: string, event: ReactMouseEvent) => {
+    event.preventDefault();
+    selectTab(tabId);
+    const anchor = { x: event.clientX, y: event.clientY };
+    setContextMenu({ tabId, ...anchor });
+    setContextMenuPosition({ left: anchor.x, top: anchor.y });
+  }, [selectTab]);
 
   useLayoutEffect(() => {
     if (!contextMenu) {
       setContextMenuPosition(null);
       return;
     }
-    const menu = contextMenuRef.current;
-    if (!menu) {
-      setContextMenuPosition({ left: contextMenu.x, top: contextMenu.y });
-      return;
-    }
 
-    const viewportPadding = 8;
-    const rect = menu.getBoundingClientRect();
-    const maxLeft = Math.max(viewportPadding, window.innerWidth - rect.width - viewportPadding);
-    const maxTop = Math.max(viewportPadding, window.innerHeight - rect.height - viewportPadding);
+    let frameId = 0;
 
-    const nextLeft = Math.min(Math.max(contextMenu.x, viewportPadding), maxLeft);
-    const nextTop = Math.min(Math.max(contextMenu.y, viewportPadding), maxTop);
+    const clampMenuPosition = () => {
+      const menu = contextMenuRef.current;
+      if (!menu) return;
 
-    setContextMenuPosition((prev) => {
-      if (prev && prev.left === nextLeft && prev.top === nextTop) return prev;
-      return { left: nextLeft, top: nextTop };
-    });
+      const rect = menu.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) {
+        frameId = requestAnimationFrame(clampMenuPosition);
+        return;
+      }
+
+      const next = clampViewportPosition(
+        { x: contextMenu.x, y: contextMenu.y },
+        { width: rect.width, height: rect.height },
+      );
+
+      setContextMenuPosition((prev) => {
+        if (prev && prev.left === next.left && prev.top === next.top) return prev;
+        return next;
+      });
+    };
+
+    clampMenuPosition();
+
+    return () => {
+      if (frameId) cancelAnimationFrame(frameId);
+    };
   }, [contextMenu]);
 
   useEffect(() => {
@@ -139,74 +194,73 @@ export const TabBar = ({ position, labels, className }: TabBarProps) => {
       ref={tabListRef}
       onKeyDown={handleTabListKeyDown}
     >
-      <div className={styles.tabListWrap}>
+      <div className={styles.tabListWrap} ref={tabListWrapRef}>
         <div className={styles.tabList}>
           {tabs.map((tab) => (
             <Tab
               key={tab.id}
+              ref={tab.id === activeTabId ? activeTabRef : null}
               tab={tab}
               isActive={tab.id === activeTabId}
-              onClick={() => activateTab(tab.id)}
-              onContextMenu={(event) => {
-                event.preventDefault();
-                activateTab(tab.id);
-                setContextMenu({ tabId: tab.id, x: event.clientX, y: event.clientY });
-              }}
+              onClick={() => selectTab(tab.id)}
+              onContextMenu={(event) => openContextMenu(tab.id, event)}
               onClose={() => handleCloseTab(tab.id)}
             />
           ))}
         </div>
       </div>
-      {contextMenu && (
-        <div
-          ref={contextMenuRef}
-          className={styles.contextMenu}
-          style={{
-            left: contextMenuPosition?.left ?? contextMenu.x,
-            top: contextMenuPosition?.top ?? contextMenu.y,
-          }}
-          role="menu"
-          data-mdi-tab-context-menu="true"
-        >
-          <button
-            type="button"
-            className={styles.contextMenuItem}
-            onClick={() => {
-              if (!contextTab || !canCloseCurrent) return;
-              handleCloseTab(contextTab.id);
-              setContextMenu(null);
+      {contextMenu &&
+        createPortal(
+          <div
+            ref={contextMenuRef}
+            className={styles.contextMenu}
+            style={{
+              left: contextMenuPosition?.left ?? contextMenu.x,
+              top: contextMenuPosition?.top ?? contextMenu.y,
             }}
-            disabled={!canCloseCurrent}
+            role="menu"
+            data-mdi-tab-context-menu="true"
           >
-            {menuLabels.close}
-          </button>
-          <button
-            type="button"
-            className={styles.contextMenuItem}
-            onClick={() => {
-              if (!contextTab) return;
-              closeOtherTabs(contextTab.id);
-              focusActiveTab();
-              setContextMenu(null);
-            }}
-            disabled={!canCloseOthers}
-          >
-            {menuLabels.closeOthers}
-          </button>
-          <button
-            type="button"
-            className={styles.contextMenuItem}
-            onClick={() => {
-              closeAllClosableTabs();
-              focusActiveTab();
-              setContextMenu(null);
-            }}
-            disabled={!hasClosableTabs}
-          >
-            {menuLabels.closeAll}
-          </button>
-        </div>
-      )}
+            <button
+              type="button"
+              className={styles.contextMenuItem}
+              onClick={() => {
+                if (!contextTab || !canCloseCurrent) return;
+                handleCloseTab(contextTab.id);
+                setContextMenu(null);
+              }}
+              disabled={!canCloseCurrent}
+            >
+              {menuLabels.close}
+            </button>
+            <button
+              type="button"
+              className={styles.contextMenuItem}
+              onClick={() => {
+                if (!contextTab) return;
+                closeOtherTabs(contextTab.id);
+                focusActiveTab();
+                setContextMenu(null);
+              }}
+              disabled={!canCloseOthers}
+            >
+              {menuLabels.closeOthers}
+            </button>
+            <button
+              type="button"
+              className={styles.contextMenuItem}
+              onClick={() => {
+                closeAllClosableTabs();
+                focusActiveTab();
+                setContextMenu(null);
+              }}
+              disabled={!hasClosableTabs}
+            >
+              {menuLabels.closeAll}
+            </button>
+          </div>,
+          document.body,
+        )}
     </div>
   );
 };

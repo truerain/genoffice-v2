@@ -22,8 +22,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook": "pnpm -C ../../apps/storybook dev",
+    "build-storybook": "pnpm -C ../../apps/storybook build"
   },
   "dependencies": {
     "@gen-office/theme": "workspace:*",

@@ -121,6 +121,15 @@ describe('useMDIStore — closeOtherTabs & closeAllClosableTabs', () => {
     expect(useMDIStore.getState().tabs).toHaveLength(0);
     expect(useMDIStore.getState().activeTabId).toBeNull();
   });
+
+  it('removeTab ignores closable:false tabs', () => {
+    useMDIStore.getState().addTab(makeTab('pin', { closable: false }));
+    useMDIStore.getState().addTab(makeTab('a'));
+
+    useMDIStore.getState().removeTab('pin');
+
+    expect(useMDIStore.getState().tabs.map((t) => t.id)).toEqual(['pin', 'a']);
+  });
 });
 
 describe('useMDIStore — reset', () => {

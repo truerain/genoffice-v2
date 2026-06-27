@@ -10,6 +10,129 @@
 -->
 # @gen-office/mdi 검토 로그
 
+## 2026-06-27 — Storybook Docs store 격리
+
+### 원인
+
+- Storybook **Docs** 탭은 모든 story를 한 페이지에 동시 렌더링
+- `useMDIStore`가 **전역 singleton**(`defaultMDIStore`)이어서 story 간 탭·activeTabId가 공유됨
+
+### 수정
+
+- `createMdiStoreState` — store 로직 분리
+- `createMDIStore()` + `MDIStoreProvider` — subtree마다 독립 store
+- `useMDIStore` — Context store 우선, 없으면 default singleton (demo·기존 테스트)
+- `MDIContainer.stories.tsx` — decorator에 `MDIStoreProvider` + mount/unmount `reset`
+- `TabBar.focusActiveTab` — 닫기 직후 stale `activeTabId` 클로저 방지 (`storeApi.getState()`)
+- 테스트: `MDIStoreProvider.test.tsx` (41 tests pass)
+
+### 사용 가이드
+
+- Storybook / 다중 MDI 인스턴스: `<MDIStoreProvider>`로 감싸기
+- 단일 앱 demo: Provider 없이 `useMDIStore` 그대로 사용 가능
+
+---
+
+## 2026-06-27 — TabBar 가로 스크롤 연동 (2차)
+
+### 원인 추정
+
+- `useLayoutEffect` 1회만 실행 → 신규 탭 DOM 레이아웃 전에 scroll 계산 실패
+- `getBoundingClientRect` delta 방식만 사용 → 일부 환경에서 scrollLeft 미갱신
+- flex item 기본 `flex-shrink: 1` → 탭 폭이 줄어 overflow·스크롤이 기대와 다를 수 있음
+
+### 수정
+
+- `scrollIntoView({ inline: 'nearest' })` + **document scroll 복원** 후, 여전히 안 보이면 `scrollLeft` 절대값 보정
+- `scrollTabIntoTabBarWhenReady` — rAF 재시도 (레이아웃 대기)
+- `useScrollActiveTabIntoView` — layout/paint effect + `ResizeObserver`
+- `Tab.module.css` — `flex-shrink: 0`
+- Storybook `ManyTabsScroll` — Add tab 반복 검증용
+
+### 3차 (화살표 키)
+
+- `useLayoutEffect`/`useEffect`가 **공유 cancelRef**로 rAF 재시도를 서로 취소하던 문제 제거
+- `selectTabWithFocus`(←/→/Home/End): `requestAnimationFrame` 후 **스크롤 → focus** 순서로 명시 호출
+- `scrollIntoView` 제거, `scrollLeft` 수동 보정만 사용 (페이지 스크롤·포커스 간섭 방지)
+
+### 4차 (LEFT 스크롤)
+
+- 왼쪽으로 잘린 탭은 `getBoundingClientRect()`가 클립 경계에 붙어 `tabStart ≈ scrollLeft`로 계산됨 → LEFT만 스크롤 안 됨
+- 탭 위치를 **`offsetLeft`(tabList 기준)** 로 계산하도록 변경
+
+### 5차 (클릭 + 반쯤 가려진 탭)
+
+- 클릭은 `focus()` 없이 `setActiveTab`만 → **같은 탭 재클릭** 시 hook 미실행 → 반쯤 가려진 Tab4 스크롤 안 됨
+- `revealTabInBar`: 클릭·키보드 공통 rAF 후 tab bar scroll (document focus/scroll 점프 없음)
+
+### 6차 (activeTab 단일 동기화)
+
+- **`syncTabBarScrollToActiveTab`** — activeTabId → tab bar scroll 단일 진입점
+- **`useSyncTabBarScrollToActiveTab`** — activeTabId 변경 시 layout/paint 동기화
+- **활성 Tab ref** — active DOM 부착 시 즉시 scroll
+- **가시성**: `getBoundingClientRect` / **스크롤 좌표**: `offsetLeft` 분리 (반쯤 가려진 탭 감지)
+- `selectTab`·키보드·addTab 모두 `syncTabBarScrollToActiveTab(tabId)` 경유
+
+### 7차 (left 정렬 좌표)
+
+- `offsetLeft`만으로 scroll 시 border/subpixel 오차 → left edge가 컨테이너에 맞지 않음
+- **1차**: `getBoundingClientRect` viewport delta (부분 가림 탭, 픽셀 정확)
+- **2차**: `offsetLeft` content range (rect collapsed·완전 off-screen)
+- viewport nudge 후 **2nd pass** (active 스타일 적용 후 subpixel 보정)
+
+## 2026-06-27 — closable:false pin 탭 (ClosableFalse story)
+
+### 문제
+
+Dashboard(`closable: false`)에 닫기 버튼 표시·닫힘.
+
+### 원인
+
+- Storybook decorator `reset`이 `useEffect` → 자식 `addTab` **이후** 실행되면 focus-only 재호출 등으로 `closable` 미반영
+- `removeTab`이 `closable: false` 검사 없음
+
+### 수정
+
+- decorator `useLayoutEffect` reset (자식 `useEffect` addTab보다 선행)
+- `ClosableFalseDemo`: `reset()` 후 pin 탭 add
+- `removeTab`: `closable === false` no-op
+
+## 2026-06-27 — TabBar 컨텍스트 메뉴 좌표
+
+### 문제
+
+Storybook ContextMenu story에서 우클릭 메뉴 **y 좌표**가 클릭 위치와 어긋남.
+
+### 원인
+
+- `position: fixed` + `clientX/Y`인데 TabBar DOM **내부** 렌더 → Storybook/overflow/transform 좌표계 불일치
+- 재오픈 시 **이전 `contextMenuPosition`** 이 잠깐 재사용됨
+- clamp 시 메뉴 height 0 측정 → `maxTop` 왜곡 가능
+
+### 수정
+
+- `createPortal(..., document.body)` — viewport 좌표와 일치
+- `openContextMenu`: anchor와 position 동시 초기화
+- `clampViewportPosition` + rAF remeasure 후 clamp
+
+## 2026-06-27 — Deferred: Excel-style TabBar
+
+- 탭 다수 UX는 Excel 시트 strip 방식(스크롤 화살표·시트 목록 등)으로 **별도 deferred** — `review-plan.md` §5.1
+- 현재 TabBar scroll ↔ activeTab 연동은 완료; UI 패턴 개선은 착수 보류
+
+## 2026-06-27 — TabBar 가로 스크롤 연동
+
+### 문제
+
+탭이 많아 `.tabListWrap`에 가로 스크롤바가 생긴 뒤 **Add tab**으로 신규 탭을 열면 활성 탭은 바뀌지만 스크롤 위치가 갱신되지 않아 새 탭이 화면 밖에 남음.
+
+### 수정
+
+- `src/utils/tabScroll.ts` — `scrollTabIntoTabBar` (컨테이너 `scrollLeft`만 조정, 페이지 스크롤 없음)
+- `TabBar.tsx` — `tabListWrapRef` + `activeTabId`/`tabs` 변경 시 `useLayoutEffect`로 활성 탭 scroll-into-view
+- 키보드·닫기 후 포커스 경로(`focusTabInBar`)에도 동일 스크롤 적용
+- `test/utils/tabScroll.test.ts` 3건 추가 (총 29 tests)
+
 ## 2026-06-27 — Storybook Gate
 
 ### stories
@@ -33,7 +156,12 @@
 
 ### 검증
 
-- [x] `pnpm -C apps/storybook build` — MDIContainer.stories 포함
+- [x] `pnpm -C packages/mdi storybook` → `apps/storybook` 위임 (로컬 `.storybook` 없음)
+
+### 후속 수정 (2026-06-27)
+
+- 탭 **마우스 클릭** 시 `focusTabById` 제거 → 페이지 최상단 스크롤 점프 방지
+- 키보드·탭 닫기 focus는 `preventScroll: true` 유지
 
 ## 2026-06-27 — P2 V2 컨벤션·접근성·i18n
 

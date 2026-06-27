@@ -9,5 +9,5 @@ export function getTabElementId(tabId: string): string {
 
 export function focusTabById(tabId: string | null | undefined): void {
   if (!tabId) return;
-  document.getElementById(getTabElementId(tabId))?.focus();
+  document.getElementById(getTabElementId(tabId))?.focus({ preventScroll: true });
 }

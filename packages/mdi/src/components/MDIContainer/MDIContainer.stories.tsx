@@ -5,35 +5,50 @@
  *
  * @remark
  * - title: MDI/MDIContainer
+ * - MDIStoreProvider: Docs 페이지에 story가 동시에 렌더될 때 store 격리
  * - Parent frame: explicit height + flex min-height 0
- * - Store reset per story via decorator
  */
 import type { CSSProperties } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Input } from '@gen-office/ui';
 import { FileText, Home, Settings } from 'lucide-react';
 import { MDIContainer } from './MDIContainer';
+import { MDIStoreProvider } from '../../store/MDIStoreProvider';
 import { useMDIStore } from '../../store/mdiStore';
+
+function StoreResetDecorator({ children }: { children: React.ReactNode }) {
+  const reset = useMDIStore((state) => state.reset);
+
+  useLayoutEffect(() => {
+    reset();
+    return () => reset();
+  }, [reset]);
+
+  return children;
+}
 
 const meta: Meta<typeof MDIContainer> = {
   title: 'MDI/MDIContainer',
   component: MDIContainer,
   parameters: {
     layout: 'padded',
+    docs: {
+      description: {
+        component:
+          '각 story는 `MDIStoreProvider`로 store가 격리됩니다. Docs 탭에서도 story 간 탭 상태가 공유되지 않습니다.',
+      },
+    },
   },
   tags: ['autodocs'],
   decorators: [
-    (Story) => {
-      function StoreResetDecorator() {
-        useEffect(() => {
-          useMDIStore.getState().reset();
-          return () => useMDIStore.getState().reset();
-        }, []);
-        return <Story />;
-      }
-      return <StoreResetDecorator />;
-    },
+    (Story) => (
+      <MDIStoreProvider>
+        <StoreResetDecorator>
+          <Story />
+        </StoreResetDecorator>
+      </MDIStoreProvider>
+    ),
   ],
 };
 
@@ -133,6 +148,42 @@ export const Default: RenderStory = {
   ),
 };
 
+function ManyTabsScrollDemo() {
+  const addTab = useMDIStore((state) => state.addTab);
+  const tabs = useMDIStore((state) => state.tabs);
+
+  const openTab = () => {
+    const id = `scroll-${Date.now()}`;
+    addTab({
+      id,
+      title: `Tab ${tabs.length + 1}`,
+      content: <TabDemoPanel title={`Tab ${tabs.length + 1}`} />,
+    });
+  };
+
+  return (
+    <div>
+      <p style={hintStyle}>
+        탭을 여러 개 추가해 가로 스크롤이 생긴 뒤 <strong>Add tab</strong>을 누르면 새 탭이 보이는지
+        확인하세요.
+      </p>
+      <div style={toolbarStyle}>
+        <button type="button" onClick={openTab}>
+          Add tab
+        </button>
+        <span style={hintStyle}>{tabs.length} tab(s) open</span>
+      </div>
+      <div style={{ ...frameStyle, maxWidth: 640 }}>
+        <MDIContainer />
+      </div>
+    </div>
+  );
+}
+
+export const ManyTabsScroll: RenderStory = {
+  render: () => <ManyTabsScrollDemo />,
+};
+
 function MaxTabsDemo() {
   const addTab = useMDIStore((state) => state.addTab);
   const [hits, setHits] = useState(0);
@@ -220,8 +271,11 @@ export const ContextMenu: RenderStory = {
 };
 
 function ClosableFalseDemo() {
+  const reset = useMDIStore((state) => state.reset);
+  const addTab = useMDIStore((state) => state.addTab);
+
   useEffect(() => {
-    const { addTab } = useMDIStore.getState();
+    reset();
     addTab({
       id: 'dashboard',
       title: 'Dashboard (pinned)',
@@ -238,7 +292,7 @@ function ClosableFalseDemo() {
       title: 'Orders',
       content: <TabDemoPanel title="Orders" />,
     });
-  }, []);
+  }, [addTab, reset]);
 
   return (
     <div>

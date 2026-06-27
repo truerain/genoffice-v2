@@ -53,6 +53,8 @@ flowchart LR
 | **P2** | V2 컨벤션·a11y·i18n | shell UX | ✅ 2026-06-27 |
 | **P3** | 장기 구조 | MVP 이후 | page registry, DropdownMenu |
 
+**Deferred (별도 트랙):** [§5.1 Excel-style TabBar](#51-deferred--excel-style-tabbar) — 탭 다수 UX, MVP·P3 Gate 블로커 아님
+
 ---
 
 ## 2. P0 — public API·동작 정합 (블로커)
@@ -130,6 +132,27 @@ flowchart LR
 | P3.4 | **multi-instance store** | `createMDIStore()` factory / Context | MDI 2영역 필요 시 |
 | P3.5 | **Zustand `useShallow`** | selector 구독 최적화 | perf 프로파일링 후 |
 
+### 5.1 Deferred — Excel-style TabBar
+
+**상태:** ⬜ deferred (별도 착수 — TabBar scroll 연동은 2026-06-27 완료, UI 패턴은 후속)
+
+**목표:** 탭이 많을 때 Excel 워크시트 탭과 유사한 탐색 UX. 현재 flex + 가로 스크롤만으로는 discoverability·조작감이 부족하다는 피드백 반영.
+
+| # | 후보 기능 | 설명 |
+| --- | --- | --- |
+| D1 | **좌/우 스크롤 버튼** | overflow 시 ‹ › 로 tab strip 한 칸씩 또는 viewport 단위 이동 (Excel sheet tab arrows) |
+| D2 | **시트 목록 팝업** | « … » 또는 chevron → 열린 탭 전체 목록·검색·점프 |
+| D3 | **활성 탭 우선 노출** | `activeTabId` 변경 시 strip scroll은 유지(현 `syncTabBarScrollToActiveTab`); 버튼·목록과 역할 분리 |
+| D4 | **(선택) 탭 strip 리사이즈** | Excel처럼 drag로 strip 높이/가시 영역 — MVP 범위 밖 가능성 높음 |
+
+**범위 밖 (당분간):** 탭 drag-reorder, pin/unpin strip, V1 gen-mdi 1:1 복제.
+
+**선행 조건:** P0~P2 ✅, TabBar scroll 연동 ✅, Storybook `ManyTabsScroll` story.
+
+**착수 트리거 (택1):** demo shell 탭 8+ 실사용 불편 재현 · UX 리뷰 승인 · deferred 스프린트 지정.
+
+**예상 터치:** `TabBar.tsx`, `TabBar.module.css`, (선택) `TabBarScrollControls.tsx`, stories `ManyTabsScroll` 확장.
+
 ---
 
 ## 6. Storybook Gate (P1 이후 착수)
@@ -171,6 +194,7 @@ flowchart LR
 | P1 | ✅ 완료 | 2026-06-27 |
 | P2 | ✅ 완료 | 2026-06-27 |
 | P3 | ⬜ 보류 | — |
+| **Deferred** | ⬜ Excel-style TabBar | — |
 | Storybook Gate | ✅ 완료 | 2026-06-27 |
 | review-log 검토 마감 | ⬜ 미착수 | — |
 
@@ -188,6 +212,8 @@ flowchart LR
 | ~~`cn` 사용 (V2는 clsx)~~ | ~~P2~~ | ✅ 2026-06-27 |
 | ~~키보드·포커스·i18n~~ | ~~P2~~ | ✅ tabBarLabels, Arrow/Home/End |
 | `ReactNode` in Zustand | P3 | registry는 MVP 이후 |
+| TabBar scroll ↔ activeTab | — | ✅ 2026-06-27 (viewport rect + offsetLeft) |
+| TabBar UX (Excel-style strip) | **Deferred §5.1** | scroll 연동과 별도; arrows·sheet list |
 
 ---
 

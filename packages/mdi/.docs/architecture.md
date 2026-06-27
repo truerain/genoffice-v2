@@ -13,7 +13,7 @@
 GenOffice V2의 **Multiple Document Interface(MDI)** 패키지입니다.  
 백오피스 앱(`apps/demo` 등)에서 메뉴·액션으로 열리는 **다중 탭 화면**의 레이아웃·탭 상태를 담당합니다.
 
-- **상태:** Zustand 전역 store (`useMDIStore`)
+- **상태:** Zustand store — 기본은 **앱 전역 singleton** (`defaultMDIStore`); 필요 시 **`MDIStoreProvider`로 subtree별 격리**
 - **UI:** 탭 바 + 패널 (상태 보존을 위해 `display: none`으로 숨김, unmount 없음)
 - **의존:** `@gen-office/ui`(Button), `clsx`, `@gen-office/theme`(토큰), `zustand`, `lucide-react`
 
@@ -51,22 +51,31 @@ packages/mdi/
 ├── .docs/
 │   ├── README.md              사용법·API 초안 (V1 기준)
 │   ├── architecture.md        본 문서
-│   └── review-log.md          검토·스캐폴딩 로그
+│   ├── review-log.md          검토·스캐폴딩 로그
+│   └── review-plan.md         P0~P3 우선순위·Gate
 ├── src/
 │   ├── index.ts               public barrel export
+│   ├── index.css              theme import (side-effect)
 │   ├── env.d.ts               *.module.css 타입
-│   ├── types/
-│   │   └── index.ts           MDITab, Props, MDIStore 타입
+│   ├── types/                 MDITab, Props, MDIStore 타입
 │   ├── store/
-│   │   └── mdiStore.ts        useMDIStore (Zustand)
+│   │   ├── createMdiStoreState.ts  Zustand state·actions 팩토리
+│   │   ├── mdiStore.ts             useMDIStore, createMDIStore, defaultMDIStore
+│   │   └── MDIStoreProvider.tsx    React Context로 store 인스턴스 주입
+│   ├── hooks/
+│   │   └── useSyncTabBarScrollToActiveTab.ts
+│   ├── utils/                 tabScroll, tabFocus, tabListKeyboard, clampViewportPosition
 │   └── components/
-│       ├── index.ts           컴포넌트 re-export
-│       ├── MDIContainer/      루트 레이아웃 + props → store 동기화
-│       ├── TabBar/            탭 목록 + 컨텍스트 메뉴
-│       ├── Tab/               개별 탭 (제목·아이콘·닫기)
-│       └── TabPanel/          탭 콘텐츠 영역 (show/hide)
+│       ├── index.ts
+│       ├── MDIContainer/
+│       ├── TabBar/
+│       ├── Tab/
+│       └── TabPanel/
 ├── test/
-│   └── setup.ts               Vitest jsdom 셋업
+│   ├── setup.ts
+│   ├── store/                 mdiStore, MDIStoreProvider
+│   ├── components/            TabBar, MDIContainer
+│   └── utils/
 ├── package.json
 ├── tsconfig.json
 ├── vite.config.ts             lib build → dist/index.mjs, dist/index.css
@@ -78,10 +87,12 @@ packages/mdi/
 | 그룹 | 심볼 |
 | --- | --- |
 | Components | `MDIContainer`, `TabBar`, `Tab`, `TabPanel` |
-| Store | `useMDIStore` |
-| Types | `MDITab`, `TabPosition`, `MDIContainerProps`, `TabBarProps`, `TabProps`, `TabPanelProps`, `MDIState`, `MDIActions`, `MDIStore` |
+| Store | `useMDIStore`, `createMDIStore`, `MDIStoreProvider` |
+| Types | `MDITab`, `TabPosition`, `MDIContainerProps`, `TabBarProps`, `TabProps`, `TabPanelProps`, `MDIState`, `MDIActions`, `MDIStore`, `TabBarLabels`, `DEFAULT_TAB_BAR_LABELS` |
 
-소비자는 보통 **`MDIContainer` + `useMDIStore`** 만 사용합니다. `Tab`/`TabBar`/`TabPanel`은 고급 커스터마이징·테스트용으로 export 됩니다.
+소비자는 보통 **`MDIContainer` + `useMDIStore`** 만 사용합니다.  
+**다중 MDI 인스턴스** 또는 Storybook Docs처럼 여러 컨테이너가 동시에 마운트되는 경우 **`MDIStoreProvider`** 로 감쌉니다.  
+`Tab`/`TabBar`/`TabPanel`은 고급 커스터마이징·테스트용으로 export 됩니다.
 
 ---
 
@@ -111,12 +122,14 @@ flowchart TB
   end
 
   subgraph MDI["@gen-office/mdi"]
+    Prov["MDIStoreProvider<br/>(선택)"]
     Store["useMDIStore<br/>(Zustand)"]
     MC["MDIContainer"]
     TB["TabBar"]
     T["Tab"]
     TP["TabPanel"]
 
+    Prov --> Store
     MC -->|"maxTabs, tabPosition props"| Store
     MC --> TB
     MC --> TP
@@ -128,6 +141,9 @@ flowchart TB
 
   Store -->|"tabs, activeTabId"| MC
 ```
+
+단일 앱 shell에서는 Provider 없이 `defaultMDIStore` singleton을 공유합니다.  
+Provider가 있으면 해당 subtree의 `MDIContainer`·`TabBar`·`useMDIStore` hook은 **Context에 주입된 store**만 구독합니다.
 
 ### 역할 요약
 
@@ -141,6 +157,48 @@ flowchart TB
 ---
 
 ## 4. 상태 모델 (Zustand)
+
+### Store 인스턴스·Context
+
+탭 상태는 Zustand `StoreApi<MDIStore>` 로 관리합니다. **모듈 로드 시 singleton 하나**가 기본이며, 필요하면 **Provider마다 별도 인스턴스**를 둡니다.
+
+```text
+createMdiStoreState (state + actions 팩토리)
+        │
+        ├── createMDIStore()  → 새 StoreApi (Provider·테스트용)
+        │
+        └── defaultMDIStore   → 앱·단일 MDI·Provider 미사용 시 fallback
+
+MDIStoreContext ──► useMDIStoreApi() ──► useMDIStore(selector)
+     ▲                      │
+     │                      └── Context 없음 → defaultMDIStore
+MDIStoreProvider
+ (useState(() => createMDIStore()))
+```
+
+| API | 역할 |
+| --- | --- |
+| `createMdiStoreState` | `set`/`get`/`store` 인자로 Zustand slice 정의 (내부, 테스트에서 직접 import 가능) |
+| `createMDIStore()` | 독립 store 인스턴스 생성 |
+| `defaultMDIStore` | 모듈 singleton — demo·단일 MDI 기본값 |
+| `MDIStoreProvider` | subtree에 store 1개 주입 (`useState`로 인스턴스 고정) |
+| `useMDIStore(selector)` | **가장 가까운 Provider** store 구독; 없으면 `defaultMDIStore` |
+| `useMDIStoreApi()` | Context-aware `StoreApi` (컴포넌트 내부에서 `getState()` 등) |
+
+> **주의:** `useMDIStore.getState()` / `setState()` / `subscribe()` 는 **항상 `defaultMDIStore`** 에 바인딩됩니다.  
+> Provider 안에서 imperative 접근이 필요하면 **`useMDIStoreApi().getState()`** 를 사용합니다.  
+> Vitest 등 Provider 없이 store를 직접 조작하는 테스트는 기존처럼 `useMDIStore.getState()` 를 써도 됩니다.
+
+### 언제 Provider를 쓰는가
+
+| 시나리오 | 패턴 |
+| --- | --- |
+| demo shell — MDI 1개 | Provider **불필요** |
+| Storybook Docs — story 동시 렌더 | story decorator마다 `<MDIStoreProvider>` |
+| 화면에 MDI 2개 이상 (split pane 등) | 각 pane을 Provider로 감싸기 |
+| 단위 테스트 — store 격리 | `<MDIStoreProvider>` 또는 `createMDIStore()` |
+
+Storybook `MDIContainer.stories.tsx` 는 decorator에서 `MDIStoreProvider` + mount/unmount `reset()` 으로 story 간 탭 누수를 막습니다.
 
 ### State
 
@@ -171,7 +229,7 @@ interface MDITab {
 | Action | 동작 | 반환 |
 | --- | --- | --- |
 | `addTab(tab)` | **신규 id:** append + 활성화. **기존 id:** focus만 (content/title 미갱신). maxTabs 초과 시 거부 | `boolean` |
-| `removeTab(id)` | 탭 제거; 활성 탭이면 인접 탭 활성화 | — |
+| `removeTab(id)` | 탭 제거; `closable === false` 이면 no-op; 활성 탭이면 인접 탭 활성화 | — |
 | `setActiveTab(id)` | id가 tabs에 있을 때만 전환 | — |
 | `updateTab(id, partial)` | title/icon/content 등 부분 갱신 | — |
 | `closeAllTabs()` | 전부 제거 | — |
@@ -307,6 +365,8 @@ React state·form 입력·스크롤 등이 탭 전환 후에도 유지됩니다.
 
 ## 8. 앱 연동 패턴 (목표)
 
+### 8.1 단일 MDI (demo shell)
+
 demo shell에서의 전형적인 사용 형태입니다. (Phase 3 포팅 시)
 
 ```tsx
@@ -331,6 +391,8 @@ function AppShell() {
 }
 ```
 
+`AppShell` 과 `MDIContainer` 가 같은 React 트리에 있고 Provider가 없으면 **동일 singleton** 을 공유합니다.
+
 ```mermaid
 flowchart LR
   subgraph Shell["apps/demo"]
@@ -345,6 +407,46 @@ flowchart LR
   MDI --> Pages["UserManagement, MenuManagement, …"]
 ```
 
+### 8.2 다중 MDI / Storybook 격리
+
+동일 페이지에 **MDIContainer가 여러 개**이거나 Storybook Docs처럼 **여러 인스턴스가 동시에 mount** 되면 Provider로 store를 분리합니다.
+
+```tsx
+import { MDIContainer, MDIStoreProvider, useMDIStore } from '@gen-office/mdi';
+
+function LeftPaneToolbar() {
+  const addTab = useMDIStore((s) => s.addTab);
+  return (
+    <button type="button" onClick={() => addTab({ id: 'a', title: 'A', content: <div>A</div> })}>
+      Add
+    </button>
+  );
+}
+
+function SplitWorkspace() {
+  return (
+    <div style={{ display: 'flex', gap: 16, height: '100%' }}>
+      <MDIStoreProvider>
+        <LeftPaneToolbar />
+        <MDIContainer />
+      </MDIStoreProvider>
+      <MDIStoreProvider>
+        <MDIContainer />
+      </MDIStoreProvider>
+    </div>
+  );
+}
+```
+
+```text
+MDIStoreProvider (store A)
+├── toolbar / menu hooks → useMDIStore → store A
+└── MDIContainer         → TabBar, TabPanel → store A
+
+MDIStoreProvider (store B)
+└── MDIContainer         → store B only
+```
+
 **레이아웃 주의:** `MDIContainer` 부모는 `flex: 1` + `min-height: 0` 체인이 필요합니다 (백오피스 전체 높이 fill).
 
 ---
@@ -353,9 +455,12 @@ flowchart LR
 
 | 항목 | 상태 |
 | --- | --- |
-| Vitest | 25 tests — store, TabBar, MDIContainer |
-| Storybook | `MDI/MDIContainer` — Default, MaxTabs, BottomTabs, ContextMenu, ClosableFalse, Empty |
-| 수동 Gate | `pnpm -C apps/storybook dev` → 탭 전환·입력 보존·우클릭 메뉴·키보드 |
+| Vitest | 41 tests — store, MDIStoreProvider, TabBar, MDIContainer, utils |
+| Storybook | `MDI/MDIContainer` — decorator: `MDIStoreProvider` + story별 `reset` |
+| Story 목록 | Default, MaxTabs, BottomTabs, ManyTabsScroll, ContextMenu, ClosableFalse, Empty 등 |
+| 수동 Gate | `pnpm -C apps/storybook dev` → 탭 전환·입력 보존·우클릭 메뉴·키보드·Docs story 격리 |
+
+Storybook **Docs** 탭은 모든 story를 한 DOM에 동시 렌더합니다. Provider 없이 singleton을 쓰면 탭 상태가 story 간에 섞이므로, **story decorator에서 Provider가 필수**입니다.
 
 ---
 
@@ -365,6 +470,8 @@ flowchart LR
 
 | 항목 | 우선순위 | 설명 |
 | --- | --- | --- |
+| 다중 MDI demo | P3 | Provider 패턴은 구현됨; demo split-pane 연동·가이드는 미완 |
+| `useMDIStore.getState()` | — | default singleton 전용; Provider subtree에서는 `useMDIStoreApi()` 권장 |
 | 파일 헤더 | P2 | V1 `// packages/mdi/...` → V2 JSDoc `@file` 형식 |
 | Storybook | P1~ | ~~미작성~~ ✅ Gate §6 |
 

@@ -8,6 +8,28 @@
 
 ## 2026-06-27
 
+### @gen-office/mdi architecture.md — store 격리 구조 반영
+
+- `MDIStoreProvider` / `createMDIStore` / Context·singleton 이중 모델, §4·§8·§9 갱신
+
+### @gen-office/mdi Storybook Docs store 격리
+
+- `MDIStoreProvider` + `createMDIStore` — Docs 동시 렌더 시 story별 탭 상태 분리
+- `packages/mdi/.docs/review-log.md` 기록; 테스트 41건 통과
+
+### @gen-office/mdi TabBar activeTab scroll 단일 동기화
+
+- syncTabBarScrollToActiveTab + 활성 Tab ref; 가시성(rect)/좌표(offsetLeft) 분리
+
+### @gen-office/mdi TabBar 가로 스크롤 연동 (2차)
+
+- rAF 재시도 + scrollIntoView/수동 scrollLeft + ResizeObserver; Tab flex-shrink:0; ManyTabsScroll story
+
+### @gen-office/mdi TabBar 가로 스크롤 연동
+
+- 신규/활성 탭이 `.tabListWrap` 밖에 있을 때 scroll-into-view; `tabScroll.ts` + TabBar `useLayoutEffect`
+- 테스트 29건 통과
+
 ## 2026-06-27
 
 ### @gen-office/mdi Storybook Gate

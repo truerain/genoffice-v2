@@ -5,7 +5,7 @@
  *
  * @remark
  * - Lib build uses Vite/esbuild JSX (no @vitejs/plugin-react)
- * - Storybook dev uses apps/storybook (@gen-office/storybook)
+ * - Storybook dev uses `@gen-office/storybook` in apps/storybook (no local `.storybook`)
  */
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';

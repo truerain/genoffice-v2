@@ -18,6 +18,7 @@
   position: relative;
   min-width: 180px;
   max-width: 240px;
+  flex-shrink: 0;
 }
 
 .tab:hover {
