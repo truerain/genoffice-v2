@@ -170,7 +170,7 @@ interface MDITab {
 
 | Action | 동작 | 반환 |
 | --- | --- | --- |
-| `addTab(tab)` | maxTabs 초과 시 거부; 동일 id 있으면 활성화만; 없으면 append | `boolean` |
+| `addTab(tab)` | **신규 id:** append + 활성화. **기존 id:** focus만 (content/title 미갱신). maxTabs 초과 시 거부 | `boolean` |
 | `removeTab(id)` | 탭 제거; 활성 탭이면 인접 탭 활성화 | — |
 | `setActiveTab(id)` | id가 tabs에 있을 때만 전환 | — |
 | `updateTab(id, partial)` | title/icon/content 등 부분 갱신 | — |
@@ -194,7 +194,19 @@ stateDiagram-v2
   Empty --> [*]: closeAllTabs
 ```
 
-> **참고:** `addTab`이 maxTabs에 걸리면 `console.warn`만 출력하고 `false`를 반환합니다. `MDIContainerProps.onMaxTabsReached`는 **아직 store와 연결되지 않음** (미결).
+> **참고:** `addTab`이 maxTabs에 걸리면 `console.warn` 후 `false`를 반환하고 `onMaxTabsReached`를 호출합니다.
+
+### 동일 id 재오픈 (focus-only)
+
+메뉴·URL에서 같은 화면을 다시 열 때 `addTab({ id, ... })`를 호출하는 패턴이 많습니다.
+
+| 상황 | 동작 |
+| --- | --- |
+| **id가 이미 tabs에 있음** | `activeTabId`만 해당 id로 설정. **title/content/icon/meta는 유지** (상태 보존) |
+| **콘텐츠를 새로 그려야 함** | `updateTab(id, { content, title, ... })` 또는 `removeTab` 후 `addTab` |
+| **활성만 바꾸기** | `setActiveTab(id)` (동일 효과, payload 불필요) |
+
+demo shell에서는 **페이지 id = 탭 id**로 두면 “이미 열린 화면”은 자동 focus 됩니다. URL 연동은 demo 레이어에서 `addTab`/`setActiveTab`을 호출합니다.
 
 ---
 
@@ -263,9 +275,9 @@ React state·form 입력·스크롤 등이 탭 전환 후에도 유지됩니다.
 | 항목 | 설명 |
 | --- | --- |
 | CSS Modules | 컴포넌트별 `*.module.css`, `localsConvention: camelCaseOnly` |
-| dist 산출물 | `index.mjs` + `index.css` (모듈 CSS 번들) |
-| theme | `@gen-office/theme` CSS 변수 사용 (TabBar/Tab 높이 등) |
-| 소비 | `import '@gen-office/mdi/index.css'` + `MDIContainer` |
+| dist 산출물 | `index.mjs` + `index.css` (theme import + 컴포넌트 CSS Modules 번들) |
+| theme | `src/index.css` → `@import @gen-office/theme/index.css`; `src/index.ts` side-effect |
+| 소비 | `import '@gen-office/mdi'` (JS) + `import '@gen-office/mdi/index.css'` (CSS만 필요 시) |
 
 `ui`와 달리 `src/index.css` side-effect 진입점은 **아직 없음**. CSS는 lib 빌드 시 컴포넌트 import 체인으로 `dist/index.css`에 합쳐집니다.
 
@@ -343,7 +355,6 @@ flowchart LR
 | 항목 | 우선순위 | 설명 |
 | --- | --- | --- |
 | 파일 헤더 | P2 | V1 `// packages/mdi/...` → V2 JSDoc `@file` 형식 |
-| `src/index.css` | P1 | theme side-effect 진입점 (`ui` 패턴) |
 | Storybook | P1~ | TabBar overflow·context menu·maxTabs 시나리오 |
 
 ---

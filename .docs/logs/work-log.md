@@ -10,6 +10,11 @@
 
 ## 2026-06-27
 
+### @gen-office/mdi P1 테스트·소비자 setup
+
+- `src/index.css` theme side-effect; store 테스트 14건 + MDIContainer smoke 6건 (총 18)
+- 동일 id `addTab` focus-only 정책 문서화; setup 전역 `reset`
+
 ### @gen-office/mdi P0 public API·동작 정합
 
 - `onMaxTabsReached`: `setOnMaxTabsReached` + MDIContainer 연동, `addTab` limit 시 호출

@@ -49,7 +49,7 @@ flowchart LR
 | 우선순위 | 테마 | demo 연동 | 비고 |
 | --- | --- | --- | --- |
 | **P0** | public API·동작·문서 정합 | **블로커** | ✅ 2026-06-27 |
-| **P1** | 테스트·소비자 setup | 연동 직전 | store reset, index.css, id 재오픈 정책 |
+| **P1** | 테스트·소비자 setup | 연동 직전 | ✅ 2026-06-27 |
 | **P2** | V2 컨벤션·a11y·i18n | shell UX | clsx, types, 키보드·포커스 |
 | **P3** | 장기 구조 | MVP 이후 | page registry, DropdownMenu |
 
@@ -89,9 +89,9 @@ flowchart LR
 
 ### P1 Gate
 
-- [ ] `pnpm -C packages/mdi test` — store test ≥ 1 suite, passWithNoTests 해제
-- [ ] theme 토큰 없이 story/test 깨지지 않음 (setup 또는 index.css)
-- [ ] `review-log.md` P1 완료 항목 기록
+- [x] `pnpm -C packages/mdi test` — store + container 18 tests
+- [x] theme 토큰 — `test/setup.ts` + `src/index.css` `@import theme`
+- [x] `review-log.md` P1 완료 항목 기록
 
 ---
 
@@ -168,7 +168,7 @@ flowchart LR
 | --- | --- | --- |
 | Wave 0 — 스캐폴딩 | ✅ 완료 | 2026-06-27 |
 | P0 | ✅ 완료 | 2026-06-27 |
-| P1 | ⬜ 미착수 | — |
+| P1 | ✅ 완료 | 2026-06-27 |
 | P2 | ⬜ 미착수 | — |
 | P3 | ⬜ 보류 | — |
 | Storybook Gate | ⬜ 미착수 | — |
@@ -183,7 +183,8 @@ flowchart LR
 | ~~`onMaxTabsReached` 미연동~~ | ~~P0~~ | ✅ 2026-06-27 |
 | ~~TabPanel visibility vs display~~ | ~~P0~~ | ✅ `display: none` |
 | store `reset` | ~~P1.2~~ | ✅ P0에서 선행 추가 |
-| 동일 id `addTab` → content 미갱신 | P1 | 정책 문서화 |
+| ~~동일 id `addTab` → content 미갱신~~ | ~~P1~~ | ✅ focus-only 문서·test |
+| ~~`src/index.css` theme side-effect~~ | ~~P1~~ | ✅ 2026-06-27 |
 | `cn` 사용 (V2는 clsx) | P2 | |
 | 키보드·포커스·i18n | P2 | |
 | `ReactNode` in Zustand | P3 | registry는 MVP 이후 |

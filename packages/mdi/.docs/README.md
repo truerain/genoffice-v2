@@ -131,6 +131,14 @@ interface MDITab {
 }
 ```
 
+### 동일 id로 `addTab` 재호출
+
+이미 열린 **같은 `id`**로 `addTab`을 호출하면 **탭을 새로 만들지 않고 focus만** 합니다. title/content는 **갱신되지 않습니다** (탭 상태 보존).
+
+- 제목·콘텐츠 변경: `updateTab(id, { title, content, ... })`
+- 완전히 새로 열기: `removeTab(id)` 후 `addTab(...)`
+- focus만: `setActiveTab(id)`
+
 ## Examples
 
 ### Adding Multiple Tabs

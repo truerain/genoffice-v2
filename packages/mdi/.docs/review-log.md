@@ -10,6 +10,27 @@
 -->
 # @gen-office/mdi 검토 로그
 
+## 2026-06-27 — P1 테스트·소비자 setup
+
+### 변경 요약
+
+| # | 작업 | 결과 |
+| --- | --- | --- |
+| P1.1 | store 테스트 확장 | remove/close/update/focus-only/id reopen — **14** store tests |
+| P1.2 | setup `reset` | `test/setup.ts` `beforeEach` 전역 reset |
+| P1.3 | `src/index.css` | `@import @gen-office/theme/index.css`; `index.ts` side-effect |
+| P1.4 | 동일 id 재오픈 | **focus-only** — types JSDoc, README, architecture §4 |
+| P1.5 | MDIContainer smoke | empty, render, maxTabs/tabPosition sync, onMaxTabsReached — **6** tests |
+
+### 검증
+
+- [x] `pnpm -C packages/mdi test` — 18 passed
+- [x] `pnpm -C packages/mdi build` — `dist/index.css` theme 포함 (~19 kB)
+
+### 다음
+
+- [review-plan.md](./review-plan.md) **P2** (clsx, types 분리, a11y, i18n)
+
 ## 2026-06-27 — P0 public API·동작 정합
 
 ### 변경 요약

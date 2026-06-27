@@ -1,12 +1,17 @@
-// packages/mdi/src/index.ts
+/**
+ * @file packages/mdi/src/index.ts
+ * @description Public entry barrel exports for @gen-office/mdi.
+ * @created 2026-06-27
+ *
+ * @remark
+ * - Side-effect: ./index.css (theme tokens)
+ * - Exports: MDIContainer, TabBar, Tab, TabPanel, useMDIStore, types
+ */
+import './index.css';
 
-// Components
 export { MDIContainer, TabBar, Tab, TabPanel } from './components';
-
-// Store
 export { useMDIStore } from './store/mdiStore';
 
-// Types
 export type {
   MDITab,
   TabPosition,
@@ -16,5 +21,5 @@ export type {
   TabPanelProps,
   MDIState,
   MDIActions,
-  MDIStore
+  MDIStore,
 } from './types';

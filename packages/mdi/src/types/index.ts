@@ -119,7 +119,12 @@ export interface MDIState {
  * MDI Store 액션
  */
 export interface MDIActions {
-  /** 탭 추가 */
+  /** 탭 추가
+   *
+   * - **신규 id:** 탭을 append하고 활성화. `maxTabs` 초과 시 `false` 및 `onMaxTabsReached` 호출.
+   * - **기존 id:** 활성 탭만 전환(focus). title/content/icon/meta는 **갱신하지 않음**.
+   *   콘텐츠를 바꾸려면 `updateTab` 또는 `removeTab` 후 재추가.
+   */
   addTab: (tab: MDITab) => boolean;
   
   /** 탭 제거 */

@@ -1,0 +1,10 @@
+/**
+ * @file packages/mdi/src/index.css
+ * @description Public CSS entry — theme tokens for MDI component styles.
+ * @created 2026-06-27
+ *
+ * @remark
+ * - Side-effect import from src/index.ts
+ * - Component styles ship via CSS Modules per component
+ */
+@import "@gen-office/theme/index.css";
