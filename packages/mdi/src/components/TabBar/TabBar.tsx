@@ -1,29 +1,81 @@
-// packages/mdi/src/components/TabBar/TabBar.tsx
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { TabBarProps } from '../../types';
+/**
+ * @file packages/mdi/src/components/TabBar/TabBar.tsx
+ * @description MDI tab list, context menu, keyboard navigation.
+ * @created 2026-06-27
+ */
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
+import { clsx } from 'clsx';
+import { DEFAULT_TAB_BAR_LABELS, type TabBarProps } from '../../types';
 import { useMDIStore } from '../../store/mdiStore';
+import { focusTabById } from '../../utils/tabFocus';
+import { isTabListNavigationKey, resolveNextTabIndex } from '../../utils/tabListKeyboard';
 import { Tab } from '../Tab';
-import { cn } from '@gen-office/utils';
 import styles from './TabBar.module.css';
 
-export const TabBar = ({ position, className }: TabBarProps) => {
-  const tabs = useMDIStore(state => state.tabs);
-  const activeTabId = useMDIStore(state => state.activeTabId);
-  const setActiveTab = useMDIStore(state => state.setActiveTab);
-  const removeTab = useMDIStore(state => state.removeTab);
-  const closeOtherTabs = useMDIStore(state => state.closeOtherTabs);
-  const closeAllClosableTabs = useMDIStore(state => state.closeAllClosableTabs);
+export const TabBar = ({ position, labels, className }: TabBarProps) => {
+  const tabs = useMDIStore((state) => state.tabs);
+  const activeTabId = useMDIStore((state) => state.activeTabId);
+  const setActiveTab = useMDIStore((state) => state.setActiveTab);
+  const removeTab = useMDIStore((state) => state.removeTab);
+  const closeOtherTabs = useMDIStore((state) => state.closeOtherTabs);
+  const closeAllClosableTabs = useMDIStore((state) => state.closeAllClosableTabs);
+
+  const menuLabels = { ...DEFAULT_TAB_BAR_LABELS, ...labels };
 
   const [contextMenu, setContextMenu] = useState<{ tabId: string; x: number; y: number } | null>(null);
-  const [contextMenuPosition, setContextMenuPosition] = useState<{ left: number; top: number } | null>(null);
+  const [contextMenuPosition, setContextMenuPosition] = useState<{ left: number; top: number } | null>(
+    null,
+  );
   const contextMenuRef = useRef<HTMLDivElement | null>(null);
+  const tabListRef = useRef<HTMLDivElement | null>(null);
+
   const hasClosableTabs = useMemo(() => tabs.some((tab) => tab.closable !== false), [tabs]);
   const canCloseOthers = useMemo(() => tabs.length > 1, [tabs.length]);
   const contextTab = useMemo(
-    () => (contextMenu ? tabs.find((tab) => tab.id === contextMenu.tabId) ?? null : null),
-    [contextMenu, tabs]
+    () => (contextMenu ? (tabs.find((tab) => tab.id === contextMenu.tabId) ?? null) : null),
+    [contextMenu, tabs],
   );
   const canCloseCurrent = contextTab?.closable !== false;
+
+  const focusActiveTab = useCallback(() => {
+    queueMicrotask(() => focusTabById(useMDIStore.getState().activeTabId));
+  }, []);
+
+  const handleCloseTab = useCallback(
+    (tabId: string) => {
+      removeTab(tabId);
+      focusActiveTab();
+    },
+    [focusActiveTab, removeTab],
+  );
+
+  const activateTab = useCallback(
+    (tabId: string) => {
+      setActiveTab(tabId);
+      focusTabById(tabId);
+    },
+    [setActiveTab],
+  );
+
+  const handleTabListKeyDown = useCallback(
+    (event: ReactKeyboardEvent<HTMLDivElement>) => {
+      if (!isTabListNavigationKey(event.key)) return;
+
+      const target = event.target as HTMLElement;
+      if (target.getAttribute('role') !== 'tab') return;
+
+      const tabIds = tabs.map((tab) => tab.id);
+      const currentIndex = tabIds.findIndex((id) => target.id === `tab-${id}`);
+      const nextIndex = resolveNextTabIndex(currentIndex, tabIds.length, event.key);
+      if (nextIndex === null) return;
+
+      event.preventDefault();
+      const nextId = tabIds[nextIndex];
+      activateTab(nextId);
+    },
+    [activateTab, tabs],
+  );
 
   useLayoutEffect(() => {
     if (!contextMenu) {
@@ -81,28 +133,26 @@ export const TabBar = ({ position, className }: TabBarProps) => {
 
   return (
     <div
-      className={cn(
-        styles.tabBar,
-        styles[position],
-        className
-      )}
+      className={clsx(styles.tabBar, styles[position], className)}
       role="tablist"
       aria-orientation="horizontal"
+      ref={tabListRef}
+      onKeyDown={handleTabListKeyDown}
     >
       <div className={styles.tabListWrap}>
         <div className={styles.tabList}>
-          {tabs.map(tab => (
+          {tabs.map((tab) => (
             <Tab
               key={tab.id}
               tab={tab}
               isActive={tab.id === activeTabId}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => activateTab(tab.id)}
               onContextMenu={(event) => {
                 event.preventDefault();
-                setActiveTab(tab.id);
+                activateTab(tab.id);
                 setContextMenu({ tabId: tab.id, x: event.clientX, y: event.clientY });
               }}
-              onClose={() => removeTab(tab.id)}
+              onClose={() => handleCloseTab(tab.id)}
             />
           ))}
         </div>
@@ -123,12 +173,12 @@ export const TabBar = ({ position, className }: TabBarProps) => {
             className={styles.contextMenuItem}
             onClick={() => {
               if (!contextTab || !canCloseCurrent) return;
-              removeTab(contextTab.id);
+              handleCloseTab(contextTab.id);
               setContextMenu(null);
             }}
             disabled={!canCloseCurrent}
           >
-            Close
+            {menuLabels.close}
           </button>
           <button
             type="button"
@@ -136,22 +186,24 @@ export const TabBar = ({ position, className }: TabBarProps) => {
             onClick={() => {
               if (!contextTab) return;
               closeOtherTabs(contextTab.id);
+              focusActiveTab();
               setContextMenu(null);
             }}
             disabled={!canCloseOthers}
           >
-            Close Others
+            {menuLabels.closeOthers}
           </button>
           <button
             type="button"
             className={styles.contextMenuItem}
             onClick={() => {
               closeAllClosableTabs();
+              focusActiveTab();
               setContextMenu(null);
             }}
             disabled={!hasClosableTabs}
           >
-            Close All
+            {menuLabels.closeAll}
           </button>
         </div>
       )}

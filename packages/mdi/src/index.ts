@@ -17,9 +17,12 @@ export type {
   TabPosition,
   MDIContainerProps,
   TabBarProps,
+  TabBarLabels,
   TabProps,
   TabPanelProps,
   MDIState,
   MDIActions,
   MDIStore,
 } from './types';
+
+export { DEFAULT_TAB_BAR_LABELS } from './types';

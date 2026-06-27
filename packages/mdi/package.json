@@ -28,7 +28,7 @@
   "dependencies": {
     "@gen-office/theme": "workspace:*",
     "@gen-office/ui": "workspace:*",
-    "@gen-office/utils": "workspace:*",
+    "clsx": "^2.1.1",
     "lucide-react": "^0.562.0",
     "zustand": "^5.0.2"
   },

@@ -1,4 +1,8 @@
-/* packages/mdi/src/components/Tab/Tab.module.css */
+/**
+ * @file packages/mdi/src/components/Tab/Tab.module.css
+ * @description Styles for Tab.
+ * @created 2026-06-27
+ */
 
 .tab {
   display: flex;
@@ -83,17 +87,8 @@
 .closeButton {
   flex-shrink: 0;
   margin-left: auto;
-  padding: 0;
-  width: 2rem;
-  min-width: 2rem;
   opacity: 0;
   transition: opacity 0.2s ease;
-}
-
-.closeButton.closeButton {
-  width: 2rem;
-  min-width: 2rem;
-  padding: 0;
 }
 
 .tab:hover .closeButton,

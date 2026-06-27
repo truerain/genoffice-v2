@@ -97,6 +97,7 @@ function App() {
 | `emptyContent` | `ReactNode` | `'No tabs open'` | 탭이 없을 때 표시할 내용 |
 | `onMaxTabsReached` | `() => void` | - | 최대 탭 개수 초과로 **신규** `addTab`이 거부될 때 호출 (기존 id 포커스는 제외) |
 | `className` | `string` | - | 커스텀 클래스명 |
+| `tabBarLabels` | `TabBarLabels` | - | 탭 컨텍스트 메뉴 라벨 (기본: 영문, demo i18n 연동) |
 
 ### useMDIStore Hook
 

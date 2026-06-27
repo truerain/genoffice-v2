@@ -10,6 +10,30 @@
 -->
 # @gen-office/mdi 검토 로그
 
+## 2026-06-27 — P2 V2 컨벤션·접근성·i18n
+
+### 변경 요약
+
+| # | 작업 | 결과 |
+| --- | --- | --- |
+| P2.1 | `cn` → `clsx` | components 전환; `@gen-office/utils` 의존 제거 |
+| P2.2 | 타입 분리 | `types/mdi.types.ts`, `*Container/TabBar/Tab/TabPanel*.types.ts` |
+| P2.3 | JSDoc `@file` | `src/**` 주요 파일 |
+| P2.4 | Tab 닫기 Button | `size="icon"`; CSS hack 제거 |
+| P2.5 | 키보드 | TabBar ←/→/Home/End; `tabListKeyboard` util |
+| P2.6 | 포커스 | 탭 전환·닫기·context menu 후 활성 탭 focus |
+| P2.7 | i18n | `tabBarLabels` / `TabBar.labels`; `DEFAULT_TAB_BAR_LABELS` export |
+| P2.8 | `meta` | `Record<string, unknown>` |
+
+### 검증
+
+- [x] `pnpm -C packages/mdi test` — 25 passed (+ TabBar, tabListKeyboard)
+- [x] `pnpm -C packages/mdi build`
+
+### 다음
+
+- Storybook Gate 또는 P3
+
 ## 2026-06-27 — P1 테스트·소비자 setup
 
 ### 변경 요약

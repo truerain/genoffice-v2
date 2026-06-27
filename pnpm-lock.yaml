@@ -117,9 +117,9 @@ importers:
       '@gen-office/ui':
         specifier: workspace:*
         version: link:../ui
-      '@gen-office/utils':
-        specifier: workspace:*
-        version: link:../utils
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       lucide-react:
         specifier: ^0.562.0
         version: 0.562.0(react@19.2.7)

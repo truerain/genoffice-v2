@@ -50,7 +50,7 @@ flowchart LR
 | --- | --- | --- | --- |
 | **P0** | public API·동작·문서 정합 | **블로커** | ✅ 2026-06-27 |
 | **P1** | 테스트·소비자 setup | 연동 직전 | ✅ 2026-06-27 |
-| **P2** | V2 컨벤션·a11y·i18n | shell UX | clsx, types, 키보드·포커스 |
+| **P2** | V2 컨벤션·a11y·i18n | shell UX | ✅ 2026-06-27 |
 | **P3** | 장기 구조 | MVP 이후 | page registry, DropdownMenu |
 
 ---
@@ -112,9 +112,9 @@ flowchart LR
 
 ### P2 Gate
 
-- [ ] Storybook: keyboard·focus 수동 체크리스트 통과
-- [ ] `pnpm -C packages/mdi build` green
-- [ ] `review-log.md` P2 완료 항목 기록
+- [x] keyboard·focus — `test/components/TabBar.test.tsx` (ArrowRight, Home, close focus)
+- [x] `pnpm -C packages/mdi build` green
+- [x] `review-log.md` P2 완료 항목 기록
 
 ---
 
@@ -169,7 +169,7 @@ flowchart LR
 | Wave 0 — 스캐폴딩 | ✅ 완료 | 2026-06-27 |
 | P0 | ✅ 완료 | 2026-06-27 |
 | P1 | ✅ 완료 | 2026-06-27 |
-| P2 | ⬜ 미착수 | — |
+| P2 | ✅ 완료 | 2026-06-27 |
 | P3 | ⬜ 보류 | — |
 | Storybook Gate | ⬜ 미착수 | — |
 | review-log 검토 마감 | ⬜ 미착수 | — |
@@ -185,8 +185,8 @@ flowchart LR
 | store `reset` | ~~P1.2~~ | ✅ P0에서 선행 추가 |
 | ~~동일 id `addTab` → content 미갱신~~ | ~~P1~~ | ✅ focus-only 문서·test |
 | ~~`src/index.css` theme side-effect~~ | ~~P1~~ | ✅ 2026-06-27 |
-| `cn` 사용 (V2는 clsx) | P2 | |
-| 키보드·포커스·i18n | P2 | |
+| ~~`cn` 사용 (V2는 clsx)~~ | ~~P2~~ | ✅ 2026-06-27 |
+| ~~키보드·포커스·i18n~~ | ~~P2~~ | ✅ tabBarLabels, Arrow/Home/End |
 | `ReactNode` in Zustand | P3 | registry는 MVP 이후 |
 
 ---

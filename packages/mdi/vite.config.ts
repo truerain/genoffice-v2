@@ -43,7 +43,7 @@ export default defineConfig({
         'react/jsx-runtime',
         '@gen-office/theme',
         '@gen-office/ui',
-        '@gen-office/utils',
+        'clsx',
         'zustand',
         'lucide-react',
       ],

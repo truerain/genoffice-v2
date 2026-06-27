@@ -10,6 +10,10 @@
 
 ## 2026-06-27
 
+### @gen-office/mdi P2 V2 컨벤션·a11y·i18n
+
+- clsx 전환, types 분리, TabBar 키보드·포커스·tabBarLabels; 테스트 25건
+
 ### @gen-office/mdi P1 테스트·소비자 setup
 
 - `src/index.css` theme side-effect; store 테스트 14건 + MDIContainer smoke 6건 (총 18)

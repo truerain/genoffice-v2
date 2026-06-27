@@ -15,7 +15,7 @@ GenOffice V2의 **Multiple Document Interface(MDI)** 패키지입니다.
 
 - **상태:** Zustand 전역 store (`useMDIStore`)
 - **UI:** 탭 바 + 패널 (상태 보존을 위해 `display: none`으로 숨김, unmount 없음)
-- **의존:** `@gen-office/ui`(Button), `@gen-office/utils`(cn), `@gen-office/theme`(토큰), `zustand`, `lucide-react`
+- **의존:** `@gen-office/ui`(Button), `clsx`, `@gen-office/theme`(토큰), `zustand`, `lucide-react`
 
 ---
 
@@ -35,7 +35,7 @@ apps/demo (shell, menu, onOpenPage)
         ↓
    @gen-office/mdi
         ↓
-   @gen-office/ui , @gen-office/utils , @gen-office/theme
+   @gen-office/ui , clsx , @gen-office/theme
         ↓
    react , zustand , lucide-react
 ```
@@ -287,10 +287,21 @@ React state·form 입력·스크롤 등이 탭 전환 후에도 유지됩니다.
 
 | 요소 | 속성 |
 | --- | --- |
-| TabBar | `role="tablist"`, `aria-orientation="horizontal"` |
-| Tab | `role="tab"`, `aria-selected`, `aria-controls`, `id="tab-{id}"` |
+| TabBar | `role="tablist"`, `aria-orientation="horizontal"`, ←/→/Home/End 키보드 탐색 |
+| Tab | `role="tab"`, `aria-selected`, `aria-controls`, roving `tabIndex` |
 | TabPanel | `role="tabpanel"`, `aria-labelledby`, `aria-hidden`, `id="tabpanel-{id}"` |
 | 닫기 | `Button` + `aria-label="Close {title}"` |
+| 포커스 | 탭 전환·닫기 후 활성 탭으로 focus 이동 |
+
+### i18n
+
+`TabBar` / `MDIContainer` prop `tabBarLabels` (또는 `labels` on TabBar):
+
+```typescript
+{ close?: string; closeOthers?: string; closeAll?: string }
+```
+
+기본값: `DEFAULT_TAB_BAR_LABELS` (`Close`, `Close Others`, `Close All`).
 
 ---
 
