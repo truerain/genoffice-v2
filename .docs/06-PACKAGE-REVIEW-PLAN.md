@@ -116,12 +116,13 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 
 ### 4. `mdi`
 
-- [ ] `useMDIStore`(Zustand) 상태 모델
-- [ ] `MDIContainer`·TabBar·창 포커스 계약
-- [ ] demo `App.tsx` 연동 props (`onOpenPage`, `maxTabs` 등)
-- [ ] `ui`·`theme` 의존 최소화 여부
+- [x] `useMDIStore`(Zustand) 상태 모델 — singleton + `MDIStoreProvider` (2026-06-27)
+- [x] `MDIContainer`·TabBar·창 포커스 계약 — P0~P2, Storybook Gate
+- [ ] demo `App.tsx` 연동 props (`onOpenPage`, `maxTabs` 등) — **apps/demo** 트랙; mdi 패키지 선행 조건 충족
+- [x] `ui`·`theme` 의존 최소화 — `@gen-office/ui` Button, theme CSS side-effect
 
-**V1 참조**: [`frontend/packages/mdi`](../../frontend/packages/mdi)
+**V1 참조**: [`frontend/packages/mdi`](../../frontend/packages/mdi)  
+**마감 로그**: [`packages/mdi/.docs/review-log.md`](../../packages/mdi/.docs/review-log.md) — 2026-06-27 패키지 리뷰 1차 마감
 
 ### 5. `gen-chart` (재작성)
 

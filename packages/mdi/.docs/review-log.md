@@ -10,6 +10,46 @@
 -->
 # @gen-office/mdi 검토 로그
 
+## 2026-06-27 — 패키지 리뷰 1차 마감
+
+### 판단 요약
+
+| 구분 | 내용 |
+| --- | --- |
+| **수정 이식** | V1 `frontend/packages/mdi` → Zustand store, TabBar/Tab/TabPanel, `display: none` 상태 보존 |
+| **V2 추가** | `MDIStoreProvider`·Context store, TabBar scroll↔activeTab, `tabBarLabels` i18n, Storybook Gate |
+| **제외·보류 (P3)** | page registry, DropdownMenu 컨텍스트 메뉴, TabBar 분리, `useShallow` — MVP 블로커 아님 |
+| **Deferred** | Excel-style TabBar (§5.1 review-plan) |
+
+### public API (확정)
+
+- **Components:** `MDIContainer`, `TabBar`, `Tab`, `TabPanel`
+- **Store:** `useMDIStore`, `createMDIStore`, `MDIStoreProvider`
+- **Types·상수:** `MDITab`, `MDIStore`, `TabBarLabels`, `DEFAULT_TAB_BAR_LABELS` 등 (`src/index.ts` barrel)
+
+### Gate·검증
+
+- [x] P0 — API·동작 정합 (`onMaxTabsReached`, TabPanel, maxTabs 정책 A)
+- [x] P1 — 테스트 41건, `index.css` theme side-effect, focus-only id 재오픈
+- [x] P2 — clsx, 타입 분리, 키보드·포커스·tabBarLabels
+- [x] Storybook — `MDI/MDIContainer` (Docs store 격리 decorator)
+- [x] `pnpm -C packages/mdi test` — **41 passed**
+- [x] `pnpm -C packages/mdi build` — dist·mjs·d.ts·index.css
+- [x] 문서 — architecture.md, review-plan.md, README.md
+
+### demo 연동
+
+- [review-plan.md §7](./review-plan.md) 선행 조건 **충족** (패키지 계약·CSS·maxTabs 콜백)
+- `apps/demo` shell `onOpenPage`·`MDIContainer` 배선은 **apps/demo 트랙**에서 진행 (본 패키지 마감 범위 밖)
+
+### 후속 (선택)
+
+- P3.4 demo split-pane Provider 예제
+- P3.1~P3.3, P3.5
+- Deferred §5.1 Excel-style TabBar
+
+---
+
 ## 2026-06-27 — Storybook Docs store 격리
 
 ### 원인

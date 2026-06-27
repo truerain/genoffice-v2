@@ -129,7 +129,7 @@ flowchart LR
 | P3.1 | **Page registry** | store에 `ReactNode` 대신 `pageId` + 앱 쪽 render map | 탭 10+·메모리 이슈 |
 | P3.2 | **Context menu → ui DropdownMenu** | TabBar raw menu 제거 | ui overlay 패턴 통일 시 |
 | P3.3 | **TabBar 분리** | `useTabContextMenu`, `TabContextMenu` | TabBar 200줄+ 또는 reuse |
-| P3.4 | **multi-instance store** | `createMDIStore()` factory / Context | MDI 2영역 필요 시 |
+| P3.4 | **multi-instance store** | `createMDIStore()` + `MDIStoreProvider` | ✅ 패키지 API (2026-06-27); demo split-pane 예제는 미완 |
 | P3.5 | **Zustand `useShallow`** | selector 구독 최적화 | perf 프로파일링 후 |
 
 ### 5.1 Deferred — Excel-style TabBar
@@ -167,8 +167,9 @@ flowchart LR
 | ContextMenu | Close / Close Others / Close All |
 | ClosableFalse | pin 탭 + closeOther 동작 |
 | Empty | `emptyContent` |
+| ManyTabsScroll | 탭 다수 가로 스크롤·Add tab |
 
-**완료 기준:** architecture §9 checklist → [x], Storybook 수동 Gate `review-log` 기록.
+**완료 기준:** architecture §9 checklist → [x], Storybook 수동 Gate `review-log` 기록. ✅ 2026-06-27
 
 ---
 
@@ -193,10 +194,13 @@ flowchart LR
 | P0 | ✅ 완료 | 2026-06-27 |
 | P1 | ✅ 완료 | 2026-06-27 |
 | P2 | ✅ 완료 | 2026-06-27 |
-| P3 | ⬜ 보류 | — |
+| P3 | ⬜ 보류 (P3.4 API만 ✅) | — |
 | **Deferred** | ⬜ Excel-style TabBar | — |
 | Storybook Gate | ✅ 완료 | 2026-06-27 |
-| review-log 검토 마감 | ⬜ 미착수 | — |
+| review-log 검토 마감 | ✅ 완료 | 2026-06-27 |
+| **패키지 리뷰 1차 마감** | ✅ 완료 | 2026-06-27 |
+
+> **다음 트랙:** [06-PACKAGE-REVIEW-PLAN.md](../../../.docs/06-PACKAGE-REVIEW-PLAN.md) §4 다음 패키지 `gen-chart`, 또는 `apps/demo` MDI shell 연동.
 
 ---
 
@@ -211,6 +215,7 @@ flowchart LR
 | ~~`src/index.css` theme side-effect~~ | ~~P1~~ | ✅ 2026-06-27 |
 | ~~`cn` 사용 (V2는 clsx)~~ | ~~P2~~ | ✅ 2026-06-27 |
 | ~~키보드·포커스·i18n~~ | ~~P2~~ | ✅ tabBarLabels, Arrow/Home/End |
+| ~~Storybook Docs store 공유~~ | — | ✅ MDIStoreProvider 2026-06-27 |
 | `ReactNode` in Zustand | P3 | registry는 MVP 이후 |
 | TabBar scroll ↔ activeTab | — | ✅ 2026-06-27 (viewport rect + offsetLeft) |
 | TabBar UX (Excel-style strip) | **Deferred §5.1** | scroll 연동과 별도; arrows·sheet list |

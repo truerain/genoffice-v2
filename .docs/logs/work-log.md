@@ -8,6 +8,12 @@
 
 ## 2026-06-27
 
+### @gen-office/mdi 패키지 리뷰 1차 마감
+
+- P0~P2·Storybook Gate·Docs store 격리 완료; test 41·build green
+- review-log·review-plan·README·06-PACKAGE-REVIEW-PLAN §4 mdi 갱신
+- 후속: gen-chart 또는 apps/demo MDI shell 연동; P3·Deferred는 보류
+
 ### @gen-office/mdi architecture.md — store 격리 구조 반영
 
 - `MDIStoreProvider` / `createMDIStore` / Context·singleton 이중 모델, §4·§8·§9 갱신
