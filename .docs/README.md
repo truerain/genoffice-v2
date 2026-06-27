@@ -23,6 +23,14 @@ GenOffice V2 설계·이식·운영에 관한 문서 모음입니다.
 | 프론트엔드 개발 | 01 → 02 → 06 → 패키지 `.docs/` |
 | AI·작업 재개 | [07-HANDOFF.md](./07-HANDOFF.md), 루트 `AGENTS.md` |
 
+## 아이디어 (미채택 초안)
+
+공식 설계 전 논의·스케치는 [idea/](./idea/)에 둡니다.
+
+| 문서 | 주제 |
+| --- | --- |
+| [idea/page-frame-composable.md](./idea/page-frame-composable.md) | 앱 화면 composable `PageFrame` / `StandardPageFrame` |
+
 ## 문서 목록
 
 | 문서 | 역할 |

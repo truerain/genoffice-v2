@@ -75,19 +75,25 @@ apps → feature packages → gen-datagrid → ui → theme/utils
 
 | 패키지 | 책임 |
 | --- | --- |
-| `gen-chart` | headless model + composable React 차트. visx SVG 렌더러. **V1 코드 이식 안 함** |
-| `gen-datagrid-chart` | grid selection → `GenChartOptions` 변환, preview dialog |
+| `gen-chart` | headless model + composable React 차트. core=`d3-scale`, visx는 internal renderer. **V1 코드 이식 안 함** |
+| `gen-datagrid-chart` | grid selection → `CartesianChartOptions` 변환, preview dialog |
 
 #### gen-chart 내부 모듈 (계획)
 
 ```text
 packages/gen-chart/src/
-  core/     createGenChartModel, scales, domains, hit-test, warnings
-  react/    CartesianChart, ChartGrid, LineSeries, ResponsiveChartContainer, ...
-  themes/   resolveChartTokens, theme presets
+  types/    public 타입
+  core/     createCartesianModel, domain, geometry, hit-test, warnings (React·visx 무관)
+  themes/   ChartTokens, resolveChartTokens
+  react/    ChartRoot, CartesianChart, PolarChart, chrome, motion
+  internal/visx/   renderer adapter (deep import 금지)
 ```
 
-Public API 방향: `CartesianChart` + slot primitives + series 컴포넌트. V1 monolith `GenChart` 단일 컴포넌트는 채택하지 않습니다. 상세는 [05-GEN-CHART.md](./05-GEN-CHART.md).
+Public API: `ChartRoot` + plot별 chart + slot primitives. V1 monolith `GenChart` / `kind` API는 채택하지 않습니다.
+
+- 개요: [05-GEN-CHART.md](./05-GEN-CHART.md)
+- 정본: [packages/gen-chart/.docs/architecture.md](../packages/gen-chart/.docs/architecture.md)
+- Gate: [packages/gen-chart/.docs/gates.md](../packages/gen-chart/.docs/gates.md)
 
 ### 공유 설정
 

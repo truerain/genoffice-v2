@@ -127,10 +127,11 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 ### 5. `gen-chart` (재작성)
 
 - [ ] V1 `GenChart.tsx` **복사하지 않음**
-- [ ] [05-GEN-CHART.md](./05-GEN-CHART.md) API·Gate C0~C8 순서
-- [ ] `theme` token 연동만 V1 참고
+- [x] 아키텍처·Gate 문서 — [packages/gen-chart/.docs/architecture.md](../packages/gen-chart/.docs/architecture.md), [gates.md](../packages/gen-chart/.docs/gates.md)
+- [ ] [05-GEN-CHART.md](./05-GEN-CHART.md) API·Gate C0~C8 순서대로 구현
+- [ ] `ChartTokens` — gen-chart `themes/` (theme D4 정렬은 후속)
 
-**V1 참조 (설계만)**: [`frontend/docs/gen-chart/`](../../frontend/docs/gen-chart/)
+**V1 참조 (설계·수용 기준)**: [`frontend/docs/gen-chart/`](../../frontend/docs/gen-chart/), `frontend/packages/gen-chart` (코드 이식 금지)
 
 ### 6. `gen-datagrid-crud` (합류 시점)
 

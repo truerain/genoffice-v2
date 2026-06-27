@@ -1,0 +1,18 @@
+{
+  "extends": "../../packages/tsconfig/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "ESNext",
+    "noEmit": false,
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": false,
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "jsx": "react-jsx"
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.test.json" }],
+  "exclude": ["node_modules", "dist"]
+}

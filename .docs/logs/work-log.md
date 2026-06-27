@@ -8,6 +8,32 @@
 
 ## 2026-06-27
 
+### @gen-office/gen-chart Gate C1 cartesian core
+
+- `createCartesianModel`: domain, geometry, `getNearestDatum`, visibility toggle → yDomain 재계산
+- d3-scale 기반 `createCartesianScales`, line/bar(area) geometry, `cartesianNearest`
+- test 16건 · build green
+- 다음: C2 `useGenChart`
+
+### @gen-office/gen-chart Gate C0 scaffold
+
+- types, themes (`resolveChartTokens`), core warnings, stub `ChartRoot`/`ResponsiveChartContainer`/series primitives
+- `pnpm -C packages/gen-chart build` · test 6건 통과
+- 다음: C1 `createCartesianModel`
+
+### 아이디어 문서 — composable Page Frame
+
+- `.docs/idea/` 신규 — README, `page-frame-composable.md` (StandardPageFrame 스케치, V1 대응, MDI·gen-chart 관계, 미채택)
+- `.docs/README.md` — idea 섹션 링크
+
+### @gen-office/gen-chart V2 아키텍처·Gate 문서화
+
+- 재사용 차트 엔진 방향: headless core (`d3-scale`) + composable React + visx internal only
+- `packages/gen-chart/.docs/` — architecture.md, gates.md (C0~C8, C1.5, C6b), README, implementation-log
+- `.docs/05-GEN-CHART.md` 개정 — ChartRoot API, plot 분리, motion C6b, GC006, 오픈 이슈 합의
+- `.docs/02-ARCHITECTURE.md`, `06-PACKAGE-REVIEW-PLAN.md` gen-chart 섹션 갱신
+- 다음: Phase 0 scaffold (C0)
+
 ### @gen-office/mdi 패키지 리뷰 1차 마감
 
 - P0~P2·Storybook Gate·Docs store 격리 완료; test 41·build green

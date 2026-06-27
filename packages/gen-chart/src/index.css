@@ -1,0 +1,25 @@
+/**
+ * @file packages/gen-chart/src/index.css
+ * @description Public CSS entry for @gen-office/gen-chart.
+ * @created 2026-06-27
+ *
+ * @remark
+ * - Side-effect import from src/index.ts
+ * - Motion keyframes added in Gate C6b
+ */
+@import '@gen-office/theme/index.css';
+
+.gen-chart-root {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.gen-chart-cartesian {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.gen-chart-polar {
+  position: relative;
+  box-sizing: border-box;
+}

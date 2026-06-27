@@ -1,0 +1,64 @@
+/**
+ * @file packages/gen-chart/src/types/tokens.ts
+ * @description ChartTokens semantic types (owned by gen-chart per V2 D4).
+ * @created 2026-06-27
+ *
+ * @remark
+ */
+
+export interface ChartColorTokens {
+  background: string;
+  textPrimary: string;
+  textMuted: string;
+  axis: string;
+  grid: string;
+  crosshair: string;
+  tooltipBg: string;
+  tooltipBorder: string;
+  tooltipText: string;
+  legendText: string;
+  legendTextMuted: string;
+  seriesPalette: string[];
+}
+
+export interface ChartTypographyTokens {
+  fontFamily: string;
+  axisTickFontSize: number;
+  legendFontSize: number;
+  tooltipFontSize: number;
+}
+
+export interface ChartSpacingTokens {
+  paddingTop: number;
+  paddingRight: number;
+  paddingBottom: number;
+  paddingLeft: number;
+  axisTickGap: number;
+  legendItemGap: number;
+  legendMarkerSize: number;
+  tooltipPaddingX: number;
+  tooltipPaddingY: number;
+}
+
+export interface ChartBorderTokens {
+  tooltipRadius: number;
+  tooltipBorderWidth: number;
+  seriesStrokeWidth: number;
+  seriesStrokeColor: string;
+  gridWidth: number;
+  axisWidth: number;
+}
+
+export interface ChartMotionTokens {
+  enabled: boolean;
+  durationMs: number;
+  easing: 'linear' | 'easeOut' | 'easeInOut';
+}
+
+export interface ChartTokens {
+  color: ChartColorTokens;
+  typography: ChartTypographyTokens;
+  spacing: ChartSpacingTokens;
+  border: ChartBorderTokens;
+  motion: ChartMotionTokens;
+}
