@@ -1,0 +1,86 @@
+/* packages/mdi/src/components/TabBar/TabBar.module.css */
+
+.tabBar {
+  display: flex;
+  align-items: stretch;
+  background-color: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border-default);
+  overflow: hidden;
+  scrollbar-width: thin;
+}
+
+.tabBar.bottom {
+  border-bottom: none;
+  border-top: 1px solid var(--color-border-default);
+}
+
+.tabListWrap {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+}
+
+.tabListWrap::-webkit-scrollbar {
+  height: 6px;
+}
+
+.tabListWrap::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+.tabListWrap::-webkit-scrollbar-thumb {
+  background: var(--color-border-default);
+  border-radius: 3px;
+}
+
+.tabListWrap::-webkit-scrollbar-thumb:hover {
+  background: var(--color-fg-secondary);
+}
+
+.tabList {
+  display: flex;
+  gap: 0;
+  min-width: min-content;
+}
+
+/* bottom 위치일 때 탭 스타일 조정 */
+.tabBar.bottom .tabList > * {
+  border-top: none;
+  border-bottom: 1px solid var(--color-border-default);
+}
+
+.contextMenu {
+  position: fixed;
+  z-index: 1000;
+  min-width: 160px;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border-default);
+  background-color: var(--color-bg-primary);
+  box-shadow: var(--shadow-lg);
+}
+
+.contextMenuItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-fg-primary);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.contextMenuItem:hover:not(:disabled) {
+  background-color: var(--color-bg-secondary);
+}
+
+.contextMenuItem:disabled {
+  color: var(--color-fg-secondary);
+  cursor: not-allowed;
+}

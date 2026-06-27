@@ -6,6 +6,29 @@
 -->
 # GenOffice V2 작업 로그
 
+## 2026-06-27
+
+## 2026-06-27
+
+### @gen-office/mdi P0 public API·동작 정합
+
+- `onMaxTabsReached`: `setOnMaxTabsReached` + MDIContainer 연동, `addTab` limit 시 호출
+- TabPanel: `visibility:hidden` → `display:none`; TS6133 제거
+- maxTabs **정책 A** (하향 시 기존 탭 유지); `reset()` store API
+- `test/store/mdiStore.test.ts` 4건; build/test green
+
+### @gen-office/mdi 패키지 스캐폴딩·V2 설정 정합
+
+- V1 소스 이식 후 `package.json` devDependency·peerDependency를 `ui`/`theme`와 동일 버전으로 맞춤 (`react` 19.2.7, `vite` 6.4.3, `vitest` 4.1.9, Storybook 10.4.6 등)
+- 미사용 `clsx` 의존 제거; `jsdom`·`clean` 스크립트 추가
+- `vite.config.ts` lib name·external을 mdi 의존성(`@gen-office/ui`, `zustand` 등)에 맞게 수정
+- `vitest.config.ts`·`test/setup.ts` 추가 (`passWithNoTests`)
+- 루트 `package.json` `pnpm.overrides`에 `vitest`, `jsdom`, `vite-plugin-dts`, testing-library 버전 고정 추가
+- `packages/mdi/.docs/review-log.md` 작성 (스캐폴딩·미결 항목·검증 기록)
+- `packages/mdi/.docs/architecture.md` 작성 (디렉터리·컴포넌트·store·데이터 흐름 다이어그램)
+- `packages/mdi/.docs/review-plan.md` 작성 (P0~P3 우선순위·Gate·Storybook·demo 선행 조건)
+- 검증: `pnpm install`, `pnpm -C packages/mdi build`, `pnpm -C packages/mdi test`, `pnpm build`
+
 ## 2026-06-25
 
 ### @gen-office/ui V1 이관 마감
