@@ -147,15 +147,31 @@ gen-datagrid Gate 패턴을 따릅니다. **Gate는 순서를 강제합니다.**
 
 **완료 조건**
 
-- [ ] `ChartMotionOptions` — `mode: enter | reset-on-change | none`
-- [ ] CSS enter keyframes (`index.css`) — line, bar, area, pie
-- [ ] `prefers-reduced-motion` → 비활성
-- [ ] 대용량(시리즈 포인트 합 ≥ 2000) 자동 비활성 + `GC006` dev warn
-- [ ] hit-test는 **목표 geometry** 기준 (motion 중 tooltip 안정)
+- [x] `ChartMotionOptions` — `mode: enter | reset-on-change | none`
+- [x] CSS enter keyframes (`index.css`) — line, bar, area, pie
+- [x] `prefers-reduced-motion` → 비활성
+- [x] 대용량(시리즈 포인트 합 ≥ 2000) 자동 비활성 + `GC006` dev warn
+- [x] hit-test는 **목표 geometry** 기준 (motion 중 tooltip 안정)
 
-**제외 (Phase 2):** update path morph, exit animation, legend toggle yDomain tween
+**제외 (Phase 2):** emphasis, selection, visibility motion — [motion.md](./motion.md)
 
 **검증:** Storybook motion + reduced-motion story
+
+---
+
+## Motion Phase 2 (Gate 없음 — C7·C8 이후 연구·착수)
+
+상세: [motion.md](./motion.md)
+
+| 항목 | 계층 | 비고 |
+| --- | --- | --- |
+| line point hover 확대 | `interactive.emphasis` | tooltip nearest 공유 |
+| bar click 강조 / dim | `interactive.selection` | core geometry 불변 |
+| legend toggle fade·scale | `interactive.visibilityMotion` | C6 instant 기본 유지 |
+| `staggerMs` | lifecycle `motion` | pie 30ms 하드코딩 통합 |
+| path morph, exit, `y-tween` | lifecycle / visibility | 연구 스파이크 후 결정 |
+
+**C7·C8 필수 아님.**
 
 ---
 

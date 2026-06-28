@@ -12,6 +12,7 @@ import type { PolarChartOptions } from '../../../types/options';
 import { resolveChartTokens } from '../../../themes/resolveChartTokens';
 import { PolarChartContextProvider } from '../../context/PolarChartContext';
 import { usePolarChart } from '../../hooks/usePolarChart';
+import { useChartMotion } from '../../motion/useChartMotion';
 import { DonutSeries } from './DonutSeries';
 import { PieSeries } from './PieSeries';
 import { PolarPlot } from './PolarPlot';
@@ -48,13 +49,15 @@ export function PolarChart<TDatum>({
     () => resolveChartTokens(options.theme, options.tokens),
     [options.theme, options.tokens],
   );
+  const motion = useChartMotion(options.motion, options.series, tokens.motion);
 
   const contextValue = useMemo(
     () => ({
       chart,
       tokens,
+      motion,
     }),
-    [chart, tokens],
+    [chart, tokens, motion],
   );
 
   return (

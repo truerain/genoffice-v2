@@ -4,6 +4,8 @@
  * @created 2026-06-27
  *
  * @remark
+ * - Lifecycle: ChartMotionOptions (top-level `motion`)
+ * - Phase 2 interaction animation: emphasis / selection / visibilityMotion — see packages/gen-chart/.docs/motion.md
  */
 
 import type { CartesianSeriesType } from './series';

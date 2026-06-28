@@ -8,6 +8,11 @@
 
 ## 2026-06-27
 
+### @gen-office/gen-chart Gate C6b motion
+
+- CSS enter motion (line/bar/area/pie), `useChartMotion`, reduced-motion + GC006 large data
+- Storybook `GenChart/Motion`, test 73건
+
 ### @gen-office/gen-chart tooltip hit layer 전체 차트
 
 - hit layer `plotArea`만 덮던 문제 → 전체 차트 + legend absolute overlay

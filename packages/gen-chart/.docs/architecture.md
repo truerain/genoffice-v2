@@ -335,29 +335,50 @@ MVP는 **L0~L2**. V1 `GenChart` 단일 진입점은 만들지 않습니다.
 | composed | chart-level `type` 없음; **시리즈별 `type`** |
 | Date 축 | 기본 `Intl.DateTimeFormat`; `xAxis.tickFormat` override |
 | dual Y축 | MVP 제외; `yAxisId` 타입만 reserved |
-| motion MVP | C6b — enter + `reset-on-change`; update morph·exit는 Phase 2 |
+| motion MVP | C6b — lifecycle enter만; emphasis/selection/visibility motion은 [motion.md](./motion.md) Phase 2 |
 | bar 용어 | API `bar`, 문서/UI `column` 허용 |
 | ChartTokens | **gen-chart/themes** 소유 ([decisions.md](../../../.docs/logs/decisions.md) D4) |
 | treemap | Cartesian MVP 이후 Phase 2 (`@visx/hierarchy`) |
 
 ---
 
-## 7. Motion
+## 7. Motion · Interaction Animation
+
+상세: **[motion.md](./motion.md)**
+
+차트의 **움직임은 네 계층**으로 나눕니다. API를 `ChartMotionOptions` 하나에 몰지 않습니다.
+
+| 계층 | 옵션 (목표) | 트리거 | core 영향 | 시점 |
+| --- | --- | --- | --- | --- |
+| **Lifecycle** | `motion` | mount, `changeKey` | 없음 | C6b ✅ |
+| **Emphasis** | `interactive.emphasis` | hover / nearest | 없음 | Phase 2 |
+| **Selection** | `interactive.selection` | click | 없음 | Phase 2 |
+| **Visibility** | `interactive.visibilityMotion` | legend toggle | geometry 즉시 재계산 (C6); 연출만 Phase 2 | C6 기능 ✅ / motion Phase 2 |
 
 ```text
-core        → 항상 최종값 (domain, bar height)
-react/motion → 표현만 (CSS enter, render key)
+core              → 항상 최종값 (domain, bar height, visibility 반영 geometry)
+react/motion      → lifecycle enter만 (CSS, render key)
+react/emphasis    → (Phase 2) hover overlay — tooltip hit 공유
+react/selection   → (Phase 2) click 유지 강조
+react/visibility-motion → (Phase 2) legend fade / y-tween 등
 ```
+
+### Lifecycle (C6b — 현재 구현)
 
 | 항목 | 정책 |
 | --- | --- |
 | 기본 | `enabled: true`, `240ms`, `easeOut`, `mode: 'enter'` |
-| `prefers-reduced-motion` | `enabled: false` 강제 |
+| `prefers-reduced-motion` | lifecycle 비활성 |
 | 대용량 | 포인트 합 ≥ 2000 → 자동 비활성 + `GC006` |
-| v1 enter 범위 | line dash, bar scale, area/pie fade-scale |
-| Phase 2 | update path morph, exit, legend toggle yDomain tween |
+| v1 enter | line dash, bar scaleY, area/pie fade-scale |
 
-hit-test는 motion 프레임이 아닌 **목표 geometry** 기준.
+### Phase 2 (연구·구현 연기)
+
+- line point hover 확대, bar click dim, legend toggle fade/scale
+- `staggerMs` (pie 30ms 하드코딩 통합), path morph, exit, `y-tween`
+- **C7·C8에 필수 아님** — [motion.md §7](./motion.md#7-지금-시점-c6b-완료--c7에서-할-일)
+
+**불변:** hit-test·tooltip은 motion/emphasis 프레임이 아닌 **목표 geometry** 기준.
 
 ---
 
@@ -444,6 +465,7 @@ Gate 상세: [gates.md](./gates.md)
 
 ## 12. 관련 문서
 
+- [motion.md](./motion.md) — lifecycle vs emphasis vs selection vs visibility
 - [gates.md](./gates.md)
 - [implementation-log.md](./implementation-log.md)
 - [`.docs/05-GEN-CHART.md`](../../../.docs/05-GEN-CHART.md)

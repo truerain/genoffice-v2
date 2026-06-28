@@ -8,12 +8,14 @@
  */
 
 import { createContext, useContext, type ReactNode } from 'react';
+import type { ResolvedChartMotion } from '../motion/resolveChartMotion';
 import type { ChartTokens } from '../../types/tokens';
 import type { UseGenChartResult } from '../../types/model';
 
 export interface ChartContextValue<TDatum> {
   chart: UseGenChartResult<TDatum>;
   tokens: ChartTokens;
+  motion: ResolvedChartMotion;
 }
 
 const ChartContext = createContext<ChartContextValue<unknown> | null>(null);

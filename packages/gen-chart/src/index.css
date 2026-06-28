@@ -118,3 +118,72 @@
 .gen-chart-tooltip-value {
   font-variant-numeric: tabular-nums;
 }
+
+.gen-chart-motion-line-enter {
+  --gen-chart-line-length: 1000;
+  stroke-dasharray: var(--gen-chart-line-length);
+  stroke-dashoffset: var(--gen-chart-line-length);
+  animation: gen-chart-line-draw var(--gen-chart-motion-duration, 240ms)
+    var(--gen-chart-motion-easing, ease-out) forwards;
+}
+
+.gen-chart-motion-bar-enter rect {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  transform: scaleY(0);
+  animation: gen-chart-bar-enter var(--gen-chart-motion-duration, 240ms)
+    var(--gen-chart-motion-easing, ease-out) forwards;
+}
+
+.gen-chart-motion-area-enter {
+  opacity: 0;
+  animation: gen-chart-area-enter var(--gen-chart-motion-duration, 240ms)
+    var(--gen-chart-motion-easing, ease-out) forwards;
+}
+
+.gen-chart-motion-pie-enter path {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  transform: scale(0.86);
+  animation: gen-chart-pie-enter var(--gen-chart-motion-duration, 240ms)
+    var(--gen-chart-motion-easing, ease-out) forwards;
+  animation-delay: var(--gen-chart-motion-delay, 0ms);
+}
+
+@keyframes gen-chart-line-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes gen-chart-bar-enter {
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes gen-chart-area-enter {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes gen-chart-pie-enter {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gen-chart-motion-line-enter,
+  .gen-chart-motion-bar-enter rect,
+  .gen-chart-motion-area-enter,
+  .gen-chart-motion-pie-enter path {
+    animation: none !important;
+    opacity: 1;
+    stroke-dashoffset: 0;
+    transform: none;
+  }
+}

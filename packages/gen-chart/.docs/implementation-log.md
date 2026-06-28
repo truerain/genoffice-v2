@@ -8,6 +8,25 @@
 
 ## 2026-06-27
 
+### Motion · interaction animation 계층 정의
+
+- **lifecycle** (`motion`) — C6b enter; core 무관
+- **emphasis** (`interactive.emphasis`) — hover overlay; Phase 2
+- **selection** (`interactive.selection`) — click 유지 강조; Phase 2
+- **visibility** (`interactive.visibilityMotion`) — legend toggle 연출; C6은 instant 재계산만
+- **`ChartMotionOptions`에 상호작용 모션 통합 금지** — 정책·트리거 분리
+- **지금 구현:** 없음 (문서만); C7 responsive 우선
+- 문서: `packages/gen-chart/.docs/motion.md`, `architecture.md` §7
+
+### Gate C6b — Motion enter
+
+- **요약:** CSS enter keyframes (line dash, bar scaleY, area fade, pie scale), `resolveChartMotion` / `useChartMotion`, `reset-on-change` via render key
+- **정책:** `prefers-reduced-motion` 비활성, 포인트 ≥ 2000 → `GC006` + motion off; hit-test는 core geometry 유지
+- **모듈:** `react/motion/*`, series motion classes, `index.css` keyframes
+- **Storybook:** `GenChart/Motion` (enter, reset-on-change, disabled, pie)
+- **검증:** motion test 7건, 전체 73건 통과
+- **다음:** Gate C7 — responsive + dashboard
+
 ### Gate C6 — Tooltip / legend interaction
 
 - **요약:** `ChartTooltip` (`getNearestDatum` + plot hit layer), `ChartLegend` (toggle → visibility → yDomain 재계산)

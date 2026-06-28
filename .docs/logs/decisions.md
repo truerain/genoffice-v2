@@ -8,6 +8,15 @@
 
 역시간순. 같은 날짜 섹션 안에서도 **최신 항목이 위**.
 
+## 2026-06-27
+
+### @gen-office/gen-chart motion 계층 분리
+
+- **lifecycle** `ChartMotionOptions` (C6b) vs **interactive** emphasis / selection / visibility motion (Phase 2)
+- core는 항상 최종 geometry; hit-test·tooltip은 목표 geometry 기준 유지
+- C7·C8에 상호작용 모션 구현 필수 아님 — 연구 후 `motion.md` 순서로 착수
+- 문서: `packages/gen-chart/.docs/motion.md`
+
 ## 2026-06-25
 
 ### @gen-office/ui V1 이관 마감

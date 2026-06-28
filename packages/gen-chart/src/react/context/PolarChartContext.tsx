@@ -8,12 +8,14 @@
  */
 
 import { createContext, useContext, type ReactNode } from 'react';
+import type { ResolvedChartMotion } from '../motion/resolveChartMotion';
 import type { UsePolarChartResult } from '../../types/model';
 import type { ChartTokens } from '../../types/tokens';
 
 export interface PolarChartContextValue<TDatum> {
   chart: UsePolarChartResult<TDatum>;
   tokens: ChartTokens;
+  motion: ResolvedChartMotion;
 }
 
 const PolarChartContext = createContext<PolarChartContextValue<unknown> | null>(null);

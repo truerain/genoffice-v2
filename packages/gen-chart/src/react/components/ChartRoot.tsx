@@ -11,6 +11,7 @@ import type { CartesianChartOptions } from '../../types/options';
 import { resolveChartTokens } from '../../themes/resolveChartTokens';
 import { ChartContextProvider } from '../context/ChartContext';
 import { useGenChart } from '../hooks/useGenChart';
+import { useChartMotion } from '../motion/useChartMotion';
 
 export interface ChartRootProps<TDatum> {
   width: number;
@@ -38,13 +39,15 @@ export function ChartRoot<TDatum>({
     () => resolveChartTokens(options.theme, options.tokens),
     [options.theme, options.tokens],
   );
+  const motion = useChartMotion(options.motion, options.series, tokens.motion);
 
   const contextValue = useMemo(
     () => ({
       chart,
       tokens,
+      motion,
     }),
-    [chart, tokens],
+    [chart, tokens, motion],
   );
 
   return (
