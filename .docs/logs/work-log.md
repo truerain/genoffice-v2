@@ -8,6 +8,12 @@
 
 ## 2026-06-27
 
+### @gen-office/gen-chart Gate C7 responsive + dashboard
+
+- `resolveResponsiveSize` 추출, `ResponsiveChartContainer` 단위·통합 테스트
+- Storybook `GenChart/Responsive`, `GenChart/Dashboard` (카드 그리드, V1 DashboardDemoPage 수용 기준)
+- test 78건, build green
+
 ### @gen-office/gen-chart Gate C6b motion
 
 - CSS enter motion (line/bar/area/pie), `useChartMotion`, reduced-motion + GC006 large data

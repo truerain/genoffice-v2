@@ -8,6 +8,14 @@
 
 ## 2026-06-27
 
+### Gate C7 — Responsive + dashboard
+
+- **요약:** `resolveResponsiveSize` 추출, `ResponsiveChartContainer` 검증 테스트, dashboard 카드 그리드 Storybook
+- **Storybook:** `GenChart/Responsive` (width slider, aspect ratio), `GenChart/Dashboard` (card grid, narrow/wide)
+- **패턴:** 카드 `flex: 1; minHeight: 0` + `ResponsiveChartContainer` — V1 DashboardDemoPage 수용 기준
+- **검증:** responsive test 5건 추가, 전체 test green
+- **다음:** Gate C8 — demo + gen-datagrid-chart
+
 ### Motion · interaction animation 계층 정의
 
 - **lifecycle** (`motion`) — C6b enter; core 무관

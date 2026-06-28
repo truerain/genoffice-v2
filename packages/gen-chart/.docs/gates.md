@@ -179,8 +179,10 @@ gen-datagrid Gate 패턴을 따릅니다. **Gate는 순서를 강제합니다.**
 
 **완료 조건**
 
-- [ ] `ResponsiveChartContainer` (ResizeObserver)
-- [ ] dashboard 카드 레이아웃 내 cartesian Storybook (V1 `DashboardDemoPage` 수용 기준)
+- [x] `ResponsiveChartContainer` (ResizeObserver)
+- [x] dashboard 카드 레이아웃 내 cartesian Storybook (V1 `DashboardDemoPage` 수용 기준)
+
+**검증:** `GenChart/Responsive`, `GenChart/Dashboard` Storybook · `resolveResponsiveSize` + container test
 
 ---
 

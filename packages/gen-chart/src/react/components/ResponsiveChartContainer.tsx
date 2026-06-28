@@ -4,9 +4,12 @@
  * @created 2026-06-27
  *
  * @remark
+ * - ResizeObserver + initial getBoundingClientRect; omits render until ready when size > 0
+ * - Gate C7 — dashboard cards should set flex: 1, minHeight: 0 on this wrapper
  */
 
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { resolveResponsiveSize } from '../layout/resolveResponsiveSize';
 
 export interface ResponsiveChartSize {
   width: number;
@@ -23,23 +26,6 @@ export interface ResponsiveChartContainerProps {
   aspectRatio?: number;
   fallbackWidth?: number;
   fallbackHeight?: number;
-}
-
-function nextSize(
-  width: number,
-  height: number,
-  minWidth: number,
-  minHeight: number,
-  aspectRatio?: number,
-) {
-  const safeWidth = Math.max(minWidth, Math.floor(width));
-  let safeHeight = Math.max(minHeight, Math.floor(height));
-
-  if (typeof aspectRatio === 'number' && Number.isFinite(aspectRatio) && aspectRatio > 0) {
-    safeHeight = Math.max(minHeight, Math.floor(safeWidth / aspectRatio));
-  }
-
-  return { width: safeWidth, height: safeHeight };
 }
 
 export function ResponsiveChartContainer({
@@ -66,7 +52,13 @@ export function ResponsiveChartContainer({
     const update = (rawWidth: number, rawHeight: number, ready: boolean) => {
       const baseWidth = rawWidth > 0 ? rawWidth : fallbackWidth;
       const baseHeight = rawHeight > 0 ? rawHeight : fallbackHeight;
-      const measured = nextSize(baseWidth, baseHeight, minWidth, minHeight, aspectRatio);
+      const measured = resolveResponsiveSize({
+        width: baseWidth,
+        height: baseHeight,
+        minWidth,
+        minHeight,
+        aspectRatio,
+      });
       setSize((prev) => {
         if (
           prev.width === measured.width &&
