@@ -42,7 +42,7 @@ export function CartesianChart({ children }: CartesianChartProps) {
       <div
         className="gen-chart-cartesian"
         data-gen-chart-cartesian=""
-        style={{ flex: 1, minHeight: 0 }}
+        style={{ flex: 1, minHeight: 0, position: 'relative', width: '100%', height: '100%' }}
       >
         {children}
       </div>

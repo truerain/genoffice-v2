@@ -137,9 +137,9 @@ gen-datagrid Gate 패턴을 따릅니다. **Gate는 순서를 강제합니다.**
 
 **완료 조건**
 
-- [ ] `ChartTooltip` — `getNearestDatum` 기반
-- [ ] `ChartLegend` — toggle → model visibility → yDomain 재계산
-- [ ] interaction test (legend toggle, tooltip pointer)
+- [x] `ChartTooltip` — `getNearestDatum` 기반
+- [x] `ChartLegend` — toggle → model visibility → yDomain 재계산
+- [x] interaction test (legend toggle, tooltip pointer)
 
 ---
 

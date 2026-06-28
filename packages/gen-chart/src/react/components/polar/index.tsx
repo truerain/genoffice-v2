@@ -39,7 +39,11 @@ export function PolarChart<TDatum>({
   className,
   style,
 }: PolarChartProps<TDatum>) {
-  const chart = usePolarChart({ ...options, width, height });
+  const hookOptions = useMemo(
+    () => ({ ...options, width, height }),
+    [options, width, height],
+  );
+  const chart = usePolarChart(hookOptions);
   const tokens = useMemo(
     () => resolveChartTokens(options.theme, options.tokens),
     [options.theme, options.tokens],

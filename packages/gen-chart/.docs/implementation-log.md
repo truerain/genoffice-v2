@@ -8,6 +8,17 @@
 
 ## 2026-06-27
 
+### Gate C6 — Tooltip / legend interaction
+
+- **요약:** `ChartTooltip` (`getNearestDatum` + plot hit layer), `ChartLegend` (toggle → visibility → yDomain 재계산)
+- **모듈:** `react/components/chrome/*`, `useInteractiveChart`, `resolveInteractiveOptions`
+- **수정:** `ChartRoot`/`PolarChart` hook options `useMemo` — legend toggle 시 model 재생성 방지
+- **tooltip 위치:** `resolveTooltipPosition` — 측정 후 flip/clamp (우·하 overflow 시 좌·상)
+- **tooltip hit layer:** 전체 차트 영역(`inset: 0`) + legend absolute 배치 — x축 구간에서 사라지던 문제 수정
+- **Storybook:** `GenChart/Interaction`
+- **검증:** interaction + position test, 전체 65건 통과
+- **다음:** Gate C6b — motion
+
 ### Gate C5 — Polar series render
 
 - **요약:** `PolarChart` + `usePolarChart` + `PolarPlot` + `PieSeries`/`DonutSeries` SVG render from core arc geometry

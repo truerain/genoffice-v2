@@ -22,8 +22,10 @@ export function CartesianPlot({ children }: CartesianPlotProps) {
     <svg
       className="gen-chart-cartesian-plot"
       data-gen-chart-cartesian-plot=""
-      width={chart.width}
-      height={chart.height}
+      width="100%"
+      height="100%"
+      viewBox={`0 0 ${chart.width} ${chart.height}`}
+      preserveAspectRatio="xMidYMid meet"
       role="img"
       aria-label="Chart plot"
       style={{ display: 'block', background: tokens.color.background }}

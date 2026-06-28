@@ -17,13 +17,13 @@
 .gen-chart-cartesian {
   position: relative;
   box-sizing: border-box;
+  min-height: 0;
 }
 
 .gen-chart-cartesian-plot {
-  position: relative;
+  position: absolute;
+  inset: 0;
   box-sizing: border-box;
-  flex: 1;
-  min-height: 0;
 }
 
 .gen-chart-cartesian-plot .visx-axis-tick text,
@@ -41,4 +41,80 @@
   box-sizing: border-box;
   flex: 1;
   min-height: 0;
+}
+
+.gen-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 4px 8px;
+  box-sizing: border-box;
+  z-index: 3;
+  pointer-events: auto;
+}
+
+.gen-chart-legend[data-position='top'] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.gen-chart-legend[data-position='bottom'] {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.gen-chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  line-height: 1.2;
+}
+
+.gen-chart-legend-item:hover {
+  background: color-mix(in srgb, currentColor 6%, transparent);
+}
+
+.gen-chart-legend-marker {
+  display: inline-block;
+  box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.gen-chart-legend-label {
+  user-select: none;
+}
+
+.gen-chart-tooltip-hit-layer {
+  z-index: 1;
+}
+
+.gen-chart-tooltip {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  box-sizing: border-box;
+  border-style: solid;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+  max-width: 240px;
+}
+
+.gen-chart-tooltip-title {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.gen-chart-tooltip-value {
+  font-variant-numeric: tabular-nums;
 }

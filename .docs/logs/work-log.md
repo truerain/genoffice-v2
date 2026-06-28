@@ -8,6 +8,23 @@
 
 ## 2026-06-27
 
+### @gen-office/gen-chart tooltip hit layer 전체 차트
+
+- hit layer `plotArea`만 덮던 문제 → 전체 차트 + legend absolute overlay
+- x축 라벨 구간에서 tooltip 사라지던 현상 수정
+
+### @gen-office/gen-chart tooltip 위치 flip/clamp
+
+- `resolveTooltipPosition` — 툴팁 크기 측정 후 차트 경계 내 flip/clamp
+- `ChartTooltip` — `useLayoutEffect`로 위치 재계산
+
+### @gen-office/gen-chart Gate C6 interaction
+
+- `ChartTooltip` / `ChartLegend` 구현, `useInteractiveChart`
+- `ChartRoot` hook options memo — legend toggle 상태 유지
+- Storybook `GenChart/Interaction`, test 60건
+- 다음: C6b motion
+
 ### @gen-office/gen-chart PolarSeries Storybook docs
 
 - `PolarSeries.stories.tsx` — `component: PolarSeriesDemo`, `tags: ['autodocs']`, docs description, `layout: 'padded'` (CartesianSeries 패턴)
