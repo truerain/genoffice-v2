@@ -8,6 +8,14 @@
 
 ## 2026-06-27
 
+### @gen-office/gen-chart Gate C1.5 polar core
+
+- `createPolarModel`: polar layout, pie/donut arc geometry, `getNearestDatum`, visibility toggle
+- 모듈: `normalizePolarSeries`, `computePolarLayout`, `pieArcs`, `polarNearest`, `computePolarState`
+- `PolarChartModel`에 `visibleSeries`, `plotArea` 추가
+- test 23건 · build green
+- 다음: C2 `useGenChart`
+
 ### @gen-office/gen-chart Gate C1 cartesian core
 
 - `createCartesianModel`: domain, geometry, `getNearestDatum`, visibility toggle → yDomain 재계산

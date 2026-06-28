@@ -8,6 +8,14 @@
 
 ## 2026-06-27
 
+### Gate C1.5 — Polar headless core
+
+- **요약:** `createPolarModel` 구현 — normalize, polar layout, pie/donut arc geometry, polar hit-test, visibility toggle
+- **모듈:** `core/normalizePolarSeries`, `core/layout/computePolarLayout`, `core/geometry/polar/pieArcs`, `core/hit-test/polarNearest`, `core/model/computePolarState`
+- **타입:** `PolarChartModel`에 `visibleSeries`, `plotArea` 추가 (cartesian과 동일 패턴)
+- **검증:** test 23건 통과, build green
+- **다음:** Gate C2 — `useGenChart`, legend reserve
+
 ### gen-chart 파일 헤더 @remark 섹션 추가
 
 - AGENTS.md 규칙: `@remark` 섹션을 내용 유무와 관계없이 모든 소스·테스트·config 헤더에 추가 (47파일)

@@ -77,11 +77,11 @@ gen-datagrid Gate 패턴을 따릅니다. **Gate는 순서를 강제합니다.**
 
 **완료 조건**
 
-- [ ] `geometry/polar/pieArcs`
-- [ ] `createPolarModel`
-- [ ] polar `getNearestDatum`
+- [x] `geometry/polar/pieArcs`
+- [x] `createPolarModel`
+- [x] polar `getNearestDatum`
 
-**검증:** vitest core
+**검증:** `pnpm -C packages/gen-chart test` (core 23 tests) — 2026-06-27 통과
 
 ---
 

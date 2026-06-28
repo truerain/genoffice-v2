@@ -7,7 +7,7 @@
  */
 
 import type { CartesianChartOptions, PolarChartOptions } from './options';
-import type { CartesianChartSeries } from './series';
+import type { CartesianChartSeries, DonutSeriesDef, PieSeriesDef } from './series';
 
 export interface PlotArea {
   x: number;
@@ -35,6 +35,8 @@ export interface CartesianChartModel<TDatum> {
 
 export interface PolarChartModel<TDatum> {
   options: PolarChartOptions<TDatum>;
+  visibleSeries: Array<PieSeriesDef<TDatum> | DonutSeriesDef<TDatum>>;
+  plotArea: PlotArea;
   toggleSeries: (seriesId: string) => void;
   setSeriesVisibility: (seriesId: string, visible: boolean) => void;
   getNearestDatum: (xPx: number, yPx: number) => NearestDatumResult<TDatum> | null;

@@ -7,8 +7,14 @@
  */
 
 import type { PolarChartOptions } from '../types/options';
-import type { PolarChartModel } from '../types/model';
-import { notImplemented } from './notImplemented';
+import type { PolarChartModel, NearestDatumResult } from '../types/model';
+import { polarNearest } from './hit-test/polarNearest';
+import { computePolarState, isPolarSeriesVisible } from './model/computePolarState';
+import {
+  warnEmptySeries,
+  warnInvalidHeight,
+  warnInvalidWidth,
+} from './warnings';
 
 export interface CreatePolarModelLayout {
   width: number;
@@ -16,8 +22,42 @@ export interface CreatePolarModelLayout {
 }
 
 export function createPolarModel<TDatum>(
-  _options: PolarChartOptions<TDatum>,
-  _layout: CreatePolarModelLayout,
+  options: PolarChartOptions<TDatum>,
+  layout: CreatePolarModelLayout,
 ): PolarChartModel<TDatum> {
-  notImplemented('createPolarModel', 'Gate C1.5');
+  if (options.series.length === 0) warnEmptySeries();
+  if (layout.width <= 0) warnInvalidWidth();
+  if (layout.height <= 0) warnInvalidHeight();
+
+  const visibility = new Map<string, boolean>();
+  let state = computePolarState(options, layout, visibility);
+
+  const refresh = () => {
+    state = computePolarState(options, layout, visibility);
+  };
+
+  return {
+    get options() {
+      return options;
+    },
+    get visibleSeries() {
+      return state.visibleSeries;
+    },
+    get plotArea() {
+      return state.plotArea;
+    },
+    toggleSeries(seriesId: string) {
+      const series = state.normalizedSeries.find((s) => s.id === seriesId);
+      if (!series) return;
+      visibility.set(seriesId, !isPolarSeriesVisible(series, visibility));
+      refresh();
+    },
+    setSeriesVisibility(seriesId: string, visible: boolean) {
+      visibility.set(seriesId, visible);
+      refresh();
+    },
+    getNearestDatum(xPx: number, yPx: number): NearestDatumResult<TDatum> | null {
+      return polarNearest(state.geometries.arcs, xPx, yPx);
+    },
+  };
 }
