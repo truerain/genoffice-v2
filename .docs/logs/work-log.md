@@ -8,6 +8,19 @@
 
 ## 2026-06-27
 
+### @gen-office/gen-chart area baseline x축 정렬
+
+- domain에 0 없을 때 area baseline = yDomain min (x축), 0 포함 시 y=0
+- `resolveAreaBaselineY` · geometry test
+
+### @gen-office/gen-chart Gate C4 cartesian series
+
+- `LineSeries` / `BarSeries` / `AreaSeries` — core geometry SVG render
+- `CartesianChartModel.geometries` 노출, bar visible 시 y domain 0 baseline
+- Storybook `GenChart/CartesianSeries`
+- test 48건 · build green
+- 다음: C5 polar render
+
 ### @gen-office/gen-chart Y축 nice domain
 
 - `applyAxisBounds`: 기본 min/max d3 `.nice()` (5% padding 제거)

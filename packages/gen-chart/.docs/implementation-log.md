@@ -8,6 +8,22 @@
 
 ## 2026-06-27
 
+### Area baseline — x축 정렬 수정
+
+- **요약:** y domain에 0이 없을 때 area fill baseline을 `yScale(0)` → `yDomain min`(x축)으로 변경
+- **모듈:** `core/geometry/cartesian/areaPath.ts` — `resolveAreaBaselineY`
+- **검증:** geometry test 추가, test green
+
+### Gate C4 — Cartesian series render
+
+- **요약:** `LineSeries`, `BarSeries`, `AreaSeries` SVG render from core geometry; composed; bar grouped/stacked
+- **모듈:** `react/components/cartesian/*Series.tsx`, `resolveSeriesColor`, `CartesianChartModel.geometries`
+- **domain:** visible bar 시 y domain에 0 baseline 포함 (min 미지정 시)
+- **Storybook:** `GenChart/CartesianSeries` (line, bar grouped/stacked, area, composed)
+- **검증:** test 48건 통과, build green
+- **다음:** Gate C5 — polar render
+- **backlog:** bar `overlay` layout
+
 ### Y축 domain nice 기본 정책
 
 - **요약:** `applyAxisBounds` 기본값을 5% padding → d3-scale `.nice()` tick-aligned domain으로 변경

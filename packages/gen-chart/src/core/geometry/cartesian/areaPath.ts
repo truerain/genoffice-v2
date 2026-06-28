@@ -4,6 +4,7 @@
  * @created 2026-06-27
  *
  * @remark
+ * - Baseline: y=0 when zero is inside y domain; otherwise y domain min (x-axis)
  */
 
 import { area, curveLinear } from 'd3-shape';
@@ -12,6 +13,13 @@ import type { CartesianScales } from '../../scale/createCartesianScales';
 import { scaleXPosition as toX } from '../../scale/createCartesianScales';
 import { isFiniteNumber } from '../../utils/isFiniteNumber';
 import type { AreaGeometry, ChartPoint, SeriesHitPoint } from './types';
+
+/** Area fill baseline in data space. */
+export function resolveAreaBaselineY(yDomain: [number, number]): number {
+  const [yMin, yMax] = yDomain;
+  if (yMin <= 0 && yMax >= 0) return 0;
+  return yMin;
+}
 
 export function buildAreaGeometry<TDatum>(
   series: AreaSeriesDef<TDatum>,
@@ -43,7 +51,8 @@ export function buildAreaGeometry<TDatum>(
     });
   });
 
-  const baseline = scales.yScale(0);
+  const yDomain = scales.yScale.domain() as [number, number];
+  const baseline = scales.yScale(resolveAreaBaselineY(yDomain));
   const path =
     linePoints.length >= 2
       ? area<{ px: number; py: number }>()

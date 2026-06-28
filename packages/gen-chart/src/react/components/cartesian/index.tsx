@@ -1,6 +1,6 @@
 /**
  * @file packages/gen-chart/src/react/components/cartesian/index.tsx
- * @description Cartesian plot shell and series stub components (Gate C3~C4).
+ * @description Cartesian plot shell and series components (Gate C3~C4).
  * @created 2026-06-27
  *
  * @remark
@@ -16,6 +16,10 @@ export { ChartGrid } from './ChartGrid';
 export { ChartXAxis } from './ChartXAxis';
 export { ChartYAxis } from './ChartYAxis';
 export { ChartEmptyState } from './ChartEmptyState';
+export { LineSeries } from './LineSeries';
+export { BarSeries } from './BarSeries';
+export { AreaSeries } from './AreaSeries';
+export type { SeriesProps } from './seriesProps';
 
 export interface CartesianChartProps {
   children?: ReactNode;
@@ -45,22 +49,3 @@ export function CartesianChart({ children }: CartesianChartProps) {
     </PlotContextProvider>
   );
 }
-
-export interface SeriesProps {
-  seriesId: string;
-}
-
-export function LineSeries(_props: SeriesProps) {
-  return null;
-}
-LineSeries.displayName = 'LineSeries';
-
-export function BarSeries(_props: SeriesProps) {
-  return null;
-}
-BarSeries.displayName = 'BarSeries';
-
-export function AreaSeries(_props: SeriesProps) {
-  return null;
-}
-AreaSeries.displayName = 'AreaSeries';

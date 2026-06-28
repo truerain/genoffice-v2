@@ -21,7 +21,15 @@ export function computeYDomain<TDatum>(
     return applyAxisBounds(0, 1, yAxis);
   }
 
-  const dataMin = Math.min(...values);
+  let dataMin = Math.min(...values);
   const dataMax = Math.max(...values);
+
+  const hasVisibleBar = series.some((s) => s.type === 'bar');
+  const minExplicit =
+    yAxis?.min !== undefined && yAxis.min !== 'auto' && yAxis.min !== 'nice';
+  if (hasVisibleBar && !minExplicit) {
+    dataMin = Math.min(dataMin, 0);
+  }
+
   return applyAxisBounds(dataMin, dataMax, yAxis);
 }

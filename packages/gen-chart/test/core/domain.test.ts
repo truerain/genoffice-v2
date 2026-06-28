@@ -112,6 +112,21 @@ describe('computeYDomain', () => {
     expect(max).toBe(300);
   });
 
+  it('includes zero in y domain when bar series is visible', () => {
+    const series = normalizeSeries([
+      {
+        id: 'sales',
+        type: 'bar',
+        data: [{ label: 'A', value: 50 }],
+        x: (d) => d.label,
+        y: (d) => d.value,
+      },
+    ]);
+
+    const [min] = computeYDomain(series);
+    expect(min).toBeLessThanOrEqual(0);
+  });
+
   it('honors explicit zero baseline min', () => {
     const series = normalizeSeries([
       {

@@ -113,12 +113,14 @@ gen-datagrid Gate 패턴을 따릅니다. **Gate는 순서를 강제합니다.**
 
 **완료 조건**
 
-- [ ] `LineSeries`, `BarSeries`, `AreaSeries`
-- [ ] composed — 시리즈별 `type` (chart-level `kind` 없음)
-- [ ] bar `grouped` / `stacked` (overlay는 C4 후반 또는 backlog 명시)
-- [ ] geometry 단위 테스트와 Storybook 시각 일치
+- [x] `LineSeries`, `BarSeries`, `AreaSeries`
+- [x] composed — 시리즈별 `type` (chart-level `kind` 없음)
+- [x] bar `grouped` / `stacked` (overlay는 C4 후반 또는 backlog 명시)
+- [x] geometry 단위 테스트와 Storybook 시각 일치
 
-**검증:** vitest geometry + Storybook line/bar/area/composed/stacked
+**검증:** `GenChart/CartesianSeries` Storybook · `pnpm -C packages/gen-chart test` — 2026-06-27 통과
+
+**backlog:** bar `overlay` layout
 
 ---
 

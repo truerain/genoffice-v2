@@ -50,6 +50,9 @@ export function useGenChart<TDatum>(
       get scales() {
         return model.scales;
       },
+      get geometries() {
+        return model.geometries;
+      },
       toggleSeries(seriesId: string) {
         model.toggleSeries(seriesId);
         bumpRevision();

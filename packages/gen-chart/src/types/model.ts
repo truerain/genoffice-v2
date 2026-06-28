@@ -9,6 +9,7 @@
 import type { CartesianChartOptions, PolarChartOptions } from './options';
 import type { CartesianChartSeries, DonutSeriesDef, PieSeriesDef } from './series';
 import type { XDomainResult } from '../core/domain/computeXDomain';
+import type { CartesianGeometries } from '../core/geometry/cartesian/types';
 import type { CartesianScales } from '../core/scale/createCartesianScales';
 
 export interface PlotArea {
@@ -33,6 +34,7 @@ export interface CartesianChartModel<TDatum> {
   xDomain: XDomainResult;
   yDomain: [number, number];
   scales: CartesianScales;
+  geometries: CartesianGeometries<TDatum>;
   toggleSeries: (seriesId: string) => void;
   setSeriesVisibility: (seriesId: string, visible: boolean) => void;
   getNearestDatum: (xPx: number, yPx: number) => NearestDatumResult<TDatum> | null;

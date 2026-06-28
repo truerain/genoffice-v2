@@ -56,6 +56,9 @@ export function createCartesianModel<TDatum>(
     get scales() {
       return state.scales;
     },
+    get geometries() {
+      return state.geometries;
+    },
     toggleSeries(seriesId: string) {
       const series = state.normalizedSeries.find((s) => s.id === seriesId);
       if (!series) return;
