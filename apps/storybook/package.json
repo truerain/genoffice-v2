@@ -8,6 +8,7 @@
     "build": "storybook build"
   },
   "dependencies": {
+    "@gen-office/gen-chart": "workspace:*",
     "@gen-office/mdi": "workspace:*",
     "@gen-office/theme": "workspace:*",
     "@gen-office/ui": "workspace:*",

@@ -9,7 +9,13 @@
 import { useMemo, type ReactNode } from 'react';
 import { useChartContext } from '../../context/ChartContext';
 import { PlotContextProvider } from '../../context/PlotContext';
-import { createStubComponent } from '../../createStubComponent';
+
+export { CartesianPlot } from './CartesianPlot';
+export type { CartesianPlotProps } from './CartesianPlot';
+export { ChartGrid } from './ChartGrid';
+export { ChartXAxis } from './ChartXAxis';
+export { ChartYAxis } from './ChartYAxis';
+export { ChartEmptyState } from './ChartEmptyState';
 
 export interface CartesianChartProps {
   children?: ReactNode;
@@ -39,10 +45,6 @@ export function CartesianChart({ children }: CartesianChartProps) {
     </PlotContextProvider>
   );
 }
-
-export const ChartGrid = createStubComponent('ChartGrid');
-export const ChartXAxis = createStubComponent('ChartXAxis');
-export const ChartYAxis = createStubComponent('ChartYAxis');
 
 export interface SeriesProps {
   seriesId: string;

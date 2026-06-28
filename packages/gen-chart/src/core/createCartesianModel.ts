@@ -47,6 +47,15 @@ export function createCartesianModel<TDatum>(
     get plotArea() {
       return state.plotArea;
     },
+    get xDomain() {
+      return state.xDomain;
+    },
+    get yDomain() {
+      return state.yDomain;
+    },
+    get scales() {
+      return state.scales;
+    },
     toggleSeries(seriesId: string) {
       const series = state.normalizedSeries.find((s) => s.id === seriesId);
       if (!series) return;

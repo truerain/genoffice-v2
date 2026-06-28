@@ -17,6 +17,7 @@ export type {
 } from './ResponsiveChartContainer';
 export {
   CartesianChart,
+  CartesianPlot,
   ChartGrid,
   ChartXAxis,
   ChartYAxis,
@@ -24,7 +25,7 @@ export {
   BarSeries,
   AreaSeries,
 } from './cartesian';
-export type { CartesianChartProps, SeriesProps } from './cartesian';
+export type { CartesianChartProps, CartesianPlotProps, SeriesProps } from './cartesian';
 export { PolarChart, PieSeries, DonutSeries } from './polar';
 export type { PolarChartProps, PolarSeriesProps } from './polar';
 export { ChartTooltip, ChartLegend } from './chrome';

@@ -8,6 +8,22 @@
 
 ## 2026-06-27
 
+### Y축 domain nice 기본 정책
+
+- **요약:** `applyAxisBounds` 기본값을 5% padding → d3-scale `.nice()` tick-aligned domain으로 변경
+- **API:** `ChartAxisOptions.min/max`에 `'nice'` 추가; `'auto'`·미지정과 동일; `'dataMin'`/`'dataMax'`/숫자는 exact bound
+- **미포함:** bar `min: 0` 자동 — Gate C4
+- **검증:** test 43건 통과
+
+### Gate C3 — Cartesian primitives
+
+- **요약:** `CartesianPlot` SVG shell, `ChartGrid` / `ChartXAxis` / `ChartYAxis` (visx internal), empty state, Storybook
+- **모듈:** `internal/visx/*`, `react/components/cartesian/*`, `CartesianChartModel`에 `scales`/`xDomain`/`yDomain` 노출
+- **의존성:** `@visx/axis`, `@visx/grid`, `@visx/group`
+- **후속:** visx axis/grid — `createPlotLocalScales` plot-local 좌표 (core geometry는 절대 좌표 유지)
+- **검증:** test 39건 통과, build green, Storybook `GenChart/CartesianPrimitives`
+- **다음:** Gate C4 — Line, Bar, Area series render
+
 ### Gate C2 — Hook + layout
 
 - **요약:** `useGenChart`, legend reserve in `computePlotArea`, `ChartContext` / `PlotContext` provider

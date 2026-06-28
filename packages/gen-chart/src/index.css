@@ -19,6 +19,18 @@
   box-sizing: border-box;
 }
 
+.gen-chart-cartesian-plot {
+  position: relative;
+  box-sizing: border-box;
+  flex: 1;
+  min-height: 0;
+}
+
+.gen-chart-cartesian-plot .visx-axis-tick text,
+.gen-chart-cartesian-plot .visx-axis-label {
+  user-select: none;
+}
+
 .gen-chart-polar {
   position: relative;
   box-sizing: border-box;

@@ -8,6 +8,27 @@
 
 ## 2026-06-27
 
+### @gen-office/gen-chart Y축 nice domain
+
+- `applyAxisBounds`: 기본 min/max d3 `.nice()` (5% padding 제거)
+- `ChartAxisOptions`: `min`/`max` `'nice'` · `'dataMin'`/`'dataMax'`/숫자 override
+- bar zero baseline은 C4
+- test 43건
+
+### @gen-office/gen-chart visx axis/grid 좌표 수정
+
+- x·y축 미접합 버그: core 절대 scale + visx `left`/`top` 이중 오프셋
+- `createPlotLocalScales` — plot-local range, `Group left/top={plotArea}` 로 axis/grid 정렬
+- test 39건 · build green
+
+### @gen-office/gen-chart Gate C3 cartesian primitives
+
+- `CartesianPlot`, `ChartGrid`, `ChartXAxis`, `ChartYAxis` — visx internal renderer
+- `CartesianChartModel` scales/xDomain/yDomain 노출, empty state, Storybook `GenChart/CartesianPrimitives`
+- `@visx/axis`, `@visx/grid`, `@visx/group` 추가 · storybook `@gen-office/gen-chart` 의존
+- test 36건 · build green
+- 다음: C4 series render
+
 ### @gen-office/gen-chart Gate C2 hook + layout
 
 - `useGenChart`: model + width/height, visibility toggle 시 re-render

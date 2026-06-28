@@ -59,4 +59,75 @@ describe('computeYDomain', () => {
     expect(min).toBeLessThanOrEqual(10);
     expect(max).toBeGreaterThanOrEqual(50);
   });
+
+  it('uses d3 nice domain by default for revenue-like ranges', () => {
+    const series = normalizeSeries([
+      {
+        id: 'revenue',
+        type: 'line',
+        data: [
+          { month: 'Jan', revenue: 120 },
+          { month: 'May', revenue: 210 },
+        ],
+        x: (d) => d.month,
+        y: (d) => d.revenue,
+      },
+    ]);
+
+    const [min, max] = computeYDomain(series);
+
+    expect(min).toBeLessThanOrEqual(120);
+    expect(max).toBeGreaterThanOrEqual(210);
+    expect(max % 10).toBe(0);
+    expect(min % 10).toBe(0);
+  });
+
+  it('honors dataMax without nice expansion on max', () => {
+    const series = normalizeSeries([
+      {
+        id: 'revenue',
+        type: 'line',
+        data: [{ month: 'Jan', revenue: 210 }],
+        x: (d) => d.month,
+        y: (d) => d.revenue,
+      },
+    ]);
+
+    const [, max] = computeYDomain(series, { max: 'dataMax' });
+    expect(max).toBe(210);
+  });
+
+  it('honors explicit numeric max', () => {
+    const series = normalizeSeries([
+      {
+        id: 'revenue',
+        type: 'line',
+        data: [{ month: 'Jan', revenue: 210 }],
+        x: (d) => d.month,
+        y: (d) => d.revenue,
+      },
+    ]);
+
+    const [, max] = computeYDomain(series, { max: 300 });
+    expect(max).toBe(300);
+  });
+
+  it('honors explicit zero baseline min', () => {
+    const series = normalizeSeries([
+      {
+        id: 'revenue',
+        type: 'line',
+        data: [
+          { month: 'Jan', revenue: 120 },
+          { month: 'May', revenue: 210 },
+        ],
+        x: (d) => d.month,
+        y: (d) => d.revenue,
+      },
+    ]);
+
+    const [min, max] = computeYDomain(series, { min: 0 });
+    expect(min).toBe(0);
+    expect(max).toBeGreaterThanOrEqual(210);
+  });
 });

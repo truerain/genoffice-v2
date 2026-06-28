@@ -49,6 +49,8 @@ export interface ChartAxisOptions {
   showTicks?: boolean;
   tickCount?: number;
   tickFormat?: (value: unknown) => string;
-  min?: number | 'auto' | 'dataMin';
-  max?: number | 'auto' | 'dataMax';
+  /** @default 'nice' — d3 tick-aligned domain; `'auto'` is an alias */
+  min?: number | 'auto' | 'nice' | 'dataMin';
+  /** @default 'nice' — d3 tick-aligned domain; `'auto'` is an alias */
+  max?: number | 'auto' | 'nice' | 'dataMax';
 }

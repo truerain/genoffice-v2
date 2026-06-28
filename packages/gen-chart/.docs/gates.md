@@ -101,11 +101,11 @@ gen-datagrid Gate 패턴을 따릅니다. **Gate는 순서를 강제합니다.**
 
 **완료 조건**
 
-- [ ] `ChartRoot`, `CartesianChart`, `CartesianPlot`
-- [ ] `ChartGrid`, `ChartXAxis`, `ChartYAxis`
-- [ ] 빈 series / invalid size dev warning Storybook
+- [x] `ChartRoot`, `CartesianChart`, `CartesianPlot`
+- [x] `ChartGrid`, `ChartXAxis`, `ChartYAxis`
+- [x] 빈 series / invalid size dev warning Storybook
 
-**검증:** Storybook cartesian primitives
+**검증:** `GenChart/CartesianPrimitives` Storybook · `pnpm -C packages/gen-chart test` — 2026-06-27 통과
 
 ---
 

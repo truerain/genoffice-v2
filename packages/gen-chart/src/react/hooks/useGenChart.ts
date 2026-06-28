@@ -41,6 +41,15 @@ export function useGenChart<TDatum>(
       get plotArea() {
         return model.plotArea;
       },
+      get xDomain() {
+        return model.xDomain;
+      },
+      get yDomain() {
+        return model.yDomain;
+      },
+      get scales() {
+        return model.scales;
+      },
       toggleSeries(seriesId: string) {
         model.toggleSeries(seriesId);
         bumpRevision();
