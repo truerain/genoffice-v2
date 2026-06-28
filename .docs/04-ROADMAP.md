@@ -175,24 +175,21 @@ Gate 정의: V1 [`mvp-test-gates.md`](../../frontend/packages/gen-datagrid/docs/
 
 ---
 
-## Phase 2b — gen-chart pie + responsive (병렬)
+## Phase 2b — gen-chart Phase 1 ✅ (2026-06-27 마감)
 
-**목표**: pie/donut·tooltip·legend·responsive wrapper
+**목표**: pie/donut·tooltip·legend·motion enter·responsive·dashboard Storybook
 
 ### 작업
 
-- [ ] `PieSeries`, `DonutSeries`, `ChartTooltip`, `ChartLegend`
-- [ ] `ResponsiveChartContainer`
-- [ ] interaction test (legend toggle, tooltip)
-- [ ] Gate C5~C7 통과
+- [x] `PieSeries`, `DonutSeries`, `ChartTooltip`, `ChartLegend`
+- [x] `ResponsiveChartContainer`, dashboard Storybook
+- [x] motion enter (C6b), interaction test
+- [x] Gate C5~C7 통과
 
 ### 완료 기준
 
-- V1 `ChartDemoPage`의 pie/donut·responsive 시나리오를 V2 API로 Storybook 재현
-
-### 예상 기간
-
-1주 (Phase 2와 병렬)
+- V1 `ChartDemoPage` / `DashboardDemoPage` 시나리오를 V2 API로 **Storybook** 재현
+- **Phase 2** (C8 demo·grid 연동)는 `gen-datagrid` · `apps/demo` · `gen-datagrid-chart` 준비 후 — [phase.md](../packages/gen-chart/.docs/phase.md)
 
 ---
 
@@ -229,18 +226,20 @@ Gate 정의: V1 [`mvp-test-gates.md`](../../frontend/packages/gen-datagrid/docs/
 
 ---
 
-## Phase 4 — 차트 demo·연동·정리
+## Phase 4 — gen-chart Phase 2 · demo 차트 연동
 
-**목표**: V2 MVP 완료 (그리드 + 차트)
+**목표**: grid·demo 준비 후 gen-chart C8 및 연동 패키지
+
+**선행:** gen-chart Phase 1 ✅, `gen-datagrid` MVP, `apps/demo`, `gen-datagrid-crud` smoke
 
 ### 작업
 
-- [ ] `gen-datagrid-chart` — range → `GenChartOptions`, preview dialog
-- [ ] `ChartDemoPage`, `DashboardDemoPage`를 V2 composable API로 재작성 (Gate C8)
+- [ ] `gen-datagrid-chart` — range → `CartesianChartOptions`, preview dialog (Gate C8)
+- [ ] `ChartDemoPage`, `DashboardDemoPage` V2 composable API (`apps/demo`)
 - [ ] ActualsPage + range chart 연동
+- [ ] gen-chart Phase 2 backlog — motion 고급, treemap, crosshair ([phase.md](../packages/gen-chart/.docs/phase.md))
 - [ ] Notice, Message, UserRole 등 나머지 admin 화면 포팅
 - [ ] demo 그리드 시연 페이지 정리·대체
-- [ ] `treemap` (차트 Phase 2 — MVP 이후 가능)
 - [ ] `html-editor` 패키지 분리 검토
 - [ ] V2 `06-BUILD_GUIDE.md` 작성
 - [ ] V1 freeze 정책 README 반영

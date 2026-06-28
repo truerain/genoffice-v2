@@ -16,6 +16,7 @@ V2 **재사용 차트 엔진** 패키지입니다. headless model + composable R
 
 | 문서 | 내용 |
 | --- | --- |
+| [phase.md](./phase.md) | **Phase 1 마감 / Phase 2 backlog** — 패키지 리뷰 상태 |
 | [architecture.md](./architecture.md) | 모듈 구조, 상태 모델, Public API, motion 요약, gen-datagrid-chart 연동 |
 | [motion.md](./motion.md) | lifecycle / emphasis / selection / visibility motion 계층·Phase 2 백로그 |
 | [gates.md](./gates.md) | 품질 Gate C0~C8, C1.5, C6b — 완료 조건·검증 명령 |

@@ -12,6 +12,15 @@
 
 gen-datagrid Gate 패턴을 따릅니다. **Gate는 순서를 강제합니다.** 이전 Gate 통과 전 다음 단계 착수를 하지 않습니다.
 
+## Phase 상태 (2026-06-27)
+
+| Phase | Gate | 상태 |
+| --- | --- | --- |
+| **Phase 1** — 차트 엔진 MVP | C0 ~ C7 | ✅ **마감** |
+| **Phase 2** — 연동·확장 | C8 + backlog | ⏸ 보류 (선행 패키지 완료 후) |
+
+상세: [phase.md](./phase.md)
+
 ## 공통 검증 명령
 
 | 단계 | 명령 | 통과 기준 |
@@ -37,7 +46,7 @@ gen-datagrid Gate 패턴을 따릅니다. **Gate는 순서를 강제합니다.**
 | **C6** | Tooltip, legend toggle → domain 재계산 | C4 |
 | **C6b** | Motion enter + reduced-motion + changeKey | C6 |
 | **C7** | ResponsiveChartContainer, dashboard 카드 시나리오 | C6 |
-| **C8** | demo Chart + Dashboard 페이지 전환 | C7, gen-datagrid-chart |
+| **C8** | demo Chart + Dashboard · `gen-datagrid-chart` | Phase 2 — C7, grid MVP, demo |
 
 ---
 
@@ -159,9 +168,9 @@ gen-datagrid Gate 패턴을 따릅니다. **Gate는 순서를 강제합니다.**
 
 ---
 
-## Motion Phase 2 (Gate 없음 — C7·C8 이후 연구·착수)
+## Motion · interaction animation (Phase 2)
 
-상세: [motion.md](./motion.md)
+상세: [motion.md](./motion.md) · [phase.md §2.2](./phase.md#22-motion--interaction-phase-2)
 
 | 항목 | 계층 | 비고 |
 | --- | --- | --- |
@@ -170,8 +179,6 @@ gen-datagrid Gate 패턴을 따릅니다. **Gate는 순서를 강제합니다.**
 | legend toggle fade·scale | `interactive.visibilityMotion` | C6 instant 기본 유지 |
 | `staggerMs` | lifecycle `motion` | pie 30ms 하드코딩 통합 |
 | path morph, exit, `y-tween` | lifecycle / visibility | 연구 스파이크 후 결정 |
-
-**C7·C8 필수 아님.**
 
 ---
 
@@ -186,15 +193,23 @@ gen-datagrid Gate 패턴을 따릅니다. **Gate는 순서를 강제합니다.**
 
 ---
 
-## C8 — Demo 통합
+## C8 — Demo 통합 (Phase 2)
 
-**선행:** `gen-datagrid-chart` scaffold, grid MVP
+**상태:** ⏸ 보류 — `apps/demo`, `gen-datagrid` MVP, `gen-datagrid-chart` 선행 필요
+
+**선행:**
+
+- `gen-datagrid` public API · Gate 8 안정
+- `gen-datagrid-chart` scaffold
+- `apps/demo` scaffold
 
 **완료 조건**
 
-- [ ] `rangeToChartOptions` (gen-datagrid-chart)
+- [ ] `rangeToChartOptions` (`gen-datagrid-chart`)
 - [ ] demo `ChartDemoPage`, `DashboardDemoPage` V2 API 전환
-- [ ] treemap — **본 Gate 제외** (차트 Phase 2)
+- [ ] treemap — Phase 2 backlog (C8 본문 제외)
+
+**참고:** Phase 1에서 V1 수용 기준은 Storybook (`GenChart/Dashboard` 등)으로 검증 완료.
 
 ---
 
@@ -215,13 +230,20 @@ prefix: `[gen-chart]` · development only
 
 ## 구현 Phase ↔ Gate 매핑
 
+**패키지 Phase (정본):** [phase.md](./phase.md)
+
 ```text
-Phase 0 (기반)     → C0
-Phase 1 (core)     → C1, C1.5
-Phase 2 (cartesian render) → C2, C3, C4
-Phase 3 (polar + chrome)   → C5, C6
-Phase 4 (motion + responsive) → C6b, C7
-Phase 5 (통합)     → C8
+Phase 1 (마감)  → C0 ~ C7
+Phase 2 (보류)  → C8, motion 고급, treemap, crosshair, …
 ```
+
+<details>
+<summary>Phase 1 내부 일정 (참고)</summary>
+
+```text
+C0 scaffold → C1/C1.5 core → C2~C4 cartesian render → C5~C6 polar+chrome → C6b~C7 motion+responsive
+```
+
+</details>
 
 상세 일정: [`.docs/04-ROADMAP.md`](../../../.docs/04-ROADMAP.md)

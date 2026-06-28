@@ -8,6 +8,13 @@
 
 ## 2026-06-27
 
+### Phase 1 마감 — 패키지 리뷰 1차 종료
+
+- **범위:** Gate C0~C7, test 78건, Storybook V1 Chart/Dashboard 수용 기준
+- **Phase 2:** C8, gen-datagrid-chart, motion 고급, treemap, crosshair — 선행 패키지 후 재개
+- **문서:** `packages/gen-chart/.docs/phase.md`
+- **다음 패키지 리뷰:** gen-chart 코드 변경 최소화; 로드맵상 다른 패키지 우선
+
 ### Gate C7 — Responsive + dashboard
 
 - **요약:** `resolveResponsiveSize` 추출, `ResponsiveChartContainer` 검증 테스트, dashboard 카드 그리드 Storybook

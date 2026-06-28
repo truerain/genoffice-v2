@@ -10,6 +10,12 @@
 
 ## 2026-06-27
 
+### @gen-office/gen-chart Phase 1 마감
+
+- Gate C0~C7 완료; C8·연동·고급 기능은 Phase 2로 이관
+- 선행: gen-datagrid MVP, apps/demo, gen-datagrid-chart
+- 정본: `packages/gen-chart/.docs/phase.md`
+
 ### @gen-office/gen-chart motion 계층 분리
 
 - **lifecycle** `ChartMotionOptions` (C6b) vs **interactive** emphasis / selection / visibility motion (Phase 2)

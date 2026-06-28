@@ -252,25 +252,26 @@ interface ChartContextValue {
 
 ---
 
-## 7. 지금 시점 (C6b 완료 → C7)에서 할 일
+## 7. 지금 시점 — Phase 1 마감 (2026-06-27)
 
-### 반드시 지금 구현할 것
+**Phase 1 (C0~C7) 완료.** 패키지 리뷰 트랙에서 gen-chart 1차 마감.
 
-**없음.** C7(responsive + dashboard)과 C8(demo 통합)에 lifecycle enter가 필수는 아닙니다. C6b로 MVP enter는 충족.
+### Phase 2로 이관 (선행 패키지 완료 후)
 
-### 지금 하지 않는 것 (의도적 연기)
+- C8 demo · `gen-datagrid-chart` 연동
+- `interactive.emphasis` / `selection` / `visibilityMotion`
+- `staggerMs`, path morph, exit, `y-tween`
+- treemap, crosshair, dual Y, bar overlay
 
-- `interactive.emphasis` / `selection` / `visibilityMotion` 타입 export 및 컴포넌트
-- bar click handler, legend fade, point hover expand
-- `staggerMs` 공개 API (pie 하드코딩은 Phase 2에서 `staggerMs`로 통합 가능)
-- path morph, exit animation
+상세: [phase.md](./phase.md)
 
-### 구조적으로 이미 갖춰진 것 (Phase 2 전제)
+### Phase 1에서 이미 갖춘 전제
 
 - core geometry = 최종값, hit-test 안정 (C6·C6b)
 - `ChartInteractiveOptions`와 `ChartMotionOptions` 형제 분리
-- tooltip hit layer 전체 차트 (`inset: 0`) — emphasis/selection이 같은 레이어 확장 가능
-- `toggleSeries` → 즉시 model 재계산 (visibility motion은 presentation만 추가)
+- tooltip hit layer 전체 차트 — emphasis/selection 확장 가능
+- `toggleSeries` → 즉시 model 재계산
+- Storybook으로 V1 Chart/Dashboard 수용 기준 검증
 
 ---
 

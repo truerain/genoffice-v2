@@ -432,19 +432,16 @@ function rangeToChartOptions<T>(input: RangeChartInput<T>): CartesianChartOption
 
 ## 10. 구현 Phase
 
-| Phase | 기간 (목표) | Gate | 핵심 작업 |
+**패키지 Phase 정본:** [phase.md](./phase.md)
+
+| Phase | Gate | 상태 | 핵심 |
 | --- | --- | --- | --- |
-| 0 기반 | 1주 | C0 | scaffold, types stub, themes |
-| 1 core | 1.5~2주 | C1, C1.5 | domain, geometry, hit-test — **SVG 없음** |
-| 2 cartesian render | 2주 | C2~C4 | context, visx adapter, series |
-| 3 polar + chrome | 1.5주 | C5~C6 | pie, tooltip, legend |
-| 4 motion + responsive | 1주 | C6b~C7 | motion CSS, dashboard story |
-| 5 통합 | grid CRUD 이후 | C8 | gen-datagrid-chart, demo |
+| **Phase 1** — 차트 엔진 MVP | C0 ~ C7 | ✅ 마감 (2026-06-27) | core, render, interaction, motion enter, responsive |
+| **Phase 2** — 연동·확장 | C8 + backlog | ⏸ 보류 | demo, gen-datagrid-chart, motion 고급, treemap |
 
 ```text
-[병렬] gen-datagrid Gate 8  ‖  gen-chart Phase 0~2
-       gen-datagrid-crud    ‖  gen-chart Phase 3~4
-       demo admin (grid)    →  gen-datagrid-chart + demo chart (C8)
+[완료] gen-chart Phase 1 (C0~C7)
+[대기] gen-datagrid MVP → crud/demo → gen-datagrid-chart → gen-chart Phase 2 (C8+)
 ```
 
 Gate 상세: [gates.md](./gates.md)
@@ -466,6 +463,7 @@ Gate 상세: [gates.md](./gates.md)
 ## 12. 관련 문서
 
 - [motion.md](./motion.md) — lifecycle vs emphasis vs selection vs visibility
+- [phase.md](./phase.md)
 - [gates.md](./gates.md)
 - [implementation-log.md](./implementation-log.md)
 - [`.docs/05-GEN-CHART.md`](../../../.docs/05-GEN-CHART.md)

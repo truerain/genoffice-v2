@@ -14,6 +14,7 @@ V2에서 `@gen-office/gen-chart`를 **V1 코드를 이식하지 않고 처음부
 
 | 문서 | 내용 |
 | --- | --- |
+| [`packages/gen-chart/.docs/phase.md`](../packages/gen-chart/.docs/phase.md) | **Phase 1 마감 / Phase 2 backlog** |
 | [`packages/gen-chart/.docs/architecture.md`](../packages/gen-chart/.docs/architecture.md) | 모듈 구조, 상태 모델, Public API, motion, 연동 |
 | [`packages/gen-chart/.docs/gates.md`](../packages/gen-chart/.docs/gates.md) | C0~C8, C1.5, C6b 완료 조건 |
 | [`packages/gen-chart/.docs/README.md`](../packages/gen-chart/.docs/README.md) | 패키지 문서 목록·V1 참조 경로 |
@@ -211,57 +212,48 @@ export function rangeToChartOptions<T>(input: RangeChartInput<T>): CartesianChar
 
 ---
 
-## 8. MVP 범위
+## 8. MVP 범위 (Phase 1 ✅)
 
-| 포함 | 제외 |
+**Phase 1 (C0~C7)에 포함·완료.** demo 연동·고급 기능은 [Phase 2](../packages/gen-chart/.docs/phase.md).
+
+| Phase 1 포함 | Phase 2로 이관 |
 | --- | --- |
-| `line`, `bar`, `area`, composed (시리즈별 type) | `treemap` (Phase 2) |
+| `line`, `bar`, `area`, composed | `treemap` |
 | `pie`, `donut` | dual Y axis |
-| 단일 X/Y axis | crosshair (Phase 1.5 backlog) |
-| tooltip, legend toggle | Canvas, server export |
-| `ResponsiveChartContainer` | update morph / exit motion |
-| motion enter (Gate **C6b**) | 3D·map |
+| tooltip, legend toggle | crosshair |
+| `ResponsiveChartContainer` | update morph / exit motion (고급) |
+| motion enter (C6b) | emphasis / selection / visibility motion |
+| Storybook 수용 기준 | demo `ChartDemoPage` / `DashboardDemoPage` (C8) |
+| | `gen-datagrid-chart` 연동 (C8) |
 
-### 수용 기준 (demo)
+### 수용 기준
 
-- `ChartDemoPage`: line, bar, area, composed, pie, donut
-- `DashboardDemoPage`: 카드 내 responsive cartesian
+| V1 demo | Phase 1 대응 |
+| --- | --- |
+| `ChartDemoPage` | Storybook `GenChart/CartesianSeries`, `PolarSeries`, … |
+| `DashboardDemoPage` | Storybook `GenChart/Dashboard`, `Responsive` |
 
 ---
 
 ## 9. 품질 Gate
 
-| Gate | 목표 |
-| --- | --- |
-| C0 | scaffold |
-| C1 | cartesian core (SVG 없음) |
-| C1.5 | polar core |
-| C2 | `useGenChart` + layout |
-| C3 | grid, axis |
-| C4 | line / bar / area |
-| C5 | pie / donut |
-| C6 | tooltip + legend |
-| C6b | motion enter |
-| C7 | responsive + dashboard |
-| C8 | demo + gen-datagrid-chart |
+| Gate | 목표 | Phase |
+| --- | --- | --- |
+| C0 ~ C7 | scaffold → responsive + dashboard Storybook | **Phase 1 ✅** |
+| C8 | demo + gen-datagrid-chart | **Phase 2** |
 
-완료 조건·검증 명령: [gates.md](../packages/gen-chart/.docs/gates.md)
+완료 조건·검증 명령: [gates.md](../packages/gen-chart/.docs/gates.md) · Phase 정리: [phase.md](../packages/gen-chart/.docs/phase.md)
 
 ---
 
 ## 10. 로드맵 내 위치
 
 ```text
-Phase 0   gen-chart C0 (scaffold)
-Phase 1a  gen-datagrid Gate 8
-Phase 1b  gen-chart C1~C4 (core + cartesian)  ← 병렬
-Phase 2   gen-datagrid-crud
-Phase 2b  gen-chart C5~C7 (polar, interaction, responsive)
-Phase 3   demo admin (grid)
-Phase 4   gen-datagrid-chart + C6b motion + C8 demo
+[완료] gen-chart Phase 1 (C0~C7) — 2026-06-27
+[대기] gen-datagrid MVP → crud/demo → gen-datagrid-chart → gen-chart Phase 2 (C8+)
 ```
 
-상세: [04-ROADMAP.md](./04-ROADMAP.md) · 구현 Phase: [architecture.md §10](../packages/gen-chart/.docs/architecture.md#10-구현-phase)
+상세: [04-ROADMAP.md](./04-ROADMAP.md) · [phase.md](../packages/gen-chart/.docs/phase.md)
 
 ---
 

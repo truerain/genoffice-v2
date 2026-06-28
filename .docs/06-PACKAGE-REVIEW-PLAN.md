@@ -68,7 +68,7 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 | 2 | `packages/utils` | 이식 | `clsx` 등. React 무관 |
 | 3 | `packages/ui` | 수정 이식 | Radix 래퍼·composed. TipTap 분리는 보류 가능 |
 | 4 | `packages/mdi` | 수정 이식 | Zustand store·탭·창 |
-| 5 | `packages/gen-chart` | **재작성** | V1 monolith 이식 안 함. [05-GEN-CHART.md](./05-GEN-CHART.md) |
+| 5 | `packages/gen-chart` | **재작성** | **Phase 1 ✅** (C0~C7). Phase 2는 grid·demo 후 — [phase.md](../packages/gen-chart/.docs/phase.md) |
 | — | `packages/gen-datagrid` | **다른 agent** | 본 순서에서 제외 |
 | 6 | `packages/gen-datagrid-crud` | 신규 | gen-datagrid API 확정 후 착수 |
 | 7 | `packages/gen-datagrid-chart` | 신규/포팅 | gen-chart + gen-datagrid 준비 후 |
@@ -126,9 +126,10 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 
 ### 5. `gen-chart` (재작성)
 
-- [ ] V1 `GenChart.tsx` **복사하지 않음**
-- [x] 아키텍처·Gate 문서 — [packages/gen-chart/.docs/architecture.md](../packages/gen-chart/.docs/architecture.md), [gates.md](../packages/gen-chart/.docs/gates.md)
-- [ ] [05-GEN-CHART.md](./05-GEN-CHART.md) API·Gate C0~C8 순서대로 구현
+- [x] V1 `GenChart.tsx` **복사하지 않음**
+- [x] 아키텍처·Gate 문서 — [architecture.md](../packages/gen-chart/.docs/architecture.md), [gates.md](../packages/gen-chart/.docs/gates.md)
+- [x] **Phase 1 마감 (C0~C7)** — [phase.md](../packages/gen-chart/.docs/phase.md), [05-GEN-CHART.md](./05-GEN-CHART.md)
+- [ ] **Phase 2** — C8·grid 연동·backlog (`gen-datagrid` · demo · `gen-datagrid-chart` 선행)
 - [ ] `ChartTokens` — gen-chart `themes/` (theme D4 정렬은 후속)
 
 **V1 참조 (설계·수용 기준)**: [`frontend/docs/gen-chart/`](../../frontend/docs/gen-chart/), `frontend/packages/gen-chart` (코드 이식 금지)
@@ -143,7 +144,7 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 
 ### 7. `gen-datagrid-chart` (합류 시점)
 
-**선행 조건**: `gen-datagrid` + `gen-chart` MVP
+**선행 조건**: `gen-datagrid` MVP + **gen-chart Phase 1 ✅**
 
 - [ ] V1 `gen-grid-chart` 동작을 수용 기준으로만 참고
 - [ ] `rangeToChartModel` 등 grid-agnostic 변환 계층

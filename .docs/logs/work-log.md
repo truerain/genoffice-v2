@@ -8,6 +8,15 @@
 
 ## 2026-06-27
 
+### @gen-office/gen-chart Phase 1 마감
+
+- **범위:** Gate C0~C7 (차트 엔진 MVP) — core, render, interaction, motion enter, responsive, dashboard Storybook
+- **Phase 2 보류:** C8 (demo·`gen-datagrid-chart`), motion 고급, treemap, crosshair 등
+- **착수 조건:** `gen-datagrid` MVP, `apps/demo`, `gen-datagrid-chart` scaffold
+- 문서: `packages/gen-chart/.docs/phase.md`, `gates.md`, `05-GEN-CHART.md`, `04-ROADMAP.md`, `06-PACKAGE-REVIEW-PLAN.md`
+
+## 2026-06-27
+
 ### @gen-office/gen-chart Gate C7 responsive + dashboard
 
 - `resolveResponsiveSize` 추출, `ResponsiveChartContainer` 단위·통합 테스트
