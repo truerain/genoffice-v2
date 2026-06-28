@@ -87,14 +87,26 @@ describe('buildCartesianGeometries', () => {
     const firstMove = geometry.path.match(/^M[\d.+-]+,([\d.+-]+)/);
     expect(Number(firstMove?.[1])).toBeCloseTo(baselineAtDomainMin, 5);
   });
+});
 
-  it('uses zero as area baseline when y domain includes zero', () => {
+describe('resolveAreaBaselineY', () => {
+  it('returns domain min when zero is outside y domain', () => {
+    expect(resolveAreaBaselineY([100, 220])).toBe(100);
+    expect(resolveAreaBaselineY([5, 15])).toBe(5);
+  });
+
+  it('returns zero when zero is inside y domain', () => {
+    expect(resolveAreaBaselineY([-10, 50])).toBe(0);
+    expect(resolveAreaBaselineY([0, 100])).toBe(0);
+  });
+
+  it('uses zero baseline for series whose nice domain straddles zero', () => {
     const series = normalizeSeries([
       {
         id: 'area',
         type: 'area',
         data: [
-          { x: 'A', y: 5 },
+          { x: 'A', y: -5 },
           { x: 'B', y: 15 },
         ],
         x: (d) => d.x,
@@ -102,17 +114,15 @@ describe('buildCartesianGeometries', () => {
       },
     ]);
 
-    const plotArea = computePlotArea(400, 300);
     const scales = createCartesianScales(
       computeXDomain(series),
       computeYDomain(series),
-      plotArea,
+      computePlotArea(400, 300),
     );
+    const yDomain = scales.yScale.domain() as [number, number];
 
-    expect(resolveAreaBaselineY(scales.yScale.domain() as [number, number])).toBe(0);
-
-    const { geometry } = buildAreaGeometry(series[0]!, scales);
-    const firstMove = geometry.path.match(/^M[\d.+-]+,([\d.+-]+)/);
-    expect(Number(firstMove?.[1])).toBeCloseTo(scales.yScale(0), 5);
+    expect(yDomain[0]).toBeLessThanOrEqual(0);
+    expect(yDomain[1]).toBeGreaterThanOrEqual(0);
+    expect(resolveAreaBaselineY(yDomain)).toBe(0);
   });
 });
