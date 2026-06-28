@@ -45,4 +45,5 @@ export type {
   PolarChartModel,
   ChartLayoutMetrics,
   UseGenChartResult,
+  UsePolarChartResult,
 } from './model';

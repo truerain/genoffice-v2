@@ -26,6 +26,6 @@ export {
   AreaSeries,
 } from './cartesian';
 export type { CartesianChartProps, CartesianPlotProps, SeriesProps } from './cartesian';
-export { PolarChart, PieSeries, DonutSeries } from './polar';
-export type { PolarChartProps, PolarSeriesProps } from './polar';
+export { PolarChart, PolarPlot, PieSeries, DonutSeries } from './polar';
+export type { PolarChartProps, PolarPlotProps, PolarSeriesProps } from './polar';
 export { ChartTooltip, ChartLegend } from './chrome';

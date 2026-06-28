@@ -46,6 +46,12 @@ export function createPolarModel<TDatum>(
     get plotArea() {
       return state.plotArea;
     },
+    get polarLayout() {
+      return state.polarLayout;
+    },
+    get geometries() {
+      return state.geometries;
+    },
     toggleSeries(seriesId: string) {
       const series = state.normalizedSeries.find((s) => s.id === seriesId);
       if (!series) return;

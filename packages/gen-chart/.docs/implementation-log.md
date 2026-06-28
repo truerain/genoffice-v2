@@ -8,6 +8,15 @@
 
 ## 2026-06-27
 
+### Gate C5 — Polar series render
+
+- **요약:** `PolarChart` + `usePolarChart` + `PolarPlot` + `PieSeries`/`DonutSeries` SVG render from core arc geometry
+- **모듈:** `react/hooks/usePolarChart.ts`, `react/context/PolarChartContext.tsx`, `react/components/polar/*`, `resolveSliceColor`
+- **모델:** `PolarChartModel`에 `geometries`, `polarLayout` 노출
+- **Storybook:** `GenChart/PolarSeries` (pie, donut, thin ring)
+- **검증:** polar series test 추가, test/build green
+- **다음:** Gate C6 — tooltip/legend interaction
+
 ### Area baseline — x축 정렬 수정
 
 - **요약:** y domain에 0이 없을 때 area fill baseline을 `yScale(0)` → `yDomain min`(x축)으로 변경

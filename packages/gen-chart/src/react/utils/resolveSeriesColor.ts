@@ -6,11 +6,15 @@
  * @remark
  */
 
-import type { CartesianChartSeries } from '../../types/series';
 import type { ChartTokens } from '../../types/tokens';
 
+interface SeriesColorSource {
+  id: string;
+  color?: string;
+}
+
 export function resolveSeriesColor(
-  visibleSeries: CartesianChartSeries<unknown>[],
+  visibleSeries: SeriesColorSource[],
   seriesId: string,
   tokens: ChartTokens,
 ): string {

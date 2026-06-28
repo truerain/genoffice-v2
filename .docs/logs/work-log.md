@@ -8,6 +8,17 @@
 
 ## 2026-06-27
 
+### @gen-office/gen-chart PolarSeries Storybook docs
+
+- `PolarSeries.stories.tsx` — `component: PolarSeriesDemo`, `tags: ['autodocs']`, docs description, `layout: 'padded'` (CartesianSeries 패턴)
+
+### @gen-office/gen-chart Gate C5 polar render
+
+- `PolarChart` / `usePolarChart` / `PolarPlot` / `PieSeries` / `DonutSeries` — core arc geometry SVG render
+- `PolarChartModel.geometries`, `polarLayout` 노출
+- Storybook `GenChart/PolarSeries` (pie, donut)
+- 다음: C6 tooltip/legend interaction
+
 ### @gen-office/gen-chart area baseline x축 정렬
 
 - domain에 0 없을 때 area baseline = yDomain min (x축), 0 포함 시 y=0

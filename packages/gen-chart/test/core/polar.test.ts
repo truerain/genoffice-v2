@@ -115,6 +115,8 @@ describe('createPolarModel', () => {
 
     expect(model.visibleSeries).toHaveLength(1);
     expect(model.plotArea.width).toBeGreaterThan(0);
+    expect(model.geometries.arcs.length).toBeGreaterThan(0);
+    expect(model.polarLayout.outerRadius).toBeGreaterThan(0);
   });
 
   it('hides series on toggle and clears hit-test targets', () => {

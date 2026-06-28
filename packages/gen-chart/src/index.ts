@@ -26,8 +26,12 @@ export { darkChartTokens } from './themes/darkChartTokens';
 
 export { useGenChart } from './react/hooks/useGenChart';
 export type { UseGenChartOptions } from './react/hooks/useGenChart';
+export { usePolarChart } from './react/hooks/usePolarChart';
+export type { UsePolarChartOptions } from './react/hooks/usePolarChart';
 export { useChartContext } from './react/context/ChartContext';
 export type { ChartContextValue } from './react/context/ChartContext';
+export { usePolarChartContext } from './react/context/PolarChartContext';
+export type { PolarChartContextValue } from './react/context/PolarChartContext';
 export { usePlotContext } from './react/context/PlotContext';
 export type { PlotContextValue } from './react/context/PlotContext';
 
@@ -37,6 +41,7 @@ export {
   CartesianChart,
   CartesianPlot,
   PolarChart,
+  PolarPlot,
   ChartGrid,
   ChartXAxis,
   ChartYAxis,
@@ -57,6 +62,7 @@ export type {
   CartesianPlotProps,
   SeriesProps,
   PolarChartProps,
+  PolarPlotProps,
   PolarSeriesProps,
 } from './react/components';
 
@@ -94,4 +100,5 @@ export type {
   PolarChartModel,
   ChartLayoutMetrics,
   UseGenChartResult,
+  UsePolarChartResult,
 } from './types';

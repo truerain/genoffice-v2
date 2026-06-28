@@ -128,8 +128,8 @@ gen-datagrid Gate 패턴을 따릅니다. **Gate는 순서를 강제합니다.**
 
 **완료 조건**
 
-- [ ] `PolarChart`, `PieSeries`, `DonutSeries`
-- [ ] Storybook pie / donut
+- [x] `PolarChart`, `PieSeries`, `DonutSeries`
+- [x] Storybook pie / donut
 
 ---
 

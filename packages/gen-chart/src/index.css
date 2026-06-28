@@ -35,3 +35,10 @@
   position: relative;
   box-sizing: border-box;
 }
+
+.gen-chart-polar-plot {
+  position: relative;
+  box-sizing: border-box;
+  flex: 1;
+  min-height: 0;
+}

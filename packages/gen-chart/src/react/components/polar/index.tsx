@@ -1,37 +1,75 @@
 /**
  * @file packages/gen-chart/src/react/components/polar/index.tsx
- * @description Polar plot and series stub components (Gate C5).
+ * @description Polar chart shell and series components (Gate C5).
  * @created 2026-06-27
  *
  * @remark
+ * - Exports: PolarChart, PolarPlot, PieSeries, DonutSeries
  */
 
-import type { ReactNode } from 'react';
+import { useMemo, type CSSProperties, type ReactNode } from 'react';
 import type { PolarChartOptions } from '../../../types/options';
+import { resolveChartTokens } from '../../../themes/resolveChartTokens';
+import { PolarChartContextProvider } from '../../context/PolarChartContext';
+import { usePolarChart } from '../../hooks/usePolarChart';
+import { DonutSeries } from './DonutSeries';
+import { PieSeries } from './PieSeries';
+import { PolarPlot } from './PolarPlot';
+
+export { PolarPlot } from './PolarPlot';
+export type { PolarPlotProps } from './PolarPlot';
+export { PieSeries } from './PieSeries';
+export { DonutSeries } from './DonutSeries';
+export type { PolarSeriesProps } from './seriesProps';
 
 export interface PolarChartProps<TDatum> {
-  options?: PolarChartOptions<TDatum>;
+  width: number;
+  height: number;
+  options: PolarChartOptions<TDatum>;
   children?: ReactNode;
+  className?: string;
+  style?: CSSProperties;
 }
 
-export function PolarChart<TDatum>({ children }: PolarChartProps<TDatum>) {
+export function PolarChart<TDatum>({
+  width,
+  height,
+  options,
+  children,
+  className,
+  style,
+}: PolarChartProps<TDatum>) {
+  const chart = usePolarChart({ ...options, width, height });
+  const tokens = useMemo(
+    () => resolveChartTokens(options.theme, options.tokens),
+    [options.theme, options.tokens],
+  );
+
+  const contextValue = useMemo(
+    () => ({
+      chart,
+      tokens,
+    }),
+    [chart, tokens],
+  );
+
   return (
-    <div className="gen-chart-polar" data-gen-chart-stub="PolarChart">
-      {children}
-    </div>
+    <PolarChartContextProvider value={contextValue}>
+      <div
+        className={['gen-chart-root', 'gen-chart-polar', className].filter(Boolean).join(' ')}
+        data-gen-chart-root=""
+        data-gen-chart-polar=""
+        style={{
+          width,
+          height,
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: 0,
+          ...style,
+        }}
+      >
+        {children}
+      </div>
+    </PolarChartContextProvider>
   );
 }
-
-export interface PolarSeriesProps {
-  seriesId: string;
-}
-
-export function PieSeries(_props: PolarSeriesProps) {
-  return null;
-}
-PieSeries.displayName = 'PieSeries';
-
-export function DonutSeries(_props: PolarSeriesProps) {
-  return null;
-}
-DonutSeries.displayName = 'DonutSeries';
