@@ -8,6 +8,14 @@
 
 ## 2026-06-27
 
+### @gen-office/gen-chart Gate C2 hook + layout
+
+- `useGenChart`: model + width/height, visibility toggle 시 re-render
+- `computePlotArea`: legend reserve (top/bottom), `resolveLegendOptions`, `computeLegendReserveHeight`
+- `ChartContext` / `PlotContext`, `ChartRoot` / `CartesianChart` provider wiring
+- test 34건 · build green
+- 다음: C3 cartesian primitives
+
 ### @gen-office/gen-chart Gate C1.5 polar core
 
 - `createPolarModel`: polar layout, pie/donut arc geometry, `getNearestDatum`, visibility toggle

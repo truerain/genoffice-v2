@@ -13,9 +13,10 @@ import { computeXDomain } from '../domain/computeXDomain';
 import { computeYDomain } from '../domain/computeYDomain';
 import { buildCartesianGeometries } from '../geometry/cartesian/buildGeometries';
 import type { CartesianGeometries } from '../geometry/cartesian/types';
-import { computePlotArea } from '../layout/computePlotArea';
+import { computePlotArea, computeLegendReserveHeight } from '../layout/computePlotArea';
 import { normalizeSeries, type NormalizedCartesianSeries } from '../normalizeSeries';
 import { createCartesianScales, type CartesianScales } from '../scale/createCartesianScales';
+import { resolveChartTokens } from '../../themes/resolveChartTokens';
 
 export interface CartesianModelState<TDatum> {
   normalizedSeries: NormalizedCartesianSeries<TDatum>[];
@@ -49,7 +50,13 @@ export function computeCartesianState<TDatum>(
     ({ excluded: _excluded, ...series }) => series,
   );
 
-  const plotArea = computePlotArea(layout.width, layout.height, options.padding);
+  const tokens = resolveChartTokens(options.theme, options.tokens);
+  const legendReserveHeight = computeLegendReserveHeight(tokens);
+  const plotArea = computePlotArea(layout.width, layout.height, {
+    padding: options.padding,
+    legend: options.interactive?.legend,
+    legendReserveHeight,
+  });
   const xDomain = computeXDomain(activeSeries);
   const yDomain = computeYDomain(activeSeries, options.yAxis);
   const scales = createCartesianScales(xDomain, yDomain, plotArea);

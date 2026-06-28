@@ -1,12 +1,14 @@
 /**
  * @file packages/gen-chart/src/react/components/cartesian/index.tsx
- * @description Cartesian plot and series stub components (Gate C3~C4).
+ * @description Cartesian plot shell and series stub components (Gate C3~C4).
  * @created 2026-06-27
  *
  * @remark
  */
 
-import type { ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
+import { useChartContext } from '../../context/ChartContext';
+import { PlotContextProvider } from '../../context/PlotContext';
 import { createStubComponent } from '../../createStubComponent';
 
 export interface CartesianChartProps {
@@ -14,14 +16,27 @@ export interface CartesianChartProps {
 }
 
 export function CartesianChart({ children }: CartesianChartProps) {
+  const { chart } = useChartContext();
+
+  const plotContextValue = useMemo(() => {
+    const plotArea = chart.plotArea;
+    return {
+      plotArea,
+      width: plotArea.width,
+      height: plotArea.height,
+    };
+  }, [chart]);
+
   return (
-    <div
-      className="gen-chart-cartesian"
-      data-gen-chart-stub="CartesianChart"
-      style={{ flex: 1, minHeight: 0 }}
-    >
-      {children}
-    </div>
+    <PlotContextProvider value={plotContextValue}>
+      <div
+        className="gen-chart-cartesian"
+        data-gen-chart-cartesian=""
+        style={{ flex: 1, minHeight: 0 }}
+      >
+        {children}
+      </div>
+    </PlotContextProvider>
   );
 }
 

@@ -1,19 +1,16 @@
 /**
  * @file packages/gen-chart/src/react/components/ChartRoot.tsx
- * @description Root layout wrapper and options context entry (Gate C2 expands context).
+ * @description Root layout wrapper and chart context provider (Gate C2).
  * @created 2026-06-27
  *
  * @remark
  */
 
-import type { CSSProperties, ReactNode } from 'react';
+import { useMemo, type CSSProperties, type ReactNode } from 'react';
 import type { CartesianChartOptions } from '../../types/options';
 import { resolveChartTokens } from '../../themes/resolveChartTokens';
-import {
-  warnEmptySeries,
-  warnInvalidHeight,
-  warnInvalidWidth,
-} from '../../core/warnings';
+import { ChartContextProvider } from '../context/ChartContext';
+import { useGenChart } from '../hooks/useGenChart';
 
 export interface ChartRootProps<TDatum> {
   width: number;
@@ -32,27 +29,36 @@ export function ChartRoot<TDatum>({
   className,
   style,
 }: ChartRootProps<TDatum>) {
-  if (options.series.length === 0) warnEmptySeries();
-  if (width <= 0) warnInvalidWidth();
-  if (height <= 0) warnInvalidHeight();
+  const chart = useGenChart({ ...options, width, height });
+  const tokens = useMemo(
+    () => resolveChartTokens(options.theme, options.tokens),
+    [options.theme, options.tokens],
+  );
 
-  resolveChartTokens(options.theme, options.tokens);
+  const contextValue = useMemo(
+    () => ({
+      chart,
+      tokens,
+    }),
+    [chart, tokens],
+  );
 
   return (
-    <div
-      className={['gen-chart-root', className].filter(Boolean).join(' ')}
-      data-gen-chart-root=""
-      data-gen-chart-stub="ChartRoot"
-      style={{
-        width,
-        height,
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: 0,
-        ...style,
-      }}
-    >
-      {children}
-    </div>
+    <ChartContextProvider value={contextValue}>
+      <div
+        className={['gen-chart-root', className].filter(Boolean).join(' ')}
+        data-gen-chart-root=""
+        style={{
+          width,
+          height,
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: 0,
+          ...style,
+        }}
+      >
+        {children}
+      </div>
+    </ChartContextProvider>
   );
 }

@@ -22,7 +22,7 @@ export function computePolarLayout(
   height: number,
   padding?: ChartPadding,
 ): PolarLayout {
-  const plotArea = computePlotArea(width, height, padding);
+  const plotArea = computePlotArea(width, height, { padding });
   const size = Math.min(plotArea.width, plotArea.height);
   const outerRadius = Math.max(0, (size / 2) * 0.9);
 

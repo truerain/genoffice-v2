@@ -89,11 +89,11 @@ gen-datagrid Gate 패턴을 따릅니다. **Gate는 순서를 강제합니다.**
 
 **완료 조건**
 
-- [ ] `useGenChart` — options + width/height → model + layout metrics
-- [ ] `computePlotArea` — padding, legend reserve
-- [ ] `ChartContext` / `PlotContext` provider
+- [x] `useGenChart` — options + width/height → model + layout metrics
+- [x] `computePlotArea` — padding, legend reserve
+- [x] `ChartContext` / `PlotContext` provider
 
-**검증:** hook unit test
+**검증:** `pnpm -C packages/gen-chart test` (hook + layout tests) — 2026-06-27 통과
 
 ---
 

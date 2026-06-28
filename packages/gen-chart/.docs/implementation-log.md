@@ -8,6 +8,13 @@
 
 ## 2026-06-27
 
+### Gate C2 — Hook + layout
+
+- **요약:** `useGenChart`, legend reserve in `computePlotArea`, `ChartContext` / `PlotContext` provider
+- **모듈:** `core/layout/computePlotArea` (legend reserve), `react/hooks/useGenChart`, `react/context/*`, `ChartRoot` / `CartesianChart` wiring
+- **검증:** test 34건 통과, build green
+- **다음:** Gate C3 — cartesian primitives (grid, axis)
+
 ### Gate C1.5 — Polar headless core
 
 - **요약:** `createPolarModel` 구현 — normalize, polar layout, pie/donut arc geometry, polar hit-test, visibility toggle
