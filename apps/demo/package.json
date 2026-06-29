@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@gen-office/mdi": "workspace:*",
     "@gen-office/theme": "workspace:*",
+    "@gen-office/ui": "workspace:*",
     "react": "19.2.7",
     "react-dom": "19.2.7"
   },

@@ -159,7 +159,8 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 
 - [x] 아키텍처·구현 Plan — [apps/demo/.docs/](../apps/demo/.docs/)
 - [x] Gate D0 scaffold — [plan.md](../apps/demo/.docs/plan.md) §2
-- [ ] D1~D2 shell·API·menu·registry
+- [x] D1 shell·MDI·mock login — [plan.md](../apps/demo/.docs/plan.md) §3
+- [ ] D2 API·menu·registry
 - [ ] D3 Chart/Dashboard (`gen-chart`)
 - [ ] D4 admin — `gen-datagrid-crud` 준비 후
 - [ ] D5 Actuals — `gen-datagrid-chart` 준비 후

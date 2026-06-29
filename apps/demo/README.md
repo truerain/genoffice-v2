@@ -10,13 +10,15 @@ GenOffice V2 reference 백오피스 앱.
 
 ## 상태
 
-**Gate D0 ✅** — Vite scaffold, `ThemeProvider`, placeholder `App`. 다음: [D1 shell + MDI](./.docs/plan.md#3-d1--app-shell--mdi).
+**Gate D0 ✅ · D1 ✅** — Vite scaffold, ThemeProvider, MDI shell, mock login. 다음: [D2](./.docs/plan.md#4-d2--api--menu--registry--i18n).
 
 ## 실행
 
 ```bash
 pnpm install
 pnpm -C packages/theme build
+pnpm -C packages/ui build
+pnpm -C packages/mdi build
 pnpm -C apps/demo dev
 ```
 

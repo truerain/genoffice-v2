@@ -10,6 +10,13 @@
 
 ## 2026-06-28
 
+### Gate D1 — App shell + MDI
+
+- **요약:** `AppProviders`, mock `AuthProvider`, `AppShell`, `MDIContainer`, `PlaceholderPage`, `useOpenPage`
+- **UI:** `@gen-office/ui` Toast (`onMaxTabsReached`), Button; `@gen-office/mdi` tab labels ko
+- **검증:** `pnpm -C apps/demo build`
+- **다음:** Gate D2 — API, menu, componentRegistry
+
 ### 파일 헤더 `@remark` 필수
 
 - `apps/demo` 소스·설정 파일에 빈 `@remark` 포함

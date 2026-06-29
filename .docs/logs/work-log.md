@@ -8,6 +8,11 @@
 
 ## 2026-06-28
 
+### apps/demo Gate D1 — App shell + MDI
+
+- Mock login, AppShell, MDIContainer, Placeholder tab, Toast on maxTabs
+- deps: `@gen-office/mdi`, `@gen-office/ui`
+
 ### 소스 규칙 문서 분리 — 09-SOURCE-CONVENTIONS
 
 - 인코딩·파일 헤더·`@remark`/`@history`·변경 기록 분업을 `.docs/09-SOURCE-CONVENTIONS.md`로 이동

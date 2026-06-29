@@ -2,15 +2,23 @@
  * @file apps/demo/src/main.tsx
  * @description React entry for @gen-office/demo.
  * @created 2026-06-28
+ * @updated 2026-06-28
  *
  * @remark
+ * - AppProviders wraps Theme, auth, toast
+ * - CSS: theme, ui, mdi, app layout
  *
+ * @history
+ * - 2026-06-28 D1: AppProviders, mdi/ui CSS
  */
 
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ThemeProvider } from '@gen-office/theme';
 import '@gen-office/theme/index.css';
+import '@gen-office/ui/index.css';
+import '@gen-office/mdi/index.css';
+import './styles/app.css';
+import { AppProviders } from './app/providers/AppProviders';
 import { App } from './app/App';
 
 const rootElement = document.getElementById('root');
@@ -21,8 +29,8 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <ThemeProvider defaultMode="light" storageKey="gen-office-demo-theme">
+    <AppProviders>
       <App />
-    </ThemeProvider>
+    </AppProviders>
   </StrictMode>,
 );

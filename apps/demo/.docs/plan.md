@@ -40,7 +40,7 @@ flowchart LR
 | Phase | 이름 | grid 필요 | 선행 | 상태 |
 | --- | --- | --- | --- | --- |
 | **D0** | Scaffold | 아니오 | `theme`, `ui`, `mdi` | ✅ |
-| **D1** | App shell + MDI | 아니오 | D0 | ⏳ |
+| **D1** | App shell + MDI | 아니오 | D0 | ✅ |
 | **D2** | API · menu · registry · i18n | 아니오 | D1 | ⏳ |
 | **D3** | Chart / Dashboard demo | 아니오 | D2, gen-chart Phase 1 ✅ | ⏳ |
 | **D4** | Admin CRUD 페이지 | **예** | D3, gen-datagrid-crud | ⏸ |
@@ -90,17 +90,17 @@ pnpm -C apps/demo build
 
 ### 완료 조건
 
-- [ ] `AppProviders` — `ThemeProvider`, 기본 context
-- [ ] `AppShell` — header + `main` flex (`min-height: 0`)
-- [ ] `MDIContainer` mount — `maxTabs`, `tabPosition`
-- [ ] `onOpenPage` stub — 하드코딩 탭 1개 (Placeholder 페이지)
-- [ ] Login 화면 분기 (mock login 허용)
-- [ ] `onMaxTabsReached` — ui toast 또는 alert (앱 책임, [mdi README](../../packages/mdi/.docs/README.md))
+- [x] `AppProviders` — `ThemeProvider`, 기본 context
+- [x] `AppShell` — header + `main` flex (`min-height: 0`)
+- [x] `MDIContainer` mount — `maxTabs`, `tabPosition`
+- [x] `onOpenPage` stub — 하드코딩 탭 1개 (Placeholder 페이지)
+- [x] Login 화면 분기 (mock login 허용)
+- [x] `onMaxTabsReached` — ui toast 또는 alert (앱 책임, [mdi README](../../packages/mdi/.docs/README.md))
 
 ### 레이아웃 Gate
 
-- [ ] `100vh` chain — MDI TabPanel 내부 스크롤만 발생
-- [ ] Storybook `MDI/MDIContainer`와 동일 flex 규칙
+- [x] `100vh` chain — MDI TabPanel 내부 스크롤만 발생
+- [x] Storybook `MDI/MDIContainer`와 동일 flex 규칙
 
 ### V1 참조
 
