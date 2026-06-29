@@ -7,11 +7,13 @@ import { defineConfig } from 'vitest/config';
 import { resolve } from 'path';
 
 const themeCss = resolve(__dirname, '../theme/src/index.css');
+const uiCss = resolve(__dirname, '../ui/src/index.css');
 
 export default defineConfig({
   resolve: {
     alias: {
       '@gen-office/theme/index.css': themeCss,
+      '@gen-office/ui/index.css': uiCss,
     },
   },
   esbuild: {

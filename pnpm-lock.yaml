@@ -227,9 +227,15 @@ importers:
       '@gen-office/theme':
         specifier: workspace:*
         version: link:../theme
+      '@gen-office/ui':
+        specifier: workspace:*
+        version: link:../ui
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      lucide-react:
+        specifier: ^0.562.0
+        version: 0.562.0(react@19.2.7)
     devDependencies:
       '@storybook/react':
         specifier: 10.4.6

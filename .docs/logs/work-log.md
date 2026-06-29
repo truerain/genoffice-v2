@@ -8,6 +8,11 @@
 
 ## 2026-06-29
 
+### packages/gen-frame F2 — titleBar + layout showcase
+
+- TitleBarNav, NavRenderer, FrameLayoutToggle, useFrameLayout
+- Storybook Matrix/TitleBar, test 18건
+
 ### packages/gen-frame F1 — WorkspaceFrame + leftPanel
 
 - `WorkspaceFrame`, `LeftPanelNav`, types, Storybook `GenFrame/Layout/LeftPanel`

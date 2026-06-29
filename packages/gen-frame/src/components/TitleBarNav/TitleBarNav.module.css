@@ -1,0 +1,74 @@
+/**
+ * @file packages/gen-frame/src/components/TitleBarNav/TitleBarNav.module.css
+ * @description Horizontal title-bar navigation styles.
+ * @created 2026-06-29
+ *
+ * @remark
+ *
+ */
+
+.nav {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+}
+
+.trigger,
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: var(--border-radius-md);
+  background: transparent;
+  font-size: 14px;
+  color: var(--color-fg-primary);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.trigger:hover:not(:disabled),
+.link:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-primary) 6%, var(--color-bg-primary));
+}
+
+.trigger:disabled,
+.link:disabled {
+  cursor: not-allowed;
+  color: var(--color-text-disabled);
+}
+
+.active {
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-bg-primary));
+  font-weight: 600;
+}
+
+.trigger:focus-visible,
+.link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.chevron {
+  width: 14px;
+  height: 14px;
+  opacity: 0.65;
+}

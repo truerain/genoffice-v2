@@ -30,7 +30,9 @@
   },
   "dependencies": {
     "@gen-office/theme": "workspace:*",
-    "clsx": "^2.1.1"
+    "@gen-office/ui": "workspace:*",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.562.0"
   },
   "devDependencies": {
     "@storybook/react": "10.4.6",

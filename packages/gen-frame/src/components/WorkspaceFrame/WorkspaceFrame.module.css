@@ -35,6 +35,18 @@
   min-width: 0;
 }
 
+.headerMainTitleBar {
+  flex: 1;
+  gap: 20px;
+}
+
+.headerTitleBar {
+  min-height: 52px;
+  height: auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
 .headerActions {
   display: flex;
   align-items: center;

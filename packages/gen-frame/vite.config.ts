@@ -37,7 +37,15 @@ export default defineConfig({
     },
     cssCodeSplit: false,
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime', '@gen-office/theme', 'clsx'],
+      external: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        '@gen-office/theme',
+        '@gen-office/ui',
+        'clsx',
+        'lucide-react',
+      ],
       output: {
         globals: {
           react: 'React',

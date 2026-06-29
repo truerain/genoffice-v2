@@ -58,4 +58,21 @@ describe('WorkspaceFrame', () => {
     const root = container.querySelector('[data-gen-frame-root]');
     expect(root).toHaveAttribute('data-gen-frame-layout', 'leftPanel');
   });
+
+  it('renders title bar navigation in header for titleBar layout', () => {
+    render(
+      <div style={{ height: 400, display: 'flex' }}>
+        <WorkspaceFrame
+          layout="titleBar"
+          header={<span>Brand</span>}
+          menu={{ items: menuItems }}
+          workarea={<p>Work content</p>}
+        />
+      </div>,
+    );
+
+    expect(screen.getByText('Brand')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Page One' })).toBeInTheDocument();
+    expect(screen.getByText('Work content')).toBeInTheDocument();
+  });
 });

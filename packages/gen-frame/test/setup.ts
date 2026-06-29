@@ -6,6 +6,7 @@
 import '@testing-library/jest-dom/vitest';
 import { cleanup } from '@testing-library/react';
 import { afterEach } from 'vitest';
+import '@gen-office/ui/index.css';
 import '../src/index.css';
 
 afterEach(() => {

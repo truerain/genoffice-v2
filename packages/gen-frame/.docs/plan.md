@@ -46,7 +46,7 @@ flowchart LR
 | --- | --- | --- | --- | --- |
 | **F0** | Docs · scaffold | 아니오 | mdi, theme, ui 검토 완료 | ✅ |
 | **F1** | `WorkspaceFrame` + `leftPanel` | Storybook mock | F0 | ✅ |
-| **F2** | `titleBar` + layout showcase | Storybook | F1 | ⏸ |
+| **F2** | `titleBar` + layout showcase | Storybook | F1 | ✅ |
 | **F3** | `NavigationController` + MDI host | 예 | F2, mdi stable | ⏸ |
 | **F4** | URL sync adapter | 예 | F3 | ⏸ |
 | **F5** | `single` host + demo 통합 | 선택 | F4 | ⏸ |
@@ -125,9 +125,10 @@ flowchart LR
 
 ### Gate F2
 
-- [ ] leftPanel ↔ titleBar 전환 시 메뉴·workarea 동일 데이터 유지
-- [ ] Storybook autodocs에 layout mode 표 문서화
-- [ ] a11y: nav `aria-label`, keyboard focus
+- [x] leftPanel ↔ titleBar 전환 시 메뉴·workarea 동일 데이터 유지 (`GenFrame/Layout/Matrix`)
+- [x] Storybook — `GenFrame/Layout/TitleBar`, `GenFrame/Layout/Matrix`
+- [x] `useFrameLayout` localStorage persistence
+- [x] a11y: nav `aria-label`, `aria-pressed` on layout toggle
 
 ---
 

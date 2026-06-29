@@ -1,17 +1,21 @@
 /**
  * @file packages/gen-frame/src/components/WorkspaceFrame/WorkspaceFrame.tsx
- * @description Root app workspace — layout chrome and workarea slot (Gate F1).
+ * @description Root app workspace — layout chrome and workarea slot.
  * @created 2026-06-29
+ * @updated 2026-06-29
  *
  * @remark
  * - Exports: WorkspaceFrame
- * - F1: layout leftPanel only; titleBar/hybrid/rail fall back to leftPanel
+ * - F2: leftPanel | titleBar via NavRenderer
  *
+ * @history
+ * - 2026-06-29 F2: titleBar nav in header row
+ * - 2026-06-29 F1: leftPanel layout
  */
 
 import { clsx } from 'clsx';
 import type { WorkspaceFrameProps } from '../../types';
-import { LeftPanelNav } from '../LeftPanelNav';
+import { NavRenderer, resolveNavLayout } from '../NavRenderer';
 import styles from './WorkspaceFrame.module.css';
 
 export function WorkspaceFrame({
@@ -26,8 +30,10 @@ export function WorkspaceFrame({
   workarea,
   className,
 }: WorkspaceFrameProps) {
-  const showLeftNav =
-    layout === 'leftPanel' || layout === 'hybrid' || layout === 'rail';
+  const resolvedLayout = resolveNavLayout(layout);
+  const isTitleBar = resolvedLayout === 'titleBar';
+  const showSideNav = !isTitleBar && menu;
+  const showHeader = header || headerActions || (isTitleBar && menu);
 
   return (
     <div
@@ -35,21 +41,33 @@ export function WorkspaceFrame({
       data-gen-frame-root=""
       data-gen-frame-layout={layout}
     >
-      {header || headerActions ? (
-        <header className={styles.header}>
-          {header ? <div className={styles.headerMain}>{header}</div> : <div />}
+      {showHeader ? (
+        <header className={clsx(styles.header, isTitleBar && styles.headerTitleBar)}>
+          <div className={clsx(styles.headerMain, isTitleBar && styles.headerMainTitleBar)}>
+            {header}
+            {isTitleBar && menu ? (
+              <NavRenderer
+                layout={layout}
+                menu={menu}
+                activeMenuId={activeMenuId}
+                onMenuSelect={onMenuSelect}
+                menuAriaLabel={menuAriaLabel}
+              />
+            ) : null}
+          </div>
           {headerActions ? <div className={styles.headerActions}>{headerActions}</div> : null}
         </header>
       ) : null}
 
       <div className={styles.body}>
-        {showLeftNav && menu ? (
-          <LeftPanelNav
-            items={menu.items}
-            activeId={activeMenuId}
-            onSelect={onMenuSelect}
-            title={menuTitle}
-            ariaLabel={menuAriaLabel}
+        {showSideNav ? (
+          <NavRenderer
+            layout={layout}
+            menu={menu}
+            activeMenuId={activeMenuId}
+            onMenuSelect={onMenuSelect}
+            menuTitle={menuTitle}
+            menuAriaLabel={menuAriaLabel}
           />
         ) : null}
 

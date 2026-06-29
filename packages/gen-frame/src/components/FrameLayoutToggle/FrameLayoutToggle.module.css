@@ -1,0 +1,45 @@
+/**
+ * @file packages/gen-frame/src/components/FrameLayoutToggle/FrameLayoutToggle.module.css
+ * @description Segmented control for layout showcase.
+ * @created 2026-06-29
+ *
+ * @remark
+ *
+ */
+
+.group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border-default);
+  background: var(--color-bg-secondary);
+}
+
+.button {
+  padding: 4px 10px;
+  border: none;
+  border-radius: calc(var(--border-radius-md) - 2px);
+  background: transparent;
+  font-size: 12px;
+  color: var(--color-fg-secondary);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.button:hover {
+  color: var(--color-fg-primary);
+}
+
+.buttonActive {
+  background: var(--color-bg-primary);
+  color: var(--color-fg-primary);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}

@@ -11,7 +11,10 @@ export type { FrameMenuItem, FrameMenuModel } from './menu.types';
 export type {
   FrameConfig,
   FrameLayoutMode,
+  FrameLayoutToggleProps,
   FrameNavigationMode,
   LeftPanelNavProps,
+  NavRendererProps,
+  TitleBarNavProps,
   WorkspaceFrameProps,
 } from './frame.types';
