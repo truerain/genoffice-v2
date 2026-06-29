@@ -8,6 +8,16 @@
 
 역시간순. 같은 날짜 섹션 안에서도 **최신 항목이 위**.
 
+## 2026-06-29
+
+### `@gen-office/gen-frame` 패키지 신설 (설계)
+
+- **역할:** 앱 layout chrome, navigation 오케스트레이션, URL ↔ page, MDI/단일 페이지 host
+- **네이밍:** `gen-grid` / `gen-chart` / `gen-frame` 제품군 정렬
+- **경계:** 메뉴 API·registry·auth는 `apps/*`; `mdi`는 optional peer
+- **Showcase:** 동일 메뉴로 layout mode 전환 — Shell 복제 대신 `NavRenderer` registry
+- 문서: `packages/gen-frame/.docs/`
+
 ## 2026-06-28
 
 ### 소스 규칙 정본 분리

@@ -8,6 +8,12 @@
 
 ## 2026-06-29
 
+### packages/gen-frame F0 — 설계·문서 scaffold
+
+- `packages/gen-frame/` 디렉터리, `architecture.md`, `plan.md` (F0~F5)
+- 앱 프레임: layout mode, NavigationController, URL sync, MDI/single host
+- 저장소: `02-ARCHITECTURE.md`, `decisions.md` 반영
+
 ### apps/demo Soft Modern UI
 
 - demo 전용 Soft Modern 시각 규칙: `demo-ui.css`, `DemoSurface`, shell·페이지·카드 통일

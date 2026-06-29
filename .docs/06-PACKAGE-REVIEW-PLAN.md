@@ -48,7 +48,7 @@ GenOffice V2는 **두 갈래**로 진행합니다.
 tsconfig
    ↓
 theme ──┐
-        ├──→ ui ──→ mdi
+        ├──→ ui ──→ mdi ──→ gen-frame
 utils ──┘      │
                  ├──→ gen-chart (재작성)
                  │
@@ -68,6 +68,7 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 | 2 | `packages/utils` | 이식 | `clsx` 등. React 무관 |
 | 3 | `packages/ui` | 수정 이식 | Radix 래퍼·composed. TipTap 분리는 보류 가능 |
 | 4 | `packages/mdi` | 수정 이식 | Zustand store·탭·창 |
+| 4b | `packages/gen-frame` | **신규** | 앱 layout·navigation·URL — [plan.md](../packages/gen-frame/.docs/plan.md); F0 문서 ✅ |
 | 5 | `packages/gen-chart` | **재작성** | **Phase 1 ✅** (C0~C7). Phase 2는 grid·demo 후 — [phase.md](../packages/gen-chart/.docs/phase.md) |
 | — | `packages/gen-datagrid` | **다른 agent** | 본 순서에서 제외 |
 | 6 | `packages/gen-datagrid-crud` | 신규 | gen-datagrid API 확정 후 착수 |

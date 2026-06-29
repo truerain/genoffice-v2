@@ -1,0 +1,10 @@
+{
+  "name": "@gen-office/gen-frame",
+  "version": "0.0.0",
+  "private": true,
+  "description": "GenOffice V2 app frame — layout chrome, navigation orchestration, URL sync",
+  "type": "module",
+  "scripts": {},
+  "keywords": ["gen-office", "frame", "layout", "navigation"],
+  "license": "ISC"
+}

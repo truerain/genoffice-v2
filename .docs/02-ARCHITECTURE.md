@@ -12,7 +12,8 @@ GenOffice V2는 **pnpm workspace + Turbo** 기반 모노레포입니다. 앱은 
                            │
 ┌──────────────────────────▼──────────────────────────────┐
 │  feature packages                                       │
-│  gen-datagrid-crud, gen-datagrid-chart, mdi, gen-chart   │
+│  gen-frame, gen-datagrid-crud, gen-datagrid-chart,      │
+│  mdi, gen-chart                                         │
 └──────────────────────────┬──────────────────────────────┘
                            │
 ┌──────────────────────────▼──────────────────────────────┐
@@ -59,7 +60,8 @@ apps → feature packages → gen-datagrid → ui → theme/utils
 
 | 패키지 | 책임 |
 | --- | --- |
-| `mdi` | Multiple Document Interface — 탭, 창, 포커스, empty state |
+| `gen-frame` | 앱 프레임 — layout chrome (TitleBar/LeftPanel 등), navigation 오케스트레이션, URL ↔ page 연동, MDI/단일 페이지 host |
+| `mdi` | Multiple Document Interface — 탭 store·TabBar·TabPanel (gen-frame이 선택적으로 사용) |
 
 ### 그리드 스택 (V2 핵심)
 
@@ -93,6 +95,13 @@ Public API: `ChartRoot` + plot별 chart + slot primitives. V1 monolith `GenChart
 
 - 개요: [05-GEN-CHART.md](./05-GEN-CHART.md)
 - 정본: [packages/gen-chart/.docs/architecture.md](../packages/gen-chart/.docs/architecture.md)
+
+#### gen-frame (앱 프레임)
+
+- layout mode: `leftPanel`, `titleBar`, (후속) `hybrid`, `rail`
+- navigation mode: `mdi` | `single`
+- 메뉴 API·componentRegistry·auth는 `apps/*` — gen-frame은 `FrameMenuItem` + `resolvePage` 주입만
+- 정본: [packages/gen-frame/.docs/architecture.md](../packages/gen-frame/.docs/architecture.md)
 - Gate: [packages/gen-chart/.docs/gates.md](../packages/gen-chart/.docs/gates.md)
 
 ### 공유 설정
