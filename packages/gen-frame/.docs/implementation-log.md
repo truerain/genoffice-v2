@@ -10,6 +10,11 @@
 
 ## 2026-06-29
 
+### URL `?menu=` — 메뉴 클릭과 동일 경로
+
+- **demo:** `useUrlSync` 제거 → `useDemoMenuDeepLink` + `openMenuItem`
+- **동작:** 기존 탭 유지, MDI `addTab`/활성만 (메뉴 클릭과 동일), 이후 URL 루트로 정리
+
 ### FrameBrand — header logo
 
 - **요약:** `FrameBrand`, `DEFAULT_FRAME_BRAND_LOGO_SRC`, 기본 `src/assets/default-logo.png`

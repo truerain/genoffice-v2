@@ -31,6 +31,12 @@ const ko = {
   page: {
     placeholder: {
       description: 'Registry 기반 MDI 탭 콘텐츠입니다.',
+      note: '아래 버튼은 메뉴 클릭과 동일하게 탭을 추가합니다(페이지 새로고침 없음).',
+      linksTitle: '데모 화면',
+      openChart: 'Chart Demo 열기',
+      openDashboard: 'Dashboard Demo 열기',
+      linksHint:
+        '주소창 딥링크: /?menu=demo-chart — Welcome 탭 + 해당 화면(새로고침 시 탭은 초기화됩니다).',
     },
     chartDemo: {
       description: 'gen-chart composable API — line, bar, area, composed, pie, donut.',

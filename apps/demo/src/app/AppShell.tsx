@@ -6,24 +6,21 @@
  *
  * @remark
  * - @gen-office/gen-frame: layout chrome, menu, MdiPageHost
- * - Layout showcase toggle via useFrameLayout
+ * - URL `?menu=` → openMenuItem (same as menu click), then clear URL
  *
  * @history
+ * - 2026-06-29 URL deep link via useDemoMenuDeepLink (not useUrlSync)
  * - 2026-06-29 FrameBrand + demo brand-logo.png override
- * - 2026-06-29 F4: URL ?tab= sync via useUrlSync
  * - 2026-06-29 F3: WorkspaceFrame + MdiPageHost + FrameLayoutToggle
- * - 2026-06-28 D2: menu sidebar + registry openPage
  */
 
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import {
   FrameBrand,
   FrameLayoutToggle,
   MdiPageHost,
   WorkspaceFrame,
   useFrameLayout,
-  useUrlSync,
-  type FrameOpenPagePayload,
 } from '@gen-office/gen-frame';
 import { useMDIStore } from '@gen-office/mdi';
 import { Button } from '@gen-office/ui';
@@ -33,8 +30,9 @@ import { useAppToast } from './providers/AppToastProvider';
 import { useOpenPage } from './hooks/useOpenPage';
 import { useAppMenu } from './menu/useAppMenu';
 import { findAppMenuItemByPageId, mapAppMenuToFrameItems } from './menu/mapAppMenuToFrame';
-import { resolveMenuTitle } from './openPage';
-import { demoUrlSyncAdapter, hasDemoUrlMenuParam } from './url/demoUrlSync';
+import { DemoNavigationProvider } from './navigation/DemoNavigationContext';
+import { readInitialDemoMenuPageId } from './url/demoUrlSync';
+import { useDemoMenuDeepLink } from './url/useDemoMenuDeepLink';
 import { useI18n } from '../i18n';
 import styles from './AppShell.module.css';
 
@@ -56,40 +54,30 @@ export function AppShell() {
   const { layout, setLayout } = useFrameLayout('leftPanel', DEMO_FRAME_LAYOUT_STORAGE_KEY);
   const tabs = useMDIStore((state) => state.tabs);
   const activeTabId = useMDIStore((state) => state.activeTabId);
-  const tabIds = useMemo(() => tabs.map((tab) => tab.id), [tabs]);
 
   const frameMenuItems = useMemo(
     () => mapAppMenuToFrameItems(items, locale),
     [items, locale],
   );
 
-  const resolvePayloadFromPageId = useCallback(
-    (pageId: string): FrameOpenPagePayload | null => {
-      const item = findAppMenuItemByPageId(items, pageId);
-      if (!item) return null;
-      return {
-        pageId: item.pageId,
-        title: resolveMenuTitle(item, locale),
-        meta: {
-          componentName: item.componentName,
-          path: item.path,
-          titleKey: item.titleKey,
-        },
-      };
+  const initialMenuPageIdOnMount = useRef(readInitialDemoMenuPageId()).current;
+
+  const isMenuReady = !isMenuLoading && !menuError && items.length > 0;
+
+  const openMenuByPageId = useCallback(
+    (pageId: string) => {
+      const appItem = findAppMenuItemByPageId(items, pageId);
+      if (appItem) {
+        openMenuItem(appItem);
+      }
     },
-    [items, locale],
+    [items, openMenuItem],
   );
 
-  const urlSyncEnabled = !isMenuLoading && !menuError;
-
-  useUrlSync({
-    controller,
-    adapter: demoUrlSyncAdapter,
-    activePageId: activeTabId,
-    tabIds,
-    resolvePayload: resolvePayloadFromPageId,
-    enabled: urlSyncEnabled,
-    persistence: 'deep-link-only',
+  useDemoMenuDeepLink({
+    items,
+    isMenuReady,
+    openMenuItem,
   });
 
   const handleMaxTabsReached = useCallback(() => {
@@ -100,14 +88,14 @@ export function AppShell() {
   }, [showWarning, t]);
 
   useEffect(() => {
-    if (isMenuLoading || tabs.length > 0 || items.length === 0) {
+    if (!isMenuReady || tabs.length > 0) {
       return;
     }
-    if (hasDemoUrlMenuParam()) {
+    if (initialMenuPageIdOnMount) {
       return;
     }
     openMenuItem(items[0]);
-  }, [isMenuLoading, items, openMenuItem, tabs.length]);
+  }, [isMenuReady, items, openMenuItem, tabs.length]);
 
   const handleMenuSelect = useCallback(
     (frameItem: { id: string }) => {
@@ -125,7 +113,8 @@ export function AppShell() {
   };
 
   return (
-    <div className={styles.shell}>
+    <DemoNavigationProvider openMenuByPageId={openMenuByPageId}>
+      <div className={styles.shell}>
       <WorkspaceFrame
         className={styles.frame}
         layout={layout}
@@ -167,6 +156,7 @@ export function AppShell() {
           )
         }
       />
-    </div>
+      </div>
+    </DemoNavigationProvider>
   );
 }

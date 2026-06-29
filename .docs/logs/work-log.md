@@ -8,6 +8,16 @@
 
 ## 2026-06-29
 
+## 2026-06-29
+
+### apps/demo — Welcome 링크 + 주소창 딥링크
+
+- `?menu=` 풀 로드: Welcome + 지정 메뉴; Welcome 버튼으로 Chart/Dashboard (SPA)
+
+### apps/demo — URL deep link = openMenuItem
+
+- `useDemoMenuDeepLink`: `?menu=` → `openMenuItem`, 기존 탭 유지
+
 ### packages/gen-frame — FrameBrand
 
 - 기본 로고 `src/assets/default-logo.png`, `FrameBrand` 컴포넌트

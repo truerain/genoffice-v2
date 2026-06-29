@@ -5,11 +5,11 @@
  * @updated 2026-06-29
  *
  * @remark
- * - `deep-link-only`: read query on load, then clear URL (MDI)
+ * - `deep-link-only`: read query on load, clear URL after active tab matches
  * - `persist`: keep query in sync with active page (single)
  *
  * @history
- * - 2026-06-29 persistence modes; drop bidirectional pushState stack
+ * - 2026-06-29 Fix deep-link race: defer URL clear until activePageId matches
  */
 
 import { useCallback, useEffect, useRef } from 'react';
@@ -38,7 +38,7 @@ export function useUrlSync({
   persistence = 'deep-link-only',
 }: UseUrlSyncOptions) {
   const initialSynced = useRef(false);
-  const consumedDeepLink = useRef(false);
+  const pendingDeepLinkPageId = useRef<string | null>(null);
 
   const applyPageIdFromUrl = useCallback(
     (url?: string | URL) => {
@@ -47,18 +47,19 @@ export function useUrlSync({
       const pageId = adapter.getPageIdFromUrl(url ?? window.location.href);
       if (!pageId) return;
 
+      if (persistence === 'deep-link-only') {
+        pendingDeepLinkPageId.current = pageId;
+      }
+
       if (tabIds.includes(pageId)) {
         controller.activate(pageId);
       } else {
         const payload = resolvePayload?.(pageId);
         if (payload) {
           controller.open(payload);
+        } else {
+          pendingDeepLinkPageId.current = null;
         }
-      }
-
-      if (persistence === 'deep-link-only') {
-        consumedDeepLink.current = true;
-        clearUrlInHistory(adapter);
       }
     },
     [adapter, controller, persistence, resolvePayload, tabIds],
@@ -97,14 +98,21 @@ export function useUrlSync({
       return;
     }
 
+    if (pendingDeepLinkPageId.current) {
+      if (activePageId === pendingDeepLinkPageId.current) {
+        clearUrlInHistory(adapter);
+        pendingDeepLinkPageId.current = null;
+      }
+      return;
+    }
+
     if (!activePageId) {
       clearUrlInHistory(adapter);
       return;
     }
 
-    if (consumedDeepLink.current || adapter.getPageIdFromUrl(window.location.href)) {
+    if (adapter.getPageIdFromUrl(window.location.href)) {
       clearUrlInHistory(adapter);
-      consumedDeepLink.current = false;
     }
   }, [activePageId, adapter, enabled, persistence]);
 }

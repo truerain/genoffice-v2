@@ -31,7 +31,13 @@ const en: MessageTree = {
   },
   page: {
     placeholder: {
-      description: 'Registry-driven MDI tab content. Chart/Dashboard arrive in D3.',
+      description: 'Registry-driven MDI tab content.',
+      note: 'Buttons below add tabs like the sidebar menu (no page reload).',
+      linksTitle: 'Demo pages',
+      openChart: 'Open Chart Demo',
+      openDashboard: 'Open Dashboard Demo',
+      linksHint:
+        'Address bar deep link: /?menu=demo-chart — Welcome tab + target page (tabs reset on full reload).',
     },
     chartDemo: {
       description: 'gen-chart composable API — line, bar, area, composed, pie, donut.',

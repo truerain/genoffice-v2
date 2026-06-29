@@ -51,30 +51,36 @@ describe('useUrlSync', () => {
     originalReplaceState(null, '', '/?menu=demo-chart');
     const { controller, open } = createController();
 
-    renderHook(() =>
-      useUrlSync({
-        controller,
-        adapter,
-        activePageId: null,
-        tabIds: [],
-        resolvePayload: (pageId) => ({
-          pageId,
-          title: 'Chart',
-          meta: { componentName: 'ChartDemoPage' },
+    const { rerender } = renderHook(
+      ({ activePageId, tabIds }: { activePageId: string | null; tabIds: string[] }) =>
+        useUrlSync({
+          controller,
+          adapter,
+          activePageId,
+          tabIds,
+          resolvePayload: (pageId) => ({
+            pageId,
+            title: 'Chart',
+            meta: { componentName: 'ChartDemoPage' },
+          }),
+          enabled: true,
+          persistence: 'deep-link-only',
         }),
-        enabled: true,
-        persistence: 'deep-link-only',
-      }),
+      { initialProps: { activePageId: null as string | null, tabIds: [] as string[] } },
     );
 
     expect(open).toHaveBeenCalledWith(
       expect.objectContaining({ pageId: 'demo-chart', title: 'Chart' }),
     );
+    expect(replaceState).not.toHaveBeenCalled();
+
+    rerender({ activePageId: 'demo-chart', tabIds: ['demo-chart'] });
+
     expect(replaceState).toHaveBeenCalledWith(null, '', '/');
     expect(pushState).not.toHaveBeenCalled();
   });
 
-  it('clears url when a tab becomes active (deep-link-only)', () => {
+  it('clears url after deep-linked tab becomes active', () => {
     const { controller } = createController();
 
     const { rerender } = renderHook(
