@@ -344,15 +344,21 @@ packages/gen-frame/
 | 그룹 | 심볼 |
 | --- | --- |
 | Components | `WorkspaceFrame`, `FrameHeader`, `MdiPageHost`, `SinglePageHost`, `LeftPanelNav`, `TitleBarNav` |
-| Navigation | `createMdiNavigationController`, `createSingleNavigationController`, `useNavigationController` |
-| URL | `createUrlSyncAdapter`, `useUrlSync` |
+| Navigation | `createMdiNavigationController`, `createSingleNavigationController`, `useMdiNavigationController`, `useSingleNavigationController` |
+| URL | `createQueryTabUrlSyncAdapter`, `useUrlSync` |
 | Hooks | `useFrameLayout`, `useFrameConfig` |
 | Types | `FrameMenuItem`, `FrameMenuModel`, `OpenPagePayload`, `FrameLayoutMode`, `FrameNavigationMode`, `FrameConfig`, `NavigationController`, `UrlSyncAdapter` |
 
 소비자 일반 경로:
 
 ```tsx
-import { WorkspaceFrame, MdiPageHost, useNavigationController } from '@gen-office/gen-frame';
+import {
+  WorkspaceFrame,
+  MdiPageHost,
+  SinglePageHost,
+  useMdiNavigationController,
+  useSingleNavigationController,
+} from '@gen-office/gen-frame';
 import '@gen-office/gen-frame/index.css';
 ```
 

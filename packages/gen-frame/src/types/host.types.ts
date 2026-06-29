@@ -9,6 +9,7 @@
 
 import type { ReactNode } from 'react';
 import type { TabBarLabels } from '@gen-office/mdi';
+import type { SinglePageState } from './navigation.types';
 
 export type MdiTabPosition = 'top' | 'bottom';
 
@@ -18,5 +19,11 @@ export interface MdiPageHostProps {
   tabBarLabels?: TabBarLabels;
   emptyContent?: ReactNode;
   onMaxTabsReached?: () => void;
+  className?: string;
+}
+
+export interface SinglePageHostProps {
+  page: SinglePageState | null;
+  emptyContent?: ReactNode;
   className?: string;
 }

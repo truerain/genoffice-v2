@@ -56,6 +56,11 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
+  "peerDependenciesMeta": {
+    "@gen-office/mdi": {
+      "optional": true
+    }
+  },
   "keywords": ["gen-office", "frame", "layout", "navigation"],
   "license": "ISC"
 }

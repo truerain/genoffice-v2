@@ -9,3 +9,5 @@
 
 export { createMdiNavigationController } from './createMdiNavigationController';
 export { useMdiNavigationController } from './useMdiNavigationController';
+export { createSingleNavigationController } from './createSingleNavigationController';
+export { useSingleNavigationController } from './useSingleNavigationController';

@@ -10,6 +10,14 @@
 
 ## 2026-06-29
 
+### F5 — Single page host
+
+- **요약:** `createSingleNavigationController`, `useSingleNavigationController`, `SinglePageHost`
+- **Storybook:** `GenFrame/Navigation/Single` (Single / MdiVsSingle)
+- **문서:** README navigation mode 가이드, `@gen-office/mdi` optional peer
+- **검증:** gen-frame test, build
+- **상태:** F0~F5 Gate 완료
+
 ### F4 — URL sync (`?tab=`)
 
 - **요약:** `UrlSyncAdapter`, `createQueryTabUrlSyncAdapter`, `useUrlSync`

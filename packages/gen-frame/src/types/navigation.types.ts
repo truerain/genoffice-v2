@@ -47,3 +47,32 @@ export interface CreateMdiNavigationControllerOptions {
 export interface UseMdiNavigationControllerOptions {
   resolveTab: (payload: FrameOpenPagePayload) => MdiTabInput;
 }
+
+export interface SinglePageState {
+  pageId: string;
+  title: string;
+  content: ReactNode;
+}
+
+export interface SinglePageInput {
+  content: ReactNode;
+}
+
+export interface SingleNavigationStore {
+  getPage: () => SinglePageState | null;
+  setPage: (page: SinglePageState | null) => void;
+}
+
+export interface CreateSingleNavigationControllerOptions {
+  store: SingleNavigationStore;
+  resolvePage: (payload: FrameOpenPagePayload) => SinglePageInput;
+}
+
+export interface UseSingleNavigationControllerOptions {
+  resolvePage: (payload: FrameOpenPagePayload) => SinglePageInput;
+}
+
+export interface UseSingleNavigationControllerResult {
+  controller: NavigationController;
+  currentPage: SinglePageState | null;
+}

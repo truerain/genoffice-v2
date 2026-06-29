@@ -102,6 +102,9 @@ importers:
       '@gen-office/gen-chart':
         specifier: workspace:*
         version: link:../../packages/gen-chart
+      '@gen-office/gen-frame':
+        specifier: workspace:*
+        version: link:../../packages/gen-frame
       '@gen-office/mdi':
         specifier: workspace:*
         version: link:../../packages/mdi

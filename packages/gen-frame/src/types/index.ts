@@ -21,14 +21,20 @@ export type {
 
 export type {
   CreateMdiNavigationControllerOptions,
+  CreateSingleNavigationControllerOptions,
   FrameOpenPagePayload,
   MdiNavigationStore,
   MdiTabInput,
   NavigationController,
+  SingleNavigationStore,
+  SinglePageInput,
+  SinglePageState,
   UseMdiNavigationControllerOptions,
+  UseSingleNavigationControllerOptions,
+  UseSingleNavigationControllerResult,
 } from './navigation.types';
 
-export type { MdiPageHostProps, MdiTabPosition } from './host.types';
+export type { MdiPageHostProps, MdiTabPosition, SinglePageHostProps } from './host.types';
 
 export type {
   CreateQueryTabUrlSyncAdapterOptions,

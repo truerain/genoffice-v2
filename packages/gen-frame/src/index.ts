@@ -8,6 +8,7 @@
  * - Side-effect: ./index.css (theme tokens)
  *
  * @history
+ * - 2026-06-29 F5: createSingleNavigationController, SinglePageHost
  * - 2026-06-29 F4: createQueryTabUrlSyncAdapter, useUrlSync
  * - 2026-06-29 F3: MdiPageHost, NavigationController
  * - 2026-06-29 F2: titleBar, NavRenderer, useFrameLayout
@@ -25,11 +26,14 @@ export {
   FrameLayoutToggle,
   SHOWCASE_FRAME_LAYOUTS,
   MdiPageHost,
+  SinglePageHost,
 } from './components';
 
 export {
   createMdiNavigationController,
   useMdiNavigationController,
+  createSingleNavigationController,
+  useSingleNavigationController,
 } from './navigation';
 
 export { createQueryTabUrlSyncAdapter, useUrlSync } from './url';
@@ -42,6 +46,7 @@ export {
 
 export type {
   CreateMdiNavigationControllerOptions,
+  CreateSingleNavigationControllerOptions,
   FrameConfig,
   FrameLayoutMode,
   FrameLayoutToggleProps,
@@ -56,8 +61,14 @@ export type {
   MdiTabPosition,
   NavRendererProps,
   NavigationController,
+  SingleNavigationStore,
+  SinglePageHostProps,
+  SinglePageInput,
+  SinglePageState,
   TitleBarNavProps,
   UseMdiNavigationControllerOptions,
+  UseSingleNavigationControllerOptions,
+  UseSingleNavigationControllerResult,
   UrlSyncAdapter,
   UseUrlSyncOptions,
   CreateQueryTabUrlSyncAdapterOptions,

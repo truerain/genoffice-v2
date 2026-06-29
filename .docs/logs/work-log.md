@@ -8,6 +8,11 @@
 
 ## 2026-06-29
 
+### packages/gen-frame F5 — single page host
+
+- `createSingleNavigationController`, `useSingleNavigationController`, `SinglePageHost`
+- Storybook `GenFrame/Navigation/Single`, README navigation mode 가이드
+
 ### packages/gen-frame F4 — URL sync
 
 - `createQueryTabUrlSyncAdapter`, `useUrlSync` (`?tab=<pageId>`)

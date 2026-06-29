@@ -210,9 +210,9 @@ flowchart LR
 
 ### Gate F5
 
-- [ ] Storybook: mdi / single 동일 메뉴·다른 host
-- [ ] gen-frame README에 navigation mode 선택 가이드
-- [ ] architecture·plan 최종 갱신
+- [x] Storybook: mdi / single 동일 메뉴·다른 host
+- [x] gen-frame README에 navigation mode 선택 가이드
+- [x] architecture·plan 최종 갱신
 
 ---
 
