@@ -10,6 +10,14 @@
 
 ## 2026-06-28
 
+### Gate D3 — Chart / Dashboard (gen-chart)
+
+- **요약:** `ChartDemoPage` (line/bar/area/composed/pie/donut), `DashboardDemoPage` (2×2 카드 그리드)
+- **패키지:** `@gen-office/gen-chart`, `ResponsiveChartContainer` + composable slots
+- **타입:** `src/types/gen-chart.d.ts` 임시 ambient (dist `.d.ts` 미생성 대응)
+- **검증:** `pnpm -C packages/gen-chart build` → `pnpm -C apps/demo build`
+- **다음:** Gate D4 — admin CRUD (gen-datagrid 합류 후)
+
 ### Gate D2 — API · menu · registry · i18n
 
 - **요약:** `shared/api` (httpClient, csrf, authApi, appMenuApi), `componentRegistry.dynamic`, `useAppMenu`, `MenuSidebar`, i18n ko/en

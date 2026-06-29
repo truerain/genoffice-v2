@@ -10,7 +10,7 @@ GenOffice V2 reference 백오피스 앱.
 
 ## 상태
 
-**Gate D0 ✅ · D1 ✅ · D2 ✅** — scaffold, MDI shell, mock/API 인프라, menu→registry→MDI. 다음: [D3](./.docs/plan.md#5-d3--chart--dashboard-gen-chart).
+**Gate D0 ✅ · D1 ✅ · D2 ✅ · D3 ✅** — shell, MDI, registry, gen-chart Chart/Dashboard demo. 다음: [D4](./.docs/plan.md#6-d4--admin-crud-합류-후) (gen-datagrid 합류 후).
 
 ## 실행
 
@@ -19,6 +19,7 @@ pnpm install
 pnpm -C packages/theme build
 pnpm -C packages/ui build
 pnpm -C packages/mdi build
+pnpm -C packages/gen-chart build
 pnpm -C apps/demo dev
 ```
 

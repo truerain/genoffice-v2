@@ -8,6 +8,11 @@
 
 ## 2026-06-28
 
+### apps/demo Gate D3 — Chart / Dashboard
+
+- ChartDemoPage, DashboardDemoPage + gen-chart composable API
+- gen-chart C8 demo 선행 완료 (grid 연동 제외)
+
 ### apps/demo Gate D2 — API · menu · registry · i18n
 
 - shared/api, componentRegistry, MenuSidebar, i18n, PageHeader/AdminPageLayout

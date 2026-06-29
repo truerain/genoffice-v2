@@ -62,6 +62,9 @@ importers:
 
   apps/demo:
     dependencies:
+      '@gen-office/gen-chart':
+        specifier: workspace:*
+        version: link:../../packages/gen-chart
       '@gen-office/mdi':
         specifier: workspace:*
         version: link:../../packages/mdi

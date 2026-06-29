@@ -1,0 +1,21 @@
+/**
+ * @file apps/demo/src/pages/demo/ChartDemoPage.module.css
+ * @description Chart demo page layout — scrollable sections in MDI tab.
+ * @created 2026-06-28
+ *
+ * @remark
+ *
+ */
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.responsive {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}

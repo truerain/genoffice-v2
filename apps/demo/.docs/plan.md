@@ -42,7 +42,7 @@ flowchart LR
 | **D0** | Scaffold | 아니오 | `theme`, `ui`, `mdi` | ✅ |
 | **D1** | App shell + MDI | 아니오 | D0 | ✅ |
 | **D2** | API · menu · registry · i18n | 아니오 | D1 | ✅ |
-| **D3** | Chart / Dashboard demo | 아니오 | D2, gen-chart Phase 1 ✅ | ⏳ |
+| **D3** | Chart / Dashboard demo | 아니오 | D2, gen-chart Phase 1 ✅ | ✅ |
 | **D4** | Admin CRUD 페이지 | **예** | D3, gen-datagrid-crud | ⏸ |
 | **D5** | Actuals · grid 시연 | **예** | D4, gen-datagrid-chart | ⏸ |
 
@@ -147,19 +147,19 @@ gen-chart **C8의 demo 부분을 선행** 완료 ([phase.md](../../packages/gen-
 
 ### 완료 조건
 
-- [ ] `pages/demo/ChartDemoPage.tsx`
+- [x] `pages/demo/ChartDemoPage.tsx`
   - line, bar, area, composed, pie, donut 섹션 (또는 탭/앵커)
   - `ResponsiveChartContainer` + `ChartRoot`
-- [ ] `pages/demo/DashboardDemoPage.tsx`
+- [x] `pages/demo/DashboardDemoPage.tsx`
   - 카드 그리드 2×2 — C7 Dashboard story 패턴
   - tooltip / legend where applicable
-- [ ] registry 등록 + 메뉴 항목
-- [ ] MDI 탭 안에서 resize 시 차트 reflow
+- [x] registry 등록 + 메뉴 항목
+- [x] MDI 탭 안에서 resize 시 차트 reflow
 
 ### 검증
 
-- [ ] 창 리사이즈 · MDI 탭 전환 후 차트 정상
-- [ ] V1 demo와 **시각·시나리오** 대등 (픽셀 동일 불필요)
+- [x] 창 리사이즈 · MDI 탭 전환 후 차트 정상 (수동)
+- [x] V1 demo와 **시각·시나리오** 대등 (픽셀 동일 불필요)
 
 ### 제외 (gen-chart Phase 2)
 

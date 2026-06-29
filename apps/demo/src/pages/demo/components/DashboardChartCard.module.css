@@ -1,0 +1,40 @@
+/**
+ * @file apps/demo/src/pages/demo/components/DashboardChartCard.module.css
+ * @description Dashboard chart card layout.
+ * @created 2026-06-28
+ *
+ * @remark
+ *
+ */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  min-width: 0;
+  border: 1px solid var(--color-border-default, #e5e5e5);
+  border-radius: 8px;
+  background: var(--color-surface-default, #fff);
+  overflow: hidden;
+}
+
+.header {
+  padding: 10px 12px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-primary, #171717);
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 8px 10px;
+}
+
+.chart {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}

@@ -30,15 +30,28 @@ const ko = {
   },
   page: {
     placeholder: {
-      description: 'Registry 기반 MDI 탭 콘텐츠입니다. D3에서 Chart/Dashboard를 구현합니다.',
+      description: 'Registry 기반 MDI 탭 콘텐츠입니다.',
     },
     chartDemo: {
-      description: 'Gate D3 — gen-chart composable API 데모가 여기에 연결됩니다.',
-      comingSoon: 'D3에서 구현 예정',
+      description: 'gen-chart composable API — line, bar, area, composed, pie, donut.',
+      sections: {
+        line: 'Line',
+        bar: 'Bar (grouped)',
+        area: 'Area',
+        composed: 'Composed (bar + line)',
+        pie: 'Pie',
+        donut: 'Donut',
+      },
     },
     dashboardDemo: {
-      description: 'Gate D3 — Dashboard 카드 그리드 데모가 여기에 연결됩니다.',
-      comingSoon: 'D3에서 구현 예정',
+      description: 'Responsive cartesian charts in a 2×2 card grid (gen-chart C7 pattern).',
+      hint: '브라우저 또는 MDI 탭 크기를 조절하면 각 카드 차트가 ResizeObserver로 reflow 합니다.',
+      cards: {
+        revenueTrend: 'Revenue trend',
+        monthlyCost: 'Monthly cost',
+        orderVolume: 'Order volume',
+        revenueVsCost: 'Revenue vs cost',
+      },
     },
   },
   mdi: {
