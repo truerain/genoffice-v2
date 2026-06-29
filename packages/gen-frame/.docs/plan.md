@@ -45,7 +45,7 @@ flowchart LR
 | Phase | 이름 | mdi 필요 | 선행 | 상태 |
 | --- | --- | --- | --- | --- |
 | **F0** | Docs · scaffold | 아니오 | mdi, theme, ui 검토 완료 | ✅ |
-| **F1** | `WorkspaceFrame` + `leftPanel` | Storybook mock | F0 | ⏸ |
+| **F1** | `WorkspaceFrame` + `leftPanel` | Storybook mock | F0 | ✅ |
 | **F2** | `titleBar` + layout showcase | Storybook | F1 | ⏸ |
 | **F3** | `NavigationController` + MDI host | 예 | F2, mdi stable | ⏸ |
 | **F4** | URL sync adapter | 예 | F3 | ⏸ |
@@ -102,10 +102,10 @@ flowchart LR
 
 ### Gate F1
 
-- [ ] `pnpm -C packages/gen-frame build`
-- [ ] `pnpm -C packages/gen-frame test`
-- [ ] Storybook — mock menu 3항목, workarea placeholder
-- [ ] height contract: workarea `min-height: 0` 문서·story 일치
+- [x] `pnpm -C packages/gen-frame build`
+- [x] `pnpm -C packages/gen-frame test` (6 tests)
+- [x] Storybook — `GenFrame/Layout/LeftPanel` (mock menu + workarea)
+- [x] height contract: workarea `min-height: 0` 문서·CSS 일치
 
 ---
 

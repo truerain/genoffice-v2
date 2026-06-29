@@ -10,6 +10,13 @@
 
 ## 2026-06-29
 
+### F1 — WorkspaceFrame + leftPanel
+
+- **요약:** 패키지 빌드 scaffold, `WorkspaceFrame`, `LeftPanelNav`, Storybook `GenFrame/Layout/LeftPanel`
+- **타입:** `FrameMenuItem`, `FrameMenuModel`, `WorkspaceFrameProps`, `FrameLayoutMode`
+- **검증:** `pnpm -C packages/gen-frame test` (6), `pnpm -C packages/gen-frame build`
+- **다음:** F2 — `TitleBarNav` + layout matrix showcase
+
 ### F0 — 패키지 설계·문서 scaffold
 
 - **요약:** `@gen-office/gen-frame` 패키지 디렉터리 및 설계 문서 초안

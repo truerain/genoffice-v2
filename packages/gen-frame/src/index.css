@@ -1,0 +1,10 @@
+/**
+ * @file packages/gen-frame/src/index.css
+ * @description Public CSS entry — theme tokens for gen-frame component styles.
+ * @created 2026-06-29
+ *
+ * @remark
+ * - Side-effect import from src/index.ts
+ *
+ */
+@import '@gen-office/theme/index.css';

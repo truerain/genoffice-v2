@@ -8,6 +8,11 @@
 
 ## 2026-06-29
 
+### packages/gen-frame F1 — WorkspaceFrame + leftPanel
+
+- `WorkspaceFrame`, `LeftPanelNav`, types, Storybook `GenFrame/Layout/LeftPanel`
+- test 6건, build 통과
+
 ### packages/gen-frame F0 — 설계·문서 scaffold
 
 - `packages/gen-frame/` 디렉터리, `architecture.md`, `plan.md` (F0~F5)

@@ -8,3 +8,19 @@ GenOffice V2 **앱 프레임워크** 패키지 — 레이아웃 chrome, 내비�
 - **구현 Plan:** [`.docs/plan.md`](./.docs/plan.md)
 
 `gen-grid` / `gen-chart` / `gen-datagrid`와 같은 `gen-*` 제품군이며, 백오피스 앱의 **작업 공간 골격**을 담당합니다.
+
+## Quick start
+
+```tsx
+import { WorkspaceFrame } from '@gen-office/gen-frame';
+import '@gen-office/gen-frame/index.css';
+
+<WorkspaceFrame
+  layout="leftPanel"
+  header={<span>My App</span>}
+  menu={{ items: [{ id: 'home', label: 'Home' }] }}
+  workarea={<main>Content</main>}
+/>
+```
+
+부모에 `height: 100%` + flex `min-height: 0` 체인이 필요합니다.

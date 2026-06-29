@@ -1,0 +1,78 @@
+/**
+ * @file packages/gen-frame/src/components/LeftPanelNav/LeftPanelNav.module.css
+ * @description Left sidebar navigation styles.
+ * @created 2026-06-29
+ *
+ * @remark
+ *
+ */
+
+.nav {
+  flex-shrink: 0;
+  width: 228px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: auto;
+  border-right: 1px solid var(--color-border-default);
+  background: var(--color-bg-primary);
+}
+
+.title {
+  padding: 16px 20px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-fg-secondary);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 12px 16px;
+}
+
+.item {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border: none;
+  border-radius: var(--border-radius-md);
+  background: transparent;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--color-fg-primary);
+  transition: background-color var(--transition-fast);
+}
+
+.item:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-primary) 6%, var(--color-bg-primary));
+}
+
+.item:disabled {
+  cursor: not-allowed;
+  color: var(--color-text-disabled);
+}
+
+.itemActive {
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-bg-primary));
+  font-weight: 600;
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.childList {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 4px 8px;
+}
+
+.childItem {
+  padding-left: 20px;
+  font-size: 13px;
+}

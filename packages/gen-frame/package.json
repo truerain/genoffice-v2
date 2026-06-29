@@ -4,7 +4,54 @@
   "private": true,
   "description": "GenOffice V2 app frame — layout chrome, navigation orchestration, URL sync",
   "type": "module",
-  "scripts": {},
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./index.css": "./dist/index.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "clean": "rm -rf dist",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "storybook": "pnpm -C ../../apps/storybook dev",
+    "build-storybook": "pnpm -C ../../apps/storybook build"
+  },
+  "dependencies": {
+    "@gen-office/theme": "workspace:*",
+    "clsx": "^2.1.1"
+  },
+  "devDependencies": {
+    "@storybook/react": "10.4.6",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "22.15.32",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "jsdom": "29.1.1",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "typescript": "5.9.3",
+    "vite": "6.4.3",
+    "vite-plugin-dts": "5.0.2",
+    "vitest": "4.1.9"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
   "keywords": ["gen-office", "frame", "layout", "navigation"],
   "license": "ISC"
 }
