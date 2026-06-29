@@ -1,0 +1,35 @@
+/**
+ * @file apps/demo/src/shared/components/DemoSurface/DemoSurface.module.css
+ * @description Elevated and flat surface primitives for demo Soft Modern UI.
+ * @created 2026-06-29
+ *
+ * @remark
+ * - Tokens from src/styles/demo-ui.css
+ *
+ */
+
+.surface {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.elevated {
+  border: 1px solid var(--demo-surface-border);
+  border-radius: var(--demo-radius-md);
+  background: var(--demo-surface-bg);
+  box-shadow: var(--demo-shadow-elevated);
+}
+
+.chrome {
+  border: 1px solid var(--demo-chrome-border);
+  border-radius: var(--demo-radius-sm);
+  background: var(--demo-chrome-bg);
+  box-shadow: var(--demo-shadow-chrome);
+}
+
+.flat {
+  border: none;
+  border-radius: var(--demo-radius-sm);
+  background: transparent;
+  box-shadow: none;
+}

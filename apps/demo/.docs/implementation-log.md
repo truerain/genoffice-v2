@@ -8,6 +8,17 @@
 -->
 # @gen-office/demo 구현 로그
 
+## 2026-06-29
+
+### Soft Modern UI (demo 전용)
+
+- **요약:** workarea 틴트 + elevation 기반 Soft Modern 시각 규칙 적용
+- **문서:** `.docs/ui-direction.md`
+- **토큰:** `src/styles/demo-ui.css` (`--demo-*`, workarea 스코프 오버라이드)
+- **컴포넌트:** `shared/components/DemoSurface` (elevated/chrome/flat)
+- **적용:** AppShell, MenuSidebar, LoginPage, PageHeader, AdminPageLayout, chart/dashboard 카드·섹션
+- **범위:** `apps/demo`만 — theme/ui/mdi 패키지 미변경
+
 ## 2026-06-28
 
 ### Gate D3 — Chart / Dashboard (gen-chart)

@@ -1,0 +1,43 @@
+/**
+ * @file apps/demo/src/styles/demo-ui.css
+ * @description Demo-scoped Soft Modern UI tokens (maps @gen-office/theme primitives).
+ * @created 2026-06-29
+ *
+ * @remark
+ * - Workarea override via [data-demo-workarea] on AppShell main
+ * - Does not modify packages/theme
+ *
+ */
+
+:root {
+  --demo-radius-sm: var(--border-radius-md);
+  --demo-radius-md: var(--border-radius-lg);
+  --demo-radius-lg: var(--border-radius-xl);
+
+  --demo-workarea-bg: var(--color-workarea, var(--color-bg-secondary));
+  --demo-surface-bg: var(--color-background);
+  --demo-chrome-bg: var(--color-background);
+
+  --demo-surface-border: color-mix(in srgb, var(--color-border-default) 72%, transparent);
+  --demo-chrome-border: color-mix(in srgb, var(--color-border-default) 58%, transparent);
+
+  --demo-shadow-elevated: var(--shadow-sm);
+  --demo-shadow-chrome: 0 1px 0 color-mix(in srgb, var(--color-border-default) 40%, transparent);
+
+  --demo-page-padding: var(--spacing-md);
+  --demo-section-gap: var(--spacing-lg);
+  --demo-hint-color: var(--color-fg-secondary);
+}
+
+[data-theme='dark'] {
+  --demo-workarea-bg: var(--color-background);
+  --demo-surface-bg: var(--color-surface);
+  --demo-chrome-bg: var(--color-background);
+
+  --demo-shadow-elevated: 0 1px 3px 0 rgb(0 0 0 / 0.35);
+  --demo-shadow-chrome: 0 1px 0 color-mix(in srgb, var(--color-border-default) 55%, transparent);
+}
+
+[data-demo-workarea] {
+  --color-bg-primary: var(--demo-workarea-bg);
+}

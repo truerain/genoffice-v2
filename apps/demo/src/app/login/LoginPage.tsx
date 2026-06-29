@@ -11,6 +11,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { Button, Input, Label } from '@gen-office/ui';
+import { DemoSurface } from '../../shared/components/DemoSurface';
 import { useAuth } from '../providers/AuthProvider';
 import { useI18n } from '../../i18n';
 import styles from './LoginPage.module.css';
@@ -38,7 +39,7 @@ export function LoginPage() {
 
   return (
     <div className={styles.screen}>
-      <form className={styles.card} onSubmit={handleSubmit}>
+      <DemoSurface as="form" variant="elevated" className={styles.card} onSubmit={handleSubmit}>
         <h1 className={styles.title}>{t('auth.loginTitle')}</h1>
         <p className={styles.subtitle}>{t('auth.loginSubtitle')}</p>
         <div className={styles.field}>
@@ -66,7 +67,7 @@ export function LoginPage() {
         <Button type="submit" variant="primary" disabled={isSubmitting}>
           {t('auth.loginButton')}
         </Button>
-      </form>
+      </DemoSurface>
     </div>
   );
 }

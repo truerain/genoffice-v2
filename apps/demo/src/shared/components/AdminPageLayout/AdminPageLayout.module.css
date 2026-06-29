@@ -2,9 +2,12 @@
  * @file apps/demo/src/shared/components/AdminPageLayout/AdminPageLayout.module.css
  * @description Admin page flex layout — matches architecture §5 height contract.
  * @created 2026-06-28
+ * @updated 2026-06-29
  *
  * @remark
  *
+ * @history
+ * - 2026-06-29 Soft Modern page padding/gap
  */
 
 .page {
@@ -13,14 +16,14 @@
   flex: 1;
   min-height: 0;
   height: 100%;
-  padding: 16px;
+  padding: var(--demo-page-padding);
   box-sizing: border-box;
   overflow: hidden;
+  gap: var(--demo-section-gap);
 }
 
 .filter {
   flex-shrink: 0;
-  margin-bottom: 12px;
 }
 
 .content {

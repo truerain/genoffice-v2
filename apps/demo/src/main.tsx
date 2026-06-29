@@ -9,6 +9,7 @@
  * - CSS: theme, ui, mdi, app layout
  *
  * @history
+ * - 2026-06-29 Soft Modern demo-ui.css
  * - 2026-06-28 D3: gen-chart CSS
  * - 2026-06-28 D1: AppProviders, mdi/ui CSS
  */
@@ -20,6 +21,7 @@ import '@gen-office/ui/index.css';
 import '@gen-office/mdi/index.css';
 import '@gen-office/gen-chart/index.css';
 import './styles/app.css';
+import './styles/demo-ui.css';
 import { AppProviders } from './app/providers/AppProviders';
 import { App } from './app/App';
 

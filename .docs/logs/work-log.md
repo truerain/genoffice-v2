@@ -6,6 +6,13 @@
 -->
 # GenOffice V2 작업 로그
 
+## 2026-06-29
+
+### apps/demo Soft Modern UI
+
+- demo 전용 Soft Modern 시각 규칙: `demo-ui.css`, `DemoSurface`, shell·페이지·카드 통일
+- 설계 문서: `apps/demo/.docs/ui-direction.md`
+
 ## 2026-06-28
 
 ### apps/demo Gate D3 — Chart / Dashboard

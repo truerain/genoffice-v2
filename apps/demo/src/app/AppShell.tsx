@@ -77,7 +77,7 @@ export function AppShell() {
       </header>
       <div className={styles.body}>
         <MenuSidebar />
-        <main className={styles.main}>
+        <main className={styles.main} data-demo-workarea="">
           <MDIContainer
             maxTabs={DEMO_MAX_TABS}
             tabPosition="top"

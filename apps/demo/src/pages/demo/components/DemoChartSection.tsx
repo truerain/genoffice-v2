@@ -9,6 +9,7 @@
  */
 
 import type { ReactNode } from 'react';
+import { DemoSurface } from '../../../shared/components/DemoSurface';
 import styles from './DemoChartSection.module.css';
 
 export interface DemoChartSectionProps {
@@ -24,7 +25,9 @@ export function DemoChartSection({ title, description, children }: DemoChartSect
         <h2 className={styles.title}>{title}</h2>
         {description ? <p className={styles.description}>{description}</p> : null}
       </header>
-      <div className={styles.chartFrame}>{children}</div>
+      <DemoSurface variant="elevated" className={styles.chartFrame}>
+        {children}
+      </DemoSurface>
     </section>
   );
 }

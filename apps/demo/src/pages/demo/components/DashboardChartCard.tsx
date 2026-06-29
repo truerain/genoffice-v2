@@ -15,6 +15,7 @@ import {
   ResponsiveChartContainer,
   CartesianChart,
 } from '@gen-office/gen-chart';
+import { DemoSurface } from '../../../shared/components/DemoSurface';
 import styles from './DashboardChartCard.module.css';
 
 export interface DashboardChartCardProps<T> {
@@ -31,7 +32,12 @@ export function DashboardChartCard<T>({
   minChartHeight = 160,
 }: DashboardChartCardProps<T>) {
   return (
-    <section className={styles.card} data-gen-chart-dashboard-card="">
+    <DemoSurface
+      as="section"
+      variant="elevated"
+      className={styles.card}
+      data-gen-chart-dashboard-card=""
+    >
       <header className={styles.header}>{title}</header>
       <div className={styles.body}>
         <ResponsiveChartContainer
@@ -47,6 +53,6 @@ export function DashboardChartCard<T>({
           }
         </ResponsiveChartContainer>
       </div>
-    </section>
+    </DemoSurface>
   );
 }

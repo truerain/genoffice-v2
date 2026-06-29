@@ -2,10 +2,13 @@
  * @file apps/demo/src/pages/demo/DashboardDemoPage.module.css
  * @description Dashboard demo card grid layout.
  * @created 2026-06-28
+ * @updated 2026-06-29
  *
  * @remark
  * - 2×2 responsive grid; cards reflow in narrow MDI tabs
  *
+ * @history
+ * - 2026-06-29 Soft Modern hint styling
  */
 
 .page {
@@ -18,8 +21,10 @@
 
 .hint {
   margin: 0;
+  padding: 0 2px;
   font-size: 12px;
-  color: var(--color-text-secondary, #525252);
+  color: var(--demo-hint-color);
+  line-height: 1.5;
 }
 
 .grid {

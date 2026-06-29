@@ -2,15 +2,18 @@
  * @file apps/demo/src/pages/demo/ChartDemoPage.module.css
  * @description Chart demo page layout — scrollable sections in MDI tab.
  * @created 2026-06-28
+ * @updated 2026-06-29
  *
  * @remark
  *
+ * @history
+ * - 2026-06-29 Soft Modern section gap
  */
 
 .sections {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--demo-section-gap);
   min-width: 0;
 }
 

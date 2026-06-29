@@ -2,10 +2,14 @@
  * @file apps/demo/src/app/AppShell.module.css
  * @description Full-height flex layout for MDI shell.
  * @created 2026-06-28
+ * @updated 2026-06-29
  *
  * @remark
  * - main: flex 1 min-height 0 — matches mdi Storybook contract
+ * - Soft Modern chrome via demo-ui tokens
  *
+ * @history
+ * - 2026-06-29 Soft Modern shell (workarea tint, chrome shadow)
  */
 
 .shell {
@@ -21,10 +25,11 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 0 16px;
-  height: 48px;
-  border-bottom: 1px solid var(--color-border-default, #e5e5e5);
-  background: var(--color-surface-default, #fff);
+  padding: 0 20px;
+  height: 52px;
+  border-bottom: 1px solid var(--demo-chrome-border);
+  background: var(--demo-chrome-bg);
+  box-shadow: var(--demo-shadow-chrome);
 }
 
 .headerStart {
@@ -36,12 +41,13 @@
 
 .user {
   font-size: 13px;
-  color: var(--color-text-secondary, #525252);
+  color: var(--color-fg-secondary);
 }
 
 .brand {
   font-size: 15px;
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .headerActions {
@@ -63,6 +69,7 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
+  background: var(--demo-workarea-bg);
 }
 
 .mdi {
@@ -73,5 +80,5 @@
 .empty {
   margin: 0;
   font-size: 14px;
-  color: var(--color-text-secondary, #525252);
+  color: var(--color-fg-secondary);
 }

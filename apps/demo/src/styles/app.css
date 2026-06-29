@@ -22,7 +22,7 @@ body,
 }
 
 body {
-  font-family: var(--font-family-sans, system-ui, sans-serif);
-  background: var(--color-surface-default, #fff);
-  color: var(--color-text-primary, #171717);
+  font-family: var(--font-family-primary, system-ui, sans-serif);
+  background: var(--demo-chrome-bg, var(--color-bg-primary));
+  color: var(--color-fg-primary, #171717);
 }
