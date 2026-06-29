@@ -8,6 +8,7 @@
  * - Side-effect: ./index.css (theme tokens)
  *
  * @history
+ * - 2026-06-29 FrameBrand + default-logo.png
  * - 2026-06-29 F5: createSingleNavigationController, SinglePageHost
  * - 2026-06-29 F4: createQueryTabUrlSyncAdapter, useUrlSync
  * - 2026-06-29 F3: MdiPageHost, NavigationController
@@ -17,6 +18,8 @@
 
 import './index.css';
 
+export { DEFAULT_FRAME_BRAND_LOGO_SRC } from './assets/defaultBrandLogo';
+
 export {
   WorkspaceFrame,
   LeftPanelNav,
@@ -25,6 +28,7 @@ export {
   resolveNavLayout,
   FrameLayoutToggle,
   SHOWCASE_FRAME_LAYOUTS,
+  FrameBrand,
   MdiPageHost,
   SinglePageHost,
 } from './components';
@@ -47,6 +51,7 @@ export {
 export type {
   CreateMdiNavigationControllerOptions,
   CreateSingleNavigationControllerOptions,
+  FrameBrandProps,
   FrameConfig,
   FrameLayoutMode,
   FrameLayoutToggleProps,
@@ -70,6 +75,7 @@ export type {
   UseSingleNavigationControllerOptions,
   UseSingleNavigationControllerResult,
   UrlSyncAdapter,
+  UrlSyncPersistence,
   UseUrlSyncOptions,
   CreateQueryTabUrlSyncAdapterOptions,
   WorkspaceFrameProps,

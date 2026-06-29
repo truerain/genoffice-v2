@@ -10,6 +10,12 @@
 
 ## 2026-06-29
 
+### FrameBrand — header logo
+
+- **요약:** `FrameBrand`, `DEFAULT_FRAME_BRAND_LOGO_SRC`, 기본 `src/assets/default-logo.png`
+- **demo:** `brand-logo.png`로 `src` override
+- **검증:** gen-frame test, `pnpm -C apps/demo build`
+
 ### F5 — Single page host
 
 - **요약:** `createSingleNavigationController`, `useSingleNavigationController`, `SinglePageHost`

@@ -343,7 +343,7 @@ packages/gen-frame/
 
 | 그룹 | 심볼 |
 | --- | --- |
-| Components | `WorkspaceFrame`, `FrameHeader`, `MdiPageHost`, `SinglePageHost`, `LeftPanelNav`, `TitleBarNav` |
+| Components | `WorkspaceFrame`, `FrameBrand`, `MdiPageHost`, `SinglePageHost`, `LeftPanelNav`, `TitleBarNav` |
 | Navigation | `createMdiNavigationController`, `createSingleNavigationController`, `useMdiNavigationController`, `useSingleNavigationController` |
 | URL | `createQueryTabUrlSyncAdapter`, `useUrlSync` |
 | Hooks | `useFrameLayout`, `useFrameConfig` |

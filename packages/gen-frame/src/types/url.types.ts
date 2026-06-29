@@ -18,9 +18,12 @@ export interface UrlSyncAdapter {
 }
 
 export interface CreateQueryTabUrlSyncAdapterOptions {
-  /** Query parameter name (default: `tab`) */
+  /** Query parameter name (default: `tab`; demo uses `menu`) */
   param?: string;
 }
+
+/** How URL reflects navigation after initial load. */
+export type UrlSyncPersistence = 'deep-link-only' | 'persist';
 
 export interface UseUrlSyncOptions {
   controller: NavigationController;
@@ -29,4 +32,9 @@ export interface UseUrlSyncOptions {
   tabIds: string[];
   resolvePayload?: (pageId: string) => FrameOpenPagePayload | null;
   enabled?: boolean;
+  /**
+   * - `deep-link-only` (default): read `?menu=` / `?tab=` on load, then clear URL (MDI-friendly)
+   * - `persist`: keep query param in sync with active page (single-page-friendly)
+   */
+  persistence?: UrlSyncPersistence;
 }

@@ -24,6 +24,25 @@ import '@gen-office/gen-frame/index.css';
 
 부모에 `height: 100%` + flex `min-height: 0` 체인이 필요합니다.
 
+## Brand logo (`FrameBrand`)
+
+기본 로고는 `packages/gen-frame/src/assets/default-logo.png`입니다. 앱은 `header` 슬롯에서 `src`로 교체합니다.
+
+```tsx
+import { WorkspaceFrame, FrameBrand } from '@gen-office/gen-frame';
+import appLogo from './assets/brand-logo.png';
+
+<WorkspaceFrame
+  header={<FrameBrand src={appLogo} alt="My App" />}
+  ...
+/>
+
+// 기본 gen-frame 로고
+<FrameBrand alt="GenOffice" />
+```
+
+`DEFAULT_FRAME_BRAND_LOGO_SRC` 상수도 export됩니다.
+
 ## Navigation mode
 
 gen-frame은 **동일한 `NavigationController` 계약**으로 MDI·단일 페이지를 전환합니다.

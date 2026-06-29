@@ -71,3 +71,12 @@ export interface FrameLayoutToggleProps {
   ariaLabel?: string;
   className?: string;
 }
+
+export interface FrameBrandProps {
+  /** Omit for package default (`src/assets/default-logo.png`). */
+  src?: string;
+  alt?: string;
+  /** Full replacement — overrides `src` and default logo. */
+  children?: ReactNode;
+  className?: string;
+}

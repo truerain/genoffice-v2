@@ -12,6 +12,7 @@ export type {
   FrameConfig,
   FrameLayoutMode,
   FrameLayoutToggleProps,
+  FrameBrandProps,
   FrameNavigationMode,
   LeftPanelNavProps,
   NavRendererProps,
@@ -39,5 +40,6 @@ export type { MdiPageHostProps, MdiTabPosition, SinglePageHostProps } from './ho
 export type {
   CreateQueryTabUrlSyncAdapterOptions,
   UrlSyncAdapter,
+  UrlSyncPersistence,
   UseUrlSyncOptions,
 } from './url.types';

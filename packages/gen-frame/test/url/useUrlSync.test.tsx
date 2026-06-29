@@ -3,14 +3,14 @@
  * @description Tests for useUrlSync hook.
  * @created 2026-06-29
  */
-import { renderHook, act } from '@testing-library/react';
+import { renderHook } from '@testing-library/react';
 import { describe, expect, it, vi, beforeEach, afterEach } from 'vitest';
 import { createQueryTabUrlSyncAdapter } from '../../src/url/createQueryTabUrlSyncAdapter';
 import { useUrlSync } from '../../src/url/useUrlSync';
 import type { NavigationController } from '../../src/types';
 
 describe('useUrlSync', () => {
-  const adapter = createQueryTabUrlSyncAdapter({ param: 'tab' });
+  const adapter = createQueryTabUrlSyncAdapter({ param: 'menu' });
   let pushState: ReturnType<typeof vi.fn>;
   let replaceState: ReturnType<typeof vi.fn>;
   let originalPushState: History['pushState'];
@@ -47,8 +47,8 @@ describe('useUrlSync', () => {
     return { controller, open, activate };
   }
 
-  it('opens page from initial url tab param', () => {
-    originalReplaceState(null, '', '/?tab=demo-chart');
+  it('opens page from initial url menu param (deep-link-only)', () => {
+    originalReplaceState(null, '', '/?menu=demo-chart');
     const { controller, open } = createController();
 
     renderHook(() =>
@@ -63,56 +63,67 @@ describe('useUrlSync', () => {
           meta: { componentName: 'ChartDemoPage' },
         }),
         enabled: true,
+        persistence: 'deep-link-only',
       }),
     );
 
     expect(open).toHaveBeenCalledWith(
       expect.objectContaining({ pageId: 'demo-chart', title: 'Chart' }),
     );
+    expect(replaceState).toHaveBeenCalledWith(null, '', '/');
+    expect(pushState).not.toHaveBeenCalled();
   });
 
-  it('pushes url when activePageId changes', () => {
+  it('clears url when a tab becomes active (deep-link-only)', () => {
     const { controller } = createController();
 
     const { rerender } = renderHook(
-      ({ activePageId }: { activePageId: string | null }) =>
+      ({ activePageId, tabIds }: { activePageId: string | null; tabIds: string[] }) =>
         useUrlSync({
           controller,
           adapter,
           activePageId,
-          tabIds: activePageId ? [activePageId] : [],
+          tabIds,
           enabled: true,
+          persistence: 'deep-link-only',
         }),
-      { initialProps: { activePageId: null as string | null } },
+      { initialProps: { activePageId: null as string | null, tabIds: [] as string[] } },
     );
 
-    rerender({ activePageId: 'dashboard' });
+    originalReplaceState(null, '', '/?menu=dashboard');
+    replaceState.mockClear();
 
-    expect(pushState).toHaveBeenCalledWith(
-      { genFrameTab: 'dashboard' },
-      '',
-      '/?tab=dashboard',
-    );
+    rerender({ activePageId: 'dashboard', tabIds: ['dashboard'] });
+
+    expect(replaceState).toHaveBeenCalledWith(null, '', '/');
+    expect(pushState).not.toHaveBeenCalled();
   });
 
-  it('activates tab on popstate', () => {
-    const { controller, activate } = createController();
+  it('keeps url in sync when persistence is persist', () => {
+    const { controller } = createController();
 
-    renderHook(() =>
-      useUrlSync({
-        controller,
-        adapter,
-        activePageId: 'home',
-        tabIds: ['home', 'dashboard'],
-        enabled: true,
-      }),
+    const { rerender } = renderHook(
+      ({ activePageId, tabIds }: { activePageId: string | null; tabIds: string[] }) =>
+        useUrlSync({
+          controller,
+          adapter,
+          activePageId,
+          tabIds,
+          enabled: true,
+          persistence: 'persist',
+        }),
+      { initialProps: { activePageId: 'home' as string | null, tabIds: ['home'] } },
     );
 
-    act(() => {
-      originalReplaceState(null, '', '/?tab=dashboard');
-      window.dispatchEvent(new PopStateEvent('popstate'));
-    });
+    replaceState.mockClear();
 
-    expect(activate).toHaveBeenCalledWith('dashboard');
+    rerender({ activePageId: 'dashboard', tabIds: ['home', 'dashboard'] });
+
+    expect(replaceState).toHaveBeenCalledWith(
+      { genFramePage: 'dashboard' },
+      '',
+      '/?menu=dashboard',
+    );
+    expect(pushState).not.toHaveBeenCalled();
   });
 });

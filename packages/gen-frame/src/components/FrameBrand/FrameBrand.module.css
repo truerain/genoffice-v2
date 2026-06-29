@@ -1,0 +1,22 @@
+/**
+ * @file packages/gen-frame/src/components/FrameBrand/FrameBrand.module.css
+ * @description FrameBrand logo sizing in header chrome.
+ * @created 2026-06-29
+ *
+ * @remark
+ *
+ */
+
+.brand {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo {
+  display: block;
+  height: 28px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+}

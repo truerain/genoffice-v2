@@ -8,6 +8,11 @@
 
 ## 2026-06-29
 
+### packages/gen-frame — FrameBrand
+
+- 기본 로고 `src/assets/default-logo.png`, `FrameBrand` 컴포넌트
+- demo `AppShell` → `brand-logo.png` override
+
 ### packages/gen-frame F5 — single page host
 
 - `createSingleNavigationController`, `useSingleNavigationController`, `SinglePageHost`

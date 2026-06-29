@@ -11,6 +11,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useCallback, useMemo, useState } from 'react';
 import { WorkspaceFrame } from '../components/WorkspaceFrame';
+import { FrameBrand } from '../components/FrameBrand';
 import { MdiPageHost } from '../components/MdiPageHost';
 import { SinglePageHost } from '../components/SinglePageHost';
 import { useMdiNavigationController } from './useMdiNavigationController';
@@ -77,7 +78,7 @@ function SingleNavigationDemo() {
     <div style={frameStyle}>
       <WorkspaceFrame
         layout="leftPanel"
-        header={<span style={{ fontWeight: 600 }}>Single navigation</span>}
+        header={<FrameBrand alt="Single navigation" />}
         menu={{ items: MOCK_FRAME_MENU_ITEMS }}
         menuTitle="Menu"
         menuAriaLabel="Main navigation"
@@ -122,7 +123,7 @@ function MdiNavigationDemo() {
     <div style={frameStyle}>
       <WorkspaceFrame
         layout="leftPanel"
-        header={<span style={{ fontWeight: 600 }}>MDI navigation</span>}
+        header={<FrameBrand alt="MDI navigation" />}
         menu={{ items: MOCK_FRAME_MENU_ITEMS }}
         menuTitle="Menu"
         menuAriaLabel="Main navigation"

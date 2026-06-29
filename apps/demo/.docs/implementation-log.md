@@ -10,6 +10,12 @@
 
 ## 2026-06-29
 
+### FrameBrand header logo
+
+- **요약:** `@gen-office/gen-frame` `FrameBrand` + `src/assets/brand-logo.png`
+- **파일:** `AppShell.tsx`
+- **검증:** `pnpm -C apps/demo build`
+
 ### URL sync (F4)
 
 - **요약:** `?tab=<pageId>` 쿼리와 MDI 활성 탭 양방향 동기화

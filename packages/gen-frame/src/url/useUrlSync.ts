@@ -1,16 +1,32 @@
 /**
  * @file packages/gen-frame/src/url/useUrlSync.ts
- * @description Bidirectional URL ↔ active page sync (Gate F4).
+ * @description URL ↔ page sync — deep-link or persist (Gate F4).
  * @created 2026-06-29
+ * @updated 2026-06-29
  *
  * @remark
- * - Initial load + popstate → controller.open/activate
- * - activePageId change → history.pushState (or clear when no tab)
+ * - `deep-link-only`: read query on load, then clear URL (MDI)
+ * - `persist`: keep query in sync with active page (single)
  *
+ * @history
+ * - 2026-06-29 persistence modes; drop bidirectional pushState stack
  */
 
 import { useCallback, useEffect, useRef } from 'react';
 import type { UseUrlSyncOptions } from '../types';
+
+function readCurrentUrl(): string {
+  if (typeof window === 'undefined') return '';
+  return `${window.location.pathname}${window.location.search}${window.location.hash}`;
+}
+
+function clearUrlInHistory(adapter: UseUrlSyncOptions['adapter']) {
+  const cleared = adapter.clearUrl();
+  const current = readCurrentUrl();
+  if (cleared !== current) {
+    window.history.replaceState(null, '', cleared);
+  }
+}
 
 export function useUrlSync({
   controller,
@@ -19,9 +35,10 @@ export function useUrlSync({
   tabIds,
   resolvePayload,
   enabled = true,
+  persistence = 'deep-link-only',
 }: UseUrlSyncOptions) {
-  const applyingFromUrl = useRef(false);
   const initialSynced = useRef(false);
+  const consumedDeepLink = useRef(false);
 
   const applyPageIdFromUrl = useCallback(
     (url?: string | URL) => {
@@ -30,22 +47,21 @@ export function useUrlSync({
       const pageId = adapter.getPageIdFromUrl(url ?? window.location.href);
       if (!pageId) return;
 
-      applyingFromUrl.current = true;
-      try {
-        if (tabIds.includes(pageId)) {
-          controller.activate(pageId);
-          return;
-        }
-
+      if (tabIds.includes(pageId)) {
+        controller.activate(pageId);
+      } else {
         const payload = resolvePayload?.(pageId);
         if (payload) {
           controller.open(payload);
         }
-      } finally {
-        applyingFromUrl.current = false;
+      }
+
+      if (persistence === 'deep-link-only') {
+        consumedDeepLink.current = true;
+        clearUrlInHistory(adapter);
       }
     },
-    [adapter, controller, resolvePayload, tabIds],
+    [adapter, controller, persistence, resolvePayload, tabIds],
   );
 
   useEffect(() => {
@@ -55,7 +71,7 @@ export function useUrlSync({
   }, [applyPageIdFromUrl, enabled]);
 
   useEffect(() => {
-    if (!enabled || typeof window === 'undefined') return;
+    if (!enabled || persistence !== 'persist' || typeof window === 'undefined') return;
 
     const onPopState = () => {
       applyPageIdFromUrl();
@@ -63,24 +79,32 @@ export function useUrlSync({
 
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
-  }, [applyPageIdFromUrl, enabled]);
+  }, [applyPageIdFromUrl, enabled, persistence]);
 
   useEffect(() => {
-    if (!enabled || typeof window === 'undefined' || applyingFromUrl.current) return;
+    if (!enabled || typeof window === 'undefined') return;
 
-    if (!activePageId) {
-      const cleared = adapter.clearUrl();
-      const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
-      if (cleared !== current) {
-        window.history.replaceState(null, '', cleared);
+    if (persistence === 'persist') {
+      if (!activePageId) {
+        clearUrlInHistory(adapter);
+        return;
       }
+
+      const nextUrl = adapter.buildUrl(activePageId);
+      if (nextUrl === readCurrentUrl()) return;
+
+      window.history.replaceState({ genFramePage: activePageId }, '', nextUrl);
       return;
     }
 
-    const nextUrl = adapter.buildUrl(activePageId);
-    const current = `${window.location.pathname}${window.location.search}${window.location.hash}`;
-    if (nextUrl === current) return;
+    if (!activePageId) {
+      clearUrlInHistory(adapter);
+      return;
+    }
 
-    window.history.pushState({ genFrameTab: activePageId }, '', nextUrl);
-  }, [activePageId, adapter, enabled]);
+    if (consumedDeepLink.current || adapter.getPageIdFromUrl(window.location.href)) {
+      clearUrlInHistory(adapter);
+      consumedDeepLink.current = false;
+    }
+  }, [activePageId, adapter, enabled, persistence]);
 }

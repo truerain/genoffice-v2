@@ -9,6 +9,7 @@
  * - Layout showcase toggle via useFrameLayout
  *
  * @history
+ * - 2026-06-29 FrameBrand + demo brand-logo.png override
  * - 2026-06-29 F4: URL ?tab= sync via useUrlSync
  * - 2026-06-29 F3: WorkspaceFrame + MdiPageHost + FrameLayoutToggle
  * - 2026-06-28 D2: menu sidebar + registry openPage
@@ -16,6 +17,7 @@
 
 import { useCallback, useEffect, useMemo } from 'react';
 import {
+  FrameBrand,
   FrameLayoutToggle,
   MdiPageHost,
   WorkspaceFrame,
@@ -25,13 +27,14 @@ import {
 } from '@gen-office/gen-frame';
 import { useMDIStore } from '@gen-office/mdi';
 import { Button } from '@gen-office/ui';
+import demoBrandLogo from '../assets/brand-logo.png';
 import { useAuth } from './providers/AuthProvider';
 import { useAppToast } from './providers/AppToastProvider';
 import { useOpenPage } from './hooks/useOpenPage';
 import { useAppMenu } from './menu/useAppMenu';
 import { findAppMenuItemByPageId, mapAppMenuToFrameItems } from './menu/mapAppMenuToFrame';
 import { resolveMenuTitle } from './openPage';
-import { demoUrlSyncAdapter, hasDemoUrlTabParam } from './url/demoUrlSync';
+import { demoUrlSyncAdapter, hasDemoUrlMenuParam } from './url/demoUrlSync';
 import { useI18n } from '../i18n';
 import styles from './AppShell.module.css';
 
@@ -86,6 +89,7 @@ export function AppShell() {
     tabIds,
     resolvePayload: resolvePayloadFromPageId,
     enabled: urlSyncEnabled,
+    persistence: 'deep-link-only',
   });
 
   const handleMaxTabsReached = useCallback(() => {
@@ -99,7 +103,7 @@ export function AppShell() {
     if (isMenuLoading || tabs.length > 0 || items.length === 0) {
       return;
     }
-    if (hasDemoUrlTabParam()) {
+    if (hasDemoUrlMenuParam()) {
       return;
     }
     openMenuItem(items[0]);
@@ -127,7 +131,7 @@ export function AppShell() {
         layout={layout}
         header={
           <>
-            <span className={styles.brand}>GenOffice Demo</span>
+            <FrameBrand src={demoBrandLogo} alt="GenOffice Demo" />
             {username ? <span className={styles.user}>{username}</span> : null}
           </>
         }

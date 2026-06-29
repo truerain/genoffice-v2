@@ -13,6 +13,7 @@ import type { CSSProperties } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { WorkspaceFrame } from './WorkspaceFrame';
+import { FrameBrand } from '../FrameBrand';
 import { MOCK_FRAME_MENU_ITEMS } from '../../stories/mockMenu';
 import type { FrameMenuItem } from '../../types';
 
@@ -72,7 +73,7 @@ function LeftPanelDemo() {
     <div style={frameStyle}>
       <WorkspaceFrame
         layout="leftPanel"
-        header={<span style={{ fontWeight: 600 }}>GenOffice Frame</span>}
+        header={<FrameBrand alt="GenOffice Frame" />}
         headerActions={
           <span style={{ fontSize: 13, color: 'var(--color-fg-secondary)' }}>demo user</span>
         }

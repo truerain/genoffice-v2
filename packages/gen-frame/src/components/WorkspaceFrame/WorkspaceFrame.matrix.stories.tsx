@@ -11,6 +11,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { WorkspaceFrame } from './WorkspaceFrame';
+import { FrameBrand } from '../FrameBrand';
 import { FrameLayoutToggle } from '../FrameLayoutToggle';
 import { useFrameLayout } from '../../hooks/useFrameLayout';
 import { MOCK_FRAME_MENU_ITEMS } from '../../stories/mockMenu';
@@ -49,7 +50,7 @@ function LayoutMatrixDemo({ initialLayout = 'leftPanel' }: { initialLayout?: Fra
     <div style={frameStyle}>
       <WorkspaceFrame
         layout={layout}
-        header={<span style={{ fontWeight: 600, flexShrink: 0 }}>GenOffice Frame</span>}
+        header={<FrameBrand alt="GenOffice Frame" />}
         headerActions={
           <>
             <FrameLayoutToggle value={layout} onChange={setLayout} />
