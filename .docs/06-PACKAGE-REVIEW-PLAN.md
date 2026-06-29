@@ -73,7 +73,7 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 | 6 | `packages/gen-datagrid-crud` | 신규 | gen-datagrid API 확정 후 착수 |
 | 7 | `packages/gen-datagrid-chart` | 신규/포팅 | gen-chart + gen-datagrid 준비 후 |
 | 8 | `apps/storybook-all` | 수정 이식 | 패키지 Story 통합 |
-| 9 | `apps/demo` | 수정 이식 | shell·메뉴·API 먼저, 화면은 마지막 |
+| 9 | `apps/demo` | 수정 이식 | **D0~D3** shell·chart 먼저 — [plan.md](../apps/demo/.docs/plan.md); admin은 grid 후 |
 
 `theme` → `utils` → `ui` 흐름은 `ui`가 `theme`·`utils`에 의존하기 때문입니다.  
 `utils`를 `theme` 직후에 두면 `ui` 검토 시 기반 API가 이미 고정되어 있습니다.
@@ -157,9 +157,13 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 
 ### 9. `apps/demo`
 
-- [ ] shell 우선: `main.tsx`, providers, auth, menu, MDI
-- [ ] `gen-grid*` import 제거
-- [ ] admin·demo 페이지는 `gen-datagrid-crud` 준비 후 일괄 전환
+- [x] 아키텍처·구현 Plan — [apps/demo/.docs/](../apps/demo/.docs/)
+- [x] Gate D0 scaffold — [plan.md](../apps/demo/.docs/plan.md) §2
+- [ ] D1~D2 shell·API·menu·registry
+- [ ] D3 Chart/Dashboard (`gen-chart`)
+- [ ] D4 admin — `gen-datagrid-crud` 준비 후
+- [ ] D5 Actuals — `gen-datagrid-chart` 준비 후
+- [ ] `gen-grid*` import 제거 (D4 Gate)
 
 ## 5. 패키지 검토 로그 템플릿
 

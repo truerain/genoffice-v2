@@ -6,6 +6,24 @@
 -->
 # GenOffice V2 작업 로그
 
+## 2026-06-28
+
+### 소스 규칙 문서 분리 — 09-SOURCE-CONVENTIONS
+
+- 인코딩·파일 헤더·`@remark`/`@history`·변경 기록 분업을 `.docs/09-SOURCE-CONVENTIONS.md`로 이동
+- `AGENTS.md`는 요약 + 링크만 유지 (슬림화)
+
+### apps/demo Gate D0 scaffold
+
+- Vite app `@gen-office/demo`, ThemeProvider, placeholder App
+- `pnpm -C apps/demo build` 검증
+
+### apps/demo 아키텍처·Plan 문서
+
+- Phase D0~D3: scaffold·shell·chart (grid 불필요)
+- Phase D4~D5: admin·Actuals (gen-datagrid 합류 후)
+- `apps/demo/.docs/architecture.md`, `plan.md`
+
 ## 2026-06-27
 
 ### @gen-office/gen-chart Phase 1 마감

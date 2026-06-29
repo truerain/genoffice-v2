@@ -1,0 +1,28 @@
+/**
+ * @file apps/demo/src/styles/app.css
+ * @description Global layout resets for full-height demo shell (Gate D1).
+ * @created 2026-06-28
+ *
+ * @remark
+ * - html/body/#root height chain for MDI flex layout
+ *
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-family-sans, system-ui, sans-serif);
+  background: var(--color-surface-default, #fff);
+  color: var(--color-text-primary, #171717);
+}

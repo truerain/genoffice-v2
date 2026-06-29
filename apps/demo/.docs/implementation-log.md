@@ -1,0 +1,29 @@
+<!--
+ @file apps/demo/.docs/implementation-log.md
+ @description Implementation and design change log for @gen-office/demo.
+
+ @created 2026-06-28
+
+ @remark
+-->
+# @gen-office/demo 구현 로그
+
+## 2026-06-28
+
+### 파일 헤더 `@remark` 필수
+
+- `apps/demo` 소스·설정 파일에 빈 `@remark` 포함
+- `AGENTS.md` — 신규 소스 헤더에 `@remark` 필수 규칙 반영
+
+### Gate D0 — Scaffold
+
+- **요약:** `package.json`, Vite 6 (`esbuild` JSX), `ThemeProvider`, placeholder `App`
+- **검증:** `pnpm -C apps/demo build` (theme 선행 build)
+- **다음:** Gate D1 — AppShell, MDI, login branch
+
+### Demo 아키텍처·구현 Plan 문서화
+
+- **요약:** `apps/demo` 디렉터리 생성 후 구현 전 설계 문서 작성
+- **Phase:** D0~D3 grid 없이 착수 가능 · D4~D5는 gen-datagrid 합류 후
+- **문서:** `architecture.md`, `plan.md`, `README.md`
+- **다음:** Gate D0 — Vite scaffold, `pnpm -C apps/demo dev`

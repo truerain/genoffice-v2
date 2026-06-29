@@ -197,6 +197,8 @@ Gate 정의: V1 [`mvp-test-gates.md`](../../frontend/packages/gen-datagrid/docs/
 
 **목표**: reference CRUD·도메인 화면을 GenDataGrid로 전환
 
+**demo 구현 Plan:** [apps/demo/.docs/plan.md](../apps/demo/.docs/plan.md) — D0~D2 shell, D4 admin (grid 선행)
+
 ### 우선 화면
 
 | 순서 | 화면 | 패키지 |

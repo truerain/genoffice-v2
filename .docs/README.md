@@ -14,14 +14,15 @@ GenOffice V2 설계·이식·운영에 관한 문서 모음입니다.
 6. [06-PACKAGE-REVIEW-PLAN.md](./06-PACKAGE-REVIEW-PLAN.md) — 패키지별 소스 검토 순서·분담 (theme → ui → …)
 7. [07-HANDOFF.md](./07-HANDOFF.md) — 세션 종료/재개용 작업 이어하기 메모
 8. [08-DESIGN-TOKENS-GUIDE.md](./08-DESIGN-TOKENS-GUIDE.md) — **디자이너·퍼블리셔** 디자인 토큰·색상 작업 가이드
+9. [09-SOURCE-CONVENTIONS.md](./09-SOURCE-CONVENTIONS.md) — **개발·에이전트** 소스 편집·파일 헤더·인코딩 규칙
 
 ### 역할별 추천
 
 | 역할 | 우선 문서 |
 | --- | --- |
 | 디자이너·퍼블리셔 | [08-DESIGN-TOKENS-GUIDE.md](./08-DESIGN-TOKENS-GUIDE.md) → [theme architecture](../packages/theme/.docs/architecture.md) |
-| 프론트엔드 개발 | 01 → 02 → 06 → 패키지 `.docs/` |
-| AI·작업 재개 | [07-HANDOFF.md](./07-HANDOFF.md), 루트 `AGENTS.md` |
+| 프론트엔드 개발 | 01 → 02 → [09](./09-SOURCE-CONVENTIONS.md) → 06 → 패키지 `.docs/` |
+| AI·작업 재개 | [07-HANDOFF.md](./07-HANDOFF.md), 루트 `AGENTS.md`, [09-SOURCE-CONVENTIONS.md](./09-SOURCE-CONVENTIONS.md) |
 
 ## 아이디어 (미채택 초안)
 
@@ -43,6 +44,7 @@ GenOffice V2 설계·이식·운영에 관한 문서 모음입니다.
 | [06-PACKAGE-REVIEW-PLAN.md](./06-PACKAGE-REVIEW-PLAN.md) | 패키지 소스 검토 순서, 작업 분담, 패키지별 체크리스트 |
 | [07-HANDOFF.md](./07-HANDOFF.md) | 작업 중단 후 재개를 위한 handoff 문서 |
 | [08-DESIGN-TOKENS-GUIDE.md](./08-DESIGN-TOKENS-GUIDE.md) | 디자이너·퍼블리셔용 디자인 토큰·색상 추가·변경 절차 |
+| [09-SOURCE-CONVENTIONS.md](./09-SOURCE-CONVENTIONS.md) | 소스 편집·파일 헤더(`@remark`/`@history`)·UTF-8·인코딩 가드 |
 
 ## 앞으로 추가될 문서 (예정)
 

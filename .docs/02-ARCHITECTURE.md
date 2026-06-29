@@ -107,6 +107,10 @@ Public API: `ChartRoot` + plot별 chart + slot primitives. V1 monolith `GenChart
 
 V2 reference 백오피스 앱입니다. V1 demo에서 이식하되 그리드 의존은 전면 교체합니다.
 
+**정본 문서:** [apps/demo/.docs/architecture.md](../apps/demo/.docs/architecture.md) · [plan.md](../apps/demo/.docs/plan.md)
+
+구현은 **Phase D0~D3**(shell·차트)을 grid 없이 먼저, **D4~D5**(admin·range chart)는 `gen-datagrid` 합류 후 진행합니다.
+
 주요 구성 요소:
 
 | 영역 | 역할 |

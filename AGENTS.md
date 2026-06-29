@@ -86,6 +86,7 @@ Large feature components with heavy third-party engines should usually become se
   - [`.docs/04-ROADMAP.md`](./.docs/04-ROADMAP.md) — phases and milestones
   - [`.docs/05-GEN-CHART.md`](./.docs/05-GEN-CHART.md) — chart redesign
   - [`.docs/06-PACKAGE-REVIEW-PLAN.md`](./.docs/06-PACKAGE-REVIEW-PLAN.md) — package review order
+  - [`.docs/09-SOURCE-CONVENTIONS.md`](./.docs/09-SOURCE-CONVENTIONS.md) — source editing, file headers, encoding
 
 ## Work Log Rules
 
@@ -110,7 +111,7 @@ Large feature components with heavy third-party engines should usually become se
 - A request to "review", "analyze", "plan", "recommend", "explain", or "think through" is not permission to edit files.
 - Start modifying files only after the user clearly requests implementation, for example: "implement it", "make the change", "edit the file", "apply this", "코딩해줘", "수정해줘", or equivalent wording.
 - If the user asks a direct question, answer the question first and do not make code changes unless implementation is also explicitly requested.
-- Read `README.md`, this `AGENTS.md`, and the relevant `.docs/` file before making significant changes.
+- Read `README.md`, this `AGENTS.md`, [`.docs/09-SOURCE-CONVENTIONS.md`](./.docs/09-SOURCE-CONVENTIONS.md) (when editing source), and the relevant `.docs/` file before making significant changes.
 - When porting from V1, read the V1 source and V2 docs together; do not assume V1 structure is still valid in V2.
 - Inspect existing code and package conventions before proposing new abstractions.
 - Prefer existing patterns, local helpers, and package boundaries over new one-off structures.
@@ -130,119 +131,39 @@ Large feature components with heavy third-party engines should usually become se
 - If there is not enough information to judge, state the missing assumptions or checks before agreeing with the proposal.
 
 
-## Source Editing Rules
+## Source Conventions
 
-- Treat all text files as UTF-8.
-- Prefer patch-based edits for text changes.
-- Avoid tools or commands that can rewrite Korean text as CP949/ANSI.
-- When editing Korean text, prefer a Node.js script that reads and writes files with explicit UTF-8, using `fs.readFileSync(path, 'utf8')` and `fs.writeFileSync(path, next, 'utf8')`, instead of Windows PowerShell `Get-Content` / `Set-Content`.
-- Do not pass long Korean document bodies through `powershell.exe -Command`; use a UTF-8-safe Node helper script or `apply_patch`.
-- If a file contains Korean text, verify that no mojibake was introduced.
-- Keep comments concise and useful.
-- Do not add legal or copyright headers unless requested.
+**정본:** [`.docs/09-SOURCE-CONVENTIONS.md`](./.docs/09-SOURCE-CONVENTIONS.md) — encoding, file headers, `@remark` / `@history`, change records.
 
-## New Source Files
+Before editing source files, read that document. Summary for agents:
 
-When creating a new source-like file under this repository, add a short header comment if the file format supports comments.
-
-The header should state:
-
-- repository-relative file path
-- purpose of the file
-- creation date when useful
-- optional **`@remark`** section for exports, function lists, usage notes, deprecations, or constraints that do not fit in `@description`
-
-### `@remark` section
-
-Add `@remark` when the file exposes multiple public symbols or non-obvious rules worth keeping at the top of the file.
-
-- Place it after `@created` (or after `@description` when `@created` is omitted).
-- Leave one blank JSDoc line before `@remark`.
-- Keep it concise: bullet lists are preferred over long prose.
-- List **public** exports (functions, types, constants). Omit private helpers unless they explain important behavior.
-- Note deprecations, default locale/units, wire-format aliases, throw vs boolean semantics, and cross-file dependencies when useful.
-- Update `@remark` when public exports or documented behavior change.
-
-Examples:
-
-```ts
-/**
- * @file packages/ui/src/core/Button/Button.tsx
- * @description Primary button component for GenOffice V2.
- * @created 2026-06-22
- *
- * @remark
- * - Exports: Button, buttonVariants
- * - Uses theme tokens from @gen-office/theme; no hard-coded colors
- */
-```
-
-```ts
-/**
- * @file packages/utils/src/format/date.ts
- * @description Date parse/format helpers for wire formats and ko-KR display.
- * @created 2026-06-23
- *
- * @remark
- * - Wire: parseDateString, formatDateString (DateWireFormat, DateYmdSeparator)
- * - Display: formatDateDisplay, formatDateTime, formatTime, formatRelativeTime
- * - iso date = parseDateString(value, 'ymd', '-')
- * - V1 names (parseApiDate, formatDate, …) remain as @deprecated aliases
- */
-```
-
-```css
-/**
- * @file packages/theme/src/styles/global.css
- * @description Global CSS variables and base styles.
- * @created 2026-06-22
- *
- * @remark
- * - Loaded once by ThemeProvider
- * - CSS variables are the source of truth for color tokens
- */
-```
-
-```md
-<!--
- @file packages/gen-datagrid/.docs/reference/api-structure.md
- @description Documents the public API grouping for GenDataGrid.
-
- @created 2026-06-22
-
- @remark
- - Gate docs live under packages/gen-datagrid/.docs/
- - Public API groups: core, selection, editing
--->
-```
-
-Do not add such headers to formats that do not support comments, such as JSON.
+- All new source files: `@file`, `@description`, **`@remark`** (empty section allowed).
+- Update `@remark` when public contract changes; use `@history` (3–5 lines max) for Gate-level changes.
+- UTF-8 only; do not edit Korean bodies via PowerShell `Get-Content` / `Set-Content`.
+- Log significant work in `.docs/logs/work-log.md` or package `implementation-log.md` (Korean).
 
 ## GenDataGrid Rules
 
-When touching `packages/gen-datagrid` (grid track):
+When touching `packages/gen-datagrid` (grid track): see `packages/gen-datagrid/.docs/` and [09-SOURCE-CONVENTIONS.md §3](./.docs/09-SOURCE-CONVENTIONS.md#3-패키지도메인별-규칙).
 
-- Follow the Gate and architecture docs under `packages/gen-datagrid/.docs/` (ported from or synced with V1).
 - Preserve the div DOM contract: `data-gen-datagrid-root`, `data-grid-id`, `data-gen-datagrid-cell`.
 - Do not introduce `<table>` rendering or V1 `gen-grid` selectors.
-- Do not add a compatibility layer that maps GenGrid APIs to GenDataGrid.
+- Do not add a GenGrid → GenDataGrid compatibility adapter.
 
 ## GenChart Rules
 
-When touching `packages/gen-chart`:
+When touching `packages/gen-chart`: [`.docs/05-GEN-CHART.md`](./.docs/05-GEN-CHART.md), `packages/gen-chart/.docs/`.
 
-- Follow [`.docs/05-GEN-CHART.md`](./.docs/05-GEN-CHART.md): headless `createGenChartModel` first, then composable React (`CartesianChart`, series slots).
-- Do not copy V1 `packages/gen-chart/src/GenChart.tsx`.
-- Do not expose a single monolith `GenChart` with `kind` discriminated union as the primary V2 API unless the user explicitly changes that decision in docs.
+- Headless model first, then composable React; do not copy V1 `GenChart.tsx` monolith.
 
 ## GenDataGridCrud And Demo Layout Rules
 
 When touching `packages/gen-datagrid-crud` or demo pages that use the grid:
 
-- Preserve layout stability: flex height chains with `min-height: 0` where required.
-- Do not force a default grid height in CRUD wrappers; consumers set height via grid props when needed.
-- Keep action bars single-line unless a design explicitly requires wrapping.
-- Horizontal overflow should scroll instead of clipping controls unexpectedly.
+- Flex height chains with `min-height: 0` where required.
+- Do not force a default grid height in CRUD wrappers.
+- Keep action bars single-line unless design requires wrapping.
+- Horizontal overflow scrolls instead of clipping controls.
 
 ## Verification
 
@@ -267,19 +188,4 @@ pnpm check:encoding
 
 If verification cannot be run, explain why in the final response.
 
-## Pre-commit Guard
-
-When `scripts/check-encoding.mjs` is present in this repository, the encoding guard can be run as:
-
-```bash
-node scripts/check-encoding.mjs --staged
-```
-
-The guard blocks:
-
-- UTF-8 BOM
-- invalid UTF-8
-- replacement characters
-- suspicious mojibake patterns in Korean text
-
-Run the guard when editing Korean documentation or files that previously had encoding issues.
+Encoding guard: [09-SOURCE-CONVENTIONS.md §1](./.docs/09-SOURCE-CONVENTIONS.md#1-인코딩편집-도구) (`node scripts/check-encoding.mjs --staged` when present).

@@ -8,6 +8,20 @@
 
 역시간순. 같은 날짜 섹션 안에서도 **최신 항목이 위**.
 
+## 2026-06-28
+
+### 소스 규칙 정본 분리
+
+- `.docs/09-SOURCE-CONVENTIONS.md` — encoding, file headers, `@remark`/`@history`, 로그 분업
+- `AGENTS.md` — Source Conventions 요약 + 링크; 상세 예시는 09로 이전
+
+### apps/demo 구현 전략 — shell·chart 선행
+
+- **D0~D3:** grid 없이 scaffold, MDI shell, Chart/Dashboard (`gen-chart`)
+- **D4~D5:** `gen-datagrid-crud` · `gen-datagrid-chart` 합류 후 admin·Actuals
+- gen-datagrid 미완이어도 demo shell 착수 가능; admin 포팅은 보류
+- 문서: `apps/demo/.docs/`
+
 ## 2026-06-27
 
 ### @gen-office/gen-chart Phase 1 마감
