@@ -40,3 +40,15 @@
   color: var(--color-text-secondary, #525252);
   line-height: 1.5;
 }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.error {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-danger, #b91c1c);
+}

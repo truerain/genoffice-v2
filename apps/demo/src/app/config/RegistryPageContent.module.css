@@ -1,0 +1,14 @@
+/**
+ * @file apps/demo/src/app/config/RegistryPageContent.module.css
+ * @description Loading fallback for lazy registry pages.
+ * @created 2026-06-28
+ *
+ * @remark
+ *
+ */
+
+.fallback {
+  padding: 24px;
+  font-size: 14px;
+  color: var(--color-text-secondary, #525252);
+}

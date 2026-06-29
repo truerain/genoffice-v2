@@ -10,7 +10,7 @@ GenOffice V2 reference 백오피스 앱.
 
 ## 상태
 
-**Gate D0 ✅ · D1 ✅** — Vite scaffold, ThemeProvider, MDI shell, mock login. 다음: [D2](./.docs/plan.md#4-d2--api--menu--registry--i18n).
+**Gate D0 ✅ · D1 ✅ · D2 ✅** — scaffold, MDI shell, mock/API 인프라, menu→registry→MDI. 다음: [D3](./.docs/plan.md#5-d3--chart--dashboard-gen-chart).
 
 ## 실행
 

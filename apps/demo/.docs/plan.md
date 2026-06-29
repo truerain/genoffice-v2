@@ -41,7 +41,7 @@ flowchart LR
 | --- | --- | --- | --- | --- |
 | **D0** | Scaffold | 아니오 | `theme`, `ui`, `mdi` | ✅ |
 | **D1** | App shell + MDI | 아니오 | D0 | ✅ |
-| **D2** | API · menu · registry · i18n | 아니오 | D1 | ⏳ |
+| **D2** | API · menu · registry · i18n | 아니오 | D1 | ✅ |
 | **D3** | Chart / Dashboard demo | 아니오 | D2, gen-chart Phase 1 ✅ | ⏳ |
 | **D4** | Admin CRUD 페이지 | **예** | D3, gen-datagrid-crud | ⏸ |
 | **D5** | Actuals · grid 시연 | **예** | D4, gen-datagrid-chart | ⏸ |
@@ -114,29 +114,29 @@ pnpm -C apps/demo build
 
 ### 완료 조건
 
-- [ ] `shared/api/httpClient` — base URL, credentials, error shape
-- [ ] `csrf` — mutating request 정책
-- [ ] `authApi` — login / logout / session check
-- [ ] `useAppMenu` — API 또는 static mock
-- [ ] `componentRegistry.dynamic.ts` — `componentName` → `lazy()`
-- [ ] 최소 registry 항목: `PlaceholderPage`, (D3용) `ChartDemoPage`, `DashboardDemoPage` 슬롯
-- [ ] `i18n` bootstrap — ko 기본, 키 구조 V1 호환
-- [ ] `PageHeader` / `AdminPageLayout` — V1 CSS 모듈 이식 또는 ui 조합
+- [x] `shared/api/httpClient` — base URL, credentials, error shape
+- [x] `csrf` — mutating request 정책
+- [x] `authApi` — login / logout / session check
+- [x] `useAppMenu` — API 또는 static mock
+- [x] `componentRegistry.dynamic.ts` — `componentName` → `lazy()`
+- [x] 최소 registry 항목: `PlaceholderPage`, (D3용) `ChartDemoPage`, `DashboardDemoPage` 슬롯
+- [x] `i18n` bootstrap — ko 기본, 키 구조 V1 호환
+- [x] `PageHeader` / `AdminPageLayout` — V1 CSS 모듈 이식 또는 ui 조합
 
 ### mock 모드
 
 backend 없이 개발할 수 있도록:
 
 ```ts
-// 예: VITE_USE_MOCK_MENU=true
-const menuItems = [{ componentName: 'PlaceholderPage', title: '...', pageId: '...' }];
+// .env.development — VITE_USE_MOCK_MENU=true (기본)
+const menuItems = [{ componentName: 'PlaceholderPage', titleKey: 'menu.placeholder', pageId: '...' }];
 ```
 
 ### Gate
 
-- [ ] 메뉴 3클릭 — 탭 추가·전환·닫기
-- [ ] 동일 `pageId` 재오픈 — 새 탭 없이 activate
-- [ ] lazy chunk 로드 — network 탭에서 확인
+- [x] 메뉴 3클릭 — 탭 추가·전환·닫기
+- [x] 동일 `pageId` 재오픈 — 새 탭 없이 activate
+- [x] lazy chunk 로드 — build 산출물에서 페이지별 chunk 분리 확인
 
 ---
 

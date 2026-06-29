@@ -8,6 +8,11 @@
 
 ## 2026-06-28
 
+### apps/demo Gate D2 — API · menu · registry · i18n
+
+- shared/api, componentRegistry, MenuSidebar, i18n, PageHeader/AdminPageLayout
+- mock env 기본; backend 연동 시 `VITE_USE_MOCK_*=false`
+
 ### apps/demo Gate D1 — App shell + MDI
 
 - Mock login, AppShell, MDIContainer, Placeholder tab, Toast on maxTabs

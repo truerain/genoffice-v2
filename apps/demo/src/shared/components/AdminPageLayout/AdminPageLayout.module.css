@@ -1,0 +1,30 @@
+/**
+ * @file apps/demo/src/shared/components/AdminPageLayout/AdminPageLayout.module.css
+ * @description Admin page flex layout — matches architecture §5 height contract.
+ * @created 2026-06-28
+ *
+ * @remark
+ *
+ */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.filter {
+  flex-shrink: 0;
+  margin-bottom: 12px;
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}

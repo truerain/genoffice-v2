@@ -1,27 +1,19 @@
 /**
  * @file apps/demo/src/pages/placeholder/PlaceholderPage.module.css
- * @description Layout for placeholder MDI tab page.
+ * @description Placeholder page body styles.
  * @created 2026-06-28
  *
  * @remark
  *
  */
 
-.page {
-  height: 100%;
-  padding: 24px;
-  overflow: auto;
-}
-
-.title {
-  margin: 0 0 8px;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.description {
+.note {
   margin: 0;
   font-size: 14px;
+  line-height: 1.6;
   color: var(--color-text-secondary, #525252);
-  line-height: 1.5;
+}
+
+.note code {
+  font-size: 13px;
 }

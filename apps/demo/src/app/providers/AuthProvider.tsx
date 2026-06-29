@@ -1,54 +1,88 @@
 /**
  * @file apps/demo/src/app/providers/AuthProvider.tsx
- * @description Mock session auth for demo development (Gate D1).
+ * @description Session auth via authApi with mock fallback (Gate D2).
  * @created 2026-06-28
  *
  * @remark
  * - Exports: AuthProvider, useAuth
- * - D2: replace with shared/api authApi + session check
+ * - checkSession on mount
  *
+ * @history
+ * - 2026-06-28 D2: authApi integration
+ * - 2026-06-28 D1: sessionStorage mock only
  */
 
 import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
 } from 'react';
-
-const STORAGE_KEY = 'gen-office-demo-mock-auth';
+import * as authApi from '../../shared/api/authApi';
+import type { LoginRequest } from '../../shared/api/types';
 
 interface AuthContextValue {
   isAuthenticated: boolean;
-  login: () => void;
-  logout: () => void;
+  isLoading: boolean;
+  username: string | null;
+  login: (payload: LoginRequest) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-function readStoredAuth(): boolean {
-  if (typeof sessionStorage === 'undefined') return false;
-  return sessionStorage.getItem(STORAGE_KEY) === '1';
-}
-
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(readStoredAuth);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [username, setUsername] = useState<string | null>(null);
 
-  const login = useCallback(() => {
-    sessionStorage.setItem(STORAGE_KEY, '1');
-    setIsAuthenticated(true);
+  useEffect(() => {
+    let cancelled = false;
+
+    async function bootstrap() {
+      try {
+        const session = await authApi.checkSession();
+        if (!cancelled) {
+          setIsAuthenticated(session.authenticated);
+          setUsername(session.username ?? null);
+        }
+      } catch {
+        if (!cancelled) {
+          setIsAuthenticated(false);
+          setUsername(null);
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    void bootstrap();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const logout = useCallback(() => {
-    sessionStorage.removeItem(STORAGE_KEY);
+  const login = useCallback(async (payload: LoginRequest) => {
+    const response = await authApi.login(payload);
+    setIsAuthenticated(true);
+    setUsername(response.username ?? payload.username);
+  }, []);
+
+  const logout = useCallback(async () => {
+    await authApi.logout();
     setIsAuthenticated(false);
+    setUsername(null);
   }, []);
 
   const value = useMemo(
-    () => ({ isAuthenticated, login, logout }),
-    [isAuthenticated, login, logout],
+    () => ({ isAuthenticated, isLoading, username, login, logout }),
+    [isAuthenticated, isLoading, username, login, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

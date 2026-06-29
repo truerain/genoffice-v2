@@ -10,6 +10,14 @@
 
 ## 2026-06-28
 
+### Gate D2 — API · menu · registry · i18n
+
+- **요약:** `shared/api` (httpClient, csrf, authApi, appMenuApi), `componentRegistry.dynamic`, `useAppMenu`, `MenuSidebar`, i18n ko/en
+- **레이아웃:** `PageHeader`, `AdminPageLayout`; Chart/Dashboard registry 슬롯 (D3 본문)
+- **env:** `.env.development` — `VITE_USE_MOCK_AUTH`, `VITE_USE_MOCK_MENU`
+- **검증:** `pnpm -C apps/demo build` (lazy chunk 분리)
+- **다음:** Gate D3 — ChartDemoPage, DashboardDemoPage (gen-chart)
+
 ### Gate D1 — App shell + MDI
 
 - **요약:** `AppProviders`, mock `AuthProvider`, `AppShell`, `MDIContainer`, `PlaceholderPage`, `useOpenPage`

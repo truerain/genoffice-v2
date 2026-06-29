@@ -30,7 +30,13 @@
 .headerStart {
   display: flex;
   align-items: center;
+  gap: 12px;
   min-width: 0;
+}
+
+.user {
+  font-size: 13px;
+  color: var(--color-text-secondary, #525252);
 }
 
 .brand {
@@ -49,7 +55,7 @@
   flex: 1;
   min-height: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .main {
