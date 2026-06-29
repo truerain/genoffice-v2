@@ -8,6 +8,7 @@
  * - Side-effect: ./index.css (theme tokens)
  *
  * @history
+ * - 2026-06-29 F4: createQueryTabUrlSyncAdapter, useUrlSync
  * - 2026-06-29 F3: MdiPageHost, NavigationController
  * - 2026-06-29 F2: titleBar, NavRenderer, useFrameLayout
  * - 2026-06-29 F1: leftPanel layout scaffold
@@ -30,6 +31,8 @@ export {
   createMdiNavigationController,
   useMdiNavigationController,
 } from './navigation';
+
+export { createQueryTabUrlSyncAdapter, useUrlSync } from './url';
 
 export {
   FRAME_LAYOUT_STORAGE_KEY,
@@ -55,5 +58,8 @@ export type {
   NavigationController,
   TitleBarNavProps,
   UseMdiNavigationControllerOptions,
+  UrlSyncAdapter,
+  UseUrlSyncOptions,
+  CreateQueryTabUrlSyncAdapterOptions,
   WorkspaceFrameProps,
 } from './types';

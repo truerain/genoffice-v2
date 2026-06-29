@@ -29,3 +29,9 @@ export type {
 } from './navigation.types';
 
 export type { MdiPageHostProps, MdiTabPosition } from './host.types';
+
+export type {
+  CreateQueryTabUrlSyncAdapterOptions,
+  UrlSyncAdapter,
+  UseUrlSyncOptions,
+} from './url.types';

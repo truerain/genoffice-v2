@@ -9,6 +9,7 @@
  * - Layout showcase toggle via useFrameLayout
  *
  * @history
+ * - 2026-06-29 F4: URL ?tab= sync via useUrlSync
  * - 2026-06-29 F3: WorkspaceFrame + MdiPageHost + FrameLayoutToggle
  * - 2026-06-28 D2: menu sidebar + registry openPage
  */
@@ -19,6 +20,8 @@ import {
   MdiPageHost,
   WorkspaceFrame,
   useFrameLayout,
+  useUrlSync,
+  type FrameOpenPagePayload,
 } from '@gen-office/gen-frame';
 import { useMDIStore } from '@gen-office/mdi';
 import { Button } from '@gen-office/ui';
@@ -27,6 +30,8 @@ import { useAppToast } from './providers/AppToastProvider';
 import { useOpenPage } from './hooks/useOpenPage';
 import { useAppMenu } from './menu/useAppMenu';
 import { findAppMenuItemByPageId, mapAppMenuToFrameItems } from './menu/mapAppMenuToFrame';
+import { resolveMenuTitle } from './openPage';
+import { demoUrlSyncAdapter, hasDemoUrlTabParam } from './url/demoUrlSync';
 import { useI18n } from '../i18n';
 import styles from './AppShell.module.css';
 
@@ -48,11 +53,40 @@ export function AppShell() {
   const { layout, setLayout } = useFrameLayout('leftPanel', DEMO_FRAME_LAYOUT_STORAGE_KEY);
   const tabs = useMDIStore((state) => state.tabs);
   const activeTabId = useMDIStore((state) => state.activeTabId);
+  const tabIds = useMemo(() => tabs.map((tab) => tab.id), [tabs]);
 
   const frameMenuItems = useMemo(
     () => mapAppMenuToFrameItems(items, locale),
     [items, locale],
   );
+
+  const resolvePayloadFromPageId = useCallback(
+    (pageId: string): FrameOpenPagePayload | null => {
+      const item = findAppMenuItemByPageId(items, pageId);
+      if (!item) return null;
+      return {
+        pageId: item.pageId,
+        title: resolveMenuTitle(item, locale),
+        meta: {
+          componentName: item.componentName,
+          path: item.path,
+          titleKey: item.titleKey,
+        },
+      };
+    },
+    [items, locale],
+  );
+
+  const urlSyncEnabled = !isMenuLoading && !menuError;
+
+  useUrlSync({
+    controller,
+    adapter: demoUrlSyncAdapter,
+    activePageId: activeTabId,
+    tabIds,
+    resolvePayload: resolvePayloadFromPageId,
+    enabled: urlSyncEnabled,
+  });
 
   const handleMaxTabsReached = useCallback(() => {
     showWarning(
@@ -63,6 +97,9 @@ export function AppShell() {
 
   useEffect(() => {
     if (isMenuLoading || tabs.length > 0 || items.length === 0) {
+      return;
+    }
+    if (hasDemoUrlTabParam()) {
       return;
     }
     openMenuItem(items[0]);

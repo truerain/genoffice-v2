@@ -10,6 +10,12 @@
 
 ## 2026-06-29
 
+### URL sync (F4)
+
+- **요약:** `?tab=<pageId>` 쿼리와 MDI 활성 탭 양방향 동기화
+- **파일:** `src/app/url/demoUrlSync.ts`, `AppShell.tsx` (`useUrlSync`)
+- **검증:** `pnpm -C apps/demo build`
+
 ### gen-frame AppShell 연동 (F3)
 
 - **요약:** `@gen-office/gen-frame` — `WorkspaceFrame`, `MdiPageHost`, `FrameLayoutToggle`

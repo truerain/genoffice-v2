@@ -10,6 +10,14 @@
 
 ## 2026-06-29
 
+### F4 — URL sync (`?tab=`)
+
+- **요약:** `UrlSyncAdapter`, `createQueryTabUrlSyncAdapter`, `useUrlSync`
+- **동작:** 초기 로드·popstate → `controller.open/activate`; 활성 탭 변경 → `pushState`
+- **demo:** `demoUrlSyncAdapter`, `AppShell` `useUrlSync` + URL tab 시 첫 메뉴 자동 오픈 스킵
+- **검증:** gen-frame test 28건, `pnpm -C apps/demo build`
+- **다음:** F5 — single page host
+
 ### F3 — NavigationController + demo 연동
 
 - **요약:** `createMdiNavigationController`, `useMdiNavigationController`, `MdiPageHost`

@@ -8,6 +8,16 @@
 
 ## 2026-06-29
 
+### packages/gen-frame F4 — URL sync
+
+- `createQueryTabUrlSyncAdapter`, `useUrlSync` (`?tab=<pageId>`)
+- demo `AppShell` 연동, test 28건
+
+### apps/demo F4 — URL tab 복원
+
+- `demoUrlSync.ts`, `useUrlSync` + `resolvePayloadFromPageId`
+- URL에 tab 있으면 초기 메뉴 자동 오픈 스킵
+
 ### apps/demo F3 — gen-frame AppShell 연동
 
 - AppShell → WorkspaceFrame + MdiPageHost + FrameLayoutToggle
