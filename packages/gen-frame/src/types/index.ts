@@ -18,3 +18,14 @@ export type {
   TitleBarNavProps,
   WorkspaceFrameProps,
 } from './frame.types';
+
+export type {
+  CreateMdiNavigationControllerOptions,
+  FrameOpenPagePayload,
+  MdiNavigationStore,
+  MdiTabInput,
+  NavigationController,
+  UseMdiNavigationControllerOptions,
+} from './navigation.types';
+
+export type { MdiPageHostProps, MdiTabPosition } from './host.types';

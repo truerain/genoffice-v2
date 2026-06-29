@@ -29,6 +29,7 @@
     "build-storybook": "pnpm -C ../../apps/storybook build"
   },
   "dependencies": {
+    "@gen-office/mdi": "workspace:*",
     "@gen-office/theme": "workspace:*",
     "@gen-office/ui": "workspace:*",
     "clsx": "^2.1.1",
@@ -51,6 +52,7 @@
     "vitest": "4.1.9"
   },
   "peerDependencies": {
+    "@gen-office/mdi": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

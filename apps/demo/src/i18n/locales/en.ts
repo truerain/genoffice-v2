@@ -60,6 +60,9 @@ const en: MessageTree = {
     maxTabsMessage: 'You can open up to {{max}} tabs.',
     empty: 'No open tabs.',
   },
+  frame: {
+    layout: 'Layout',
+  },
 };
 
 export default en;

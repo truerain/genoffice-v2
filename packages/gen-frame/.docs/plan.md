@@ -47,7 +47,7 @@ flowchart LR
 | **F0** | Docs · scaffold | 아니오 | mdi, theme, ui 검토 완료 | ✅ |
 | **F1** | `WorkspaceFrame` + `leftPanel` | Storybook mock | F0 | ✅ |
 | **F2** | `titleBar` + layout showcase | Storybook | F1 | ✅ |
-| **F3** | `NavigationController` + MDI host | 예 | F2, mdi stable | ⏸ |
+| **F3** | `NavigationController` + MDI host | 예 | F2, mdi stable | ✅ |
 | **F4** | URL sync adapter | 예 | F3 | ⏸ |
 | **F5** | `single` host + demo 통합 | 선택 | F4 | ⏸ |
 
@@ -150,16 +150,16 @@ flowchart LR
 
 ### demo 마이그레이션 체크리스트
 
-- [ ] `MenuSidebar` → gen-frame `LeftPanelNav` (또는 thin wrapper)
-- [ ] `useOpenPage` → `useNavigationController`
-- [ ] `AppShell.module.css` chrome → gen-frame CSS (demo-ui workarea tint는 앱 유지)
-- [ ] `pnpm -C apps/demo build`
+- [x] `MenuSidebar` → gen-frame `NavRenderer` (via `WorkspaceFrame`)
+- [x] `useOpenPage` → `useMdiNavigationController`
+- [x] `AppShell.module.css` chrome → gen-frame CSS (demo-ui workarea tint 유지)
+- [x] `pnpm -C apps/demo build`
 
 ### Gate F3
 
-- [ ] demo: mock 메뉴 → MDI 탭 오픈 동작 유지
-- [ ] demo: layout 토글 (leftPanel / titleBar)
-- [ ] mdi `onMaxTabsReached` demo toast 연동 유지
+- [x] demo: mock 메뉴 → MDI 탭 오픈 동작 유지
+- [x] demo: layout 토글 (leftPanel / titleBar)
+- [x] mdi `onMaxTabsReached` demo toast 연동 유지
 
 ---
 

@@ -1,0 +1,15 @@
+/**
+ * @file packages/gen-frame/src/components/MdiPageHost/MdiPageHost.module.css
+ * @description MdiPageHost flex wrapper.
+ * @created 2026-06-29
+ *
+ * @remark
+ *
+ */
+
+.host {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}

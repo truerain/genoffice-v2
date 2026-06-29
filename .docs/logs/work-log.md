@@ -8,6 +8,11 @@
 
 ## 2026-06-29
 
+### apps/demo F3 — gen-frame AppShell 연동
+
+- AppShell → WorkspaceFrame + MdiPageHost + FrameLayoutToggle
+- useOpenPage → useMdiNavigationController, mapAppMenuToFrame
+
 ### packages/gen-frame F2 — titleBar + layout showcase
 
 - TitleBarNav, NavRenderer, FrameLayoutToggle, useFrameLayout

@@ -59,6 +59,9 @@ const ko = {
     maxTabsMessage: '최대 {{max}}개까지만 탭을 열 수 있습니다.',
     empty: '열린 탭이 없습니다.',
   },
+  frame: {
+    layout: '레이아웃',
+  },
 } as const;
 
 export interface MessageTree {

@@ -41,6 +41,7 @@ export default defineConfig({
         'react',
         'react-dom',
         'react/jsx-runtime',
+        '@gen-office/mdi',
         '@gen-office/theme',
         '@gen-office/ui',
         'clsx',

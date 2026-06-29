@@ -1,15 +1,14 @@
 /**
  * @file apps/demo/src/app/AppShell.module.css
- * @description Full-height flex layout for MDI shell.
+ * @description Demo shell wrapper around @gen-office/gen-frame WorkspaceFrame.
  * @created 2026-06-28
  * @updated 2026-06-29
  *
  * @remark
- * - main: flex 1 min-height 0 — matches mdi Storybook contract
- * - Soft Modern chrome via demo-ui tokens
+ * - Chrome styles live in gen-frame; demo-ui tints workarea via data-demo-workarea
  *
  * @history
- * - 2026-06-29 Soft Modern shell (workarea tint, chrome shadow)
+ * - 2026-06-29 F3: gen-frame migration
  */
 
 .shell {
@@ -19,29 +18,9 @@
   min-height: 0;
 }
 
-.header {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 0 20px;
-  height: 52px;
-  border-bottom: 1px solid var(--demo-chrome-border);
-  background: var(--demo-chrome-bg);
-  box-shadow: var(--demo-shadow-chrome);
-}
-
-.headerStart {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-}
-
-.user {
-  font-size: 13px;
-  color: var(--color-fg-secondary);
+.frame {
+  flex: 1;
+  min-height: 0;
 }
 
 .brand {
@@ -50,26 +29,16 @@
   letter-spacing: -0.01em;
 }
 
-.headerActions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
+.user {
+  font-size: 13px;
+  color: var(--color-fg-secondary);
 }
 
-.body {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: row;
-}
-
-.main {
+.workareaHost {
   flex: 1;
   min-height: 0;
   display: flex;
   flex-direction: column;
-  background: var(--demo-workarea-bg);
 }
 
 .mdi {
@@ -77,8 +46,18 @@
   min-height: 0;
 }
 
+.status,
+.error,
 .empty {
   margin: 0;
+  padding: 16px;
   font-size: 14px;
+}
+
+.error {
+  color: var(--color-status-error, #dc3545);
+}
+
+.empty {
   color: var(--color-fg-secondary);
 }

@@ -15,3 +15,4 @@ export { LeftPanelNav } from './LeftPanelNav';
 export { TitleBarNav } from './TitleBarNav';
 export { NavRenderer, resolveNavLayout } from './NavRenderer';
 export { FrameLayoutToggle, SHOWCASE_FRAME_LAYOUTS } from './FrameLayoutToggle';
+export { MdiPageHost } from './MdiPageHost';

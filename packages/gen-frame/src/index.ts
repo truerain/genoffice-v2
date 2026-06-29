@@ -8,6 +8,7 @@
  * - Side-effect: ./index.css (theme tokens)
  *
  * @history
+ * - 2026-06-29 F3: MdiPageHost, NavigationController
  * - 2026-06-29 F2: titleBar, NavRenderer, useFrameLayout
  * - 2026-06-29 F1: leftPanel layout scaffold
  */
@@ -22,7 +23,13 @@ export {
   resolveNavLayout,
   FrameLayoutToggle,
   SHOWCASE_FRAME_LAYOUTS,
+  MdiPageHost,
 } from './components';
+
+export {
+  createMdiNavigationController,
+  useMdiNavigationController,
+} from './navigation';
 
 export {
   FRAME_LAYOUT_STORAGE_KEY,
@@ -31,14 +38,22 @@ export {
 } from './hooks';
 
 export type {
+  CreateMdiNavigationControllerOptions,
   FrameConfig,
   FrameLayoutMode,
   FrameLayoutToggleProps,
   FrameMenuItem,
   FrameMenuModel,
   FrameNavigationMode,
+  FrameOpenPagePayload,
   LeftPanelNavProps,
+  MdiNavigationStore,
+  MdiPageHostProps,
+  MdiTabInput,
+  MdiTabPosition,
   NavRendererProps,
+  NavigationController,
   TitleBarNavProps,
+  UseMdiNavigationControllerOptions,
   WorkspaceFrameProps,
 } from './types';

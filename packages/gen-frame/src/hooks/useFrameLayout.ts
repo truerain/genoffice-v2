@@ -19,24 +19,30 @@ export function isFrameLayoutMode(value: string): value is FrameLayoutMode {
   return LAYOUT_MODES.includes(value as FrameLayoutMode);
 }
 
-function readStoredLayout(defaultLayout: FrameLayoutMode): FrameLayoutMode {
+function readStoredLayout(defaultLayout: FrameLayoutMode, storageKey: string): FrameLayoutMode {
   if (typeof window === 'undefined') return defaultLayout;
-  const stored = window.localStorage.getItem(FRAME_LAYOUT_STORAGE_KEY);
+  const stored = window.localStorage.getItem(storageKey);
   if (stored && isFrameLayoutMode(stored)) return stored;
   return defaultLayout;
 }
 
-export function useFrameLayout(defaultLayout: FrameLayoutMode = 'leftPanel') {
+export function useFrameLayout(
+  defaultLayout: FrameLayoutMode = 'leftPanel',
+  storageKey: string = FRAME_LAYOUT_STORAGE_KEY,
+) {
   const [layout, setLayoutState] = useState<FrameLayoutMode>(() =>
-    readStoredLayout(defaultLayout),
+    readStoredLayout(defaultLayout, storageKey),
   );
 
-  const setLayout = useCallback((next: FrameLayoutMode) => {
-    setLayoutState(next);
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(FRAME_LAYOUT_STORAGE_KEY, next);
-    }
-  }, []);
+  const setLayout = useCallback(
+    (next: FrameLayoutMode) => {
+      setLayoutState(next);
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem(storageKey, next);
+      }
+    },
+    [storageKey],
+  );
 
   return { layout, setLayout };
 }

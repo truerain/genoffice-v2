@@ -1,29 +1,37 @@
 /**
  * @file apps/demo/src/app/AppShell.tsx
- * @description Authenticated shell — header, menu sidebar, MDI (Gate D2).
+ * @description Authenticated shell — gen-frame WorkspaceFrame + MDI (Gate F3).
  * @created 2026-06-28
+ * @updated 2026-06-29
  *
  * @remark
- * - MenuSidebar → componentRegistry → MDI tabs
- * - maxTabs=10; onMaxTabsReached → toast
+ * - @gen-office/gen-frame: layout chrome, menu, MdiPageHost
+ * - Layout showcase toggle via useFrameLayout
  *
  * @history
+ * - 2026-06-29 F3: WorkspaceFrame + MdiPageHost + FrameLayoutToggle
  * - 2026-06-28 D2: menu sidebar + registry openPage
- * - 2026-06-28 D1: AppShell + MDI + mock openPlaceholder
  */
 
-import { useCallback, useEffect } from 'react';
-import { MDIContainer, useMDIStore } from '@gen-office/mdi';
+import { useCallback, useEffect, useMemo } from 'react';
+import {
+  FrameLayoutToggle,
+  MdiPageHost,
+  WorkspaceFrame,
+  useFrameLayout,
+} from '@gen-office/gen-frame';
+import { useMDIStore } from '@gen-office/mdi';
 import { Button } from '@gen-office/ui';
 import { useAuth } from './providers/AuthProvider';
 import { useAppToast } from './providers/AppToastProvider';
 import { useOpenPage } from './hooks/useOpenPage';
 import { useAppMenu } from './menu/useAppMenu';
-import { MenuSidebar } from './menu/MenuSidebar';
+import { findAppMenuItemByPageId, mapAppMenuToFrameItems } from './menu/mapAppMenuToFrame';
 import { useI18n } from '../i18n';
 import styles from './AppShell.module.css';
 
 const DEMO_MAX_TABS = 10;
+const DEMO_FRAME_LAYOUT_STORAGE_KEY = 'gen-office-demo-frame-layout';
 
 const TAB_BAR_LABELS_KO = {
   close: '닫기',
@@ -34,11 +42,17 @@ const TAB_BAR_LABELS_KO = {
 export function AppShell() {
   const { logout, username } = useAuth();
   const { showWarning } = useAppToast();
-  const { openMenuItem } = useOpenPage();
-  const { items, isLoading: isMenuLoading } = useAppMenu();
-  const { t } = useI18n();
+  const { openMenuItem, controller } = useOpenPage();
+  const { items, isLoading: isMenuLoading, error: menuError } = useAppMenu();
+  const { t, locale } = useI18n();
+  const { layout, setLayout } = useFrameLayout('leftPanel', DEMO_FRAME_LAYOUT_STORAGE_KEY);
   const tabs = useMDIStore((state) => state.tabs);
-  const closeAllClosableTabs = useMDIStore((state) => state.closeAllClosableTabs);
+  const activeTabId = useMDIStore((state) => state.activeTabId);
+
+  const frameMenuItems = useMemo(
+    () => mapAppMenuToFrameItems(items, locale),
+    [items, locale],
+  );
 
   const handleMaxTabsReached = useCallback(() => {
     showWarning(
@@ -51,43 +65,67 @@ export function AppShell() {
     if (isMenuLoading || tabs.length > 0 || items.length === 0) {
       return;
     }
-    const firstItem = items[0];
-    openMenuItem(firstItem);
+    openMenuItem(items[0]);
   }, [isMenuLoading, items, openMenuItem, tabs.length]);
 
+  const handleMenuSelect = useCallback(
+    (frameItem: { id: string }) => {
+      const appItem = findAppMenuItemByPageId(items, frameItem.id);
+      if (appItem) {
+        openMenuItem(appItem);
+      }
+    },
+    [items, openMenuItem],
+  );
+
   const handleLogout = async () => {
-    closeAllClosableTabs();
+    controller.closeAll();
     await logout();
   };
 
   return (
     <div className={styles.shell}>
-      <header className={styles.header}>
-        <div className={styles.headerStart}>
-          <span className={styles.brand}>GenOffice Demo</span>
-          {username ? (
-            <span className={styles.user}>{username}</span>
-          ) : null}
-        </div>
-        <div className={styles.headerActions}>
-          <Button type="button" variant="ghost" size="sm" onClick={() => void handleLogout()}>
-            {t('auth.logout')}
-          </Button>
-        </div>
-      </header>
-      <div className={styles.body}>
-        <MenuSidebar />
-        <main className={styles.main} data-demo-workarea="">
-          <MDIContainer
-            maxTabs={DEMO_MAX_TABS}
-            tabPosition="top"
-            tabBarLabels={TAB_BAR_LABELS_KO}
-            onMaxTabsReached={handleMaxTabsReached}
-            emptyContent={<p className={styles.empty}>{t('mdi.empty')}</p>}
-            className={styles.mdi}
-          />
-        </main>
-      </div>
+      <WorkspaceFrame
+        className={styles.frame}
+        layout={layout}
+        header={
+          <>
+            <span className={styles.brand}>GenOffice Demo</span>
+            {username ? <span className={styles.user}>{username}</span> : null}
+          </>
+        }
+        headerActions={
+          <>
+            <FrameLayoutToggle value={layout} onChange={setLayout} ariaLabel={t('frame.layout')} />
+            <Button type="button" variant="ghost" size="sm" onClick={() => void handleLogout()}>
+              {t('auth.logout')}
+            </Button>
+          </>
+        }
+        menu={{ items: isMenuLoading ? [] : frameMenuItems }}
+        menuTitle={t('menu.title')}
+        menuAriaLabel={t('menu.title')}
+        activeMenuId={activeTabId ?? undefined}
+        onMenuSelect={handleMenuSelect}
+        workarea={
+          isMenuLoading ? (
+            <p className={styles.status}>{t('common.loading')}</p>
+          ) : menuError ? (
+            <p className={styles.error}>{menuError.message}</p>
+          ) : (
+            <div className={styles.workareaHost} data-demo-workarea="">
+              <MdiPageHost
+                maxTabs={DEMO_MAX_TABS}
+                tabPosition="top"
+                tabBarLabels={TAB_BAR_LABELS_KO}
+                onMaxTabsReached={handleMaxTabsReached}
+                emptyContent={<p className={styles.empty}>{t('mdi.empty')}</p>}
+                className={styles.mdi}
+              />
+            </div>
+          )
+        }
+      />
     </div>
   );
 }

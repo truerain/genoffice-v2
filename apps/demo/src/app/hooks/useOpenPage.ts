@@ -1,39 +1,88 @@
 /**
  * @file apps/demo/src/app/hooks/useOpenPage.ts
- * @description Hook to open MDI tabs via componentRegistry (Gate D2).
+ * @description Hook to open MDI tabs via gen-frame NavigationController (Gate F3).
  * @created 2026-06-28
+ * @updated 2026-06-29
  *
  * @remark
  * - Exports: useOpenPage
- * - openPage / openMenuItem — same pageId re-open activates tab
+ * - resolveTab stays in demo (componentRegistry)
  *
+ * @history
+ * - 2026-06-29 F3: useMdiNavigationController from @gen-office/gen-frame
  */
 
-import { useCallback } from 'react';
-import { useMDIStore } from '@gen-office/mdi';
+import { useCallback, useMemo } from 'react';
+import {
+  useMdiNavigationController,
+  type FrameOpenPagePayload,
+  type MdiTabInput,
+} from '@gen-office/gen-frame';
 import type { AppMenuItem } from '../menu/menu.types';
 import type { OpenPagePayload } from '../config/componentRegistry.types';
-import { createPageTab, createTabFromMenuItem, resolveMenuTitle } from '../openPage';
+import { isComponentName } from '../config/componentRegistry';
+import { createPageTab, resolveMenuTitle } from '../openPage';
 import { useI18n } from '../../i18n';
 
 export function useOpenPage() {
-  const addTab = useMDIStore((state) => state.addTab);
   const { locale } = useI18n();
+
+  const resolveTab = useCallback((payload: FrameOpenPagePayload): MdiTabInput => {
+    const componentName = payload.meta?.componentName;
+    if (typeof componentName !== 'string' || !isComponentName(componentName)) {
+      throw new Error(`Unknown componentName: ${String(componentName)}`);
+    }
+
+    const tab = createPageTab({
+      pageId: payload.pageId,
+      title: payload.title,
+      componentName,
+      params: payload.params,
+    });
+
+    return {
+      id: tab.id,
+      title: tab.title,
+      content: tab.content,
+      closable: tab.closable,
+    };
+  }, []);
+
+  const controller = useMdiNavigationController({ resolveTab });
 
   const openPage = useCallback(
     (payload: OpenPagePayload) => {
-      addTab(createPageTab(payload));
+      controller.open({
+        pageId: payload.pageId,
+        title: payload.title,
+        params: payload.params,
+        meta: { componentName: payload.componentName },
+      });
     },
-    [addTab],
+    [controller],
   );
 
   const openMenuItem = useCallback(
     (item: AppMenuItem) => {
-      const title = resolveMenuTitle(item, locale);
-      addTab(createTabFromMenuItem(item, title));
+      controller.open({
+        pageId: item.pageId,
+        title: resolveMenuTitle(item, locale),
+        meta: {
+          componentName: item.componentName,
+          path: item.path,
+          titleKey: item.titleKey,
+        },
+      });
     },
-    [addTab, locale],
+    [controller, locale],
   );
 
-  return { openPage, openMenuItem };
+  return useMemo(
+    () => ({
+      openPage,
+      openMenuItem,
+      controller,
+    }),
+    [controller, openMenuItem, openPage],
+  );
 }

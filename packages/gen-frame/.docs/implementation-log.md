@@ -10,6 +10,13 @@
 
 ## 2026-06-29
 
+### F3 — NavigationController + demo 연동
+
+- **요약:** `createMdiNavigationController`, `useMdiNavigationController`, `MdiPageHost`
+- **demo:** `AppShell` → `WorkspaceFrame` + `MdiPageHost`, `mapAppMenuToFrame`, layout 토글
+- **검증:** gen-frame test 21건, `pnpm -C apps/demo build`
+- **다음:** F4 — URL sync adapter
+
 ### F2 — titleBar + layout showcase
 
 - **요약:** `TitleBarNav`, `NavRenderer`, `FrameLayoutToggle`, `useFrameLayout`

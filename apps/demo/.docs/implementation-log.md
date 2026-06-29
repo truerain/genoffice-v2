@@ -10,6 +10,13 @@
 
 ## 2026-06-29
 
+### gen-frame AppShell 연동 (F3)
+
+- **요약:** `@gen-office/gen-frame` — `WorkspaceFrame`, `MdiPageHost`, `FrameLayoutToggle`
+- **내비:** `useMdiNavigationController` + `mapAppMenuToFrame.ts`
+- **layout:** header `Left` / `Top` 토글 (`gen-office-demo-frame-layout`)
+- **검증:** `pnpm -C apps/demo build`
+
 ### Soft Modern UI (demo 전용)
 
 - **요약:** workarea 틴트 + elevation 기반 Soft Modern 시각 규칙 적용
