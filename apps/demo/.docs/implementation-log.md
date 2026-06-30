@@ -10,6 +10,25 @@
 
 ## 2026-06-29
 
+### Gate D4 — MenuManagement (tree)
+
+- **요약:** `enableTreeRows` + nested mock menu · `GenDataGridCrud` in-memory commit
+- **파일:** `src/pages/admin/menu-management/**`, registry, mock menu, i18n
+- **검증:** `pnpm -C apps/demo build`
+
+### Gate D4 — Admin CRUD (1차)
+
+- **요약:** `GenDataGridCrud` demo 연동 — UserManagement (mock CRUD), Actuals (readonly + virtualization)
+- **의존:** `@gen-office/gen-datagrid-crud`, `@tanstack/react-table`, `lucide-react`
+- **CSS:** `main.tsx` — `@gen-office/gen-datagrid-crud/index.css`
+- **레이아웃:** `AdminPageLayout` `contentVariant="fill"` (grid height chain)
+- **registry:** `UserManagementPage`, `ActualsPage` + mock menu
+- **타입:** `src/types/gen-datagrid-crud.d.ts` (dist `.d.ts` 미생성 대응)
+- **검증:** `pnpm -C apps/demo build`
+- **다음:** MenuManagement, LkupManagement, RoleManagement, backend API 연동
+
+## 2026-06-29
+
 ### FrameBrand header logo
 
 - **요약:** `@gen-office/gen-frame` `FrameBrand` + `src/assets/brand-logo.png`

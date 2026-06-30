@@ -26,6 +26,9 @@ const ko = {
     placeholder: 'Welcome',
     chartDemo: 'Chart Demo',
     dashboardDemo: 'Dashboard Demo',
+    userManagement: 'User Management',
+    menuManagement: 'Menu Management',
+    actuals: 'Actuals',
     loadError: '메뉴를 불러오지 못했습니다.',
   },
   page: {
@@ -35,6 +38,9 @@ const ko = {
       linksTitle: '데모 화면',
       openChart: 'Chart Demo 열기',
       openDashboard: 'Dashboard Demo 열기',
+      openUserManagement: 'User Management 열기',
+      openMenuManagement: 'Menu Management 열기',
+      openActuals: 'Actuals 열기',
       linksHint:
         '주소창 딥링크: /?menu=demo-chart — Welcome 탭 + 해당 화면(새로고침 시 탭은 초기화됩니다).',
     },
@@ -57,6 +63,42 @@ const ko = {
         monthlyCost: 'Monthly cost',
         orderVolume: 'Order volume',
         revenueVsCost: 'Revenue vs cost',
+      },
+    },
+    userManagement: {
+      description: 'GenDataGridCrud 참조 CRUD 화면 — mock in-memory 저장.',
+      newUser: 'New user',
+      validation: {
+        loginId: 'Login ID는 필수입니다.',
+      },
+    },
+    menuManagement: {
+      description: '계층 메뉴 트리 — enableTreeRows + GenDataGridCrud mock 저장.',
+      newMenu: 'New menu',
+      validation: {
+        menuName: '메뉴명은 필수입니다.',
+      },
+    },
+    actuals: {
+      description: 'readonly 실적 조회 — virtualization·pinning·export shell.',
+      exportShell: 'Export shell — 실제 Excel 파일 생성은 후속 workflow입니다.',
+      filters: {
+        fiscalMonth: 'Fiscal Month',
+        organization: 'Organization',
+        account: 'Account',
+        hint: 'Search 버튼으로 필터를 적용합니다.',
+      },
+      actions: {
+        search: 'Search',
+        settings: 'Settings',
+        refresh: 'Refresh',
+      },
+      settings: {
+        title: 'Grid settings',
+        description: 'Actuals 화면은 readonly 조회 전용입니다.',
+        rowHeight: 'Row height: 32px',
+        virtualization: 'Virtualization: enabled',
+        close: '닫기',
       },
     },
   },

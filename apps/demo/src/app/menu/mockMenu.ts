@@ -29,4 +29,22 @@ export const MOCK_MENU_ITEMS: AppMenuItem[] = [
     titleKey: 'menu.dashboardDemo',
     path: '/demo/dashboard',
   },
+  {
+    pageId: 'admin-user-management',
+    componentName: 'UserManagementPage',
+    titleKey: 'menu.userManagement',
+    path: '/admin/user-management',
+  },
+  {
+    pageId: 'admin-menu-management',
+    componentName: 'MenuManagementPage',
+    titleKey: 'menu.menuManagement',
+    path: '/admin/menu-management',
+  },
+  {
+    pageId: 'co-actuals',
+    componentName: 'ActualsPage',
+    titleKey: 'menu.actuals',
+    path: '/co/actuals',
+  },
 ];

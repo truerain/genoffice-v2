@@ -65,6 +65,9 @@ importers:
       '@gen-office/gen-chart':
         specifier: workspace:*
         version: link:../../packages/gen-chart
+      '@gen-office/gen-datagrid-crud':
+        specifier: workspace:*
+        version: link:../../packages/gen-datagrid-crud
       '@gen-office/gen-frame':
         specifier: workspace:*
         version: link:../../packages/gen-frame
@@ -77,6 +80,12 @@ importers:
       '@gen-office/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@tanstack/react-table':
+        specifier: ^8.20.5
+        version: 8.21.3(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      lucide-react:
+        specifier: ^0.562.0
+        version: 0.562.0(react@19.2.7)
       react:
         specifier: 19.2.7
         version: 19.2.7

@@ -27,6 +27,9 @@ const en: MessageTree = {
     placeholder: 'Welcome',
     chartDemo: 'Chart Demo',
     dashboardDemo: 'Dashboard Demo',
+    userManagement: 'User Management',
+    menuManagement: 'Menu Management',
+    actuals: 'Actuals',
     loadError: 'Failed to load menu.',
   },
   page: {
@@ -36,6 +39,9 @@ const en: MessageTree = {
       linksTitle: 'Demo pages',
       openChart: 'Open Chart Demo',
       openDashboard: 'Open Dashboard Demo',
+      openUserManagement: 'Open User Management',
+      openMenuManagement: 'Open Menu Management',
+      openActuals: 'Open Actuals',
       linksHint:
         'Address bar deep link: /?menu=demo-chart — Welcome tab + target page (tabs reset on full reload).',
     },
@@ -58,6 +64,42 @@ const en: MessageTree = {
         monthlyCost: 'Monthly cost',
         orderVolume: 'Order volume',
         revenueVsCost: 'Revenue vs cost',
+      },
+    },
+    userManagement: {
+      description: 'Reference CRUD screen — GenDataGridCrud with in-memory mock save.',
+      newUser: 'New user',
+      validation: {
+        loginId: 'Login ID is required.',
+      },
+    },
+    menuManagement: {
+      description: 'Hierarchical menu tree — enableTreeRows with in-memory mock save.',
+      newMenu: 'New menu',
+      validation: {
+        menuName: 'Menu name is required.',
+      },
+    },
+    actuals: {
+      description: 'Readonly actuals inquiry — virtualization, pinning, export shell.',
+      exportShell: 'Export shell — real Excel file generation is a follow-up workflow.',
+      filters: {
+        fiscalMonth: 'Fiscal Month',
+        organization: 'Organization',
+        account: 'Account',
+        hint: 'Click Search to apply filters.',
+      },
+      actions: {
+        search: 'Search',
+        settings: 'Settings',
+        refresh: 'Refresh',
+      },
+      settings: {
+        title: 'Grid settings',
+        description: 'Actuals is a readonly inquiry screen.',
+        rowHeight: 'Row height: 32px',
+        virtualization: 'Virtualization: enabled',
+        close: 'Close',
       },
     },
   },

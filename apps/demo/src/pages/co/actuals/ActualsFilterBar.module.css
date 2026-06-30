@@ -1,0 +1,42 @@
+/**
+ * @file apps/demo/src/pages/co/actuals/ActualsFilterBar.module.css
+ * @description Filter row layout for ActualsPage.
+ * @created 2026-06-29
+ *
+ * @remark
+ *
+ */
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 140px;
+}
+
+.label {
+  font-size: 12px;
+  color: var(--color-text-secondary, #64748b);
+}
+
+.input {
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border-subtle, #e2e8f0);
+  border-radius: 8px;
+  font: inherit;
+  background: var(--color-surface-raised, #fff);
+}
+
+.hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-text-secondary, #64748b);
+}

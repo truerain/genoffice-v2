@@ -13,7 +13,10 @@ import type { ComponentType } from 'react';
 export type ComponentName =
   | 'PlaceholderPage'
   | 'ChartDemoPage'
-  | 'DashboardDemoPage';
+  | 'DashboardDemoPage'
+  | 'UserManagementPage'
+  | 'MenuManagementPage'
+  | 'ActualsPage';
 
 export type RegistryComponent = ComponentType<Record<string, unknown>>;
 

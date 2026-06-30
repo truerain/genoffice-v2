@@ -9,6 +9,7 @@
  * - CSS: theme, ui, mdi, app layout
  *
  * @history
+ * - 2026-06-29 D4: gen-datagrid-crud CSS
  * - 2026-06-29 F3: gen-frame CSS
  * - 2026-06-29 Soft Modern demo-ui.css
  * - 2026-06-28 D3: gen-chart CSS
@@ -22,6 +23,7 @@ import '@gen-office/ui/index.css';
 import '@gen-office/mdi/index.css';
 import '@gen-office/gen-frame/index.css';
 import '@gen-office/gen-chart/index.css';
+import '@gen-office/gen-datagrid-crud/index.css';
 import './styles/app.css';
 import './styles/demo-ui.css';
 import { AppProviders } from './app/providers/AppProviders';

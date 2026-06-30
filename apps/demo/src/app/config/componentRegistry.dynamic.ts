@@ -28,4 +28,19 @@ export const componentRegistry: Record<ComponentName, RegistryComponent> = {
       default: module.DashboardDemoPage as RegistryComponent,
     })),
   ),
+  UserManagementPage: lazy(() =>
+    import('../../pages/admin/user-management/UserManagementPage').then((module) => ({
+      default: module.UserManagementPage as RegistryComponent,
+    })),
+  ),
+  MenuManagementPage: lazy(() =>
+    import('../../pages/admin/menu-management/MenuManagementPage').then((module) => ({
+      default: module.MenuManagementPage as RegistryComponent,
+    })),
+  ),
+  ActualsPage: lazy(() =>
+    import('../../pages/co/actuals/ActualsPage').then((module) => ({
+      default: module.ActualsPage as RegistryComponent,
+    })),
+  ),
 };

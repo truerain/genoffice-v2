@@ -14,8 +14,11 @@
 
 import { Button } from '@gen-office/ui';
 import {
+  DEMO_ACTUALS_PAGE_ID,
   DEMO_CHART_PAGE_ID,
   DEMO_DASHBOARD_PAGE_ID,
+  DEMO_MENU_MANAGEMENT_PAGE_ID,
+  DEMO_USER_MANAGEMENT_PAGE_ID,
 } from '../../app/menu/demoPageIds';
 import { useDemoNavigation } from '../../app/navigation/DemoNavigationContext';
 import { AdminPageLayout } from '../../shared/components/AdminPageLayout';
@@ -61,6 +64,30 @@ export function PlaceholderPage({ title }: PlaceholderPageProps) {
             onClick={() => openMenuByPageId(DEMO_DASHBOARD_PAGE_ID)}
           >
             {t('page.placeholder.openDashboard')}
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => openMenuByPageId(DEMO_USER_MANAGEMENT_PAGE_ID)}
+          >
+            {t('page.placeholder.openUserManagement')}
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => openMenuByPageId(DEMO_MENU_MANAGEMENT_PAGE_ID)}
+          >
+            {t('page.placeholder.openMenuManagement')}
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => openMenuByPageId(DEMO_ACTUALS_PAGE_ID)}
+          >
+            {t('page.placeholder.openActuals')}
           </Button>
         </div>
         <p className={styles.linksHint}>{t('page.placeholder.linksHint')}</p>

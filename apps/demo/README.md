@@ -10,7 +10,7 @@ GenOffice V2 reference 백오피스 앱.
 
 ## 상태
 
-**Gate D0 ✅ · D1 ✅ · D2 ✅ · D3 ✅** — shell, MDI, registry, gen-chart Chart/Dashboard demo. 다음: [D4](./.docs/plan.md#6-d4--admin-crud-합류-후) (gen-datagrid 합류 후).
+**Gate D0 ✅ · D1 ✅ · D2 ✅ · D3 ✅ · D4 🔄** — UserManagement·Actuals `GenDataGridCrud` 연동. 나머지 admin: [plan.md](./.docs/plan.md#6-d4--admin-crud-진행-중).
 
 ## 실행
 
@@ -20,6 +20,8 @@ pnpm -C packages/theme build
 pnpm -C packages/ui build
 pnpm -C packages/mdi build
 pnpm -C packages/gen-chart build
+pnpm -C packages/gen-datagrid build
+pnpm -C packages/gen-datagrid-crud build
 pnpm -C apps/demo dev
 ```
 

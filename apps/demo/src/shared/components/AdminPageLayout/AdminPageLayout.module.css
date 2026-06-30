@@ -31,3 +31,9 @@
   min-height: 0;
   overflow: auto;
 }
+
+.contentFill {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}

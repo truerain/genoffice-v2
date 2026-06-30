@@ -175,7 +175,7 @@ V2 workspace 상태 (2026-06-29):
 | 11 | created row, validation, commit pipeline, export shell | ✅ |
 | 12 | migration guide, app QA guide | ✅ (문서) |
 
-demo admin 화면(`UserManagement`, `ActualsPage` 등) 이관은 **미착수** — Gate 12 app slice.  
+demo admin 화면 — `UserManagement`·`Actuals` ✅, 나머지 admin **진행 중**.  
 정본: [packages/gen-datagrid-crud/.docs/README.md](../packages/gen-datagrid-crud/.docs/README.md)
 
 책임:

@@ -1,0 +1,28 @@
+/**
+ * @file apps/demo/src/pages/co/actuals/ActualsPage.module.css
+ * @description Flex height for readonly Actuals grid (Gate D4).
+ * @created 2026-06-29
+ *
+ * @remark
+ *
+ */
+
+.workarea {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+}
+
+.crud {
+  flex: 1;
+  min-height: 0;
+}
+
+.settingsBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+}

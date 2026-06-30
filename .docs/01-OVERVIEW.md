@@ -132,7 +132,7 @@ div renderer MVP 표면과 Gate 9 handle API까지 구현·테스트 완료.
 | 11 | created row, validation, commit pipeline, export shell | ✅ |
 | 12 | migration guide, app QA guide | ✅ (문서) |
 
-demo `ActualsPage` 등 admin 화면 파일 이관은 **진행 중** (Gate 12 app slice).  
+demo `ActualsPage`·`UserManagement` 이관 ✅ — 나머지 admin 화면 진행 중 (Gate 12 app slice 1차).  
 정본: [packages/gen-datagrid-crud/.docs/README.md](../packages/gen-datagrid-crud/.docs/README.md)
 
 ### V2 워크스페이스 기타

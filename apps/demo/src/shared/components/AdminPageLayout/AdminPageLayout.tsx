@@ -15,14 +15,24 @@ export interface AdminPageLayoutProps {
   header?: ReactNode;
   filter?: ReactNode;
   children: ReactNode;
+  /** `fill` — grid/chart height chain (overflow hidden). Default `scroll`. */
+  contentVariant?: 'scroll' | 'fill';
 }
 
-export function AdminPageLayout({ header, filter, children }: AdminPageLayoutProps) {
+export function AdminPageLayout({
+  header,
+  filter,
+  children,
+  contentVariant = 'scroll',
+}: AdminPageLayoutProps) {
+  const contentClass =
+    contentVariant === 'fill' ? `${styles.content} ${styles.contentFill}` : styles.content;
+
   return (
     <div className={styles.page}>
       {header}
       {filter ? <div className={styles.filter}>{filter}</div> : null}
-      <div className={styles.content}>{children}</div>
+      <div className={contentClass}>{children}</div>
     </div>
   );
 }

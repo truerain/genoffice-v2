@@ -43,7 +43,7 @@ flowchart LR
 | **D1** | App shell + MDI | 아니오 | D0 | ✅ |
 | **D2** | API · menu · registry · i18n | 아니오 | D1 | ✅ |
 | **D3** | Chart / Dashboard demo | 아니오 | D2, gen-chart Phase 1 ✅ | ✅ |
-| **D4** | Admin CRUD 페이지 | **예** | D3, gen-datagrid-crud | ⏸ |
+| **D4** | Admin CRUD 페이지 | **예** | D3, gen-datagrid-crud | 🔄 (UserManagement, MenuManagement, Actuals) |
 | **D5** | Actuals · grid 시연 | **예** | D4, gen-datagrid-chart | ⏸ |
 
 ```text
@@ -168,37 +168,38 @@ gen-chart **C8의 demo 부분을 선행** 완료 ([phase.md](../../packages/gen-
 
 ---
 
-## 6. D4 — Admin CRUD (합류 후)
+## 6. D4 — Admin CRUD (진행 중)
 
-**상태:** ⏸ `gen-datagrid` Gate 8 + `gen-datagrid-crud` scaffold 선행
+**상태:** 🔄 `gen-datagrid`·`gen-datagrid-crud` workspace 연동 완료 — 2화면 이관
 
 ### 선행 조건
 
-- [ ] `packages/gen-datagrid` workspace 존재 · public API 안정
-- [ ] `packages/gen-datagrid-crud` — 최소 `GenDataGridCrud` smoke
-- [ ] column meta · handle 타입 합의 ([06-PACKAGE-REVIEW-PLAN §6](../../.docs/06-PACKAGE-REVIEW-PLAN.md#6-다른-agentgen-datagrid와의-합류))
+- [x] `packages/gen-datagrid` workspace 존재 · public API 안정
+- [x] `packages/gen-datagrid-crud` — `GenDataGridCrud` smoke
+- [x] column meta · handle 타입 합의
 
 ### 완료 조건 (우선순위)
 
-| 순서 | 페이지 | V1 참조 |
-| --- | --- | --- |
-| 1 | UserManagement | reference CRUD 패턴 |
-| 2 | MenuManagement | 계층·트리 |
-| 3 | LkupManagement | lookup modal |
-| 4 | RoleManagement | |
-| 5 | Notice / Message / UserRole | |
+| 순서 | 페이지 | V1 참조 | 상태 |
+| --- | --- | --- | --- |
+| 1 | UserManagement | reference CRUD 패턴 | ✅ mock CRUD |
+| 2 | MenuManagement | 계층·트리 | ✅ tree CRUD |
+| 3 | LkupManagement | lookup modal | ⏸ |
+| 4 | RoleManagement | | ⏸ |
+| 5 | Actuals (readonly) | Gate 12 | ✅ mock 조회 |
+| 6 | Notice / Message / UserRole | | ⏸ |
 
 각 페이지:
 
-- [ ] `GenGrid*` import **zero**
-- [ ] `AdminPageLayout` + `GenDataGridCrud`
-- [ ] flex height — grid 스크롤 정상
-- [ ] mock·실 API smoke
+- [x] `GenGrid*` import **zero** (demo 소스)
+- [x] `AdminPageLayout` + `GenDataGridCrud` (UserManagement, Actuals)
+- [x] flex height — `contentVariant="fill"` + crud wrapper
+- [x] mock smoke (in-memory)
 
 ### Gate
 
-- [ ] `apps/demo` 전체 grep — `gen-grid` 없음
-- [ ] UserManagement CRUD 한 사이클 (조회·추가·저장·취소)
+- [x] `apps/demo` 전체 grep — `gen-grid` 없음
+- [x] UserManagement CRUD 한 사이클 (조회·추가·저장·취소) — mock
 
 ---
 

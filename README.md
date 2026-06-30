@@ -15,7 +15,7 @@ V1이 table DOM 기반 `@gen-office/gen-grid`를 중심으로 성장했다면, V
 | **`@gen-office/gen-datagrid-crud`** | V2 workspace **이관 완료**. Gate 10 thin shell · Gate 11 mutation ✅. test 9 |
 | **`@gen-office/gen-chart`** | Phase 1 (C0~C7) ✅. demo Chart/Dashboard 연동 ✅ |
 | **`@gen-office/gen-frame`** | F0~F5 ✅. demo MDI shell 연동 ✅ |
-| **`apps/demo`** | D0~D3 ✅ (shell·MDI·chart). **D4 admin/Actuals** — grid 페이지 이관 **진행 중** |
+| **`apps/demo`** | D0~D3 ✅ · **D4 🔄** UserManagement + Actuals `GenDataGridCrud` 연동 |
 | **`apps/storybook`** | ui·mdi·gen-chart·gen-frame·gen-datagrid story 통합 |
 | **레거시 `gen-grid*`** | V2 workspace **미포함** (의도적 제외) |
 
@@ -101,7 +101,7 @@ apps → feature packages → ui → theme/utils
 - [x] `gen-grid` 패키지 없이 워크스페이스에 `gen-datagrid` 존재
 - [x] `gen-datagrid` Gate 0~8 MVP + Gate 9 handle API (패키지 test green)
 - [x] `gen-datagrid-crud` thin shell + mutation workflow (Gate 10~11)
-- [ ] demo: admin/Actuals 등 그리드 화면 V2 연동
+- [ ] demo: admin/Actuals 등 그리드 화면 V2 연동 (UserManagement·Actuals ✅, 나머지 admin ⏸)
 - [ ] demo: 로그인 → MDI → 메뉴 5종 이상 GenDataGrid 화면
 - [x] `gen-chart` Chart/Dashboard demo composable API 재현
 - [ ] mock·실 backend 연동 smoke (admin CRUD 포함)
