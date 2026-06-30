@@ -10,6 +10,13 @@
 
 ## 2026-06-29
 
+### MDI pinnedPages (`useMdiNavigationController`)
+
+- **요약:** `pinnedPages` + `syncPinnedMdiTabs` — mount 시 `closable: false` 탭 보장, title 갱신
+- **파일:** `src/navigation/syncPinnedMdiTabs.ts`, `useMdiNavigationController.ts`, test 2건
+- **demo:** `useEnsureWelcomePinTab` 제거 → `useOpenPage` `pinnedPages`
+- **검증:** `pnpm -C packages/gen-frame test`, `pnpm -C apps/demo build`
+
 ### URL `?menu=` — 메뉴 클릭과 동일 경로
 
 - **demo:** `useUrlSync` 제거 → `useDemoMenuDeepLink` + `openMenuItem`

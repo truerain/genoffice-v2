@@ -61,7 +61,12 @@ import {
   useMdiNavigationController,
 } from '@gen-office/gen-frame';
 
-const { controller } = useMdiNavigationController({ resolveTab });
+const { controller } = useMdiNavigationController({
+  resolveTab,
+  pinnedPages: [
+    { pageId: 'home', title: 'Welcome', meta: { componentName: 'HomePage' } },
+  ],
+});
 
 <WorkspaceFrame
   menu={{ items }}
@@ -71,7 +76,7 @@ const { controller } = useMdiNavigationController({ resolveTab });
 />
 ```
 
-앱은 `resolveTab`에서 registry로 `content`를 만듭니다. 탭 상태는 `@gen-office/mdi` store가 보관합니다.
+앱은 `resolveTab`에서 registry로 `content`를 만듭니다. `pinnedPages`는 mount 시 `closable: false` 탭을 보장합니다 (Close All 후에도 유지). 탭 상태는 `@gen-office/mdi` store가 보관합니다.
 
 ### Single (단일 페이지)
 

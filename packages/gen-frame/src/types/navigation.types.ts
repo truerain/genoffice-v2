@@ -46,6 +46,10 @@ export interface CreateMdiNavigationControllerOptions {
 
 export interface UseMdiNavigationControllerOptions {
   resolveTab: (payload: FrameOpenPagePayload) => MdiTabInput;
+  /** Opened once with `closable: false`; content from `resolveTab`. */
+  pinnedPages?: FrameOpenPagePayload[];
+  /** When false, skips pinned sync (default true). */
+  pinnedPagesEnabled?: boolean;
 }
 
 export interface SinglePageState {
