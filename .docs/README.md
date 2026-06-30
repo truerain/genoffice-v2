@@ -46,15 +46,22 @@ GenOffice V2 설계·이식·운영에 관한 문서 모음입니다.
 | [08-DESIGN-TOKENS-GUIDE.md](./08-DESIGN-TOKENS-GUIDE.md) | 디자이너·퍼블리셔용 디자인 토큰·색상 추가·변경 절차 |
 | [09-SOURCE-CONVENTIONS.md](./09-SOURCE-CONVENTIONS.md) | 소스 편집·파일 헤더(`@remark`/`@history`)·UTF-8·인코딩 가드 |
 
+## 패키지 `.docs/` (V2 정본)
+
+| 패키지 | 문서 |
+| --- | --- |
+| `gen-datagrid` | [packages/gen-datagrid/.docs/README.md](../packages/gen-datagrid/.docs/README.md) — Gate 0~9, architecture, QA |
+| `gen-datagrid-crud` | [packages/gen-datagrid-crud/.docs/README.md](../packages/gen-datagrid-crud/.docs/README.md) — Gate 10~12, migration |
+| `gen-chart` | [packages/gen-chart/.docs/](../packages/gen-chart/.docs/) |
+| `gen-frame` | [packages/gen-frame/.docs/](../packages/gen-frame/.docs/) |
+| `theme` · `ui` · `mdi` | 각 `packages/<name>/.docs/review-log.md` |
+
 ## 앞으로 추가될 문서 (예정)
 
 | 문서 | 역할 |
 | --- | --- |
 | `06-BUILD_GUIDE.md` | 설치, 빌드, 실행, 트러블슈팅 |
-| `AGENTS.md` (루트) | AI 코딩 에이전트 공통 규칙 |
-| `packages/gen-datagrid-crud/` 설계 문서 | CRUD 레이어 API·이식 범위 |
-| `packages/gen-chart/.docs/` | GenChart API reference, chart gates (C0~C8) |
-| `packages/gen-datagrid/.docs/` Gate 8 체크리스트 | MVP acceptance 상세 기준 |
+| `packages/gen-datagrid-chart/` 설계 문서 | grid selection → chart 연동 |
 
 ## 외부 참조 (V1)
 
@@ -64,7 +71,7 @@ V2 이식·설계 시 자주 참조하는 V1 문서입니다.
 | --- | --- |
 | [`frontend/README.md`](../../frontend/README.md) | V1 프로젝트 소개 |
 | [`frontend/AGENTS.md`](../../frontend/AGENTS.md) | V1 AI 코딩 규칙 |
-| [`frontend/packages/gen-datagrid/docs/`](../../frontend/packages/gen-datagrid/docs/) | GenDataGrid 설계·Gate 문서 |
+| [`frontend/packages/gen-datagrid/docs/`](../../frontend/packages/gen-datagrid/docs/) | GenDataGrid 설계·Gate 문서 (V1, 이관 전 참조) |
 | [`frontend/packages/gen-datagrid/docs/reference/api-comparison-with-gen-grid.md`](../../frontend/packages/gen-datagrid/docs/reference/api-comparison-with-gen-grid.md) | gen-grid ↔ gen-datagrid API 비교 |
 | [`frontend/docs/gen-chart/api-draft.md`](../../frontend/docs/gen-chart/api-draft.md) | V1 composable API 초안 (V2 설계 참고) |
 | [`frontend/docs/gen-chart/visx-rewrite-plan.md`](../../frontend/docs/gen-chart/visx-rewrite-plan.md) | V1 visx 전환·monolith API (참고용, 이식 안 함) |

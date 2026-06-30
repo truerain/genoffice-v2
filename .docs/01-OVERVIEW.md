@@ -26,7 +26,7 @@ V1의 `@gen-office/gen-grid`는 TanStack Table 위에 `<table>` DOM으로 구현
 
 ### V2가 해결하려는 것
 
-[`gen-datagrid`](../../frontend/packages/gen-datagrid)는 위 한계를 전제로 **처음부터 div `role="grid"` 기반**으로 설계되었습니다.
+[`gen-datagrid`](../packages/gen-datagrid)는 위 한계를 전제로 **처음부터 div `role="grid"` 기반**으로 설계·구현되었습니다.
 
 - TanStack Table의 column/row/sort/filter/pin 상태 모델은 유지
 - DOM은 `data-gen-datagrid-*` 계약으로 grid instance 단위 격리
@@ -76,11 +76,11 @@ V2는 V1 차트 **코드를 복사하지 않고**, demo 시나리오만 수용 �
 | 영역 | 내용 |
 | --- | --- |
 | 기반 패키지 | `theme`, `ui`, `utils`, `mdi`, `tsconfig` |
-| 핵심 그리드 | `gen-datagrid` (V1에서 이식·Gate 8 완료) |
+| 핵심 그리드 | `gen-datagrid` (V2 workspace 이관 · Gate 0~9 ✅) |
 | 차트 | `gen-chart` (V2 신규 설계·구현, V1 코드 이식 안 함) |
-| CRUD 레이어 | `gen-datagrid-crud` (신규) |
+| CRUD 레이어 | `gen-datagrid-crud` (Gate 10~11 ✅, demo D4 연동 진행 중) |
 | 차트 연동 | `gen-datagrid-chart` (새 GenChart API 기준) |
-| 앱 | `demo`, `storybook-all` |
+| 앱 | `demo`, `storybook` |
 | 백엔드 연동 | 기존 [`backend`](../../backend) API 재사용 |
 
 ### 제외
@@ -110,30 +110,40 @@ V2는 V1 차트 **코드를 복사하지 않고**, demo 시나리오만 수용 �
 - 루트 `AGENTS.md`(이식 예정)와 패키지 경계 규칙 준수
 - V1 `gen-grid` / V1 `GenChart` 예제를 그대로 생성하지 않고 V2 API 사용
 
-## 6. 현재 진행 상황 (2026-06-22 기준)
+## 6. 현재 진행 상황 (2026-06-29)
 
-### V1 `gen-datagrid` 구현 상태
+### `@gen-office/gen-datagrid` (V2 workspace)
 
-V1 워크스페이스에서 `gen-datagrid`는 MVP Gate 기준 아래까지 진행되었습니다.
+div renderer MVP 표면과 Gate 9 handle API까지 구현·테스트 완료.
 
-| Gate | 내용 | 상태 |
+| Gate | 내용 | V2 상태 |
 | --- | --- | --- |
-| 0 | 패키지 baseline | 완료 |
-| 1 | div renderer contract | 완료 |
-| 2 | scoped focus, keyboard | 완료 |
-| 3 | selection, clipboard copy | 완료 |
-| 4 | editing, paste | 완료 |
-| 5 | pinning, sizing, reorder | 완료 |
-| 6 | filtering, footer, pagination, dirty | 완료 |
-| 7 | virtualization, range auto-scroll | 완료 (7.2 포함) |
-| 8 | MVP acceptance | **미완** |
+| 0~8 | div contract, keyboard, selection, editing, pinning, filter/footer, virtualization, master-detail/tree/merge 등 MVP | ✅ |
+| 9 | `GenDataGridHandle` — `getData`, `getChangeSet`, `acceptChanges`, `flushEditing` 등 | ✅ |
 
-### V2 워크스페이스 상태
+검증: `pnpm -C packages/gen-datagrid test` (baseline 17 + interaction 181).  
+정본: [packages/gen-datagrid/.docs/README.md](../packages/gen-datagrid/.docs/README.md), [remaining-work-plan.md](../packages/gen-datagrid/.docs/plan/remaining-work-plan.md)
 
-- `genoffice-v2/` 디렉터리 및 개요 문서 작성 완료
-- **트랙 B**: `theme` → `utils` → `ui` → … 패키지 소스 검토 예정 ([06-PACKAGE-REVIEW-PLAN.md](./06-PACKAGE-REVIEW-PLAN.md))
-- **트랙 A**: `gen-datagrid` — 다른 agent에서 Gate 8 완성 예정
-- 소스 코드 이식·스캐폴딩: **다음 단계**
+### `@gen-office/gen-datagrid-crud` (V2 workspace)
+
+| Gate | 내용 | V2 상태 |
+| --- | --- | --- |
+| 10 | `GenDataGridCrud` thin shell, ActionBar, controller | ✅ |
+| 11 | created row, validation, commit pipeline, export shell | ✅ |
+| 12 | migration guide, app QA guide | ✅ (문서) |
+
+demo `ActualsPage` 등 admin 화면 파일 이관은 **진행 중** (Gate 12 app slice).  
+정본: [packages/gen-datagrid-crud/.docs/README.md](../packages/gen-datagrid-crud/.docs/README.md)
+
+### V2 워크스페이스 기타
+
+| 트랙 | 상태 |
+| --- | --- |
+| **기반 패키지** | `theme`, `utils`, `ui`, `mdi` 검토·이식 ✅ |
+| **gen-chart** | Phase 1 (C0~C7) ✅ · demo Chart/Dashboard ✅ |
+| **gen-frame** | F0~F5 ✅ · demo MDI shell ✅ |
+| **apps/demo** | D0~D3 ✅ · D4 admin CRUD **진행 중** |
+| **gen-datagrid-chart** | 미착수 |
 
 ## 7. MVP 완료 정의
 
@@ -141,13 +151,13 @@ V2를 "1.0 MVP"로 볼 수 있는 조건입니다.
 
 ### 필수
 
-- [ ] 워크스페이스에 `gen-grid` 계열 패키지 없음
-- [ ] `pnpm build`, `pnpm lint`, `pnpm test` 전체 통과
-- [ ] `gen-datagrid` Gate 8 충족 (gen-grid demo/story 시나리오 재현)
-- [ ] `gen-datagrid-crud`로 CRUD 액션·dirty·Excel export 등 핵심 기능 제공
+- [x] 워크스페이스에 `gen-grid` 계열 패키지 없음 · `gen-datagrid` 존재
+- [ ] `pnpm build`, `pnpm lint`, `pnpm test` 전체 통과 (monorepo 일괄)
+- [x] `gen-datagrid` Gate 0~8 MVP + Gate 9 handle API
+- [x] `gen-datagrid-crud` Gate 10~11 (CRUD toolbar·save/validation shell)
 - [ ] demo: 로그인 → MDI → 메뉴 5종 이상 GenDataGrid 화면 동작
-- [ ] `gen-chart` Gate C8 — Chart/Dashboard demo를 composable API로 재현
-- [ ] mock 모드(`pnpm demo:mock`) 및 실 backend 연동 동작
+- [x] `gen-chart` Chart/Dashboard demo composable API 재현
+- [ ] mock 모드 및 실 backend 연동 (admin CRUD 포함)
 
 ### 권장
 

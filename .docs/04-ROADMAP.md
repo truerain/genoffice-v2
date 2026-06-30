@@ -7,31 +7,30 @@ V1 [`frontend`](../../frontend)에서 `genoffice-v2`로 이전하기 위한 단�
 작업은 **두 트랙**으로 병렬 진행합니다.
 
 ```text
-[트랙 A — 다른 agent]  gen-datagrid Gate 8 · MVP
-[트랙 B — 직접 검토]   theme → utils → ui → mdi → gen-chart → … → demo
-                              (상세: 06-PACKAGE-REVIEW-PLAN.md)
+[트랙 A — gen-datagrid]  gen-datagrid Gate 0~9 ✅ · gen-datagrid-crud Gate 10~11 ✅
+[트랙 B — 직접 검토]       theme → utils → ui → mdi → gen-chart → gen-frame → demo shell/chart
 
-합류: gen-datagrid-crud → gen-datagrid-chart → demo 그리드 화면
+합류: demo D4 admin (진행 중) → gen-datagrid-chart → D5 Actuals
 ```
 
 ```text
-Phase 0   스캐폴딩·기반 이식
+Phase 0   스캐폴딩·기반 이식                    ✅
    ↓
-Phase 1a  gen-datagrid Gate 8          ← 트랙 A (다른 agent)
+Phase 1a  gen-datagrid Gate 0~9               ✅ (V2 workspace)
    ‖
-Phase 1b  theme → utils → ui → mdi     ← 트랙 B 시작
+Phase 1b  theme → utils → ui → mdi           ✅
    ‖ (병렬)
-Phase 1c  gen-chart C0~C4              ← 트랙 B (ui·theme 이후)
+Phase 1c  gen-chart C0~C4                     ✅
    ↓
-Phase 2   gen-datagrid-crud            ← 트랙 A·B 합류
+Phase 2   gen-datagrid-crud Gate 10~11        ✅
    ‖ (병렬)
-Phase 2b  gen-chart C5~C7
+Phase 2b  gen-chart C5~C7                     ✅
    ↓
-Phase 3   demo admin 핵심 화면 (그리드)
+Phase 3   demo admin 핵심 화면 (그리드)         ← 진행 중 (D4)
    ↓
-Phase 4   gen-datagrid-chart + Chart/Dashboard demo + 정리
+Phase 4   gen-datagrid-chart + D5 + 정리
    ↓
-Phase 5   (선택) React 19, Storybook 9, E2E
+Phase 5   (선택) React 19, Storybook 10, E2E
 ```
 
 ---
@@ -42,15 +41,14 @@ Phase 5   (선택) React 19, Storybook 9, E2E
 
 ### 작업
 
-- [ ] `frontend` → `genoffice-v2` 복제
-- [ ] `packages/gen-grid`, `gen-grid-crud`, `gen-grid-chart` 제거
-- [ ] V1 `packages/gen-chart` **코드 이식 안 함** — 빈 scaffold + types/.docs/stub만 생성
-- [ ] 루트·앱 `package.json`에서 레거시 workspace 의존 제거
-- [ ] 루트 `package.json` name을 `genoffice-v2`로 변경
-- [ ] stale 스크립트 정리 (예: `rdg-demo` — 앱 없음)
-- [ ] `pnpm install && pnpm build` 통과
-- [ ] 루트 `README.md`, `.docs/` (본 문서군) 반영
-- [ ] `AGENTS.md` V2 기준으로 작성 (V1에서 이식·수정)
+- [x] `frontend` → `genoffice-v2` 복제
+- [x] `packages/gen-grid`, `gen-grid-crud`, `gen-grid-chart` 제거
+- [x] V1 `packages/gen-chart` **코드 이식 안 함** — V2 재작성
+- [x] 루트·앱 `package.json`에서 레거시 workspace 의존 제거
+- [x] 루트 `package.json` name을 `genoffice-v2`로 변경
+- [x] `pnpm install && pnpm build` 통과
+- [x] 루트 `README.md`, `.docs/` (본 문서군) 반영
+- [x] `AGENTS.md` V2 기준으로 작성
 
 ### 완료 기준
 
@@ -72,17 +70,17 @@ Phase 5   (선택) React 19, Storybook 9, E2E
 
 ### 작업
 
-- [ ] `packages/tsconfig` 이식
-- [ ] `packages/theme` 검토·이식
-- [ ] `packages/utils` 검토·이식
-- [ ] `packages/ui` 검토·이식
-- [ ] `packages/mdi` 검토·이식
-- [ ] 패키지별 `.docs/review-log.md` 기록
+- [x] `packages/tsconfig` 이식
+- [x] `packages/theme` 검토·이식
+- [x] `packages/utils` 검토·이식
+- [x] `packages/ui` 검토·이식
+- [x] `packages/mdi` 검토·이식
+- [x] 패키지별 `.docs/review-log.md` 기록
 
 ### 완료 기준
 
 - 위 4개 패키지 `pnpm build` 통과
-- `ui` Storybook 또는 storybook-all에서 core 컴포넌트 smoke
+- `ui` Storybook 또는 `apps/storybook`에서 core 컴포넌트 smoke
 
 ### 예상 기간
 
@@ -90,27 +88,26 @@ Phase 5   (선택) React 19, Storybook 9, E2E
 
 ---
 
-## Phase 1a — gen-datagrid Gate 8 (트랙 A)
+## Phase 1a — gen-datagrid Gate 0~9 ✅
 
 **목표**: `gen-grid` 대체 후보로 평가 가능한 MVP 완성
 
-**담당**: 다른 agent (본 워크스페이스에서는 소스 검토 트랙과 병렬)
+**상태**: V2 workspace 이관 완료 (2026-06-29). Gate 0~8 MVP 표면 + Gate 9 `GenDataGridHandle` API.
 
-Gate 정의: V1 [`mvp-test-gates.md`](../../frontend/packages/gen-datagrid/docs/plan/mvp-test-gates.md) § Gate 8
+Gate 정의: [packages/gen-datagrid/.docs/README.md](../packages/gen-datagrid/.docs/README.md), [remaining-work-plan.md](../packages/gen-datagrid/.docs/plan/remaining-work-plan.md)
 
 ### 작업
 
-- [ ] row number, row selection, row status (CRUD 레이어와 겹치는 부분 조율)
-- [ ] imperative handle public API export 정리
-- [ ] gen-grid 주요 story/demo 시나리오를 gen-datagrid Storybook으로 재현
-- [ ] multiple grid page, nested grid boundary smoke test
-- [ ] `pnpm -C packages/gen-datagrid test` 전체 통과
-- [ ] MVP 미지원 기능 명시적 에러·문서화
+- [x] div renderer contract, keyboard, selection, editing, pinning, filter/footer, virtualization
+- [x] master-detail, tree, merge/span, system columns 등 Gate 8.x 표면
+- [x] `GenDataGridHandle` — `getData`, `getChangeSet`, `acceptChanges`, `flushEditing`
+- [x] `pnpm -C packages/gen-datagrid test` — baseline 17 + interaction 181
+- [ ] demo·Storybook 시나리오를 gen-grid 주요 story와 parity 수준으로 재현 (일부 진행)
 
 ### 완료 기준
 
-- Gate 8 체크리스트 항목 충족
-- table 태그 미사용 (baseline test 유지)
+- [x] Gate 0~9 체크리스트 항목 충족
+- [x] table 태그 미사용 (baseline test 유지)
 
 ### 예상 기간
 
@@ -143,31 +140,24 @@ Gate 정의: V1 [`mvp-test-gates.md`](../../frontend/packages/gen-datagrid/docs/
 
 ---
 
-## Phase 2 — gen-datagrid-crud
+## Phase 2 — gen-datagrid-crud ✅ (Gate 10~11)
 
 **목표**: V1 `gen-grid-crud` 역할을 GenDataGrid 기준으로 재구현
 
-### V1에서 이식할 기능 (참고)
-
-- CRUD action controls (추가·삭제·저장·취소)
-- row status column
-- dirty state 연동
-- Excel export (exceljs)
-- i18n 메시지
-- column helper / CRUD config 패턴
+**상태**: V2 workspace 이관 완료. Gate 12 문서(migration·QA guide) ✅. demo admin 연동은 Phase 3.
 
 ### 작업
 
-- [ ] `packages/gen-datagrid-crud` 패키지 생성
-- [ ] `GenDataGridCrud` (가칭) public API 설계 문서 작성
-- [ ] V1 `gen-grid-crud`와 기능 gap 분석
-- [ ] Storybook + interaction test
-- [ ] demo에 의존성 연결 (아직 화면 포팅 전 smoke)
+- [x] `packages/gen-datagrid-crud` 패키지 생성·이관
+- [x] `GenDataGridCrud` public API — [gen-datagrid-crud-package-design.md](../packages/gen-datagrid-crud/.docs/gen-datagrid-crud-package-design.md)
+- [x] Gate 10 thin shell, Gate 11 mutation workflow
+- [x] Storybook + interaction test (9 tests)
+- [ ] demo `package.json` 의존성·admin 페이지 연동 (Phase 3)
 
 ### 완료 기준
 
-- UserManagement에 필요한 최소 CRUD API 제공
-- `gen-datagrid`만 의존 (gen-grid 없음)
+- [x] UserManagement에 필요한 최소 CRUD API 제공
+- [x] `gen-datagrid`만 의존 (gen-grid 없음)
 
 ### 예상 기간
 
@@ -193,11 +183,14 @@ Gate 정의: V1 [`mvp-test-gates.md`](../../frontend/packages/gen-datagrid/docs/
 
 ---
 
-## Phase 3 — demo 핵심 화면 포팅
+## Phase 3 — demo 핵심 화면 포팅 ← **현재**
 
 **목표**: reference CRUD·도메인 화면을 GenDataGrid로 전환
 
-**demo 구현 Plan:** [apps/demo/.docs/plan.md](../apps/demo/.docs/plan.md) — D0~D2 shell, D4 admin (grid 선행)
+**선행 완료:** `gen-datagrid` Gate 0~9 ✅, `gen-datagrid-crud` Gate 10~11 ✅  
+**블로커 해소:** 패키지 이관 완료. demo `package.json`에 grid dep·admin 페이지 이관 **미착수**.
+
+**demo 구현 Plan:** [apps/demo/.docs/plan.md](../apps/demo/.docs/plan.md) — D0~D3 ✅, D4 admin (진행 중)
 
 ### 우선 화면
 
@@ -294,13 +287,13 @@ MVP 블로커로 두지 않습니다.
 
 | 마일스톤 | 산출물 |
 | --- | --- |
-| M0 | 빌드 가능한 genoffice-v2 스캐폴딩 |
-| M1 | gen-datagrid Gate 8 pass |
-| M1b | gen-chart C4 (cartesian) pass |
-| M2 | gen-datagrid-crud + UserManagement 동작 |
-| M2b | gen-chart C7 (pie, responsive) pass |
-| M3 | admin 5+ 화면 GenDataGrid 전환 |
-| M4 | **V2 MVP** — gen-grid zero, V1 GenChart zero, full demo |
+| M0 | 빌드 가능한 genoffice-v2 스캐폴딩 | ✅ |
+| M1 | gen-datagrid Gate 0~9 pass | ✅ |
+| M1b | gen-chart C4 (cartesian) pass | ✅ |
+| M2 | gen-datagrid-crud Gate 10~11 | ✅ |
+| M2b | gen-chart C7 (pie, responsive) pass | ✅ |
+| M3 | admin 5+ 화면 GenDataGrid 전환 | ← 진행 중 |
+| M4 | **V2 MVP** — gen-grid zero, V1 GenChart zero, full demo | |
 
 ---
 

@@ -8,6 +8,12 @@
 
 ## 2026-06-29
 
+### root 문서 — gen-datagrid · gen-datagrid-crud 현재 상태 반영
+
+- **요약:** 패키지 문서·소스 검토 후 V2 workspace 이관·Gate 진행 상황을 root 문서에 동기화. demo D4 admin 연동은 미착수로 명시
+- **변경:** `README.md`, `.docs/01-OVERVIEW.md`, `02-ARCHITECTURE.md`, `03-V1-RELATIONSHIP.md`, `04-ROADMAP.md`, `06-PACKAGE-REVIEW-PLAN.md`, `.docs/README.md`
+- **근거:** gen-datagrid Gate 0~9 ✅ (test 198), gen-datagrid-crud Gate 10~11 ✅ (test 9), demo `package.json` grid dep 없음
+
 ## 2026-06-29
 
 ### packages/gen-datagrid · gen-datagrid-crud — monorepo 설정 정합

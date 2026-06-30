@@ -6,11 +6,11 @@ GenOffice V2는 **두 갈래**로 진행합니다.
 
 | 담당 | 범위 | 방식 |
 | --- | --- | --- |
-| **다른 agent** | `packages/gen-datagrid` | Gate 8 완료·MVP acceptance까지 구현 주도 |
+| **gen-datagrid 트랙** | `packages/gen-datagrid` | V2 workspace 이관 · Gate 0~9 ✅ |
 | **직접 검토 (본 문서)** | 그 외 packages + apps | V1 소스를 **차근차근 읽고** V2에 이식·수정·재작성 |
 
-`gen-datagrid`는 이 문서의 검토 순서에 **포함하지 않습니다.**  
-다른 agent가 완성한 뒤, `gen-datagrid-crud`·`gen-datagrid-chart`·demo 연동 단계에서 합류합니다.
+`gen-datagrid`는 별도 트랙으로 Gate 0~9까지 완료되었습니다.  
+`gen-datagrid-crud` Gate 10~11 ✅ 이후 demo D4·`gen-datagrid-chart` 단계에서 합류합니다.
 
 ## 2. 검토 원칙
 
@@ -52,11 +52,11 @@ theme ──┐
 utils ──┘      │
                  ├──→ gen-chart (재작성)
                  │
-gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
- (병렬, 외부)    │
+gen-datagrid ────┼──→ gen-datagrid-crud   ✅ Gate 10~11
+ (Gate 0~9 ✅)   │
                  └──→ gen-datagrid-chart
                            ↓
-              apps/storybook-all → apps/demo
+              apps/storybook → apps/demo (D4 admin 진행 중)
 ```
 
 ### 권장 진행 순서
@@ -70,11 +70,11 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 | 4 | `packages/mdi` | 수정 이식 | Zustand store·탭·창 |
 | 4b | `packages/gen-frame` | **신규** | 앱 layout·navigation·URL — [plan.md](../packages/gen-frame/.docs/plan.md); **F0~F3 ✅** |
 | 5 | `packages/gen-chart` | **재작성** | **Phase 1 ✅** (C0~C7). Phase 2는 grid·demo 후 — [phase.md](../packages/gen-chart/.docs/phase.md) |
-| — | `packages/gen-datagrid` | **다른 agent** | 본 순서에서 제외 |
-| 6 | `packages/gen-datagrid-crud` | 신규 | gen-datagrid API 확정 후 착수 |
+| — | `packages/gen-datagrid` | V2 이관 | Gate 0~9 ✅ — [`.docs/README.md`](../packages/gen-datagrid/.docs/README.md) |
+| 6 | `packages/gen-datagrid-crud` | 신규 | Gate 10~11 ✅ — demo D4 연동 진행 중 |
 | 7 | `packages/gen-datagrid-chart` | 신규/포팅 | gen-chart + gen-datagrid 준비 후 |
-| 8 | `apps/storybook-all` | 수정 이식 | 패키지 Story 통합 |
-| 9 | `apps/demo` | 수정 이식 | **D0~D3** shell·chart 먼저 — [plan.md](../apps/demo/.docs/plan.md); admin은 grid 후 |
+| 8 | `apps/storybook` | 수정 이식 | gen-datagrid story 포함 |
+| 9 | `apps/demo` | 수정 이식 | **D0~D3** ✅ — [plan.md](../apps/demo/.docs/plan.md); **D4 admin 진행 중** |
 
 `theme` → `utils` → `ui` 흐름은 `ui`가 `theme`·`utils`에 의존하기 때문입니다.  
 `utils`를 `theme` 직후에 두면 `ui` 검토 시 기반 API가 이미 고정되어 있습니다.
@@ -110,7 +110,7 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 - [x] `core` vs `composed` 경계 — `composed/` 단일 (panels 분리 롤백)
 - [x] Radix 래퍼·`forwardRef`·CSS module 패턴 — Wave Gate 완료
 - [x] `RichTextEditor` — **`@gen-office/html-editor` 별도** (`ui` 미포함)
-- [x] Storybook — `apps/storybook-all` 통합 + 패키지 stories
+- [x] Storybook — `apps/storybook` 통합 + 패키지 stories
 - [x] V1 composed C1~C9 이관 마감 — [packages/ui/.docs/review-log.md](../packages/ui/.docs/review-log.md)
 
 **V1 참조**: [`frontend/packages/ui`](../../frontend/packages/ui)
@@ -135,13 +135,15 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 
 **V1 참조 (설계·수용 기준)**: [`frontend/docs/gen-chart/`](../../frontend/docs/gen-chart/), `frontend/packages/gen-chart` (코드 이식 금지)
 
-### 6. `gen-datagrid-crud` (합류 시점)
+### 6. `gen-datagrid-crud`
 
-**선행 조건**: 다른 agent의 `gen-datagrid` public API·Gate 8 안정
+**선행 조건**: `gen-datagrid` Gate 0~9 ✅
 
-- [ ] V1 `gen-grid-crud` 기능 gap 분석
-- [ ] `GenDataGridCrud` API 설계 문서
-- [ ] Excel·i18n·CRUD toolbar 범위
+- [x] V1 `gen-grid-crud` 기능 gap 분석 — [readiness audit](../packages/gen-datagrid-crud/.docs/gen-datagrid-crud-readiness-audit.md)
+- [x] `GenDataGridCrud` API 설계 — [package design](../packages/gen-datagrid-crud/.docs/gen-datagrid-crud-package-design.md)
+- [x] Gate 10 thin shell, Gate 11 mutation, test 9
+- [x] migration guide, app QA guide (Gate 12 문서)
+- [ ] demo admin 페이지 이관 (D4)
 
 ### 7. `gen-datagrid-chart` (합류 시점)
 
@@ -150,11 +152,11 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 - [ ] V1 `gen-grid-chart` 동작을 수용 기준으로만 참고
 - [ ] `rangeToChartModel` 등 grid-agnostic 변환 계층
 
-### 8. `apps/storybook-all`
+### 8. `apps/storybook`
 
-- [ ] V2 패키지 목록에 맞게 story 수집 경로
-- [ ] `gen-grid` story 제거
-- [ ] 패키지별 검토가 끝난 컴포넌트부터 story 연결
+- [x] V2 패키지 목록에 맞게 story 수집 — `apps/storybook`
+- [x] `gen-grid` story 없음
+- [x] gen-datagrid·gen-datagrid-crud story 연결
 
 ### 9. `apps/demo`
 
@@ -163,9 +165,7 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 - [x] D1 shell·MDI·mock login — [plan.md](../apps/demo/.docs/plan.md) §3
 - [x] D2 API·menu·registry·i18n — [plan.md](../apps/demo/.docs/plan.md) §4
 - [x] D3 chart·dashboard demo — [plan.md](../apps/demo/.docs/plan.md) §5
-- [ ] D4 admin CRUD (gen-datagrid 합류 후)
-- [ ] D3 Chart/Dashboard (`gen-chart`)
-- [ ] D4 admin — `gen-datagrid-crud` 준비 후
+- [ ] D4 admin CRUD — `gen-datagrid`·`gen-datagrid-crud` dep + 페이지 이관
 - [ ] D5 Actuals — `gen-datagrid-chart` 준비 후
 - [ ] `gen-grid*` import 제거 (D4 Gate)
 
@@ -194,25 +194,25 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ← 다른 agent
 - [ ] 하위 패키지 의존 확인
 ```
 
-## 6. 다른 agent(gen-datagrid)와의 합류
+## 6. gen-datagrid 트랙과의 합류 (2026-06-29)
 
 | 시점 | 본 트랙 (패키지 검토) | gen-datagrid 트랙 |
 | --- | --- | --- |
-| 초기 | theme → utils → ui → mdi 진행 | Gate 8·API 안정화 |
-| 중기 | gen-chart 재작성 (병렬 가능) | gen-datagrid-crud 설계 입력 제공 |
-| 후기 | gen-datagrid-crud 구현 | gen-datagrid-chart·demo 그리드 화면 연동 |
+| 초기 | theme → utils → ui → mdi ✅ | gen-datagrid Gate 0~9 ✅ |
+| 중기 | gen-chart · gen-frame ✅ | gen-datagrid-crud Gate 10~11 ✅ |
+| 후기 | demo D4 admin **진행 중** | gen-datagrid-chart · D5 Actuals |
 
-합류 전에 맞춰야 할 계약:
+합류 계약 (확정):
 
-- `GenDataGrid` public props·`GenDataGridHandle`
-- column meta 타입명 (`GenDataGridColumnMeta`)
-- CSS export 경로 (`@gen-office/gen-datagrid/index.css`)
+- [x] `GenDataGrid` public props·`GenDataGridHandle`
+- [x] column meta 타입명 (`GenDataGridColumnMeta`)
+- [x] CSS export 경로 (`@gen-office/gen-datagrid/index.css`)
 
 ## 7. 로드맵과의 관계
 
 - 전체 Phase 일정: [04-ROADMAP.md](./04-ROADMAP.md)
 - 본 문서는 **Phase 0~4 중 패키지 이식·검토 트랙**의 상세 순서입니다.
-- `gen-datagrid` Phase 1a는 다른 agent 담당으로 [04-ROADMAP.md](./04-ROADMAP.md)와 병렬 표기합니다.
+- `gen-datagrid` Phase 1a는 [04-ROADMAP.md](./04-ROADMAP.md) Phase 1a·2와 연동됩니다 (Gate 0~9 · crud Gate 10~11 ✅).
 
 ## 8. 관련 문서
 

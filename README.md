@@ -6,16 +6,20 @@ V1이 table DOM 기반 `@gen-office/gen-grid`를 중심으로 성장했다면, V
 
 차트(`@gen-office/gen-chart`)도 V1은 급히 구현되며 API·headless 계약이 정리되지 않았으므로, V2에서는 **코드 이식 없이 API 우선으로 처음부터 재작성**합니다.
 
-## 현재 상태
+## 현재 상태 (2026-06-29)
 
 | 항목 | 상태 |
 | --- | --- |
-| 소스 코드 이식 | **준비 중** — 문서·구조 정의 단계 |
-| 기반 레포 | [`frontend`](../frontend) |
-| 백엔드 | [`backend`](../backend) — API 변경 없이 연동 가능 |
-| 패키지 스코프 | `@gen-office/*` (내부 워크스페이스 기준) |
-| gen-datagrid | **다른 agent**에서 Gate 8까지 완성 |
-| 나머지 packages | **직접 소스 검토** — `theme` → `utils` → `ui` → … 순 ([검토 계획](./.docs/06-PACKAGE-REVIEW-PLAN.md)) |
+| **워크스페이스** | `pnpm install` · `pnpm build` 동작. React **19.2.7**, Vite **6.4**, Storybook **10.4** |
+| **`@gen-office/gen-datagrid`** | V2 workspace **이관 완료**. Gate 0~8 MVP + Gate 9 handle API ✅. test baseline 17 + interaction 181 |
+| **`@gen-office/gen-datagrid-crud`** | V2 workspace **이관 완료**. Gate 10 thin shell · Gate 11 mutation ✅. test 9 |
+| **`@gen-office/gen-chart`** | Phase 1 (C0~C7) ✅. demo Chart/Dashboard 연동 ✅ |
+| **`@gen-office/gen-frame`** | F0~F5 ✅. demo MDI shell 연동 ✅ |
+| **`apps/demo`** | D0~D3 ✅ (shell·MDI·chart). **D4 admin/Actuals** — grid 페이지 이관 **진행 중** |
+| **`apps/storybook`** | ui·mdi·gen-chart·gen-frame·gen-datagrid story 통합 |
+| **레거시 `gen-grid*`** | V2 workspace **미포함** (의도적 제외) |
+
+정본·Gate 상세: [packages/gen-datagrid/.docs/README.md](./packages/gen-datagrid/.docs/README.md), [packages/gen-datagrid-crud/.docs/README.md](./packages/gen-datagrid-crud/.docs/README.md)
 
 ## V2에서 바뀌는 핵심
 
@@ -44,8 +48,8 @@ V1이 table DOM 기반 `@gen-office/gen-grid`를 중심으로 성장했다면, V
 ```text
 genoffice-v2/
   apps/
-    demo/              V2 통합 데모 (gen-datagrid 기반)
-    storybook-all/     통합 Storybook
+    demo/              V2 통합 데모 (gen-datagrid 기반 admin 이관 진행)
+    storybook/         통합 Storybook
 
   packages/
     theme/             디자인 토큰, 글로벌 스타일
@@ -94,12 +98,13 @@ apps → feature packages → ui → theme/utils
 
 ## MVP 완료 기준 (초안)
 
-- [ ] `gen-grid` 패키지 없이 워크스페이스 빌드·테스트·lint 통과
-- [ ] `gen-datagrid` Gate 8 (MVP Acceptance) 충족
-- [ ] `gen-datagrid-crud`로 대표 admin CRUD 화면 동작
-- [ ] demo: 로그인 → MDI → 메뉴 기반 화면 5종 이상 GenDataGrid로 동작
-- [ ] mock 모드 및 실 backend 연동 모두 동작
-- [ ] `gen-chart` Chart/Dashboard demo 시나리오를 V2 composable API로 재현
+- [x] `gen-grid` 패키지 없이 워크스페이스에 `gen-datagrid` 존재
+- [x] `gen-datagrid` Gate 0~8 MVP + Gate 9 handle API (패키지 test green)
+- [x] `gen-datagrid-crud` thin shell + mutation workflow (Gate 10~11)
+- [ ] demo: admin/Actuals 등 그리드 화면 V2 연동
+- [ ] demo: 로그인 → MDI → 메뉴 5종 이상 GenDataGrid 화면
+- [x] `gen-chart` Chart/Dashboard demo composable API 재현
+- [ ] mock·실 backend 연동 smoke (admin CRUD 포함)
 
 ## 빠른 시작 (코드 이식 후)
 

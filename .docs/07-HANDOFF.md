@@ -1,12 +1,12 @@
 # 작업 이어하기 메모 (Handoff)
 
-## 1) 지금 상태 한눈에 보기
+## 1) 지금 상태 한눈에 보기 (2026-06-29)
 
-- 현재 리포지토리: `genoffice-v2`
-- 문서 중심으로 초기 방향 정리가 완료된 상태
-- 아직 `packages/`, `apps/` 실소스 이식·구현은 본격 시작 전
-- `gen-datagrid`는 **다른 agent 트랙**에서 진행 예정
-- 본 트랙은 `theme -> utils -> ui -> mdi -> gen-chart -> ...` 순서로 검토/이식
+- 현재 리포지토리: `genoffice-v2` — 패키지·demo shell 이식 진행 중
+- **gen-datagrid** Gate 0~9 ✅ · **gen-datagrid-crud** Gate 10~11 ✅ (V2 workspace)
+- **gen-chart** Phase 1 ✅ · **gen-frame** F0~F5 ✅ · **demo** D0~D3 ✅
+- **다음 블로커:** demo D4 admin — `apps/demo`에 grid dep·admin 페이지 이관
+- 본 트랙: theme → utils → ui → mdi → gen-chart → gen-frame **완료** → demo D4 진행
 
 ## 2) 이번 세션에서 완료한 것
 
@@ -55,7 +55,7 @@
 
 - V2에 `gen-grid`, `gen-grid-crud`, `gen-grid-chart` 복원 금지
 - V1 `packages/gen-chart/src/GenChart.tsx` 복사 이식 금지
-- `gen-datagrid` 코어 구현은 다른 agent 트랙이므로 충돌 작업 피하기
+- `gen-datagrid`·`gen-datagrid-crud`는 V2 workspace에 이관 완료. demo D4 연동 시 패키지 API·CSS export 계약 준수
 - 문서 변경 시 `README.md`와 `.docs/README.md` 링크 동기화
 - 한글 문서 편집 시 UTF-8 유지
 

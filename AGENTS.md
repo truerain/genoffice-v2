@@ -11,7 +11,7 @@ Use this file as the shared instruction source across Codex, ChatGPT, Claude, Ge
 - The repository is a **pnpm monorepo** with apps under `apps/*` and reusable packages under `packages/*`.
 - The package scope is `@gen-office/*`.
 - The primary demo app is `apps/demo`.
-- The integrated Storybook app is `apps/storybook-all`.
+- The integrated Storybook app is `apps/storybook`.
 - Project-level design docs live under `.docs/`. Start with [`.docs/README.md`](./.docs/README.md).
 
 ## Work Split
@@ -20,7 +20,7 @@ Two tracks run in parallel:
 
 | Track | Owner | Scope |
 | --- | --- | --- |
-| **Grid** | Another agent | `packages/gen-datagrid` through Gate 8 / MVP acceptance |
+| **Grid** | Grid track (V2 workspace) | `packages/gen-datagrid` Gate 0~9 ✅ · `gen-datagrid-crud` Gate 10~11 ✅ · demo D4 연동 진행 |
 | **Package review** | Human-led review with agent help | All other packages and apps, bottom-up per [`.docs/06-PACKAGE-REVIEW-PLAN.md`](./.docs/06-PACKAGE-REVIEW-PLAN.md) |
 
 When working in this repository:
@@ -28,7 +28,7 @@ When working in this repository:
 - Do **not** add or restore V1 packages `gen-grid`, `gen-grid-crud`, or `gen-grid-chart`.
 - Do **not** port V1 `GenChart.tsx` monolith into V2; follow [`.docs/05-GEN-CHART.md`](./.docs/05-GEN-CHART.md).
 - Prefer the package review order: `tsconfig` → `theme` → `utils` → `ui` → `mdi` → `gen-chart` → … → apps.
-- Touch `gen-datagrid-crud`, `gen-datagrid-chart`, or demo grid pages only after `gen-datagrid` public API is stable.
+- Touch `gen-datagrid-chart` or demo grid pages after confirming `gen-datagrid` public API for the target screen.
 
 ## Core Stack
 

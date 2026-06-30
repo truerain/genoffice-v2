@@ -7,7 +7,7 @@
 | **역할** | 현재 reference·운영 기준 | 차세대 개발 기준 |
 | **그리드** | `gen-grid` (table DOM) | `gen-datagrid` (div grid) |
 | **차트** | monolith `GenChart` (visx) | headless composable `gen-chart` (신규) |
-| **상태** | 구현 완료·데모 동작 중 | 문서·스캐폴딩 단계 |
+| **상태** | 구현 완료·데모 동작 중 | 패키지 이관 진행 중 — gen-datagrid/crud ✅, demo D4 admin **미연동** |
 | **신규 기능** | MVP 완료 후 freeze | MVP 이후 모든 신규 개발 |
 
 V2는 V1을 **대체**하는 것이 목표이며, 장기적으로 두 그리드 스택을 병행 유지하지 않습니다.
@@ -24,7 +24,7 @@ V2는 V1을 **대체**하는 것이 목표이며, 장기적으로 두 그리드 
 | `packages/mdi` | `packages/mdi` | MDI 레이아웃 |
 | `packages/tsconfig` | `packages/tsconfig` | TS 설정 |
 | `apps/demo` 인프라 | `apps/demo` | App shell, menu, api, i18n, auth |
-| `apps/storybook-all` | `apps/storybook-all` | Storybook 앱 |
+| `apps/storybook` | `apps/storybook` | Storybook 앱 |
 | `scripts/` | `scripts/` | 인코딩 체크, 토큰 매핑 등 |
 | 루트 설정 | 루트 설정 | `pnpm-workspace`, `turbo`, `package.json` |
 
@@ -32,7 +32,7 @@ V2는 V1을 **대체**하는 것이 목표이며, 장기적으로 두 그리드 
 
 | V1 | V2 | 변경 내용 |
 | --- | --- | --- |
-| `packages/gen-datagrid` | `packages/gen-datagrid` | Gate 8 완료, V2 core로 승격 |
+| `packages/gen-datagrid` | `packages/gen-datagrid` | V2 workspace 이관 · Gate 0~9 ✅ |
 | `apps/demo` 페이지 | `apps/demo` 페이지 | `GenGrid` → `GenDataGrid`, CRUD config 재작성 |
 | `docs/` (V1) | `.docs/` | V2 기준으로 재작성 (본 문서군) |
 
@@ -40,7 +40,7 @@ V2는 V1을 **대체**하는 것이 목표이며, 장기적으로 두 그리드 
 
 | V2 패키지 | V1 대응 | 설명 |
 | --- | --- | --- |
-| `gen-datagrid-crud` | `gen-grid-crud` | GenDataGrid API 기준 재설계 |
+| `gen-datagrid-crud` | `gen-grid-crud` | GenDataGrid API 기준 재설계 · Gate 10~11 ✅ |
 | `gen-chart` | V1 `gen-chart` | headless composable API로 **처음부터 재작성**. V1 `GenChart.tsx` 이식 안 함 |
 | `gen-datagrid-chart` | `gen-grid-chart` | 새 gen-chart API 기준 range chart 연동 |
 
@@ -151,7 +151,7 @@ MVP 이전에는 V1을 **회귀 비교·동작 참조** 용도로 유지합니�
 
 ### Q. `gen-datagrid` 문서는 어디에 두나?
 
-구현 초기에는 V1 [`gen-datagrid/docs/`](../../frontend/packages/gen-datagrid/docs/)를 source of truth로 두고, V2 이식 후 `packages/gen-datagrid/.docs/`로 옮깁니다. V2 `.docs/`는 리포지토리 수준 개요만 담습니다.
+V2 정본은 [`packages/gen-datagrid/.docs/`](../packages/gen-datagrid/.docs/README.md)입니다. V1 [`gen-datagrid/docs/`](../../frontend/packages/gen-datagrid/docs/)는 이관 전 참조용입니다.
 
 ## 9. 관련 문서
 

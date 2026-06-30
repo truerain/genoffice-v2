@@ -6,7 +6,7 @@ GenOffice V2는 **pnpm workspace + Turbo** 기반 모노레포입니다. 앱은 
 
 ```text
 ┌─────────────────────────────────────────────────────────┐
-│  apps/demo, apps/storybook-all                          │
+│  apps/demo, apps/storybook                              │
 │  (라우팅, MDI, 메뉴, API, 도메인 페이지)                  │
 └──────────────────────────┬──────────────────────────────┘
                            │
@@ -118,7 +118,7 @@ V2 reference 백오피스 앱입니다. V1 demo에서 이식하되 그리드 의
 
 **정본 문서:** [apps/demo/.docs/architecture.md](../apps/demo/.docs/architecture.md) · [plan.md](../apps/demo/.docs/plan.md)
 
-구현은 **Phase D0~D3**(shell·차트)을 grid 없이 먼저, **D4~D5**(admin·range chart)는 `gen-datagrid` 합류 후 진행합니다.
+구현은 **Phase D0~D3**(shell·차트) ✅, **D4~D5**(admin·range chart)는 `gen-datagrid`·`gen-datagrid-crud` 패키지 이관 완료 후 demo 연동 **진행 중**입니다.
 
 주요 구성 요소:
 
@@ -132,13 +132,13 @@ V2 reference 백오피스 앱입니다. V1 demo에서 이식하되 그리드 의
 | `pages/demo/*` | 컴포넌트·그리드 시연 |
 | `i18n/` | 다국어 |
 
-### `apps/storybook-all`
+### `apps/storybook`
 
-패키지별 Story를 통합해 문서화·시각 회귀 테스트에 사용합니다.
+패키지별 Story를 통합해 문서화·시각 회귀 테스트에 사용합니다. `gen-datagrid`·`gen-datagrid-crud` story 포함.
 
 ## 5. GenDataGrid 아키텍처 요약
 
-V2의 핵심인 `gen-datagrid`는 아래 계층으로 구성됩니다. 상세는 V1 [`gen-datagrid/docs/`](../../frontend/packages/gen-datagrid/docs/)를 참고합니다.
+V2의 핵심인 `gen-datagrid`는 아래 계층으로 구성됩니다. 상세·Gate 정본은 V2 [`packages/gen-datagrid/.docs/`](../packages/gen-datagrid/.docs/README.md)를 참고합니다. V1 [`gen-datagrid/docs/`](../../frontend/packages/gen-datagrid/docs/)는 이관 전 참조용입니다.
 
 ```text
 GenDataGrid (public)
@@ -163,11 +163,22 @@ core/
 
 같은 화면에 여러 grid가 있어도 focus·selection·clipboard가 섞이지 않아야 합니다.
 
-## 6. GenDataGrid CRUD 레이어 (신규)
+## 6. GenDataGrid CRUD 레이어
 
 V1 `gen-grid-crud`가 `GenGrid`에 CRUD를 얹었다면, V2는 `GenDataGrid` API에 맞춰 **재설계**합니다.
 
-예상 책임:
+V2 workspace 상태 (2026-06-29):
+
+| Gate | 내용 | 상태 |
+| --- | --- | --- |
+| 10 | `GenDataGridCrud` thin shell, ActionBar, controller | ✅ |
+| 11 | created row, validation, commit pipeline, export shell | ✅ |
+| 12 | migration guide, app QA guide | ✅ (문서) |
+
+demo admin 화면(`UserManagement`, `ActualsPage` 등) 이관은 **미착수** — Gate 12 app slice.  
+정본: [packages/gen-datagrid-crud/.docs/README.md](../packages/gen-datagrid-crud/.docs/README.md)
+
+책임:
 
 - CRUD toolbar / action controls
 - row 추가·삭제·저장·취소 흐름
