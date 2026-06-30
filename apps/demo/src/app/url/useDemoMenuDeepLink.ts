@@ -1,15 +1,19 @@
 /**
  * @file apps/demo/src/app/url/useDemoMenuDeepLink.ts
- * @description Address-bar `?menu=` — fixed home tab + target menu (full page load).
+ * @description Address-bar `?menu=` — open target page on cold load (Welcome pin is separate).
  * @created 2026-06-29
+ * @updated 2026-06-29
  *
  * @remark
  * - Exports: useDemoMenuDeepLink
- * - Same as menu click for target; always opens home tab first on cold load
+ * - Welcome pin: AppShell `pinnedPages` → useOpenPage (runs before this effect)
  *
+ * @history
+ * - 2026-06-29 Welcome pin — no longer opens home tab here
  */
 
 import { useEffect, useRef } from 'react';
+import { useMDIStore } from '@gen-office/mdi';
 import type { AppMenuItem } from '../menu/menu.types';
 import { DEMO_HOME_PAGE_ID } from '../menu/demoPageIds';
 import { findAppMenuItemByPageId } from '../menu/mapAppMenuToFrame';
@@ -19,10 +23,6 @@ interface UseDemoMenuDeepLinkOptions {
   items: AppMenuItem[];
   isMenuReady: boolean;
   openMenuItem: (item: AppMenuItem) => void;
-}
-
-function resolveHomeItem(items: AppMenuItem[]): AppMenuItem | undefined {
-  return findAppMenuItemByPageId(items, DEMO_HOME_PAGE_ID) ?? items[0];
 }
 
 export function useDemoMenuDeepLink({
@@ -39,14 +39,11 @@ export function useDemoMenuDeepLink({
     const pageId = pendingPageIdRef.current;
     if (!pageId) return;
 
-    const home = resolveHomeItem(items);
-    if (home) {
-      openMenuItem(home);
-    }
-
     const target = findAppMenuItemByPageId(items, pageId);
-    if (target && target.pageId !== home?.pageId) {
+    if (target && target.pageId !== DEMO_HOME_PAGE_ID) {
       openMenuItem(target);
+    } else if (target) {
+      useMDIStore.getState().setActiveTab(DEMO_HOME_PAGE_ID);
     }
 
     clearDemoMenuFromUrl();

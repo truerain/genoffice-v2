@@ -10,6 +10,30 @@
 
 ## 2026-06-29
 
+### pinnedPages — AppShell에서 useOpenPage로 주입
+
+- **요약:** `useOpenPage({ pinnedPages })` — shell 정책과 탭 엔진 분리, `pinnedPageIds`로 closable 판단
+- **파일:** `AppShell.tsx`, `hooks/useOpenPage.ts`
+- **검증:** `pnpm -C apps/demo build`
+
+### Welcome pin — gen-frame `pinnedPages`로 이전
+
+- **요약:** `useEnsureWelcomePinTab` 삭제, `useOpenPage`에서 `pinnedPages` 선언
+- **파일:** `hooks/useOpenPage.ts`, `AppShell.tsx`, `openPage.tsx`; gen-frame `syncPinnedMdiTabs`
+- **검증:** `pnpm -C packages/gen-frame test`, `pnpm -C apps/demo build`
+
+### Welcome pin 탭 (PlaceholderPage)
+
+- **요약:** `closable: false` Welcome 탭을 앱 시작 시 1회 오픈 — `items[0]` 자동 오픈·딥링크 home 선오픈 제거
+- **파일:** `openPage.tsx` (`createWelcomePinTab`), `hooks/useEnsureWelcomePinTab.ts`, `AppShell.tsx`, `useDemoMenuDeepLink.ts`, `useOpenPage.ts`
+- **검증:** `pnpm -C apps/demo build`
+
+### Multi-App Frame 설계 문서
+
+- **요약:** App Profile(`layout` × `navigation` × URL base), MDI/single 분기, `profiles/`·`shell/` 파일 배치안, Phase M0~M4
+- **파일:** `.docs/multi-app-frame.md`, `.docs/README.md`, `.docs/architecture.md` 링크
+- **상태:** 설계만 (구현 M1 이후)
+
 ### AppShell — 환경설정(톱니) 모달
 
 - **요약:** header 로그아웃·`FrameLayoutToggle` 제거 → 톱니 버튼 + `DemoSettingsModal` (Top/Left 레이아웃)

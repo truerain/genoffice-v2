@@ -6,21 +6,23 @@
  *
  * @remark
  * - @gen-office/gen-frame: layout chrome, menu, MdiPageHost
+ * - Welcome pin: `pinnedPages` on AppShell → `useOpenPage({ pinnedPages })`
  * - URL `?menu=` → openMenuItem (same as menu click), then clear URL
  *
  * @history
+ * - 2026-06-29 pinnedPages defined on AppShell, passed to useOpenPage
  * - 2026-06-29 URL deep link via useDemoMenuDeepLink (not useUrlSync)
  * - 2026-06-29 FrameBrand + demo brand-logo.png override
  * - 2026-06-29 Settings gear + layout modal (replaces header logout / layout toggle)
- * - 2026-06-29 F3: WorkspaceFrame + MdiPageHost + FrameLayoutToggle
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   FrameBrand,
   MdiPageHost,
   WorkspaceFrame,
   useFrameLayout,
+  type FrameOpenPagePayload,
 } from '@gen-office/gen-frame';
 import { useMDIStore } from '@gen-office/mdi';
 import { Button } from '@gen-office/ui';
@@ -29,9 +31,9 @@ import demoBrandLogo from '../assets/brand-logo.png';
 import { useAppToast } from './providers/AppToastProvider';
 import { useOpenPage } from './hooks/useOpenPage';
 import { useAppMenu } from './menu/useAppMenu';
+import { DEMO_HOME_PAGE_ID } from './menu/demoPageIds';
 import { findAppMenuItemByPageId, mapAppMenuToFrameItems } from './menu/mapAppMenuToFrame';
 import { DemoNavigationProvider } from './navigation/DemoNavigationContext';
-import { readInitialDemoMenuPageId } from './url/demoUrlSync';
 import { useDemoMenuDeepLink } from './url/useDemoMenuDeepLink';
 import { DemoSettingsModal } from './settings/DemoSettingsModal';
 import { useI18n } from '../i18n';
@@ -48,20 +50,29 @@ const TAB_BAR_LABELS_KO = {
 
 export function AppShell() {
   const { showWarning } = useAppToast();
-  const { openMenuItem } = useOpenPage();
   const { items, isLoading: isMenuLoading, error: menuError } = useAppMenu();
   const { t, locale } = useI18n();
+
+  const pinnedPages = useMemo<FrameOpenPagePayload[]>(
+    () => [
+      {
+        pageId: DEMO_HOME_PAGE_ID,
+        title: t('menu.placeholder'),
+        meta: { componentName: 'PlaceholderPage' },
+      },
+    ],
+    [t, locale],
+  );
+
+  const { openMenuItem } = useOpenPage({ pinnedPages });
   const { layout, setLayout } = useFrameLayout('leftPanel', DEMO_FRAME_LAYOUT_STORAGE_KEY);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const tabs = useMDIStore((state) => state.tabs);
   const activeTabId = useMDIStore((state) => state.activeTabId);
 
   const frameMenuItems = useMemo(
     () => mapAppMenuToFrameItems(items, locale),
     [items, locale],
   );
-
-  const initialMenuPageIdOnMount = useRef(readInitialDemoMenuPageId()).current;
 
   const isMenuReady = !isMenuLoading && !menuError && items.length > 0;
 
@@ -87,16 +98,6 @@ export function AppShell() {
       t('mdi.maxTabsMessage', { max: DEMO_MAX_TABS }),
     );
   }, [showWarning, t]);
-
-  useEffect(() => {
-    if (!isMenuReady || tabs.length > 0) {
-      return;
-    }
-    if (initialMenuPageIdOnMount) {
-      return;
-    }
-    openMenuItem(items[0]);
-  }, [isMenuReady, items, openMenuItem, tabs.length]);
 
   const handleMenuSelect = useCallback(
     (frameItem: { id: string }) => {

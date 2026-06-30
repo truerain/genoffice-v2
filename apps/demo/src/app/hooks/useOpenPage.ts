@@ -5,10 +5,13 @@
  * @updated 2026-06-29
  *
  * @remark
- * - Exports: useOpenPage
+ * - Exports: useOpenPage, UseOpenPageOptions
  * - resolveTab stays in demo (componentRegistry)
+ * - Shell passes `pinnedPages` (e.g. AppShell)
  *
  * @history
+ * - 2026-06-29 pinnedPages injected via UseOpenPageOptions (AppShell)
+ * - 2026-06-29 pinnedPages → gen-frame (replaces useEnsureWelcomePinTab)
  * - 2026-06-29 F3: useMdiNavigationController from @gen-office/gen-frame
  */
 
@@ -24,31 +27,51 @@ import { isComponentName } from '../config/componentRegistry';
 import { createPageTab, resolveMenuTitle } from '../openPage';
 import { useI18n } from '../../i18n';
 
-export function useOpenPage() {
+export interface UseOpenPageOptions {
+  pinnedPages?: FrameOpenPagePayload[];
+  pinnedPagesEnabled?: boolean;
+}
+
+export function useOpenPage({
+  pinnedPages,
+  pinnedPagesEnabled = true,
+}: UseOpenPageOptions = {}) {
   const { locale } = useI18n();
 
-  const resolveTab = useCallback((payload: FrameOpenPagePayload): MdiTabInput => {
-    const componentName = payload.meta?.componentName;
-    if (typeof componentName !== 'string' || !isComponentName(componentName)) {
-      throw new Error(`Unknown componentName: ${String(componentName)}`);
-    }
+  const pinnedPageIds = useMemo(
+    () => new Set(pinnedPages?.map((page) => page.pageId) ?? []),
+    [pinnedPages],
+  );
 
-    const tab = createPageTab({
-      pageId: payload.pageId,
-      title: payload.title,
-      componentName,
-      params: payload.params,
-    });
+  const resolveTab = useCallback(
+    (payload: FrameOpenPagePayload): MdiTabInput => {
+      const componentName = payload.meta?.componentName;
+      if (typeof componentName !== 'string' || !isComponentName(componentName)) {
+        throw new Error(`Unknown componentName: ${String(componentName)}`);
+      }
 
-    return {
-      id: tab.id,
-      title: tab.title,
-      content: tab.content,
-      closable: tab.closable,
-    };
-  }, []);
+      const tab = createPageTab({
+        pageId: payload.pageId,
+        title: payload.title,
+        componentName,
+        params: payload.params,
+      });
 
-  const controller = useMdiNavigationController({ resolveTab });
+      return {
+        id: tab.id,
+        title: tab.title,
+        content: tab.content,
+        closable: pinnedPageIds.has(payload.pageId) ? false : tab.closable,
+      };
+    },
+    [pinnedPageIds],
+  );
+
+  const controller = useMdiNavigationController({
+    resolveTab,
+    pinnedPages,
+    pinnedPagesEnabled,
+  });
 
   const openPage = useCallback(
     (payload: OpenPagePayload) => {

@@ -14,6 +14,8 @@
 
 `apps/demo`는 GenOffice V2의 **통합 reference 앱**입니다.
 
+**Multi-app persona (설계):** 동일 registry·페이지로 MDI / single·layout·chrome을 바꿔 여러 “앱”처럼 보여주는 App Profile 설계는 [multi-app-frame.md](./multi-app-frame.md)를 참고합니다.
+
 | 책임 | demo | 패키지 |
 | --- | --- | --- |
 | 라우팅·shell·메뉴·auth | ✅ | — |

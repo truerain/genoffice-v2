@@ -42,7 +42,7 @@ const ko = {
       openMenuManagement: 'Menu Management 열기',
       openActuals: 'Actuals 열기',
       linksHint:
-        '주소창 딥링크: /?menu=demo-chart — Welcome 탭 + 해당 화면(새로고침 시 탭은 초기화됩니다).',
+        '주소창 딥링크: /?menu=demo-chart — 고정 Welcome 탭 + 해당 화면(새로고침 시 탭은 초기화됩니다).',
     },
     chartDemo: {
       description: 'gen-chart composable API — line, bar, area, composed, pie, donut.',

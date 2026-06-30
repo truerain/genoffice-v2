@@ -2,15 +2,20 @@
  * @file apps/demo/src/app/openPage.tsx
  * @description Build MDI tab payloads from registry (Gate D2).
  * @created 2026-06-28
+ * @updated 2026-06-29
  *
  * @remark
  * - Exports: createPageTab, resolveMenuTitle
  * - pageId = tab id (duplicate → focus only)
+ * - Welcome pin policy: AppShell `pinnedPages` → useOpenPage → gen-frame
  *
+ * @history
+ * - 2026-06-29 pinnedPages in gen-frame (removed createWelcomePinTab)
  */
 
 import type { MDITab } from '@gen-office/mdi';
 import type { AppMenuItem } from './menu/menu.types';
+import { DEMO_HOME_PAGE_ID } from './menu/demoPageIds';
 import { RegistryPageContent } from './config/RegistryPageContent';
 import type { OpenPagePayload } from './config/componentRegistry.types';
 import { isComponentName } from './config/componentRegistry';
@@ -39,7 +44,7 @@ export function createPageTab(payload: OpenPagePayload): MDITab {
         params={payload.params}
       />
     ),
-    closable: true,
+    closable: payload.pageId !== DEMO_HOME_PAGE_ID,
   };
 }
 

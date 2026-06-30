@@ -43,7 +43,7 @@ const en: MessageTree = {
       openMenuManagement: 'Open Menu Management',
       openActuals: 'Open Actuals',
       linksHint:
-        'Address bar deep link: /?menu=demo-chart — Welcome tab + target page (tabs reset on full reload).',
+        'Address bar deep link: /?menu=demo-chart — pinned Welcome tab + target page (tabs reset on full reload).',
     },
     chartDemo: {
       description: 'gen-chart composable API — line, bar, area, composed, pie, donut.',

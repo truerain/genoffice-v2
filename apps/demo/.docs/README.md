@@ -17,7 +17,9 @@ V2 **reference 백오피스 앱**입니다. 패키지를 조합해 실제 운영
 | 문서 | 내용 |
 | --- | --- |
 | [architecture.md](./architecture.md) | 레이어, 디렉터리, 데이터 흐름, 패키지 의존, 레이아웃 계약 |
+| [multi-app-frame.md](./multi-app-frame.md) | App Profile, MDI/single·layout 조합, multi-persona 파일 배치 (M0~M4) |
 | [plan.md](./plan.md) | 구현 Phase D0~D5, Gate, V1 이식 범위, 선행 조건 |
+| [ui-direction.md](./ui-direction.md) | Soft Modern demo 토큰, chrome / workarea 계층 |
 
 ## 상위 문서
 

@@ -8,6 +8,30 @@
 
 ## 2026-06-29
 
+### apps/demo — pinnedPages AppShell 주입
+
+- **요약:** `useOpenPage({ pinnedPages })` — Welcome pin 정의를 AppShell로 이동
+- **파일:** `AppShell.tsx`, `hooks/useOpenPage.ts`
+- **검증:** `pnpm -C apps/demo build`
+
+### gen-frame — MDI pinnedPages API
+
+- **요약:** `useMdiNavigationController({ pinnedPages })` + `syncPinnedMdiTabs`; demo Welcome pin 이전
+- **파일:** `packages/gen-frame/src/navigation/**`, `apps/demo/src/app/hooks/useOpenPage.ts`
+- **검증:** gen-frame test, `pnpm -C apps/demo build`
+
+### apps/demo — Welcome pin — gen-frame `pinnedPages`로 이전
+
+- **요약:** PlaceholderPage를 `closable: false` 고정 탭으로 shell 시작 시 보장
+- **파일:** `apps/demo/src/app/openPage.tsx`, `hooks/useEnsureWelcomePinTab.ts`, `AppShell.tsx`, `url/useDemoMenuDeepLink.ts`
+- **검증:** `pnpm -C apps/demo build`
+
+### apps/demo — Multi-App Frame 설계 문서
+
+- **요약:** App Profile·MDI/single·layout 조합, multi-persona URL/파일 배치, Phase M0~M4
+- **파일:** `apps/demo/.docs/multi-app-frame.md`, `apps/demo/.docs/README.md`, `architecture.md`
+- **상태:** 설계 정본 (코드 미구현)
+
 ### apps/demo — MDI 탭 active/inactive 시각 대비
 
 - **요약:** workarea 내 MDI 탭 active·inactive 배경·글자·accent 대비 강화 (`demo-ui.css` 토큰·`role`/`aria-selected` 오버라이드)
