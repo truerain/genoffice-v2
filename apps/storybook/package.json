@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@gen-office/gen-chart": "workspace:*",
+    "@gen-office/gen-datagrid": "workspace:*",
+    "@gen-office/gen-datagrid-crud": "workspace:*",
     "@gen-office/gen-frame": "workspace:*",
     "@gen-office/mdi": "workspace:*",
     "@gen-office/theme": "workspace:*",

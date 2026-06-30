@@ -1,0 +1,134 @@
+// packages/gen-datagrid/src/renderers/div-grid/DataGridCell.tsx
+// Renders a baseline body cell for the div-based DataGrid renderer.
+
+import * as React from 'react';
+
+import type {
+  GenDataGridColumnAlign,
+  GenDataGridCellValidation,
+  GenDataGridEditEntryReason,
+  GenDataGridVisualRowMergeDisplayState,
+  GenDataGridVisualRowMergeState,
+} from '../../GenDataGrid.types';
+
+const interactiveTargetSelector =
+  'input,select,textarea,button,[contenteditable="true"]';
+
+type DataGridCellProps = {
+  rowId: string;
+  columnId: string;
+  isActive: boolean;
+  isSelected: boolean;
+  isSystemColumn?: boolean;
+  align?: GenDataGridColumnAlign;
+  isEditable: boolean;
+  isEditing: boolean;
+  isDirty?: boolean;
+  validation?: GenDataGridCellValidation | null;
+  visualRowMergeState?: GenDataGridVisualRowMergeState;
+  visualRowMergeDisplayState?: GenDataGridVisualRowMergeDisplayState;
+  editOpenOnStart?: boolean;
+  allowReclickEdit?: boolean;
+  allowDoubleClickEdit?: boolean;
+  activateOnMouseDown?: boolean;
+  pinning?: {
+    pinned: 'left' | 'right' | false;
+    isLastLeftPinned: boolean;
+    isFirstRightPinned: boolean;
+    style: React.CSSProperties;
+  };
+  bodyColSpan?: number;
+  style?: React.CSSProperties;
+  onActivate: (coord: { rowId: string; columnId: string }) => void;
+  onEditStart?: (coord: {
+    rowId: string;
+    columnId: string;
+    entryReason: GenDataGridEditEntryReason;
+  }) => void;
+  children: React.ReactNode;
+};
+
+export function DataGridCell({
+  rowId,
+  columnId,
+  isActive,
+  isSelected,
+  isSystemColumn,
+  align,
+  isEditable,
+  isEditing,
+  isDirty,
+  validation,
+  visualRowMergeState,
+  visualRowMergeDisplayState,
+  editOpenOnStart,
+  allowReclickEdit = true,
+  allowDoubleClickEdit = true,
+  activateOnMouseDown = true,
+  pinning,
+  bodyColSpan,
+  style,
+  onActivate,
+  onEditStart,
+  children,
+}: DataGridCellProps) {
+  return (
+    <div
+      role="gridcell"
+      data-gen-datagrid-cell="true"
+      data-cell-kind="body"
+      data-rowid={rowId}
+      data-colid={columnId}
+      data-active-cell={isActive ? 'true' : undefined}
+      data-selected-cell={isSelected ? 'true' : undefined}
+      data-system-column={isSystemColumn ? 'true' : undefined}
+      data-align={align}
+      data-editable-cell={isEditable ? 'true' : undefined}
+      data-editing-cell={isEditing ? 'true' : undefined}
+      data-dirty-cell={isDirty ? 'true' : undefined}
+      data-validation-state={validation?.severity}
+      data-visual-row-merge={visualRowMergeState}
+      data-visual-row-merge-display={visualRowMergeDisplayState}
+      data-edit-open-on-start={editOpenOnStart ? 'true' : undefined}
+      data-body-colspan={bodyColSpan && bodyColSpan > 1 ? String(bodyColSpan) : undefined}
+      data-pinned-cell={pinning?.pinned || undefined}
+      data-pinned-edge={
+        pinning?.isLastLeftPinned
+          ? 'left-end'
+          : pinning?.isFirstRightPinned
+            ? 'right-start'
+            : undefined
+      }
+      aria-invalid={validation?.severity === 'error' ? 'true' : undefined}
+      title={validation?.message}
+      className="gen-datagrid__cell"
+      style={{ ...pinning?.style, ...style }}
+      tabIndex={isActive ? 0 : -1}
+      onMouseDown={(event) => {
+        if (event.button !== 0) return;
+        if ((event.target as HTMLElement | null)?.closest(interactiveTargetSelector)) {
+          return;
+        }
+        if (!activateOnMouseDown) {
+          return;
+        }
+        event.preventDefault();
+        event.currentTarget.focus({ preventScroll: true });
+        if (allowReclickEdit && isActive && isEditable && !isEditing) {
+          onEditStart?.({ rowId, columnId, entryReason: 'reclick' });
+          return;
+        }
+        onActivate({ rowId, columnId });
+      }}
+      onDoubleClick={(event) => {
+        if ((event.target as HTMLElement | null)?.closest(interactiveTargetSelector)) {
+          return;
+        }
+        if (!allowDoubleClickEdit || !isEditable) return;
+        onEditStart?.({ rowId, columnId, entryReason: 'doubleClick' });
+      }}
+    >
+      <span className="gen-datagrid__cell-merge-content">{children}</span>
+    </div>
+  );
+}

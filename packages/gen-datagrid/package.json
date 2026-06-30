@@ -1,0 +1,70 @@
+{
+  "name": "@gen-office/gen-datagrid",
+  "version": "0.0.0",
+  "private": true,
+  "description": "GenOffice V2 div-based data grid (TanStack Table + div renderer)",
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    },
+    "./index.css": "./dist/index.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "clean": "rm -rf dist",
+    "preview": "vite preview",
+    "test": "pnpm run test:baseline && pnpm run test:interaction",
+    "test:baseline": "pnpm run build && node --test ./test/baseline.mjs",
+    "test:interaction": "vitest run",
+    "test:watch": "vitest",
+    "storybook": "pnpm -C ../../apps/storybook dev",
+    "build-storybook": "pnpm -C ../../apps/storybook build"
+  },
+  "dependencies": {
+    "@gen-office/theme": "workspace:*",
+    "@gen-office/ui": "workspace:*",
+    "@gen-office/utils": "workspace:*",
+    "@tanstack/react-table": "^8.20.5",
+    "@tanstack/react-virtual": "^3.13.16",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.562.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "10.4.6",
+    "@storybook/addon-docs": "10.4.6",
+    "@storybook/addon-links": "10.4.6",
+    "@storybook/react": "10.4.6",
+    "@storybook/react-vite": "10.4.6",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "22.15.32",
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "jsdom": "29.1.1",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "storybook": "10.4.6",
+    "typescript": "5.9.3",
+    "vite": "6.4.3",
+    "vite-plugin-dts": "5.0.2",
+    "vitest": "4.1.9"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "keywords": ["gen-office", "datagrid"],
+  "author": "",
+  "license": "ISC"
+}

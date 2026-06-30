@@ -10,6 +10,12 @@
 
 ## 2026-06-29
 
+### packages/gen-datagrid · gen-datagrid-crud — monorepo 설정 정합
+
+- **요약:** 이관 패키지 `package.json`·`tsconfig`·`vite`·`vitest`를 V2 monorepo 표준(React 19, Storybook 10, Vite 6.4, Vitest 4.1)에 맞춤
+- **변경:** Storybook 8 잔존 dep 제거 → `apps/storybook` 위임, `private`/`type: module`, 버전 `0.0.0`
+- **파일:** `packages/gen-datagrid/*`, `packages/gen-datagrid-crud/*`, `apps/storybook/package.json`
+
 ### apps/demo — Welcome 링크 + 주소창 딥링크
 
 - `?menu=` 풀 로드: Welcome + 지정 메뉴; Welcome 버튼으로 Chart/Dashboard (SPA)

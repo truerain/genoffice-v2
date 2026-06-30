@@ -1,0 +1,648 @@
+/* packages/gen-datagrid/src/index.css
+ * Defines baseline styles for GenDataGrid.
+ */
+
+:where([data-gen-datagrid-root='true']) {
+  box-sizing: border-box;
+}
+
+:where([data-gen-datagrid-root='true'] *) {
+  box-sizing: border-box;
+}
+
+.gen-datagrid {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: inherit;
+  background: inherit;
+}
+
+.gen-datagrid__viewport {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+}
+
+.gen-datagrid__header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  min-width: max-content;
+}
+
+.gen-datagrid__header[data-filter-open='true'] {
+  z-index: 10;
+}
+
+.gen-datagrid__global-filter {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 6px 8px;
+  border-bottom: 1px solid #d0d7de;
+  background: #ffffff;
+}
+
+.gen-datagrid__global-filter-input {
+  width: 220px;
+  max-width: 100%;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid #d0d7de;
+  border-radius: 3px;
+  font: inherit;
+}
+
+.gen-datagrid__row {
+  display: grid;
+  min-width: max-content;
+}
+
+.gen-datagrid__header > .gen-datagrid__header-row {
+  display: contents;
+}
+
+.gen-datagrid__row--placeholder {
+  pointer-events: none;
+}
+
+.gen-datagrid__body--virtual {
+  position: relative;
+  min-width: max-content;
+}
+
+.gen-datagrid__virtual-item {
+  min-width: max-content;
+}
+
+.gen-datagrid__sticky-merge-layer {
+  position: sticky;
+  top: var(--gen-datagrid-header-height, 40px);
+  z-index: 2;
+  min-width: max-content;
+  height: 0;
+  pointer-events: none;
+}
+
+.gen-datagrid__sticky-merge-label {
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-right: 1px solid #d0d7de;
+  border-bottom: 1px solid #d0d7de;
+  color: #24292f;
+  background: color-mix(in srgb, #ffffff 92%, #0969da);
+  box-shadow: inset 3px 0 0 #0969da, 0 1px 2px rgb(31 35 40 / 12%);
+}
+
+.gen-datagrid__header-cell,
+.gen-datagrid__cell,
+.gen-datagrid__footer-row-cell {
+  min-width: 0;
+  padding: 0 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-right: 1px solid #d0d7de;
+  border-bottom: 1px solid #d0d7de;
+  background: inherit;
+}
+
+.gen-datagrid__header-cell {
+  position: relative;
+  height: var(--gen-datagrid-header-height, 40px);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  overflow: visible;
+  font-weight: 600;
+  background: #f6f8fa;
+}
+
+.gen-datagrid__header-cell[data-filter-open='true'] {
+  z-index: 9;
+}
+
+.gen-datagrid__header-cell[data-header-rowspan] {
+  height: auto;
+}
+
+.gen-datagrid__header-cell[data-system-column='true'],
+.gen-datagrid__cell[data-system-column='true'],
+.gen-datagrid__footer-row-cell[data-system-column='true'] {
+  justify-content: center;
+  padding: 0;
+  color: #57606a;
+}
+
+.gen-datagrid__cell[data-system-column='true'] {
+  background: #f6f8fa;
+}
+
+.gen-datagrid__cell[data-system-column='true'] .gen-datagrid__cell-merge-content {
+  flex: 0 1 auto;
+  justify-content: center;
+  text-align: center;
+}
+
+.gen-datagrid__header-cell[data-align='left'],
+.gen-datagrid__cell[data-align='left'],
+.gen-datagrid__footer-row-cell[data-align='left'] {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.gen-datagrid__header-cell[data-align='center'],
+.gen-datagrid__cell[data-align='center'],
+.gen-datagrid__footer-row-cell[data-align='center'] {
+  justify-content: center;
+  text-align: center;
+}
+
+.gen-datagrid__header-cell[data-align='right'],
+.gen-datagrid__cell[data-align='right'],
+.gen-datagrid__footer-row-cell[data-align='right'] {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.gen-datagrid__header-cell[data-align='left'] .gen-datagrid__header-content,
+.gen-datagrid__cell[data-align='left'] .gen-datagrid__cell-merge-content {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.gen-datagrid__header-cell[data-align='center'] .gen-datagrid__header-content,
+.gen-datagrid__cell[data-align='center'] .gen-datagrid__cell-merge-content {
+  justify-content: center;
+  text-align: center;
+}
+
+.gen-datagrid__header-cell[data-align='right'] .gen-datagrid__header-content,
+.gen-datagrid__cell[data-align='right'] .gen-datagrid__cell-merge-content {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.gen-datagrid__header-cell[data-system-column='true'] .gen-datagrid__header-content {
+  flex: 0 1 auto;
+  text-align: center;
+}
+
+.gen-datagrid__header-cell--group {
+  justify-content: center;
+  text-align: center;
+  background: #eef2f6;
+}
+
+.gen-datagrid__header-cell--group .gen-datagrid__header-content {
+  flex: 0 1 auto;
+}
+
+.gen-datagrid__footer-rowgroup {
+  background: #f6f8fa;
+}
+
+.gen-datagrid__footer-rowgroup[data-sticky-footer-row='true'] {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+}
+
+.gen-datagrid__footer-row-cell {
+  height: var(--gen-datagrid-footer-row-height, 36px);
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  background: #f6f8fa;
+}
+
+.gen-datagrid__reorder-handle {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -4px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  color: #57606a;
+  background: transparent;
+}
+
+.gen-datagrid__reorder-handle:hover,
+.gen-datagrid__reorder-handle:focus-visible {
+  color: #24292f;
+  background: color-mix(in srgb, #57606a 12%, transparent);
+  outline: none;
+}
+
+.gen-datagrid__header-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gen-datagrid__filter {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.gen-datagrid__filter-trigger {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  color: #57606a;
+  background: transparent;
+}
+
+.gen-datagrid__filter-trigger:hover,
+.gen-datagrid__filter-trigger:focus-visible,
+.gen-datagrid__filter-trigger[data-filter-active='true'] {
+  color: #0969da;
+  background: color-mix(in srgb, #0969da 12%, transparent);
+  outline: none;
+}
+
+.gen-datagrid__filter-popover {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 8;
+  width: 180px;
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid #d0d7de;
+  border-radius: 4px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgb(31 35 40 / 16%);
+}
+
+.gen-datagrid__filter-input {
+  width: 100%;
+  min-width: 0;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid #d0d7de;
+  border-radius: 3px;
+  font: inherit;
+}
+
+.gen-datagrid__filter-clear {
+  height: 26px;
+  border: 1px solid #d0d7de;
+  border-radius: 3px;
+  color: #24292f;
+  background: #f6f8fa;
+  font: inherit;
+}
+
+.gen-datagrid__reorder-handle[data-column-reorder-handle='true'] {
+  cursor: grab;
+}
+
+.gen-datagrid__reorder-handle[data-column-reorder-handle='true']:active {
+  cursor: grabbing;
+}
+
+.gen-datagrid__resize-handle {
+  position: absolute;
+  top: 0;
+  right: -3px;
+  width: 6px;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  cursor: col-resize;
+  background: transparent;
+}
+
+.gen-datagrid__resize-handle:hover,
+.gen-datagrid__resize-handle:focus-visible {
+  background: color-mix(in srgb, #0969da 35%, transparent);
+  outline: none;
+}
+
+.gen-datagrid__cell {
+  height: var(
+    --gen-datagrid-current-row-height,
+    var(--gen-datagrid-row-height, 36px)
+  );
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.gen-datagrid__cell-merge-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gen-datagrid__cell:has(.gen-datagrid__row-status),
+.gen-datagrid__cell:has(.gen-datagrid__row-selection-checkbox),
+.gen-datagrid__cell:has(.gen-datagrid__row-number) {
+  justify-content: center;
+  padding: 0;
+  color: #57606a;
+  background: #f6f8fa;
+}
+
+.gen-datagrid__row-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: transparent;
+}
+
+.gen-datagrid__row-status[data-gen-datagrid-row-status='created'] {
+  background: #1a7f37;
+}
+
+.gen-datagrid__row-status[data-gen-datagrid-row-status='updated'] {
+  background: #bf8700;
+}
+
+.gen-datagrid__row-status[data-gen-datagrid-row-status='deleted'] {
+  background: #cf222e;
+}
+
+.gen-datagrid__row-selection-checkbox {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+}
+
+.gen-datagrid__row-number {
+  font-variant-numeric: tabular-nums;
+  font-size: 12px;
+}
+
+.gen-datagrid__detail-toggle {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 6px 0 -2px;
+  padding: 0;
+  border: 1px solid #d0d7de;
+  border-radius: 3px;
+  color: #24292f;
+  background: #ffffff;
+  font: inherit;
+  line-height: 1;
+}
+
+.gen-datagrid__detail-toggle:hover,
+.gen-datagrid__detail-toggle:focus-visible {
+  border-color: #0969da;
+  color: #0969da;
+  outline: none;
+}
+
+.gen-datagrid__tree-indent {
+  flex: 0 0 auto;
+  height: 1px;
+}
+
+.gen-datagrid__tree-toggle,
+.gen-datagrid__tree-toggle-spacer {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  margin: 0 6px 0 -2px;
+}
+
+.gen-datagrid__tree-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid #d0d7de;
+  border-radius: 3px;
+  color: #24292f;
+  background: #ffffff;
+  font: inherit;
+  line-height: 1;
+}
+
+.gen-datagrid__tree-toggle:hover,
+.gen-datagrid__tree-toggle:focus-visible {
+  border-color: #0969da;
+  color: #0969da;
+  outline: none;
+}
+
+.gen-datagrid__tree-toggle-spacer {
+  display: inline-block;
+}
+
+.gen-datagrid__cell-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gen-datagrid__detail-row {
+  display: grid;
+  min-width: max-content;
+}
+
+.gen-datagrid__detail-panel {
+  grid-column: 1 / -1;
+  min-width: 0;
+  height: var(--gen-datagrid-detail-row-height, 160px);
+  overflow: auto;
+  padding: 12px;
+  border-right: 1px solid #d0d7de;
+  border-bottom: 1px solid #d0d7de;
+  background: #ffffff;
+}
+
+.gen-datagrid__cell--placeholder {
+  background: #ffffff;
+}
+
+.gen-datagrid__cell-placeholder-bar {
+  height: 10px;
+  display: block;
+  border-radius: 999px;
+  background: color-mix(in srgb, #8c959f 28%, transparent);
+}
+
+.gen-datagrid__cell[data-active-cell='true'] {
+  outline: 2px solid #0969da;
+  outline-offset: -2px;
+}
+
+.gen-datagrid__row[data-current-row='true'] .gen-datagrid__cell {
+  background-color: color-mix(in srgb, #0969da 7%, #ffffff);
+}
+
+.gen-datagrid__cell[data-selected-cell='true'] {
+  background: color-mix(in srgb, #0969da 12%, transparent);
+}
+
+.gen-datagrid__cell[data-editing-cell='true'] {
+  position: relative;
+  z-index: 4;
+  overflow: visible;
+  padding: 0 4px;
+}
+
+.gen-datagrid__cell[data-visual-row-merge='start'],
+.gen-datagrid__cell[data-visual-row-merge='middle'] {
+  border-bottom-color: transparent;
+}
+
+.gen-datagrid__cell[data-visual-row-merge='middle'] .gen-datagrid__cell-merge-content,
+.gen-datagrid__cell[data-visual-row-merge='end'] .gen-datagrid__cell-merge-content {
+  visibility: hidden;
+}
+
+.gen-datagrid__cell[data-visual-row-merge-display='visible-start'] .gen-datagrid__cell-merge-content,
+.gen-datagrid__cell[data-visual-row-merge='middle'][data-active-cell='true'] .gen-datagrid__cell-merge-content,
+.gen-datagrid__cell[data-visual-row-merge='end'][data-active-cell='true'] .gen-datagrid__cell-merge-content,
+.gen-datagrid__cell[data-visual-row-merge='middle'][data-editing-cell='true'] .gen-datagrid__cell-merge-content,
+.gen-datagrid__cell[data-visual-row-merge='end'][data-editing-cell='true'] .gen-datagrid__cell-merge-content {
+  visibility: visible;
+}
+
+.gen-datagrid__cell[data-validation-state='error'] {
+  box-shadow: inset 3px 0 0 #cf222e, inset 0 0 0 1px color-mix(in srgb, #cf222e 58%, transparent);
+}
+
+.gen-datagrid__cell[data-validation-state='warning'] {
+  box-shadow: inset 3px 0 0 #bf8700, inset 0 0 0 1px color-mix(in srgb, #bf8700 58%, transparent);
+}
+
+.gen-datagrid__header-cell[data-pinned-cell],
+.gen-datagrid__cell[data-pinned-cell],
+.gen-datagrid__footer-row-cell[data-pinned-cell] {
+  background: #ffffff;
+}
+
+.gen-datagrid__cell[data-pinned-cell][data-selected-cell='true'] {
+  background: color-mix(in srgb, #0969da 12%, #ffffff);
+}
+
+.gen-datagrid__cell[data-pinned-cell][data-active-cell='true'] {
+  outline-color: #0969da;
+}
+
+.gen-datagrid__cell[data-pinned-cell][data-editing-cell='true'] {
+  box-shadow: 0 0 0 1px #0969da inset;
+}
+
+.gen-datagrid__header-cell[data-pinned-edge='left-end'],
+.gen-datagrid__cell[data-pinned-edge='left-end'],
+.gen-datagrid__footer-row-cell[data-pinned-edge='left-end'] {
+  box-shadow: 6px 0 8px -8px rgb(31 35 40 / 45%);
+}
+
+.gen-datagrid__header-cell[data-pinned-edge='right-start'],
+.gen-datagrid__cell[data-pinned-edge='right-start'],
+.gen-datagrid__footer-row-cell[data-pinned-edge='right-start'] {
+  box-shadow: -6px 0 8px -8px rgb(31 35 40 / 45%);
+}
+
+.gen-datagrid__cell[data-dirty-cell='true'] {
+  box-shadow: inset 3px 0 0 #bf8700;
+}
+
+.gen-datagrid__row[data-dirty-row='true'] .gen-datagrid__cell {
+  background-image: linear-gradient(
+    90deg,
+    color-mix(in srgb, #bf8700 8%, transparent),
+    transparent 48px
+  );
+}
+
+.gen-datagrid__row[data-deleted-row='true'] .gen-datagrid__cell {
+  color: #57606a;
+  text-decoration: line-through;
+  background-color: color-mix(in srgb, #cf222e 8%, transparent);
+}
+
+.gen-datagrid__pagination,
+.gen-datagrid__footer-bar {
+  flex: 0 0 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-top: 1px solid #d0d7de;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.gen-datagrid__pagination button {
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid #d0d7de;
+  border-radius: 3px;
+  color: #24292f;
+  background: #f6f8fa;
+  font: inherit;
+}
+
+.gen-datagrid__pagination button:disabled {
+  color: #8c959f;
+  cursor: not-allowed;
+}
+
+.gen-datagrid__pagination-page-size {
+  height: 28px;
+  border: 1px solid #d0d7de;
+  border-radius: 3px;
+  color: #24292f;
+  background: #ffffff;
+  font: inherit;
+}
+
+.gen-datagrid__pagination-status {
+  min-width: 48px;
+  text-align: center;
+}
+
+.gen-datagrid__editor {
+  width: 100%;
+  min-width: 0;
+  height: calc(100% - 6px);
+  border: 1px solid #0969da;
+  border-radius: 2px;
+  font: inherit;
+  user-select: text;
+}
+
+.gen-datagrid__editor--textarea {
+  resize: none;
+}

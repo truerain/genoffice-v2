@@ -1,0 +1,660 @@
+# GenDataGrid API Structure
+
+용어 기준: Active Cell, Selected Cell, Editing Cell, Editable Cell, Range Selection 등 공통 용어는 `terminology.md`를 따른다.
+
+Cell Edit API 기준: editing public props, column meta, editor context, implemented/deferred 상태는 `cell-edit-api.md`를 따른다.
+
+Editor 구현 계약: 이후 built-in/custom editor 설계 기준은 `editor-implementation-contract.md`를 따른다.
+
+## 1. 목적
+
+이 문서는 `GenDataGrid` API를 TanStack Table의 `Core API` / `Feature API` 구분 방식에 가깝게 재분류한다.
+
+`api-comparison-with-gen-grid.md`는 기존 `GenGrid`와의 props 비교 문서다. 이 문서는 비교표가 아니라 `gen-datagrid`의 최종 public API 구조를 정의하는 기준 문서다.
+
+## 2. API 분류 원칙
+
+`GenDataGrid`는 TanStack Table을 내부 table engine으로 사용하지만, public API는 React DataGrid 컴포넌트 API다. 따라서 TanStack과 완전히 같은 분류를 쓰지는 않는다.
+
+권장 분류:
+
+- **Core API**: grid 생성에 반드시 필요한 기본 계약
+- **State API**: controlled/uncontrolled state 계약
+- **Feature API**: 기능별 옵션과 callback
+- **Rendering API**: cell/header/footer/editor 렌더링 커스터마이징
+- **Column API**: column meta와 column helper 계약
+- **Instance API**: ref handle과 imperative API
+- **Extension API**: MVP 이후 확장 기능
+
+## 3. Core API
+
+Core API는 grid가 존재하기 위한 최소 계약이다. 기능 flag나 세부 feature state보다 먼저 정의한다.
+
+### 3.1 Data Core
+
+| API | Type | Required | 설명 |
+| --- | --- | --- | --- |
+| `data` | `TData[]` | controlled일 때 필수 | 외부에서 제어하는 data |
+| `defaultData` | `TData[]` | uncontrolled일 때 필수 | 내부 state로 관리할 초기 data |
+| `onDataChange` | `(next: TData[]) => void` | controlled일 때 필수 | data 변경 callback |
+| `dataVersion` | `number \| string` | optional | 외부 data reset/baseline 갱신 기준 |
+| `columns` | `ColumnDef<TData, unknown>[]` | 필수 | TanStack column 정의 |
+| `getRowId` | `(row: TData, index: number) => string` | 필수 | 안정적인 row id 생성 |
+
+설계 원칙:
+
+- `getRowId`는 필수로 둔다.
+- index fallback은 제공하지 않는다.
+- `data`와 `defaultData`는 동시에 받을 수 없다.
+
+### 3.2 Grid Identity Core
+
+| API | Type | Required | 설명 |
+| --- | --- | --- | --- |
+| `gridId` | `string` | optional | 외부에서 지정하는 grid id |
+| `getGridId` | `() => string` | optional | lazy grid id 생성 hook |
+
+설계 원칙:
+
+- 내부적으로 모든 grid는 고유 `gridId`를 가진다.
+- `gridId`는 DOM root, context, clipboard ownership, nested grid boundary에서 사용한다.
+- `gridId`와 `getGridId`가 모두 없으면 내부에서 stable id를 생성한다.
+
+### 3.3 Layout Core
+
+| API | Type | Required | 설명 |
+| --- | --- | --- | --- |
+| `caption` | `React.ReactNode` | optional | grid 설명 또는 caption |
+| `className` | `string` | optional | root className |
+| `style` | `React.CSSProperties` | optional | root style |
+| `height` | `number \| string` | optional | grid height |
+| `maxHeight` | `number \| string` | optional | grid max height |
+| `headerHeight` | `number` | optional | header row height |
+| `rowHeight` | `number` | optional | default row height |
+| `getRowHeight` | `(ctx) => number \| undefined` | optional | per-row height resolver for non-virtualized rendering |
+| `columnFitMode` | `'none' \| 'grow'` | optional | column width fit mode |
+
+설계 원칙:
+
+- `rowHeight`는 기본 row height다.
+- `getRowHeight`는 non-virtualized rendering에서는 row별 height로, virtualized rendering에서는 dynamic measurement의 estimate/base height로 사용한다.
+- header/body/footer는 같은 column template source를 공유한다.
+
+Implementation status: `className`, `style`, `rowHeight`, `getRowHeight`, `headerHeight`, `footerRowHeight`, and `columnFitMode` are implemented in `GenDataGrid.types.ts`. `caption`, `height`, `maxHeight`, and the older `fitColumns` name are not current public props; use `style` for root sizing and `columnFitMode` for width fill behavior. In virtualized rendering, `getRowHeight` is reused as the Gate 8.4 dynamic measurement estimate/base height.
+
+### 3.4 DOM And Accessibility Core
+
+DOM contract는 prop이 아니지만 Core API 수준의 public behavior다.
+
+| Contract | 설명 |
+| --- | --- |
+| root `role="grid"` | grid root |
+| rowgroup `role="rowgroup"` | header/body/footer group |
+| row `role="row"` | row |
+| header cell `role="columnheader"` | header cell |
+| body cell `role="gridcell"` | body cell |
+| `data-gen-datagrid-root="true"` | grid root marker |
+| `data-grid-id` | grid instance id |
+| `data-gen-datagrid-cell="true"` | all cell marker |
+| `data-rowid` | body cell row id |
+| `data-colid` | cell column id |
+
+설계 원칙:
+
+- 모든 DOM lookup은 root-scoped여야 한다.
+- `document.querySelector` 전역 cell lookup은 금지한다.
+- nested grid는 별도 root boundary로 취급한다.
+
+## 4. State API
+
+State API는 controlled/uncontrolled 상태 계약이다. TanStack feature state와 DataGrid 고유 state를 분리해 정의한다.
+
+### 4.1 Active Cell State
+
+| API | Type | 설명 |
+| --- | --- | --- |
+| `activeCell` | `{ rowId: string; columnId: string } \| null` | controlled active cell |
+| `onActiveCellChange` | `(next: ActiveCell) => void` | active cell change callback |
+| `defaultActiveCell` | `ActiveCell` | uncontrolled initial active cell |
+
+설계 원칙:
+
+- active cell은 gridId scope 안에서만 의미가 있다.
+- filtering/pagination/tree collapse 후 없는 row를 참조하면 내부에서 clear하거나 nearest cell로 보정한다.
+
+### 4.2 Column State
+
+| API | Type | 설명 |
+| --- | --- | --- |
+| `columnOrder` | `string[]` | controlled column order |
+| `defaultColumnOrder` | `string[]` | uncontrolled initial column order |
+| `onColumnOrderChange` | `(next: string[]) => void` | order callback |
+| `columnVisibility` | `VisibilityState` | controlled visibility |
+| `defaultColumnVisibility` | `VisibilityState` | uncontrolled initial visibility |
+| `onColumnVisibilityChange` | `(next: VisibilityState) => void` | visibility callback |
+| `columnSizing` | `Record<string, number>` | controlled column sizing |
+| `defaultColumnSizing` | `Record<string, number>` | uncontrolled initial sizing |
+| `onColumnSizingChange` | `(next: Record<string, number>) => void` | sizing callback |
+| `columnPinning` | `{ left?: string[]; right?: string[] }` | controlled pinning |
+| `defaultColumnPinning` | `{ left?: string[]; right?: string[] }` | uncontrolled initial pinning |
+| `onColumnPinningChange` | `(next: ColumnPinningState) => void` | pinning callback |
+
+Implementation status: `columnOrder`, `columnVisibility`, `columnSizing`, and `columnPinning` are wired through the TanStack adapter. Gate 5 renders sticky pinned header/body cell markers and offsets, exposes resize handles, supports same-zone header drag reorder, and blocks cross-zone reorder through pinning-zone normalization. Pinned z-index layering and selected pinned cell styling are implemented. Browser-level visual verification guidance is documented in `../qa/gate-5-visual-test-guide.md`.
+
+설계 원칙:
+
+- column order와 pinning은 서로 정규화한다.
+- pinned zone을 넘는 reorder는 차단한다.
+- sizing state가 column template의 단일 source다.
+
+### 4.3 Row Selection State
+
+| API | Type | 설명 |
+| --- | --- | --- |
+| `rowSelection` | `RowSelectionState` | controlled row selection |
+| `defaultRowSelection` | `RowSelectionState` | uncontrolled initial row selection |
+| `onRowSelectionChange` | `(next: RowSelectionState) => void` | row selection callback |
+
+설계 원칙:
+
+- `checkboxSelection` 명칭 대신 `enableRowSelection`을 사용한다.
+- checkbox column은 row selection feature의 UI 구현이다.
+
+### 4.4 Filter State
+
+| API | Type | 설명 |
+| --- | --- | --- |
+| `columnFilters` | `ColumnFiltersState` | controlled column filters |
+| `defaultColumnFilters` | `ColumnFiltersState` | uncontrolled initial column filters |
+| `onColumnFiltersChange` | `(next: ColumnFiltersState) => void` | column filters callback |
+| `globalFilter` | `unknown` | controlled global filter |
+| `defaultGlobalFilter` | `unknown` | uncontrolled initial global filter |
+| `onGlobalFilterChange` | `(next: unknown) => void` | global filter callback |
+
+### 4.5 Pagination State
+
+| API | Type | 설명 |
+| --- | --- | --- |
+| `pagination` | `PaginationState` | controlled pagination |
+| `defaultPagination` | `PaginationState` | uncontrolled initial pagination |
+| `onPaginationChange` | `(next: PaginationState) => void` | pagination callback |
+| `totalRowCount` | `number` | server/manual pagination total count |
+| `pageSizeOptions` | `number[]` | page size options |
+| `paginationMode` | `'client' \| 'manual'` | client/server pagination ownership |
+| `dataVersion` | `number \| string` | external data baseline reset signal |
+
+### 4.6 Dirty State
+
+| API | Type | 설명 |
+| --- | --- | --- |
+| `onDirtyStateChange` | `(next: GenDataGridDirtyState) => void` | dirty state callback |
+| `deleteRowsBehavior` | `'mark' \| 'removeUncontrolled'` | delete-row data ownership policy |
+| `dirtyKeys` | `string[]` | dirty 비교 대상 field |
+| `isEqualForDirty` | `(a, b, ctx) => boolean` | custom equality |
+
+Dirty state는 TanStack state가 아니라 DataGrid application state다.
+
+## 5. Feature API
+
+Feature API는 각 기능의 enable flag, option, event callback을 묶는다.
+
+### 5.1 Editing Feature
+
+| API | Type | 우선순위 | 설명 |
+| --- | --- | --- | --- |
+| `readOnly` | `boolean` | MVP | editing 차단 |
+| `readonly` | `boolean` | MVP | 기존 GenGrid 호환 alias |
+| `editSelectOnFocus` | `boolean` | MVP | 기본 input editor focus 시 전체 선택 |
+| `editCommitOnBlur` | `boolean` | MVP | 기본 editor blur 시 commit |
+| `editOnActiveCell` | `boolean` | MVP | active cell 진입 시 edit 시작 |
+| `keepEditingOnNavigate` | `boolean` | MVP | 이동 중 edit mode 유지 |
+| `editorFactory` | `GenDataGridEditorFactory<TData>` | MVP | global editor factory |
+| `isCellEditable` | `(ctx) => boolean` | MVP | grid-level editable predicate |
+| `onCellValueChange` | `(args) => void` | MVP | committed value callback |
+
+Implementation status: `readOnly`, `readonly`, `editSelectOnFocus`, `editCommitOnBlur`, `editOnActiveCell`, `keepEditingOnNavigate`, `editorFactory`, `isCellEditable`, and `onCellValueChange` are defined as public API types. `readOnly`, `readonly`, and `isCellEditable` are wired into the editable cell predicate model. `editSelectOnFocus`, `editCommitOnBlur`, and Tab/Shift+Tab navigation are implemented for built-in editors. `editorFactory` participates in runtime editor rendering, and committed values are emitted through `onCellValueChange`. `editOnActiveCell` and `keepEditingOnNavigate` are reserved public props and emit runtime warnings until the navigation-editing policy slice.
+
+Gate 4.1 status: `editPolicy` is implemented for start triggers, continuation
+triggers, `openOnEditStart`, and `blurOwnership`. Column `meta.editPolicy`
+overrides the grid policy, and column `meta.editBlurOwnership` overrides blur
+ownership directly. `GenDataGridEditorContext` exposes `arrowNavigate`,
+`openOnEditStart`, `editEntryReason`, `blurOwnership`,
+`registerEditorSurface`, `unregisterEditorSurface`, `getGridRoot`, and
+`getEditorSurfaces`. The inline blur default is commit; set
+`editCommitOnBlur={false}` or column `meta.editCommitOnBlur: false` to cancel on
+blur and other-cell activation.
+
+Gate 4.2 status: plain-text paste application is implemented. `pasteOptions`
+controls paste error reporting through `errorMode`, `failureBehavior`, and
+`onError`. Accepted paste cells reuse `onCellValueChange`; GenDataGrid does not
+mutate `data` internally.
+
+### 5.2 Range Selection And Clipboard Feature
+
+| API | Type | 우선순위 | 설명 |
+| --- | --- | --- | --- |
+| `enableRangeSelection` | `boolean` | MVP | cell range selection |
+| `selectedRanges` | `SelectedRanges` | MVP | controlled selected ranges |
+| `defaultSelectedRanges` | `SelectedRanges` | MVP | uncontrolled initial selected ranges |
+| `onSelectedRangesChange` | `(next) => void` | MVP | selected ranges callback |
+| `enableClipboard` | `boolean` | MVP | copy/paste 활성화 |
+| `clipboardOptions` | object | MVP | include header, value formatter 정책 |
+
+Implementation status: `enableRangeSelection`, `selectedRanges`, `defaultSelectedRanges`, `onSelectedRangesChange`, `enableClipboard`, and `clipboardOptions.includeHeader` are implemented for range selection and copy. Plain-text paste application and `pasteOptions` are implemented for Gate 4.2. Clipboard value formatter policy and paste-to-selection remain deferred.
+
+설계 원칙:
+
+- clipboard ownership은 focused grid 기준이다.
+- nested grid selection은 부모 grid selection과 독립이다.
+
+### 5.3 Filtering Feature
+
+| API | Type | 우선순위 | 설명 |
+| --- | --- | --- | --- |
+| `enableColumnFilters` | `boolean` | MVP | column filtering |
+| `enableGlobalFilter` | `boolean` | MVP | global filtering |
+| `filterMode` | `'client' \| 'manual'` | MVP | client/server filtering 구분 |
+
+### 5.4 Pagination Feature
+
+| API | Type | 우선순위 | 설명 |
+| --- | --- | --- | --- |
+| `enablePagination` | `boolean` | MVP | pagination UI |
+| `paginationMode` | `'client' \| 'manual'` | MVP | client/server pagination 구분 |
+
+### 5.5 Column Feature
+
+| API | Type | 우선순위 | 설명 |
+| --- | --- | --- | --- |
+| `enableColumnSizing` | `boolean` | MVP | resize |
+| `enableColumnReorder` | `boolean` | MVP | reorder |
+| `enablePinning` | `boolean` | MVP | column pinning |
+| `enableColumnVisibility` | `boolean` | MVP | column visibility |
+
+### 5.6 Row Feature
+
+| API | Type | 우선순위 | 설명 |
+| --- | --- | --- | --- |
+| `enableRowSelection` | `boolean` | MVP | row selection |
+| `rowSelectionMode` | `'all' \| 'createdOnly'` | MVP | row selection policy |
+| `enableRowNumber` | `boolean` | MVP | row number column |
+| `enableRowStatus` | `boolean` | MVP | row status column |
+| `rowStatusResolver` | `(ctx: GenDataGridRowStatusContext<TData>) => GenDataGridRowStatus` | MVP | row status resolver |
+| `enableCurrentRowHighlight` | `boolean` | MVP | current row highlight |
+| `onCurrentRowChange` | `(rowId: string \| null) => void` | MVP | current row callback derived from active cell row |
+
+Implementation status: row number, row selection, and row status props are implemented in Gate 8.7. `enableCurrentRowHighlight` and `onCurrentRowChange` are implemented in Gate 8.7-a. Controlled `currentRowId` and `defaultCurrentRowId` are deferred until a later slice.
+
+
+### 5.6-a Validation Feature
+
+| API | Type | Priority | Description |
+| --- | --- | --- | --- |
+| `getCellValidation` | `(ctx: GenDataGridValidationContext<TData>) => GenDataGridCellValidation \| null \| undefined` | MVP extension | display-only validation marker resolver |
+
+Implementation status: `getCellValidation`, `GenDataGridCellValidation`, `GenDataGridValidationContext`, and `GenDataGridValidationSeverity` are implemented in Gate 8.6-c. The resolver marks body cells only; system columns are excluded. Validation state is display-only and does not block edit commits or paste operations.
+
+### 5.7 Footer Feature
+
+| API | Type | 우선순위 | 설명 |
+| --- | --- | --- | --- |
+| `enableFooterRow` | `boolean` | MVP | column footer row |
+| `enableStickyFooterRow` | `boolean` | MVP | sticky footer row |
+| `enableFooter` | `boolean` | MVP | external footer area |
+
+### 5.8 Virtualization Feature
+
+| API | Type | ???? | ?? |
+| --- | --- | --- | --- |
+| `enableVirtualization` | `boolean` | MVP | row virtualization |
+| `scrollSeeking` | `boolean \| { enabled?: boolean; jumpThresholdRows?: number; jumpThresholdViewports?: number; resetDelayMs?: number }` | Gate 7 follow-up | large-jump scroll placeholder policy |
+
+Implementation status: Gate 7 row virtualization, Gate 7.2 range auto-scroll, scroll-seeking placeholder rendering, and Gate 8.4 virtualized dynamic row measurement are implemented. Virtualization remains body-row scoped, but `getRowHeight` is now also used as the virtualized estimate/base height and expanded detail panel height participates in measured composite virtual items. Column virtualization remains deferred.
+
+`scrollSeeking` can disable or tune the large-jump placeholder fallback without changing the base virtualization contract.
+
+## 6. Rendering API
+
+Rendering API는 DataGrid의 UI 커스터마이징 surface다.
+
+### 6.1 Row And Cell Styling
+
+| API | Type | 설명 |
+| --- | --- | --- |
+| `getRowClassName` | `(ctx) => string \| undefined` | row className |
+| `getRowStyle` | `(ctx) => CSSProperties \| undefined` | row inline style |
+| `getCellClassName` | `(ctx) => string \| undefined` | cell className |
+| `getCellStyle` | `(ctx) => CSSProperties \| undefined` | cell inline style |
+| `getCellTooltip` | `(ctx) => string \| undefined` | cell tooltip |
+
+### 6.2 Render Slots
+
+| API | Type | 설명 |
+| --- | --- | --- |
+| `footer` | `React.ReactNode` | static external footer |
+| `renderFooter` | `(ctx) => React.ReactNode` | external footer render |
+| `noRowsMessage` | `React.ReactNode` | static empty state |
+| `renderNoRowsMessage` | `(ctx) => React.ReactNode` | empty state render |
+| `renderToolbar` | `(ctx) => React.ReactNode` | optional toolbar slot |
+
+권장 render context:
+
+```ts
+type GenDataGridRenderContext<TData> = {
+  gridId: string;
+  table: Table<TData>;
+  rowCount: number;
+  visibleRowCount: number;
+  rootElement: HTMLElement | null;
+};
+```
+
+### 6.3 Editor Rendering
+
+| API | Type | 설명 |
+| --- | --- | --- |
+| `editorFactory` | `(ctx) => React.ReactNode` | global editor renderer |
+| column meta `renderEditor` | `(ctx) => React.ReactNode` | column-level editor |
+| column meta `renderCell` | `(ctx) => React.ReactNode` | column-level cell render |
+
+`editorFactory` and column meta `renderEditor` receive the same `GenDataGridEditorContext`, including resolved editor metadata, select-on-focus policy, blur-commit policy, and editable-cell tab navigation.
+
+## 7. Column API
+
+Column API는 TanStack `ColumnDef.meta`를 확장하는 public API다. 이 타입은 renderer 내부에서 export하지 않는다.
+
+권장 위치:
+
+```txt
+src/columns/columnMeta.ts
+src/columns/columnHelpers.ts
+src/columns/semanticDisplay.ts
+src/columns/cellFormat.ts
+```
+
+### 7.1 Display Meta
+
+| Meta | 설명 | 우선순위 |
+| --- | --- | --- |
+| `semanticType` | amount/percent semantic display | MVP |
+| `amountOptions` | amount display option | MVP |
+| `percentOptions` | percent display option | MVP |
+| `displayScale` | display scale | MVP |
+| `format` | built-in formatter | MVP |
+| `formatLocale` | formatter locale | MVP |
+| `numberFormat` | number format option | MVP |
+| `dateFormat` | date format option | MVP |
+| `currency` | currency code | MVP |
+| `trueLabel` / `falseLabel` | boolean labels | MVP |
+| `emptyLabel` | empty value label | MVP |
+| `mono` | mono/tabular numeric display | MVP |
+| `align` | body align | MVP |
+| `headerAlign` | header align | MVP |
+
+Implementation status: column meta `align` and `headerAlign` are implemented on TanStack `ColumnMeta`. Body cells render `data-align` from `align`; leaf and group headers render `data-align` from `headerAlign` and default to `center` when omitted; footer row cells follow `align`. The baseline CSS applies left, center, and right alignment through those attributes.
+
+### 7.2 Editing Meta
+
+| Meta | 설명 | 우선순위 |
+| --- | --- | --- |
+| `editable` | editable boolean/predicate | MVP |
+| `editType` | built-in editor type | MVP |
+| `editOptions` | select options | MVP |
+| `getEditOptions` | row-based select options | MVP |
+| `editPlaceholder` | editor placeholder | MVP |
+| `editSelectOnFocus` | 기본 input editor focus 시 전체 선택 | MVP |
+| `editCommitOnBlur` | 기본 editor blur 시 commit | MVP |
+| `renderEditor` | custom editor | MVP |
+
+Implementation status: `editable`, `editType`, `editOptions`, `getEditOptions`, `editPlaceholder`, `editSelectOnFocus`, `editCommitOnBlur`, and `renderEditor` are defined on TanStack `ColumnMeta`. These fields are wired into the editable cell predicate model and runtime editor rendering. Column `renderEditor` has priority over grid-level `editorFactory`, then the built-in default editor is used. Column `editSelectOnFocus` and `editCommitOnBlur` override their grid-level defaults and are exposed through the shared editor context.
+
+### 7.3 Styling Meta
+
+| Meta | 설명 | 우선순위 |
+| --- | --- | --- |
+| `cellClassName` | className or resolver | MVP |
+| `color` | text color or resolver | MVP |
+| `backgroundColor` | background color or resolver | MVP |
+| `tooltip` | static tooltip | MVP |
+| `getCellTooltip` | dynamic tooltip | MVP |
+
+### 7.4 Export Meta
+
+| Meta | 설명 | 우선순위 |
+| --- | --- | --- |
+| `exportValue` | clipboard/export value resolver | MVP |
+
+### 7.5 Layout Meta
+
+| Meta | 설명 | 우선순위 |
+| --- | --- | --- |
+| `pinned` | initial pinning hint | MVP |
+| `bodyColSpan` | body CSS grid column span | Extension |
+| `headerSpan` | header CSS grid column span | Extension |
+| `groupVisibilityToggle` | grouped header visibility toggle | Extension |
+| `visualRowMerge` | boolean or option object for visual row merge | Extension |
+| `visualRowMerge.showContinuationValue` | virtual first-visible continuation cell value display | Extension |
+| `visualRowMerge.stickyLabel` | virtual sticky merge label overlay | Extension |
+| `visualRowMerge.getValue` | row merge compare value resolver | Deferred extension |
+| `visualRowMerge.compare` | row merge comparator | Deferred extension |
+
+Implementation status: column meta `bodyColSpan` is implemented for body cells with CSS grid placement and pinned-zone fallback. Column meta `headerSpan` is implemented for leaf header cells with CSS grid placement and the same pinned-zone fallback. When grouped headers create multiple header rows, ungrouped leaf headers, system headers, and `headerSpan` leaf headers row-span across the full header height. TanStack nested `ColumnDef.columns` group headers are implemented through header groups and `data-header-group-cell` markers. `visualRowMerge` is implemented as a visual DOM-preserving merge with virtual continuation and center-column sticky labels. `visualRowMerge: true` enables the full behavior, while object options can split `showContinuationValue` and `stickyLabel`. `groupVisibilityToggle`, `visualRowMerge.getValue`, and `visualRowMerge.compare` are still deferred.
+
+## 8. Instance API
+
+Instance API는 `GenDataGridHandle<TData = unknown>` ref handle로 제공한다. 현재 구현된 handle은 selection, clipboard,
+scroll, filter clear, dirty marker, delete marker를 다룬다. `GenDataGridCrud`가 얇은
+workflow/controller로 동작하려면 data snapshot, change set, editing flush, baseline
+transition API가 추가로 필요하다.
+
+### 8.1 Implemented Handle
+
+Implementation status: Gate 9.1 aligned the public handle type and forwarded ref as
+`GenDataGridHandle<TData = unknown>`. Existing non-generic `GenDataGridHandle`
+usage remains valid through the default type argument.
+
+| API | Description | Status |
+| --- | --- | --- |
+| `rootElement` | root div element reference | implemented |
+| `clearSelection()` | clear range and row selection | implemented |
+| `copySelection(options)` | copy selected cell range | implemented |
+| `scrollToCell(coord)` | scroll/focus target cell into view | implemented |
+| `clearColumnFilters()` | clear column filters | implemented |
+| `clearGlobalFilter()` | clear global filter | implemented |
+| `clearFilters()` | clear column and global filters | implemented |
+| `flushEditing()` | commit the active editor through the grid editing lifecycle before save | implemented |
+| `cancelEditing()` | cancel the active editor without emitting value change | implemented |
+| `getDirtyState()` | return current dirty/deleted marker state | implemented |
+| `getData()` | return a shallow array snapshot of current source rows | implemented |
+| `getRow(rowId)` | return a row by id from current source rows | implemented |
+| `getChangeSet()` | return created/updated/deleted change set for commit workflows | implemented |
+| `resetDirtyState(rowIds?)` | clear dirty/deleted markers | implemented |
+| `commitDirtyState(rowIds?)` | currently clears dirty/deleted markers like `resetDirtyState` | implemented |
+| `acceptChanges(rowIds?)` | explicit save-success marker acceptance alias over `commitDirtyState` | implemented |
+| `deleteRows(rowIds)` | mark rows as deleted or remove uncontrolled rows depending on `deleteRowsBehavior` | implemented |
+
+### 8.2 Near-term Handle Extension
+
+The next implementation slice is tracked in
+`../plan/handle-extension-plan.md` and
+`../architecture/handle-data-ownership-architecture.md`.
+
+| API | Description | Status |
+| --- | --- | --- |
+
+### 8.3 Deferred Data Mutation Handle
+
+| API | Description | Status |
+| --- | --- | --- |
+| `revertChanges(rowIds?)` | discard local changes; controlled/uncontrolled policy is unresolved | deferred |
+| `insertRows(rows, options?)` | insert created rows; requires data ownership policy | deferred |
+| `load(nextData, options?)` | replace data/baseline; requires controlled/uncontrolled policy | deferred |
+| `hardReset()` | reset to mount-time default data | deferred |
+
+Design rules:
+
+- Handle methods must operate inside the current grid root.
+- Parent grids must not use a handle to manipulate nested child grids.
+- Controlled `data` remains consumer-owned; handle methods must not silently mutate controlled data.
+- CRUD-specific API gaps should be solved in `GenDataGrid` first when solving them in
+  `GenDataGridCrud` would duplicate grid state.
+
+## 9. Extension API
+
+Extension API는 MVP public surface와 분리한다. 타입 위치는 미리 잡되, prop 공개는 extension gate 이후로 미룬다.
+
+### 9.1 Tree
+
+| API | 설명 |
+| --- | --- |
+| `tree.enabled` | tree mode 활성화 |
+| `tree.idKey` | row id field |
+| `tree.parentIdKey` | parent id field |
+| `tree.treeColumnId` | toggle column |
+| `tree.rootParentValue` | root discriminator |
+| `tree.indentPx` | indent size |
+| `tree.defaultExpanded` | initial expanded |
+| `tree.expandedRowIds` | controlled expanded state |
+| `tree.onExpandedRowIdsChange` | expanded callback |
+| `tree.showOrphanWarning` | orphan warning |
+| `tree.onOrphanRowsChange` | orphan callback |
+
+### 9.2 Master Detail
+
+| API | 설명 |
+| --- | --- |
+| `renderDetailPanel` | row detail renderer |
+| `detailExpandedRowIds` | controlled detail expansion |
+| `defaultDetailExpandedRowIds` | uncontrolled detail expansion |
+| `onDetailExpandedRowIdsChange` | detail expansion callback |
+
+### 9.3 Nested Grid
+
+Nested grid는 별도 prop보다 Core DOM contract와 `gridId`로 처리한다.
+
+| API | 설명 |
+| --- | --- |
+| `gridId` | external id |
+| `getGridId` | external id factory |
+| context `parentGridId` | internal relationship |
+
+### 9.4 Row Merge
+
+| API | 설명 |
+| --- | --- |
+| `rowMerge` | visual row merge 활성화 |
+| `rowMergeMode` | MVP 이후에도 기본은 `visual` |
+| column meta `rowMerge` | column-level merge enable |
+| column meta `rowMergeValueGetter` | compare value |
+| column meta `rowMergeComparator` | comparator |
+
+### 9.5 Dynamic Row Height
+
+| API | 설명 |
+| --- | --- |
+| `virtualizationMode: 'dynamic'` | virtualized dynamic measurement |
+| `estimateRowHeight` | virtualized row height estimate |
+| `getRowHeight` | MVP에서는 non-virtualized row height resolver로 사용하고, virtualized dynamic mode에서는 estimate/measurement와 함께 재사용 |
+
+## 10. API 문서 구조 권장안
+
+최종 docs는 다음 구조로 나눈다.
+
+```txt
+docs/
+  README.md
+  plan/
+    remaining-work-plan.md
+  architecture/
+    gate-1-2-architecture.md
+    gate-3-architecture.md
+    gate-4-architecture.md
+  reference/
+    terminology.md
+    cell-edit-api.md
+    api-comparison-with-gen-grid.md
+    api-structure.md
+    api/
+      core-api.md
+      state-api.md
+      feature-api.md
+      rendering-api.md
+      column-api.md
+      instance-api.md
+      extension-api.md
+  log/
+    implementation-log.md
+    planning-history.md
+```
+
+초기에는 `reference/api-structure.md` 하나로 시작하고, 구현이 진행되면 `reference/api/` 아래의 세부 문서로 분리한다.
+
+## 11. GenGrid 비교 문서와의 관계
+
+`api-comparison-with-gen-grid.md`는 migration 관점 문서다.
+
+- 기존 GenGrid prop이 GenDataGrid에서 유지되는지
+- 이름이 바뀌는지
+- MVP에 포함되는지
+- extension으로 밀리는지
+
+`api-structure.md`는 설계 관점 문서다.
+
+- API가 어떤 책임 그룹에 속하는지
+- 어떤 타입 파일에 위치해야 하는지
+- 어떤 API가 Core이고 어떤 API가 Feature인지
+- 구현 전 어떤 public surface를 먼저 고정해야 하는지
+
+두 문서는 서로 보완 관계다.
+
+## 12. 구현 전 확정 순서
+
+1. Core API 확정
+2. State API naming 확정
+3. MVP Feature API 확정
+4. Column Meta API 확정
+5. Rendering callback context 확정
+6. Instance API 확정
+7. Extension API는 타입 방향만 확정하고 public prop 공개는 보류
+
+이 순서가 지켜져야 구현 중 props와 내부 구조가 계속 변경되는 문제를 줄일 수 있다.
+
+## Gate 6 Implementation Notes
+
+Gate 6 implemented the following public API surface in `GenDataGrid.types.ts`:
+
+- Filtering state: `enableColumnFilters`, `enableGlobalFilter`, `columnFilters`, `defaultColumnFilters`, `onColumnFiltersChange`, `globalFilter`, `defaultGlobalFilter`, `onGlobalFilterChange`.
+- Footer rendering: `enableFooterRow`, `enableStickyFooterRow`, `footerRowHeight`, `enableFooter`, `footer`, `renderFooter`.
+- Pagination state: `enablePagination`, `pagination`, `defaultPagination`, `onPaginationChange`, `paginationMode`, `totalRowCount`, `pageSizeOptions`.
+- Dirty state: `enableDirtyState`, `onDirtyStateChange`, `GenDataGridDirtyCell`, `GenDataGridDirtyState`.
+- Gate 6.1 data ownership: `filterMode`, `deleteRowsBehavior`, and `dataVersion`.
+- Render context: `GenDataGridRenderContext<TData>` currently provides `table`, filtered `rows`, `dirtyState`, and `pagination`.
+- Handle additions: `resetDirtyState(rowIds?)`, `commitDirtyState(rowIds?)`, and `getDirtyState()`.
+
+Current limitations:
+
+- Filtering and pagination default to client-side TanStack row models. `filterMode: 'manual'` disables local filtering, and `paginationMode: 'manual'` renders the current `data` as the current page while using `totalRowCount` for page count.
+- Filter UI is a minimal header popover with string input; advanced operators and typed editors are deferred.
+- `commitDirtyState` clears dirty markers. `dataVersion` also clears dirty/deleted markers when external data is accepted.
+- `deleteRows(rowIds)` emits a delete request and marks rows as deleted. `deleteRowsBehavior: 'removeUncontrolled'` additionally removes rows from uncontrolled `defaultData`; controlled `data` remains consumer-owned.
+
+## Gate 8.6 Implementation Notes
+
+Gate 8.6 has implemented the core span, grouped header, validation, and visual row merge slices. Remaining work is limited to follow-up extensions and compatibility policy.
+
+Implemented:
+
+- `GenDataGridBodyColSpanContext<TData>` and TanStack column meta `bodyColSpan`.
+- Body cell `data-body-colspan` marker and CSS grid placement for body column span.
+- Pinned-zone body span fallback to span 1.
+- `columnFitMode?: 'none' | 'grow'` and shared px grid template calculation for header/body/footer rows.
+- TanStack nested column group header rendering with `data-header-group-cell`, `data-header-depth`, and `data-header-colspan` markers.
+- Validation state UI marker with `getCellValidation`.
+- Visual row merge with DOM-preserving body cell markers, virtual continuation display, and center-column sticky merge labels.
+
+Deferred:
+
+- Pinned group header split/sticky policy.
+- Pinned-column sticky merge labels for visual row merge.
+- Non-virtual continuation value rendering for visual row merge.
+- `visualRowMerge.getValue` and `visualRowMerge.compare`.
