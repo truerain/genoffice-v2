@@ -8,6 +8,12 @@
 
 ## 2026-06-29
 
+### apps/demo — MDI 탭 active/inactive 시각 대비
+
+- **요약:** workarea 내 MDI 탭 active·inactive 배경·글자·accent 대비 강화 (`demo-ui.css` 토큰·`role`/`aria-selected` 오버라이드)
+- **파일:** `apps/demo/src/styles/demo-ui.css`
+- **검증:** `pnpm -C apps/demo build`
+
 ### apps/demo — MenuManagement tree CRUD
 
 - **요약:** `MenuManagementPage` — `enableTreeRows`·`getSubRows`·mock 계층 메뉴 CRUD

@@ -11,21 +11,21 @@
  * @history
  * - 2026-06-29 URL deep link via useDemoMenuDeepLink (not useUrlSync)
  * - 2026-06-29 FrameBrand + demo brand-logo.png override
+ * - 2026-06-29 Settings gear + layout modal (replaces header logout / layout toggle)
  * - 2026-06-29 F3: WorkspaceFrame + MdiPageHost + FrameLayoutToggle
  */
 
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   FrameBrand,
-  FrameLayoutToggle,
   MdiPageHost,
   WorkspaceFrame,
   useFrameLayout,
 } from '@gen-office/gen-frame';
 import { useMDIStore } from '@gen-office/mdi';
 import { Button } from '@gen-office/ui';
+import { Settings } from 'lucide-react';
 import demoBrandLogo from '../assets/brand-logo.png';
-import { useAuth } from './providers/AuthProvider';
 import { useAppToast } from './providers/AppToastProvider';
 import { useOpenPage } from './hooks/useOpenPage';
 import { useAppMenu } from './menu/useAppMenu';
@@ -33,6 +33,7 @@ import { findAppMenuItemByPageId, mapAppMenuToFrameItems } from './menu/mapAppMe
 import { DemoNavigationProvider } from './navigation/DemoNavigationContext';
 import { readInitialDemoMenuPageId } from './url/demoUrlSync';
 import { useDemoMenuDeepLink } from './url/useDemoMenuDeepLink';
+import { DemoSettingsModal } from './settings/DemoSettingsModal';
 import { useI18n } from '../i18n';
 import styles from './AppShell.module.css';
 
@@ -46,12 +47,12 @@ const TAB_BAR_LABELS_KO = {
 } as const;
 
 export function AppShell() {
-  const { logout, username } = useAuth();
   const { showWarning } = useAppToast();
-  const { openMenuItem, controller } = useOpenPage();
+  const { openMenuItem } = useOpenPage();
   const { items, isLoading: isMenuLoading, error: menuError } = useAppMenu();
   const { t, locale } = useI18n();
   const { layout, setLayout } = useFrameLayout('leftPanel', DEMO_FRAME_LAYOUT_STORAGE_KEY);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const tabs = useMDIStore((state) => state.tabs);
   const activeTabId = useMDIStore((state) => state.activeTabId);
 
@@ -107,11 +108,6 @@ export function AppShell() {
     [items, openMenuItem],
   );
 
-  const handleLogout = async () => {
-    controller.closeAll();
-    await logout();
-  };
-
   return (
     <DemoNavigationProvider openMenuByPageId={openMenuByPageId}>
       <div className={styles.shell}>
@@ -119,18 +115,19 @@ export function AppShell() {
         className={styles.frame}
         layout={layout}
         header={
-          <>
-            <FrameBrand src={demoBrandLogo} alt="GenOffice Demo" />
-            {username ? <span className={styles.user}>{username}</span> : null}
-          </>
+          <FrameBrand src={demoBrandLogo} alt="GenOffice Demo" className={styles.brandLogo} />
         }
         headerActions={
-          <>
-            <FrameLayoutToggle value={layout} onChange={setLayout} ariaLabel={t('frame.layout')} />
-            <Button type="button" variant="ghost" size="sm" onClick={() => void handleLogout()}>
-              {t('auth.logout')}
-            </Button>
-          </>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className={styles.settingsButton}
+            aria-label={t('settings.open')}
+            onClick={() => setSettingsOpen(true)}
+          >
+            <Settings aria-hidden size={18} />
+          </Button>
         }
         menu={{ items: isMenuLoading ? [] : frameMenuItems }}
         menuTitle={t('menu.title')}
@@ -146,7 +143,7 @@ export function AppShell() {
             <div className={styles.workareaHost} data-demo-workarea="">
               <MdiPageHost
                 maxTabs={DEMO_MAX_TABS}
-                tabPosition="top"
+                tabPosition="bottom"
                 tabBarLabels={TAB_BAR_LABELS_KO}
                 onMaxTabsReached={handleMaxTabsReached}
                 emptyContent={<p className={styles.empty}>{t('mdi.empty')}</p>}
@@ -155,6 +152,12 @@ export function AppShell() {
             </div>
           )
         }
+      />
+      <DemoSettingsModal
+        open={settingsOpen}
+        onOpenChange={setSettingsOpen}
+        layout={layout}
+        onLayoutChange={setLayout}
       />
       </div>
     </DemoNavigationProvider>

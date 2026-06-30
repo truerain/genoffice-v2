@@ -23,11 +23,6 @@
   min-height: 0;
 }
 
-.user {
-  font-size: 13px;
-  color: var(--color-fg-secondary);
-}
-
 .workareaHost {
   flex: 1;
   min-height: 0;
@@ -54,4 +49,18 @@
 
 .empty {
   color: var(--color-fg-secondary);
+}
+
+.brandLogo {
+  height: 40px;
+  max-width: 320px;
+}
+
+.settingsButton {
+  color: var(--demo-chrome-fg-muted, var(--color-fg-secondary));
+}
+
+.settingsButton:hover {
+  color: var(--demo-chrome-fg, var(--color-fg-primary));
+  background: var(--demo-chrome-hover, color-mix(in srgb, var(--color-primary) 6%, transparent));
 }

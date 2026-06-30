@@ -121,6 +121,7 @@ export function ActualsPage() {
             {t('page.actuals.settings.close')}
           </Button>
         }
+        initialHeight={320}
       >
         <div className={styles.settingsBody}>
           <p>{t('page.actuals.settings.description')}</p>

@@ -10,7 +10,13 @@
 
 ## 2026-06-29
 
-### Gate D4 — MenuManagement (tree)
+### AppShell — 환경설정(톱니) 모달
+
+- **요약:** header 로그아웃·`FrameLayoutToggle` 제거 → 톱니 버튼 + `DemoSettingsModal` (Top/Left 레이아웃)
+- **파일:** `AppShell.tsx`, `app/settings/DemoSettingsModal.tsx`, i18n ko/en
+- **검증:** `pnpm -C apps/demo build`
+
+## 2026-06-29
 
 - **요약:** `enableTreeRows` + nested mock menu · `GenDataGridCrud` in-memory commit
 - **파일:** `src/pages/admin/menu-management/**`, registry, mock menu, i18n

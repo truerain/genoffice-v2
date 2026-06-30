@@ -111,6 +111,22 @@ const en: MessageTree = {
   frame: {
     layout: 'Layout',
   },
+  settings: {
+    title: 'Settings',
+    open: 'Open settings',
+    close: 'Close',
+    layout: {
+      section: 'Menu placement',
+      titleBar: {
+        title: 'Top',
+        hint: 'Show navigation horizontally in the title bar.',
+      },
+      leftPanel: {
+        title: 'Left',
+        hint: 'Show navigation in the left sidebar.',
+      },
+    },
+  },
 };
 
 export default en;

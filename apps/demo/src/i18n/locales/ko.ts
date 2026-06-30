@@ -110,6 +110,22 @@ const ko = {
   frame: {
     layout: '레이아웃',
   },
+  settings: {
+    title: '환경설정',
+    open: '환경설정 열기',
+    close: '닫기',
+    layout: {
+      section: '메뉴 표시 위치',
+      titleBar: {
+        title: '상단 (Top)',
+        hint: '메뉴를 타이틀바에 가로로 표시합니다.',
+      },
+      leftPanel: {
+        title: '좌측 (Left)',
+        hint: '메뉴를 왼쪽 패널에 세로로 표시합니다.',
+      },
+    },
+  },
 } as const;
 
 export interface MessageTree {
