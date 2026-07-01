@@ -1,0 +1,36 @@
+/**
+ * @file packages/ui/src/composed/pageLayout/PageLayout.module.css
+ * @description Flex page shell for MDI tab / single-page workareas.
+ * @created 2026-07-01
+ *
+ * @remark
+ * - Override padding/gap: --page-layout-padding, --page-layout-gap on root or ancestor
+ */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  padding: var(--page-layout-padding, var(--spacing-md));
+  box-sizing: border-box;
+  overflow: hidden;
+  gap: var(--page-layout-gap, var(--spacing-lg));
+}
+
+.filter {
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.contentFill {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}

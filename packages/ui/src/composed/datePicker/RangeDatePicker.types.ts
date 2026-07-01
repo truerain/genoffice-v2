@@ -3,12 +3,10 @@
  * @description Public props for RangeDatePicker.
  * @created 2026-06-25
  */
+import type { DateRange } from '@daypicker/react';
 import type { CalendarProps } from '../../core/calendar';
 
-export type DateRange = {
-  from?: Date;
-  to?: Date;
-};
+export type { DateRange };
 
 export interface RangeDatePickerProps {
   value?: DateRange;

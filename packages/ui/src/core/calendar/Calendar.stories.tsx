@@ -8,6 +8,7 @@
  * - Composed DatePicker는 이 컴포넌트를 Popover+Input과 조합 (Wave 5)
  */
 import type { Meta, StoryObj } from '@storybook/react';
+import type { DateRange } from '@daypicker/react';
 import { useState } from 'react';
 import { Calendar } from './Calendar';
 
@@ -44,7 +45,7 @@ export const SingleSelect: RenderStory = {
 
 export const RangeSelect: RenderStory = {
   render: () => {
-    const [range, setRange] = useState<{ from?: Date; to?: Date } | undefined>();
+    const [range, setRange] = useState<DateRange | undefined>();
 
     return (
       <Calendar

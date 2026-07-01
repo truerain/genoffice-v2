@@ -1,0 +1,43 @@
+/**
+ * @file packages/ui/src/composed/pageLayout/PageHeader.module.css
+ * @description Title chrome for PageLayout header slot.
+ * @created 2026-07-01
+ *
+ * @remark
+ *
+ */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-shrink: 0;
+  padding-bottom: 4px;
+}
+
+.text {
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.description {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--color-fg-secondary);
+  line-height: 1.55;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
