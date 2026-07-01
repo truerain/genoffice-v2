@@ -8,6 +8,7 @@ import {
   getExpandedRowModel,
   getPaginationRowModel,
   useReactTable,
+  type ColumnDef,
   type ColumnFiltersState,
   type ColumnOrderState,
   type ColumnPinningState,
@@ -216,7 +217,7 @@ export function useDataGridTable<TData>({
 
   return useReactTable({
     data: rows,
-    columns,
+    columns: columns as ColumnDef<TData, any>[],
     getRowId,
     getCoreRowModel: getCoreRowModel(),
     getSubRows: enableTreeRows && getSubRows ? resolvedGetSubRows : undefined,

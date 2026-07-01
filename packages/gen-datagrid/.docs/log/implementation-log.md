@@ -1,3 +1,13 @@
+## 2026-07-01
+
+### V1 동기화 — 편집 click continuation 및 CRUD 기본 정책
+
+- V1 `frontend` 커밋 `413398f`, `35fe691` 변경을 V2에 반영했다.
+- `GenDataGridColumnMeta`, `GenDataGridColumnDef` public 타입을 추가하고 TanStack `ColumnMeta` 확장을 단일 meta 타입으로 통합했다.
+- 편집 중 다른 editable cell 클릭 시 focus 경합을 줄이기 위해 `onEditDeactivate`와 `focusOnMouseDown` 보정을 적용했다.
+- `GenDataGridEditPolicy` 관련 타입을 package entrypoint에서 export했다.
+- 관련 파일: `src/GenDataGrid.types.ts`, `src/core/table/tanstack-table.ts`, `src/core/table/useDataGridTable.ts`, `src/index.ts`, `src/renderers/div-grid/DataGridBody.tsx`, `DataGridBodyRow.tsx`, `DataGridCell.tsx`, `DataGridRoot.tsx`, `DataGridVirtualBody.tsx`, `.docs/reference/api-structure.md`, `.docs/reference/api-comparison-with-gen-grid.md`
+
 ## 2026-06-30
 
 ### grouped header vertical merge 구현

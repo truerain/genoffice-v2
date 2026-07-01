@@ -4,6 +4,16 @@ Records GenDataGridCrud package planning and implementation changes.
 
 # GenDataGridCrud 구현 로그
 
+## 2026-07-01
+
+### V1 동기화 — CRUD 편집 기본값 및 column 타입
+
+- V1 `frontend` 커밋 `413398f`, `35fe691` 변경을 V2에 반영했다.
+- `editSelectOnFocus` 기본값 `true`, `editPolicy.continueTriggers.click` 기본값 `true`를 `GenDataGridCrud`에 적용했다.
+- `columns` prop 타입을 `GenDataGridColumnDef`로 변경했다.
+- thin shell 테스트에 select-on-focus·click continuation 기본값 및 opt-out 케이스를 추가했다.
+- 관련 파일: `src/GenDataGridCrud.tsx`, `src/GenDataGridCrud.types.ts`, `test/thinShell.test.tsx`, `.docs/implementation-log.md`
+
 ## 2026-06-30
 
 ### ActionBar와 Grid 사이 경계선 보강

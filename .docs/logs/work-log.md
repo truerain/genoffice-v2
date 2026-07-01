@@ -6,6 +6,14 @@
 -->
 # GenOffice V2 작업 로그
 
+## 2026-07-01
+
+### gen-datagrid, gen-datagrid-crud — V1 동기화 (편집 정책·column 타입)
+
+- **요약:** V1 `frontend` 커밋 `413398f`, `35fe691`의 편집 continuation·CRUD 기본 정책·`GenDataGridColumnDef` 타입을 V2에 반영
+- **파일:** `packages/gen-datagrid/src/**`, `packages/gen-datagrid-crud/src/**`, `packages/gen-datagrid-crud/test/thinShell.test.tsx`, 패키지 `.docs/`
+- **검증:** `pnpm -C packages/gen-datagrid test`, `pnpm -C packages/gen-datagrid-crud test`
+
 ## 2026-06-29
 
 ### apps/demo — FrameBrand 클릭 홈 탭 이동

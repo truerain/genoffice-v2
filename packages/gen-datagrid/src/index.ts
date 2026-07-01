@@ -5,12 +5,15 @@ import './index.css';
 import './core/table/tanstack-table';
 
 export { GenDataGrid } from './GenDataGrid';
+export type { GenDataGridTanStackTableMetaAugmentation } from './core/table/tanstack-table';
 export type {
   GenDataGridActiveCell,
   GenDataGridBodyColSpanContext,
   GenDataGridCellValueChange,
   GenDataGridChangeSet,
+  GenDataGridColumnDef,
   GenDataGridColumnFitMode,
+  GenDataGridColumnMeta,
   GenDataGridDirtyCell,
   GenDataGridDirtyState,
   GenDataGridRowContext,
@@ -24,6 +27,9 @@ export type {
   GenDataGridEditableContext,
   GenDataGridEditorContext,
   GenDataGridEditorFactory,
+  GenDataGridEditContinuationTriggers,
+  GenDataGridEditPolicy,
+  GenDataGridEditStartTriggers,
   GenDataGridEditOption,
   GenDataGridEditType,
   GenDataGridFilterMode,
