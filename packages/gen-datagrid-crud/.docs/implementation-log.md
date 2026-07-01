@@ -6,6 +6,23 @@ Records GenDataGridCrud package planning and implementation changes.
 
 ## 2026-07-01
 
+### CRUD state 함수 identity 의존성 보정 (V1 `01cd1dd`)
+
+- `DataGridCrudUiState`의 `canCreateRow`, `canExport` 계산이 함수 identity 변화에 의해 매 렌더 새 state를 만들지 않도록 boolean 값으로 분리했다.
+- `onStateChange`는 ref로 최신 callback을 유지하고 state effect 의존성에서 제외했다.
+- 빈 `createdRows`일 때 `createdRowIds`는 stable empty array를 사용한다.
+- `GenDataGridCrud`가 `GenDataGrid`에 `data`와 `columns`를 전달할 때 입력 참조 변경 시에만 memoized copy를 만들도록 변경했다.
+- inline `createRow`와 `onStateChange`가 함께 써도 반복 통지가 발생하지 않는 회귀 테스트를 추가했다.
+- 원인·해결 내용: `.docs/customer-info-loading-loop.md`
+- 관련 파일: `src/GenDataGridCrud.tsx`, `src/crud/useDataGridCrudController.tsx`, `test/thinShell.test.tsx`
+
+### gridProps DataGrid feature flag 전달 허용 (V1 `9230ea2`)
+
+- `GenDataGridCrud`가 고정하던 `enableDirtyState`, `enableRowStatus`, `enableCurrentRowHighlight`, `enableRowSelection`, `enableColumnFilters`, `enableColumnReorder`를 `gridProps`로 opt-out 또는 override할 수 있게 했다.
+- CRUD가 소유해야 하는 data, columns, getRowId, controlled state callback은 계속 내부 소유로 유지했다.
+- Dashboard처럼 읽기 전용으로 쓰는 CRUD 화면에서 row selection/status 시스템 컬럼을 숨길 수 있도록 테스트를 추가했다.
+- 관련 파일: `src/GenDataGridCrud.types.ts`, `src/GenDataGridCrud.tsx`, `src/crud/useDataGridCrudController.tsx`, `test/thinShell.test.tsx`
+
 ### V1 동기화 — CRUD 편집 기본값 및 column 타입
 
 - V1 `frontend` 커밋 `413398f`, `35fe691` 변경을 V2에 반영했다.

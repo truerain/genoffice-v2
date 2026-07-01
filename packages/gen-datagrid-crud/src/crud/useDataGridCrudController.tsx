@@ -27,6 +27,7 @@ const EMPTY_DIRTY_STATE: GenDataGridDirtyState = {
 };
 
 const EMPTY_FIELD_ERRORS: DataGridCrudFieldErrors = {};
+const EMPTY_ROW_IDS: string[] = [];
 
 function waitForAnimationFrame() {
   if (typeof requestAnimationFrame === 'function') {
@@ -140,6 +141,7 @@ export function useDataGridCrudController<TData>(
     onValidationError,
     onExport,
     onStateChange,
+    gridFeatureOptions,
   } = args;
   const gridRef = React.useRef<GenDataGridHandle<TData>>(null);
   const [dirtyState, setDirtyState] = React.useState<GenDataGridDirtyState>(EMPTY_DIRTY_STATE);
@@ -153,6 +155,11 @@ export function useDataGridCrudController<TData>(
   const [fieldErrors, setFieldErrors] =
     React.useState<DataGridCrudFieldErrors>(EMPTY_FIELD_ERRORS);
   const [validationError, setValidationError] = React.useState<unknown>();
+  const onStateChangeRef = React.useRef(onStateChange);
+
+  React.useEffect(() => {
+    onStateChangeRef.current = onStateChange;
+  }, [onStateChange]);
 
   const gridData = React.useMemo(
     () => (createdRowPosition === 'top' ? [...createdRows, ...data] : [...data, ...createdRows]),
@@ -160,7 +167,10 @@ export function useDataGridCrudController<TData>(
   );
 
   const createdRowIds = React.useMemo(
-    () => createdRows.map((row, index) => getRowId(row, index)),
+    () =>
+      createdRows.length === 0
+        ? EMPTY_ROW_IDS
+        : createdRows.map((row, index) => getRowId(row, index)),
     [createdRows, getRowId]
   );
   const createdRowIdSet = React.useMemo(
@@ -173,11 +183,17 @@ export function useDataGridCrudController<TData>(
     [rowSelection]
   );
 
+  const resolvedFilterEnabled = gridFeatureOptions?.enableColumnFilters ?? filterEnabled;
+  const resolvedColumnReorderEnabled =
+    gridFeatureOptions?.enableColumnReorder ?? columnReorderEnabled;
+  const canCreateRow = Boolean(createRow);
+  const canExport = Boolean(onExport);
+
   const state = React.useMemo<DataGridCrudUiState<TData>>(
     () => ({
       readonly,
-      canCreateRow: Boolean(createRow),
-      canExport: Boolean(onExport),
+      canCreateRow,
+      canExport,
       data: gridData,
       sourceData: data,
       createdRows,
@@ -192,13 +208,13 @@ export function useDataGridCrudController<TData>(
       validationError,
       currentRowId,
       selectedRowIds,
-      filterEnabled,
-      columnReorderEnabled,
+      filterEnabled: resolvedFilterEnabled,
+      columnReorderEnabled: resolvedColumnReorderEnabled,
       lastChangeSet,
     }),
     [
-      columnReorderEnabled,
-      createRow,
+      canCreateRow,
+      canExport,
       currentRowId,
       data,
       gridData,
@@ -206,19 +222,19 @@ export function useDataGridCrudController<TData>(
       createdRowIds,
       dirtyState,
       fieldErrors,
-      filterEnabled,
       isCommitting,
       lastChangeSet,
-      onExport,
       readonly,
+      resolvedColumnReorderEnabled,
+      resolvedFilterEnabled,
       selectedRowIds,
       validationError,
     ]
   );
 
   React.useEffect(() => {
-    onStateChange?.(state);
-  }, [onStateChange, state]);
+    onStateChangeRef.current?.(state);
+  }, [state]);
 
   const handleDirtyStateChange = React.useCallback((nextState: GenDataGridDirtyState) => {
     const apply = () => setDirtyState(nextState);
@@ -403,19 +419,29 @@ export function useDataGridCrudController<TData>(
 
   const gridStateProps = React.useMemo<DataGridCrudController<TData>['gridStateProps']>(
     () => ({
-      enableDirtyState: true,
+      enableDirtyState: gridFeatureOptions?.enableDirtyState ?? true,
       onDirtyStateChange: handleDirtyStateChange,
-      enableRowStatus: true,
+      enableRowStatus: gridFeatureOptions?.enableRowStatus ?? true,
       rowStatusResolver,
-      enableCurrentRowHighlight: true,
+      enableCurrentRowHighlight: gridFeatureOptions?.enableCurrentRowHighlight ?? true,
       onCurrentRowChange: setCurrentRowId,
-      enableRowSelection: true,
+      enableRowSelection: gridFeatureOptions?.enableRowSelection ?? true,
       rowSelection,
       onRowSelectionChange: setRowSelection,
-      enableColumnFilters: filterEnabled,
-      enableColumnReorder: columnReorderEnabled,
+      enableColumnFilters: resolvedFilterEnabled,
+      enableColumnReorder: resolvedColumnReorderEnabled,
     }),
-    [columnReorderEnabled, filterEnabled, handleDirtyStateChange, rowSelection, rowStatusResolver]
+    [
+      gridFeatureOptions?.enableCurrentRowHighlight,
+      gridFeatureOptions?.enableDirtyState,
+      gridFeatureOptions?.enableRowSelection,
+      gridFeatureOptions?.enableRowStatus,
+      handleDirtyStateChange,
+      resolvedColumnReorderEnabled,
+      resolvedFilterEnabled,
+      rowSelection,
+      rowStatusResolver,
+    ]
   );
 
   return {
