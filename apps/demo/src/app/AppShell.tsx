@@ -109,6 +109,10 @@ export function AppShell() {
     [items, openMenuItem],
   );
 
+  const handleBrandClick = useCallback(() => {
+    openMenuByPageId(DEMO_HOME_PAGE_ID);
+  }, [openMenuByPageId]);
+
   return (
     <DemoNavigationProvider openMenuByPageId={openMenuByPageId}>
       <div className={styles.shell}>
@@ -116,7 +120,14 @@ export function AppShell() {
         className={styles.frame}
         layout={layout}
         header={
-          <FrameBrand src={demoBrandLogo} alt="GenOffice Demo" className={styles.brandLogo} />
+          <button
+            type="button"
+            className={styles.brandButton}
+            onClick={handleBrandClick}
+            aria-label={t('menu.placeholder')}
+          >
+            <FrameBrand src={demoBrandLogo} alt="GenOffice Demo" className={styles.brandLogo} />
+          </button>
         }
         headerActions={
           <Button

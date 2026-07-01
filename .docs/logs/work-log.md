@@ -8,6 +8,12 @@
 
 ## 2026-06-29
 
+### apps/demo — FrameBrand 클릭 홈 탭 이동
+
+- **요약:** `FrameBrand`를 버튼으로 감싸 클릭 시 `DEMO_HOME_PAGE_ID` 탭 활성화
+- **파일:** `apps/demo/src/app/AppShell.tsx`, `AppShell.module.css`
+- **검증:** `pnpm -C apps/demo build`
+
 ### apps/demo — pinnedPages AppShell 주입
 
 - **요약:** `useOpenPage({ pinnedPages })` — Welcome pin 정의를 AppShell로 이동
