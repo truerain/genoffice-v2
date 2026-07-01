@@ -8,6 +8,24 @@
 
 ## 2026-07-01
 
+### gen-datagrid, gen-datagrid-crud — V1 동기화 (gridProps·로딩 루프·columnFitMode fill)
+
+- **요약:** V1 `frontend` 커밋 `01cd1dd`, `9230ea2`, `854afb7` 반영 — CRUD state identity 보정, gridProps feature flag 전달, `columnFitMode: 'fill'`
+- **파일:** `packages/gen-datagrid/src/**`, `packages/gen-datagrid-crud/src/**`, 패키지 `.docs/`, `apps/demo/src/pages/customer/customer-info/CustomerInfoPage.tsx`
+- **검증:** `pnpm -C packages/gen-datagrid test`, `pnpm -C packages/gen-datagrid-crud test`, `pnpm -C apps/demo build`
+
+### ui — PageLayout / PageHeader composed
+
+- **요약:** `composed/pageLayout` 추가, demo 전 페이지 `@gen-office/ui` PageLayout 적용
+- **파일:** `packages/ui/src/composed/pageLayout/**`, `apps/demo/src/pages/**`
+- **검증:** `pnpm -C packages/ui build`, `pnpm -C apps/demo build`
+
+### apps/demo — CustomerInfoPage 포팅
+
+- **요약:** V1 고객정보 화면을 GenDataGridCrud 편집 회귀 데모로 포팅 (mock data, 필터, text/select/date editor)
+- **파일:** `apps/demo/src/pages/customer/customer-info/**`, registry·menu·i18n
+- **검증:** `pnpm -C apps/demo build`
+
 ### gen-datagrid, gen-datagrid-crud — V1 동기화 (편집 정책·column 타입)
 
 - **요약:** V1 `frontend` 커밋 `413398f`, `35fe691`의 편집 continuation·CRUD 기본 정책·`GenDataGridColumnDef` 타입을 V2에 반영

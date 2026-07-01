@@ -11,8 +11,7 @@
 import { useCallback, useState } from 'react';
 import { GenDataGridCrud } from '@gen-office/gen-datagrid-crud';
 import type { DataGridCrudCommitArgs } from '@gen-office/gen-datagrid-crud';
-import { AdminPageLayout } from '../../../shared/components/AdminPageLayout';
-import { PageHeader } from '../../../shared/components/PageHeader';
+import { PageHeader, PageLayout } from '@gen-office/ui';
 import { useI18n } from '../../../i18n';
 import { userManagementColumns } from './userManagementColumns';
 import { INITIAL_DEMO_USERS } from './userManagementData';
@@ -57,7 +56,7 @@ export function UserManagementPage() {
   }, [t]);
 
   return (
-    <AdminPageLayout
+    <PageLayout
       contentVariant="fill"
       header={
         <PageHeader
@@ -93,6 +92,6 @@ export function UserManagementPage() {
           }}
         />
       </div>
-    </AdminPageLayout>
+    </PageLayout>
   );
 }

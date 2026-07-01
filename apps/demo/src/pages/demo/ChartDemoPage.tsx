@@ -31,8 +31,7 @@ import {
   PolarPlot,
   ResponsiveChartContainer,
 } from '@gen-office/gen-chart';
-import { AdminPageLayout } from '../../shared/components/AdminPageLayout';
-import { PageHeader } from '../../shared/components/PageHeader';
+import { PageHeader, PageLayout } from '@gen-office/ui';
 import { useI18n } from '../../i18n';
 import { monthlyData, salesData, type MonthlyPoint, type SalesSlice } from './chartDemoData';
 import { DemoChartSection } from './components/DemoChartSection';
@@ -234,7 +233,7 @@ export function ChartDemoPage() {
   );
 
   return (
-    <AdminPageLayout
+    <PageLayout
       header={
         <PageHeader
           title={t('menu.chartDemo')}
@@ -299,6 +298,6 @@ export function ChartDemoPage() {
           series="donut"
         />
       </div>
-    </AdminPageLayout>
+    </PageLayout>
   );
 }

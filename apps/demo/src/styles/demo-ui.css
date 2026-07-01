@@ -34,6 +34,8 @@
 
   --demo-page-padding: var(--spacing-md);
   --demo-section-gap: var(--spacing-lg);
+  --page-layout-padding: var(--demo-page-padding);
+  --page-layout-gap: var(--demo-section-gap);
   --demo-hint-color: var(--color-fg-secondary);
 
   /* MDI tab bar (inside workarea) */

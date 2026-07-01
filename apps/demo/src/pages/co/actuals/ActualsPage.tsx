@@ -11,9 +11,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { RefreshCw, Search, Settings } from 'lucide-react';
 import { GenDataGridCrud } from '@gen-office/gen-datagrid-crud';
-import { Button, StandardDialog } from '@gen-office/ui';
-import { AdminPageLayout } from '../../../shared/components/AdminPageLayout';
-import { PageHeader } from '../../../shared/components/PageHeader';
+import { Button, PageHeader, PageLayout, StandardDialog } from '@gen-office/ui';
 import { useI18n } from '../../../i18n';
 import { ActualsFilterBar } from './ActualsFilterBar';
 import { actualsColumns } from './actualsColumns';
@@ -49,7 +47,7 @@ export function ActualsPage() {
   }, []);
 
   return (
-    <AdminPageLayout
+    <PageLayout
       contentVariant="fill"
       header={
         <PageHeader
@@ -129,6 +127,6 @@ export function ActualsPage() {
           <p>{t('page.actuals.settings.virtualization')}</p>
         </div>
       </StandardDialog>
-    </AdminPageLayout>
+    </PageLayout>
   );
 }

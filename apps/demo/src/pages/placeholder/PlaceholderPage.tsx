@@ -9,20 +9,20 @@
  *
  * @history
  * - 2026-06-29 Welcome links to Chart / Dashboard demo
- * - 2026-06-28 D2: AdminPageLayout + PageHeader + i18n
+ * - 2026-06-28 D2: PageLayout + PageHeader + i18n
  */
 
 import { Button } from '@gen-office/ui';
 import {
   DEMO_ACTUALS_PAGE_ID,
+  DEMO_CUSTOMER_INFO_PAGE_ID,
   DEMO_CHART_PAGE_ID,
   DEMO_DASHBOARD_PAGE_ID,
   DEMO_MENU_MANAGEMENT_PAGE_ID,
   DEMO_USER_MANAGEMENT_PAGE_ID,
 } from '../../app/menu/demoPageIds';
 import { useDemoNavigation } from '../../app/navigation/DemoNavigationContext';
-import { AdminPageLayout } from '../../shared/components/AdminPageLayout';
-import { PageHeader } from '../../shared/components/PageHeader';
+import { PageHeader, PageLayout } from '@gen-office/ui';
 import { useI18n } from '../../i18n';
 import styles from './PlaceholderPage.module.css';
 
@@ -36,7 +36,7 @@ export function PlaceholderPage({ title }: PlaceholderPageProps) {
   const pageTitle = title ?? t('menu.placeholder');
 
   return (
-    <AdminPageLayout
+    <PageLayout
       header={
         <PageHeader
           title={pageTitle}
@@ -89,9 +89,17 @@ export function PlaceholderPage({ title }: PlaceholderPageProps) {
           >
             {t('page.placeholder.openActuals')}
           </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => openMenuByPageId(DEMO_CUSTOMER_INFO_PAGE_ID)}
+          >
+            {t('page.placeholder.openCustomerInfo')}
+          </Button>
         </div>
         <p className={styles.linksHint}>{t('page.placeholder.linksHint')}</p>
       </section>
-    </AdminPageLayout>
+    </PageLayout>
   );
 }

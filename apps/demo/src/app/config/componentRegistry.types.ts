@@ -16,7 +16,8 @@ export type ComponentName =
   | 'DashboardDemoPage'
   | 'UserManagementPage'
   | 'MenuManagementPage'
-  | 'ActualsPage';
+  | 'ActualsPage'
+  | 'CustomerInfoPage';
 
 export type RegistryComponent = ComponentType<Record<string, unknown>>;
 

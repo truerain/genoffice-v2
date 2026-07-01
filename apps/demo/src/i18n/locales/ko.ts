@@ -29,6 +29,7 @@ const ko = {
     userManagement: 'User Management',
     menuManagement: 'Menu Management',
     actuals: 'Actuals',
+    customerInfo: '고객정보',
     loadError: '메뉴를 불러오지 못했습니다.',
   },
   page: {
@@ -41,6 +42,7 @@ const ko = {
       openUserManagement: 'User Management 열기',
       openMenuManagement: 'Menu Management 열기',
       openActuals: 'Actuals 열기',
+      openCustomerInfo: '고객정보 열기',
       linksHint:
         '주소창 딥링크: /?menu=demo-chart — 고정 Welcome 탭 + 해당 화면(새로고침 시 탭은 초기화됩니다).',
     },
@@ -99,6 +101,27 @@ const ko = {
         rowHeight: 'Row height: 32px',
         virtualization: 'Virtualization: enabled',
         close: '닫기',
+      },
+    },
+    customerInfo: {
+      description:
+        'GenDataGridCrud 편집 회귀 화면 — text/select/date editor, click continuation, select-on-focus.',
+      validation: {
+        name: '고객명은 필수입니다.',
+      },
+      filters: {
+        search: '검색',
+        searchPlaceholder: '이름, 이메일, 회사, 전화번호',
+        status: '상태',
+        grade: '등급',
+        all: '전체',
+        statusActive: '활성',
+        statusInactive: '비활성',
+        statusPending: '대기중',
+        searchAction: '조회',
+      },
+      actions: {
+        search: '조회',
       },
     },
   },

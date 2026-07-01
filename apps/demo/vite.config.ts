@@ -20,5 +20,14 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    rollupOptions: {
+      onwarn(warning, defaultHandler) {
+        // Radix UI ships "use client" for RSC; Vite SPA bundles ignore the directive.
+        if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
+          return;
+        }
+        defaultHandler(warning);
+      },
+    },
   },
 });

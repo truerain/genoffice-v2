@@ -8,6 +8,28 @@
 -->
 # @gen-office/demo 구현 로그
 
+## 2026-07-01
+
+### Vite build — Radix `"use client"` 경고 억제
+
+- **요약:** SPA 빌드 시 Radix UI `MODULE_LEVEL_DIRECTIVE` 경고를 `rollupOptions.onwarn`으로 숨김 (Storybook과 동일 패턴)
+- **파일:** `apps/demo/vite.config.ts`
+- **검증:** `pnpm -C apps/demo build`
+
+### PageLayout — @gen-office/ui composed 승격
+
+- **요약:** demo `AdminPageLayout`/`PageHeader` 제거, `@gen-office/ui` `PageLayout`/`PageHeader`로 전환
+- **파일:** `apps/demo/src/pages/**`, `apps/demo/src/styles/demo-ui.css`; `packages/ui/src/composed/pageLayout/**`
+- **검증:** `pnpm -C packages/ui build`, `pnpm -C apps/demo build`
+
+## 2026-07-01
+
+### CustomerInfoPage 포팅 — GenDataGrid 편집 회귀 데모
+
+- **요약:** V1 `CustomerInfoPage`를 V2 demo에 포팅. mock in-memory CRUD, text/select/date editor, 필터, virtualization
+- **파일:** `pages/customer/customer-info/**`, `componentRegistry.dynamic.ts`, `mockMenu.ts`, `demoPageIds.ts`, `PlaceholderPage.tsx`, `i18n/locales/*`
+- **검증:** `pnpm -C apps/demo build`
+
 ## 2026-06-29
 
 ### pinnedPages — AppShell에서 useOpenPage로 주입

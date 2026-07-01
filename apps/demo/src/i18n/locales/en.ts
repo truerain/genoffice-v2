@@ -30,6 +30,7 @@ const en: MessageTree = {
     userManagement: 'User Management',
     menuManagement: 'Menu Management',
     actuals: 'Actuals',
+    customerInfo: 'Customer Info',
     loadError: 'Failed to load menu.',
   },
   page: {
@@ -42,6 +43,7 @@ const en: MessageTree = {
       openUserManagement: 'Open User Management',
       openMenuManagement: 'Open Menu Management',
       openActuals: 'Open Actuals',
+      openCustomerInfo: 'Open Customer Info',
       linksHint:
         'Address bar deep link: /?menu=demo-chart — pinned Welcome tab + target page (tabs reset on full reload).',
     },
@@ -100,6 +102,27 @@ const en: MessageTree = {
         rowHeight: 'Row height: 32px',
         virtualization: 'Virtualization: enabled',
         close: 'Close',
+      },
+    },
+    customerInfo: {
+      description:
+        'GenDataGridCrud editing regression — text/select/date editors, click continuation, select-on-focus.',
+      validation: {
+        name: 'Customer name is required.',
+      },
+      filters: {
+        search: 'Search',
+        searchPlaceholder: 'Name, email, company, phone',
+        status: 'Status',
+        grade: 'Grade',
+        all: 'All',
+        statusActive: 'Active',
+        statusInactive: 'Inactive',
+        statusPending: 'Pending',
+        searchAction: 'Search',
+      },
+      actions: {
+        search: 'Search',
       },
     },
   },

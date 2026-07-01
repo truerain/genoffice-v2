@@ -43,4 +43,9 @@ export const componentRegistry: Record<ComponentName, RegistryComponent> = {
       default: module.ActualsPage as RegistryComponent,
     })),
   ),
+  CustomerInfoPage: lazy(() =>
+    import('../../pages/customer/customer-info/CustomerInfoPage').then((module) => ({
+      default: module.CustomerInfoPage as RegistryComponent,
+    })),
+  ),
 };

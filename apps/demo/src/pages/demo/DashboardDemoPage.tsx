@@ -24,8 +24,7 @@ import {
   ChartYAxis,
   LineSeries,
 } from '@gen-office/gen-chart';
-import { AdminPageLayout } from '../../shared/components/AdminPageLayout';
-import { PageHeader } from '../../shared/components/PageHeader';
+import { PageHeader, PageLayout } from '@gen-office/ui';
 import { useI18n } from '../../i18n';
 import { monthlyData, type MonthlyPoint } from './chartDemoData';
 import { DashboardChartCard } from './components/DashboardChartCard';
@@ -145,7 +144,7 @@ export function DashboardDemoPage() {
   );
 
   return (
-    <AdminPageLayout
+    <PageLayout
       header={
         <PageHeader
           title={t('menu.dashboardDemo')}
@@ -191,6 +190,6 @@ export function DashboardDemoPage() {
           </DashboardChartCard>
         </div>
       </div>
-    </AdminPageLayout>
+    </PageLayout>
   );
 }

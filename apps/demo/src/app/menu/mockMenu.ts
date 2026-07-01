@@ -47,4 +47,10 @@ export const MOCK_MENU_ITEMS: AppMenuItem[] = [
     titleKey: 'menu.actuals',
     path: '/co/actuals',
   },
+  {
+    pageId: 'customer-info',
+    componentName: 'CustomerInfoPage',
+    titleKey: 'menu.customerInfo',
+    path: '/customer/customer-info',
+  },
 ];

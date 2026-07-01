@@ -6,6 +6,21 @@
 -->
 # UI 구현 로그
 
+## 2026-07-01
+
+### RangeDatePicker DateRange 타입 정렬
+
+- `RangeDatePicker` public `DateRange`를 `@daypicker/react` 타입으로 re-export해 `Calendar` `selected` prop과 불일치하던 TS2322를 수정했다.
+- `Calendar.stories.tsx` range 예제 state 타입도 동일하게 맞췄다.
+- 관련 파일: `src/composed/datePicker/RangeDatePicker.types.ts`, `src/core/calendar/Calendar.stories.tsx`
+
+### PageLayout / PageHeader composed 추가
+
+- `composed/pageLayout`에 MDI 탭 workarea용 `PageLayout`, `PageHeader`를 추가했다.
+- `contentVariant` scroll/fill, header/filter slot, theme token 기반 padding/gap (`--page-layout-padding`, `--page-layout-gap`)을 지원한다.
+- demo `AdminPageLayout`·`PageHeader`를 제거하고 `@gen-office/ui` import로 전환했다.
+- 관련 파일: `src/composed/pageLayout/*`, `src/index.ts`, `apps/demo/src/pages/**`, `apps/demo/src/styles/demo-ui.css`
+
 ## 2026-06-25
 
 ### V1 이관 마감 정리
