@@ -24,6 +24,8 @@
 | 문서 | 주제 | 상태 |
 | --- | --- | --- |
 | [page-frame-composable.md](./page-frame-composable.md) | 앱 화면용 composable slot `PageFrame` / `StandardPageFrame` | `draft` |
+| [gen-calendar.md](./gen-calendar.md) | 구글 캘린더 수준 일정 캘린더 feature 패키지 `@gen-office/gen-calendar` | `under-review` |
+| [process-diagram.md](./process-diagram.md) | 업무 프로세스 다이어그램 뷰어(자체 구현, 노드 화면 링크 + 실시간 데이터) | `draft` |
 
 ## 작성 규칙
 
