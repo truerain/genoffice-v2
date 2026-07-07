@@ -87,9 +87,19 @@ export function useOpenPage({
 
   const openMenuItem = useCallback(
     (item: AppMenuItem) => {
+      if (item.children?.length || !item.componentName) {
+        return;
+      }
+
+      const title = resolveMenuTitle(item, locale);
+
       controller.open({
         pageId: item.pageId,
-        title: resolveMenuTitle(item, locale),
+        title,
+        params:
+          item.componentName === 'ComingSoonPage'
+            ? { title }
+            : undefined,
         meta: {
           componentName: item.componentName,
           path: item.path,

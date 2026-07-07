@@ -17,6 +17,7 @@ function mapItem(item: AppMenuItem, locale: Locale): FrameMenuItem {
   return {
     id: item.pageId,
     label: resolveMenuTitle(item, locale),
+    icon: item.icon,
     children: item.children?.map((child) => mapItem(child, locale)),
     meta: {
       componentName: item.componentName,

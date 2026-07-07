@@ -13,8 +13,9 @@ import type { ComponentName } from '../config/componentRegistry.types';
 
 export interface AppMenuItem {
   pageId: string;
-  componentName: ComponentName;
+  componentName?: ComponentName;
   title?: string;
+  titleEng?: string;
   titleKey?: string;
   path?: string;
   icon?: string;

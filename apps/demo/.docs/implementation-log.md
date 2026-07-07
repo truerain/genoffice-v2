@@ -8,6 +8,14 @@
 -->
 # @gen-office/demo 구현 로그
 
+## 2026-07-07
+
+### V1 mock menu 트리 연동
+
+- **요약:** V1 `frontend/apps/demo/src/mocks/data/menu.ts` 동일 데이터를 V2 `src/mocks/data/menu.ts`에 포팅. `parentMenuId` → 계층 `AppMenuItem` 트리. V2 미구현 `execComponent`는 `ComingSoonPage`.
+- **파일:** `src/mocks/data/menu.ts`, `app/menu/buildAppMenuFromV1.ts`, `mockMenu.ts`, `pages/placeholder/ComingSoonPage.tsx`, registry, i18n, `demoPageIds.ts`
+- **검증:** `pnpm -C apps/demo build`
+
 ## 2026-07-01
 
 ### Vite build — Radix `"use client"` 경고 억제

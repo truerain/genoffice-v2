@@ -45,7 +45,12 @@ const en: MessageTree = {
       openActuals: 'Open Actuals',
       openCustomerInfo: 'Open Customer Info',
       linksHint:
-        'Address bar deep link: /?menu=demo-chart — pinned Welcome tab + target page (tabs reset on full reload).',
+        'Address bar deep link: /?menu=900800 — pinned Welcome tab + target page (tabs reset on full reload).',
+    },
+    comingSoon: {
+      title: 'Coming soon',
+      description: 'This V1 menu entry is wired, but the screen is not ported to the V2 demo yet.',
+      note: 'It will be migrated in a follow-up D4/D5 gate or covered in Storybook.',
     },
     chartDemo: {
       description: 'gen-chart composable API — line, bar, area, composed, pie, donut.',

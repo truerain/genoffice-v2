@@ -42,9 +42,14 @@ const ko = {
       openUserManagement: 'User Management 열기',
       openMenuManagement: 'Menu Management 열기',
       openActuals: 'Actuals 열기',
-      openCustomerInfo: '고객정보 열기',
+      openCustomerInfo: '고객 정보 열기',
       linksHint:
-        '주소창 딥링크: /?menu=demo-chart — 고정 Welcome 탭 + 해당 화면(새로고침 시 탭은 초기화됩니다).',
+        '주소창 딥링크: /?menu=900800 — 고정 Welcome 탭 + 해당 화면(새로고침 시 탭은 초기화됩니다).',
+    },
+    comingSoon: {
+      title: '준비 중',
+      description: 'V1 메뉴는 연결되었으나 이 화면은 아직 V2 demo에 포팅되지 않았습니다.',
+      note: 'Storybook 또는 후속 D4/D5 Gate에서 이식될 예정입니다.',
     },
     chartDemo: {
       description: 'gen-chart composable API — line, bar, area, composed, pie, donut.',

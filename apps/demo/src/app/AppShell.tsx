@@ -102,7 +102,7 @@ export function AppShell() {
   const handleMenuSelect = useCallback(
     (frameItem: { id: string }) => {
       const appItem = findAppMenuItemByPageId(items, frameItem.id);
-      if (appItem) {
+      if (appItem && !appItem.children?.length && appItem.componentName) {
         openMenuItem(appItem);
       }
     },

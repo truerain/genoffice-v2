@@ -22,9 +22,10 @@ import { isComponentName } from './config/componentRegistry';
 import { resolveMessage, type Locale } from '../i18n';
 
 export function resolveMenuTitle(
-  item: Pick<AppMenuItem, 'title' | 'titleKey'>,
+  item: Pick<AppMenuItem, 'title' | 'titleEng' | 'titleKey'>,
   locale: Locale = 'ko',
 ): string {
+  if (locale === 'en' && item.titleEng) return item.titleEng;
   if (item.title) return item.title;
   if (item.titleKey) return resolveMessage(locale, item.titleKey);
   return item.titleKey ?? 'Page';
@@ -52,9 +53,17 @@ export function createTabFromMenuItem(
   item: AppMenuItem,
   title: string,
 ): MDITab {
+  if (!item.componentName) {
+    throw new Error(`Menu item ${item.pageId} has no componentName`);
+  }
+
   return createPageTab({
     pageId: item.pageId,
     title,
     componentName: item.componentName,
+    params:
+      item.componentName === 'ComingSoonPage'
+        ? { title }
+        : undefined,
   });
 }

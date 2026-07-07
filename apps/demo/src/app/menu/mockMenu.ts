@@ -4,53 +4,11 @@
  * @created 2026-06-28
  *
  * @remark
- * - Flat demo entries for Placeholder, Chart, Dashboard slots
+ * - V1 flat rows: src/mocks/data/menu.ts → buildAppMenuFromV1 tree
  *
  */
 
-import type { AppMenuItem } from './menu.types';
+import { buildAppMenuItemsFromV1 } from './buildAppMenuFromV1';
+import { loadAppMenuData } from '../../mocks/data/menu';
 
-export const MOCK_MENU_ITEMS: AppMenuItem[] = [
-  {
-    pageId: 'placeholder-welcome',
-    componentName: 'PlaceholderPage',
-    titleKey: 'menu.placeholder',
-    path: '/placeholder',
-  },
-  {
-    pageId: 'demo-chart',
-    componentName: 'ChartDemoPage',
-    titleKey: 'menu.chartDemo',
-    path: '/demo/chart',
-  },
-  {
-    pageId: 'demo-dashboard',
-    componentName: 'DashboardDemoPage',
-    titleKey: 'menu.dashboardDemo',
-    path: '/demo/dashboard',
-  },
-  {
-    pageId: 'admin-user-management',
-    componentName: 'UserManagementPage',
-    titleKey: 'menu.userManagement',
-    path: '/admin/user-management',
-  },
-  {
-    pageId: 'admin-menu-management',
-    componentName: 'MenuManagementPage',
-    titleKey: 'menu.menuManagement',
-    path: '/admin/menu-management',
-  },
-  {
-    pageId: 'co-actuals',
-    componentName: 'ActualsPage',
-    titleKey: 'menu.actuals',
-    path: '/co/actuals',
-  },
-  {
-    pageId: 'customer-info',
-    componentName: 'CustomerInfoPage',
-    titleKey: 'menu.customerInfo',
-    path: '/customer/customer-info',
-  },
-];
+export const MOCK_MENU_ITEMS = buildAppMenuItemsFromV1(loadAppMenuData());

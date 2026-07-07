@@ -48,4 +48,9 @@ export const componentRegistry: Record<ComponentName, RegistryComponent> = {
       default: module.CustomerInfoPage as RegistryComponent,
     })),
   ),
+  ComingSoonPage: lazy(() =>
+    import('../../pages/placeholder/ComingSoonPage').then((module) => ({
+      default: module.ComingSoonPage as RegistryComponent,
+    })),
+  ),
 };

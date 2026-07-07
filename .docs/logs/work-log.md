@@ -8,6 +8,12 @@
 
 ## 2026-07-07
 
+### apps/demo — V1 mock menu 트리 연동
+
+- **요약:** V1 `mocks/data/menu.ts` flat rows 포팅 → `buildAppMenuFromV1` 트리 변환. 미이식 화면은 `ComingSoonPage`.
+- **파일:** `apps/demo/src/mocks/data/**`, `app/menu/buildAppMenuFromV1.ts`, `mockMenu.ts`, `ComingSoonPage.tsx`, registry, i18n, `demoPageIds.ts`
+- **검증:** `pnpm -C apps/demo build`
+
 ### AGENTS.md · README.md — Core Stack 정본 동기화
 
 - **요약:** React 19, TypeScript 5.9, Storybook 10, Vitest 4 등 루트 `pnpm.overrides` 기준으로 스택 문서 갱신. 미사용 Nx 항목 제거.
