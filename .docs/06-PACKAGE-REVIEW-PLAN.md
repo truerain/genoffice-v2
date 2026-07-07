@@ -74,7 +74,7 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ✅ Gate 10~11
 | 6 | `packages/gen-datagrid-crud` | 신규 | Gate 10~11 ✅ — demo D4 연동 진행 중 |
 | 7 | `packages/gen-datagrid-chart` | 신규/포팅 | gen-chart + gen-datagrid 준비 후 |
 | 8 | `apps/storybook` | 수정 이식 | gen-datagrid story 포함 |
-| 9 | `apps/demo` | 수정 이식 | **D0~D3** ✅ — [plan.md](../apps/demo/.docs/plan.md); **D4 admin 진행 중** |
+| 9 | `apps/demo` | 수정 이식 | **D0~D3** ✅ — [plan.md](../apps/demo/.docs/plan/plan.md); **D4 admin 진행 중** |
 
 `theme` → `utils` → `ui` 흐름은 `ui`가 `theme`·`utils`에 의존하기 때문입니다.  
 `utils`를 `theme` 직후에 두면 `ui` 검토 시 기반 API가 이미 고정되어 있습니다.
@@ -161,10 +161,10 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ✅ Gate 10~11
 ### 9. `apps/demo`
 
 - [x] 아키텍처·구현 Plan — [apps/demo/.docs/](../apps/demo/.docs/)
-- [x] Gate D0 scaffold — [plan.md](../apps/demo/.docs/plan.md) §2
-- [x] D1 shell·MDI·mock login — [plan.md](../apps/demo/.docs/plan.md) §3
-- [x] D2 API·menu·registry·i18n — [plan.md](../apps/demo/.docs/plan.md) §4
-- [x] D3 chart·dashboard demo — [plan.md](../apps/demo/.docs/plan.md) §5
+- [x] Gate D0 scaffold — [plan.md](../apps/demo/.docs/plan/plan.md) §2
+- [x] D1 shell·MDI·mock login — [plan.md](../apps/demo/.docs/plan/plan.md) §3
+- [x] D2 API·menu·registry·i18n — [plan.md](../apps/demo/.docs/plan/plan.md) §4
+- [x] D3 chart·dashboard demo — [plan.md](../apps/demo/.docs/plan/plan.md) §5
 - [ ] D4 admin CRUD — `gen-datagrid`·`gen-datagrid-crud` dep + 페이지 이관
 - [ ] D5 Actuals — `gen-datagrid-chart` 준비 후
 - [ ] `gen-grid*` import 제거 (D4 Gate)

@@ -1,5 +1,5 @@
 <!--
- @file apps/demo/.docs/plan.md
+ @file apps/demo/.docs/plan/plan.md
  @description Implementation plan and quality gates for @gen-office/demo.
 
  @created 2026-06-28
@@ -7,7 +7,7 @@
  @remark
  - Phase D0~D3: grid 없이 착수 가능
  - Phase D4~D5: gen-datagrid 합류 후
- - Architecture: architecture.md
+ - Architecture: ../architecture/architecture.md
 -->
 # @gen-office/demo 구현 Plan
 
@@ -95,7 +95,7 @@ pnpm -C apps/demo build
 - [x] `MDIContainer` mount — `maxTabs`, `tabPosition`
 - [x] `onOpenPage` stub — 하드코딩 탭 1개 (Placeholder 페이지)
 - [x] Login 화면 분기 (mock login 허용)
-- [x] `onMaxTabsReached` — ui toast 또는 alert (앱 책임, [mdi README](../../packages/mdi/.docs/README.md))
+- [x] `onMaxTabsReached` — ui toast 또는 alert (앱 책임, [mdi README](../../../../packages/mdi/.docs/README.md))
 
 ### 레이아웃 Gate
 
@@ -143,7 +143,7 @@ const menuItems = [{ componentName: 'PlaceholderPage', titleKey: 'menu.placehold
 ## 5. D3 — Chart / Dashboard (gen-chart)
 
 **목표:** V1 `ChartDemoPage` / `DashboardDemoPage` 시나리오를 V2 composable API로 demo에 구현.  
-gen-chart **C8의 demo 부분을 선행** 완료 ([phase.md](../../packages/gen-chart/.docs/phase.md)).
+gen-chart **C8의 demo 부분을 선행** 완료 ([phase.md](../../../../packages/gen-chart/.docs/phase.md)).
 
 ### 완료 조건
 
@@ -262,7 +262,7 @@ gen-chart **C8의 demo 부분을 선행** 완료 ([phase.md](../../packages/gen-
 
 ## 10. 로드맵 · 패키지 리뷰 매핑
 
-| 본 Plan | [04-ROADMAP](../../.docs/04-ROADMAP.md) | [06-PACKAGE-REVIEW](../../.docs/06-PACKAGE-REVIEW-PLAN.md) |
+| 본 Plan | [04-ROADMAP](../../../../.docs/04-ROADMAP.md) | [06-PACKAGE-REVIEW](../../../../.docs/06-PACKAGE-REVIEW-PLAN.md) |
 | --- | --- | --- |
 | D0~D2 | Phase 3 전반 (shell) | §9 apps/demo |
 | D3 | Phase 4 일부 (chart demo) | gen-chart Phase 2 선행 |
@@ -271,6 +271,38 @@ gen-chart **C8의 demo 부분을 선행** 완료 ([phase.md](../../packages/gen-
 
 ---
 
-## 11. 구현 로그
+## 11. componentRegistry 구조 개선 (D2 후속)
 
-완료·설계 변경은 [implementation-log.md](./implementation-log.md)에 역시간순(한국어)으로 기록합니다.
+**목표:** 페이지 수 증가 대비 — V1식 가독성(한 줄 로더·도메인 그룹·경로 별칭)과 V2의 타입 안전성을 결합한 하이브리드 구조로 전환.
+
+**배경:** 현재 `componentRegistry.dynamic.ts`는 named export 매핑(`.then((m) => ({ default: m.X }))`)으로 항목당 약 4줄이고, `componentRegistry.types.ts`의 `ComponentName` 유니온과 이중 유지보수가 필요합니다. V1(`frontend/apps/demo/src/app/config/componentRegistry.dynamic.ts`)은 한 줄 로더 + 도메인 그룹 주석으로 페이지가 많아도 스캔이 쉽지만, 키가 `string`이라 타입 안전성이 없습니다. 두 방식의 장점만 취합니다.
+
+### 완료 조건
+
+- [ ] 페이지 컴포넌트 export를 default로 표준화 → 항목을 `Name: lazy(() => import('...'))` 한 줄로 축소
+- [ ] `ComponentName`을 맵 키에서 파생(`keyof typeof componentRegistry`) → `types`/`dynamic` 이중 유지보수 제거 (순환 참조 방지 위해 `RegistryComponent`만 `types`에 유지)
+- [ ] `@/` 경로 별칭 도입 — `apps/demo/tsconfig.json` `paths` + `vite.config.ts` `resolve.alias`
+- [ ] 도메인 주석 그룹핑(고객 / 시스템 관리 / Demo 등)
+- [ ] (선택) prefetch 헬퍼 + unknown name graceful fallback(`ComingSoonPage`) 유지
+- [ ] `buildAppMenuFromV1.ts`의 `V2_READY_COMPONENTS` gating Set과 파생 타입 중복 정리 여부 결정
+
+### Gate
+
+- [ ] `pnpm -C apps/demo build` — 페이지별 lazy chunk 분리 유지
+- [ ] `pnpm -C apps/demo exec tsc --noEmit` — componentName 타입 체크 유지
+- [ ] 메뉴 클릭 → MDI 탭 오픈 회귀 없음 (수동)
+
+### 트레이드오프
+
+- default export 표준화는 기존 페이지 export 방식 변경이 필요(범위 있는 리팩터)
+- `keyof typeof` 파생 시 순환 참조 주의(타입 파일이 `dynamic`을 import하지 않도록 배치)
+
+### V1 참조
+
+- `frontend/apps/demo/src/app/config/componentRegistry.dynamic.ts` — 한 줄 로더 · 도메인 그룹 주석 · `getLazyComponent`/prefetch
+
+---
+
+## 12. 구현 로그
+
+완료·설계 변경은 [implementation-log.md](../logs/implementation-log.md)에 역시간순(한국어)으로 기록합니다.

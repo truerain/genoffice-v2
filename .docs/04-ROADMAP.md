@@ -190,7 +190,7 @@ Gate 정의: [packages/gen-datagrid/.docs/README.md](../packages/gen-datagrid/.d
 **선행 완료:** `gen-datagrid` Gate 0~9 ✅, `gen-datagrid-crud` Gate 10~11 ✅  
 **블로커 해소:** 패키지 이관 완료. demo `package.json`에 grid dep·admin 페이지 이관 **미착수**.
 
-**demo 구현 Plan:** [apps/demo/.docs/plan.md](../apps/demo/.docs/plan.md) — D0~D3 ✅, D4 admin (진행 중)
+**demo 구현 Plan:** [apps/demo/.docs/plan.md](../apps/demo/.docs/plan/plan.md) — D0~D3 ✅, D4 admin (진행 중)
 
 ### 우선 화면
 

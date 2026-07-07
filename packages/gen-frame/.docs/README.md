@@ -35,7 +35,7 @@ GenOffice V2 **앱 프레임** 패키지입니다. 백오피스 앱의 레이아
 
 - [`.docs/02-ARCHITECTURE.md`](../../../.docs/02-ARCHITECTURE.md) — monorepo 패키지 경계
 - [`.docs/06-PACKAGE-REVIEW-PLAN.md`](../../../.docs/06-PACKAGE-REVIEW-PLAN.md) — 패키지 검토 순서
-- [apps/demo/.docs/architecture.md](../../../apps/demo/.docs/architecture.md) — reference 앱 배선
+- [apps/demo/.docs/architecture.md](../../../apps/demo/.docs/architecture/architecture.md) — reference 앱 배선
 
 ## 관련 패키지
 

@@ -1,11 +1,11 @@
 <!--
- @file apps/demo/.docs/architecture.md
+ @file apps/demo/.docs/architecture/architecture.md
  @description Architecture for @gen-office/demo reference back-office app.
 
  @created 2026-06-28
 
  @remark
- - Implementation plan: plan.md
+ - Implementation plan: ../plan/plan.md
  - MDI integration: packages/mdi/.docs/architecture.md §8
 -->
 # @gen-office/demo 아키텍처
@@ -114,7 +114,7 @@ flowchart TB
 
 ### 메뉴 → MDI 오픈 계약
 
-V1과 동일한 **이름 유지·구현 교체** 정책 ([03-V1-RELATIONSHIP.md](../../.docs/03-V1-RELATIONSHIP.md)):
+V1과 동일한 **이름 유지·구현 교체** 정책 ([03-V1-RELATIONSHIP.md](../../../../.docs/03-V1-RELATIONSHIP.md)):
 
 1. 메뉴 API(또는 mock)가 `componentName`, `title`, `path` 등을 반환
 2. `componentRegistry`가 `componentName` → `React.lazy(() => import(...))` 매핑
@@ -217,15 +217,15 @@ AppShell              display: flex; flex-direction: column; height: 100vh
 | --- | --- |
 | `MDIContainer` | 부모 `flex:1; min-height:0` |
 | `GenDataGrid` | 페이지가 **명시적 height** 또는 flex chain 끝까지 `min-height:0` |
-| `ResponsiveChartContainer` | 카드/패널 `flex:1; min-height:0` ([gen-chart Dashboard story](../../packages/gen-chart/src/react/components/dashboard/Dashboard.stories.tsx)) |
+| `ResponsiveChartContainer` | 카드/패널 `flex:1; min-height:0` ([gen-chart Dashboard story](../../../../packages/gen-chart/src/react/components/dashboard/Dashboard.stories.tsx)) |
 
-**Page frame:** V1 `AdminPageLayout` + `PageHeader` 패턴을 우선 이식합니다. composable `StandardPageFrame`은 [`.docs/idea/page-frame-composable.md`](../../.docs/idea/page-frame-composable.md) draft — **MVP는 V1 레이아웃 이식**, 프레임 패키지화는 후속.
+**Page frame:** V1 `AdminPageLayout` + `PageHeader` 패턴을 우선 이식합니다. composable `StandardPageFrame`은 [`.docs/idea/page-frame-composable.md`](../../../../.docs/idea/page-frame-composable.md) draft — **MVP는 V1 레이아웃 이식**, 프레임 패키지화는 후속.
 
 ---
 
 ## 6. 인증·API
 
-[`backend`](../../../backend) 저장소를 그대로 사용합니다 ([02-ARCHITECTURE.md §7](../../.docs/02-ARCHITECTURE.md#7-백엔드-연동)).
+[`backend`](../../../../backend) 저장소를 그대로 사용합니다 ([02-ARCHITECTURE.md §7](../../../../.docs/02-ARCHITECTURE.md#7-백엔드-연동)).
 
 | 영역 | V2 정책 |
 | --- | --- |
@@ -331,8 +331,8 @@ import {
 import '@gen-office/gen-chart/index.css';
 ```
 
-- `DashboardDemoPage`: [gen-chart C7 Dashboard story](../../packages/gen-chart/src/react/components/dashboard/Dashboard.stories.tsx) 패턴
-- `ChartDemoPage`: [CartesianSeries / PolarSeries stories](../../packages/gen-chart/src/react/components/) 조합
+- `DashboardDemoPage`: [gen-chart C7 Dashboard story](../../../../packages/gen-chart/src/react/components/dashboard/Dashboard.stories.tsx) 패턴
+- `ChartDemoPage`: [CartesianSeries / PolarSeries stories](../../../../packages/gen-chart/src/react/components/) 조합
 - gen-chart **Phase 2 (C8)** 완료 조건에 demo 페이지 포함 — D3에서 선행 구현 가능
 
 ---
@@ -345,7 +345,7 @@ import '@gen-office/gen-chart/index.css';
 | `pnpm -C apps/demo build` | production build |
 | `pnpm dev` (root) | turbo `--filter=@gen-office/demo` |
 
-Turbo `dev` task는 demo가 workspace에 등록된 뒤 root [package.json](../../package.json)과 연동됩니다.
+Turbo `dev` task는 demo가 workspace에 등록된 뒤 root [package.json](../../../../package.json)과 연동됩니다.
 
 ---
 
@@ -373,7 +373,7 @@ Turbo `dev` task는 demo가 workspace에 등록된 뒤 root [package.json](../..
 
 ## 13. 관련 문서
 
-- [plan.md](./plan.md) — Phase D0~D5, Gate
-- [packages/mdi/.docs/architecture.md](../../packages/mdi/.docs/architecture.md)
-- [packages/gen-chart/.docs/phase.md](../../packages/gen-chart/.docs/phase.md)
-- [03-V1-RELATIONSHIP.md §5](../../.docs/03-V1-RELATIONSHIP.md#5-demo-화면-이식-우선순위)
+- [plan.md](../plan/plan.md) — Phase D0~D5, Gate
+- [packages/mdi/.docs/architecture.md](../../../../packages/mdi/.docs/architecture.md)
+- [packages/gen-chart/.docs/phase.md](../../../../packages/gen-chart/.docs/phase.md)
+- [03-V1-RELATIONSHIP.md §5](../../../../.docs/03-V1-RELATIONSHIP.md#5-demo-화면-이식-우선순위)

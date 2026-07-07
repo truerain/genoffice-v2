@@ -1,5 +1,5 @@
 <!--
- @file apps/demo/.docs/ui-direction.md
+ @file apps/demo/.docs/guide/ui-direction.md
  @description Soft Modern UI direction for @gen-office/demo.
 
  @created 2026-06-29

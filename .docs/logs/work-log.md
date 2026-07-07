@@ -6,6 +6,17 @@
 -->
 # GenOffice V2 작업 로그
 
+## 2026-07-08
+
+### apps/demo/.docs — 폴더 재편(architecture/plan/rules/logs) 정합성 정리
+
+- **요약:** demo 문서를 하위 폴더로 재편한 뒤 어긋난 `@file` 헤더·상대 링크를 일괄 정정. 이동 파일 5종 헤더 갱신, 문서 간 형제 링크 및 외부(packages/·repo-root `.docs/`) 링크 depth 보정, README 문서 목록 링크 수정 + `logs/implementation-log.md` 항목 추가. 외부 문서에서 옛 평면 경로로 들어오던 인바운드 링크(`.docs/02·04·06`, `gen-frame/.docs`)도 정정.
+- **추가:** `plan/plan.md`에 "componentRegistry 구조 개선(D2 후속)" 항목 신설 — default export 표준화·`keyof typeof` 파생·`@/` 별칭·도메인 그룹핑 하이브리드.
+- **폴더명 정정:** 분류 부정합으로 `rules/` → `guide/` 변경, `ui-direction.md` 이동(디자인 가이드 성격에 맞춤). 관련 링크·헤더 일괄 갱신.
+- **파일:** `apps/demo/.docs/{README.md, architecture/architecture.md, architecture/multi-app-frame.md, plan/plan.md, guide/ui-direction.md, logs/implementation-log.md}`, `.docs/{02-ARCHITECTURE.md, 04-ROADMAP.md, 06-PACKAGE-REVIEW-PLAN.md}`, `packages/gen-frame/.docs/{README.md, architecture.md}`
+- **검증:** repo grep — 옛 평면 경로 대상 잔여 링크 0
+- **비고:** `work-log.md`의 과거 로그 본문 내 파일명 언급은 이력 보존 위해 미수정
+
 ## 2026-07-07
 
 ### apps/demo — V1 mock menu 트리 연동

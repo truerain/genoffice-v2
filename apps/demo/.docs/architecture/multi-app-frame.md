@@ -1,5 +1,5 @@
 <!--
- @file apps/demo/.docs/multi-app-frame.md
+ @file apps/demo/.docs/architecture/multi-app-frame.md
  @description Multi-app persona design — App Profile, navigation modes, file layout for @gen-office/demo.
 
  @created 2026-06-29
@@ -48,7 +48,7 @@
 
 동일한 `NavigationController.open(payload)` 계약으로 메뉴 클릭·딥링크·탭 내 링크를 처리합니다.
 
-**참고:** [packages/gen-frame/.docs/architecture.md](../../../packages/gen-frame/.docs/architecture.md), [packages/gen-frame/README.md](../../../packages/gen-frame/README.md)
+**참고:** [packages/gen-frame/.docs/architecture.md](../../../../packages/gen-frame/.docs/architecture.md), [packages/gen-frame/README.md](../../../../packages/gen-frame/README.md)
 
 ---
 
@@ -355,7 +355,7 @@ export function resolvePageContent(payload: OpenPagePayload): ReactNode {
 ```
 
 `DemoWorkspaceShell` 루트에 `data-demo-profile={profile.id}`를 부여합니다.  
-자세한 토큰 규칙은 [ui-direction.md](./ui-direction.md)를 따릅니다.
+자세한 토큰 규칙은 [ui-direction.md](../guide/ui-direction.md)를 따릅니다.
 
 ---
 
@@ -389,10 +389,10 @@ export function resolvePageContent(payload: OpenPagePayload): ReactNode {
 | 문서 | 내용 |
 | --- | --- |
 | [architecture.md](./architecture.md) | demo 레이어, registry, flex height |
-| [ui-direction.md](./ui-direction.md) | chrome / workarea 토큰 |
-| [plan.md](./plan.md) | Phase D0~D5 (도메인 페이지) |
-| [packages/gen-frame/.docs/architecture.md](../../../packages/gen-frame/.docs/architecture.md) | NavigationController, URL sync |
-| [packages/gen-frame/.docs/plan.md](../../../packages/gen-frame/.docs/plan.md) | F5 single host |
+| [ui-direction.md](../guide/ui-direction.md) | chrome / workarea 토큰 |
+| [plan.md](../plan/plan.md) | Phase D0~D5 (도메인 페이지) |
+| [packages/gen-frame/.docs/architecture.md](../../../../packages/gen-frame/.docs/architecture.md) | NavigationController, URL sync |
+| [packages/gen-frame/.docs/plan.md](../../../../packages/gen-frame/.docs/plan.md) | F5 single host |
 
 ---
 

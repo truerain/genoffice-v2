@@ -366,7 +366,7 @@ import '@gen-office/gen-frame/index.css';
 
 ## 8. 높이·레이아웃 계약
 
-[apps/demo/.docs/architecture.md §5](../../../apps/demo/.docs/architecture.md) 와 동일. gen-frame이 **보장**합니다.
+[apps/demo/.docs/architecture.md §5](../../../apps/demo/.docs/architecture/architecture.md) 와 동일. gen-frame이 **보장**합니다.
 
 ```text
 html, body, #root     height: 100%
@@ -451,5 +451,5 @@ demo 전용 Soft Modern (`demo-ui.css`, `DemoSurface`)는 **앱 스킨**으로 �
 
 - [plan.md](./plan.md) — Phase F0~F5, Gate
 - [packages/mdi/.docs/architecture.md](../../mdi/.docs/architecture.md)
-- [apps/demo/.docs/ui-direction.md](../../../apps/demo/.docs/ui-direction.md) — demo 스킨 (gen-frame과 분리)
+- [apps/demo/.docs/ui-direction.md](../../../apps/demo/.docs/guide/ui-direction.md) — demo 스킨 (gen-frame과 분리)
 - [.docs/idea/page-frame-composable.md](../../../.docs/idea/page-frame-composable.md) — 탭 **내부** 프레임 (별 트랙)

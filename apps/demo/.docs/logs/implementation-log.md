@@ -1,5 +1,5 @@
 <!--
- @file apps/demo/.docs/implementation-log.md
+ @file apps/demo/.docs/logs/implementation-log.md
  @description Implementation and design change log for @gen-office/demo.
 
  @created 2026-06-28
