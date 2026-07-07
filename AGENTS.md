@@ -32,14 +32,17 @@ When working in this repository:
 
 ## Core Stack
 
-- React 18 (React 19 is under consideration; do not upgrade without explicit request)
-- TypeScript 5.7+
+Pinned versions live in the root `package.json` `pnpm.overrides` (do not change major versions without explicit request).
+
+- React 19
+- TypeScript 5.9
 - Vite 6
-- pnpm 9
-- Turbo
-- Nx
-- Storybook 8
-- TanStack Table (grid state model)
+- pnpm 9 (`packageManager`: pnpm@9.15.0)
+- Turbo (monorepo task orchestration)
+- Storybook 10 (integrated app: `apps/storybook`)
+- Vitest (package tests)
+- Node.js 20+ (`engines`)
+- TanStack Table + TanStack Virtual (`gen-datagrid` state / virtualization)
 - Radix UI (`ui`)
 - visx (`gen-chart`, composable API — not V1 monolith)
 

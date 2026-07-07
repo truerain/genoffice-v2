@@ -6,7 +6,7 @@ V1이 table DOM 기반 `@gen-office/gen-grid`를 중심으로 성장했다면, V
 
 차트(`@gen-office/gen-chart`)도 V1은 급히 구현되며 API·headless 계약이 정리되지 않았으므로, V2에서는 **코드 이식 없이 API 우선으로 처음부터 재작성**합니다.
 
-## 현재 상태 (2026-06-29)
+## 현재 상태 (2026-07-07)
 
 | 항목 | 상태 |
 | --- | --- |
@@ -30,16 +30,20 @@ V1이 table DOM 기반 `@gen-office/gen-grid`를 중심으로 성장했다면, V
 - **레거시 제거**: `gen-grid`, `gen-grid-crud`, `gen-grid-chart`, V1 `gen-chart` 구현은 V2에 포함하지 않음
 - **안정 자산 유지**: `theme`, `ui`, `utils`, `mdi`, demo 인프라(MDI·메뉴·인증)는 V1에서 이식
 
-## 목표 기술 스택 (초안)
+## 기술 스택
+
+정본: 루트 `package.json`의 `pnpm.overrides`.
 
 | 항목 | V1 (`frontend`) | V2 (`genoffice-v2`) |
 | --- | --- | --- |
-| 프레임워크 | React 18 | React 18 → 이후 React 19 검토 |
-| 언어 | TypeScript 5.7 | TypeScript 5.7+ |
-| 빌드 | Vite 6, Turbo | 동일 |
-| 패키지 관리 | pnpm 9 | pnpm 9+ |
-| 문서화 | Storybook 8 | Storybook 8 → 이후 9 검토 |
-| 데이터 그리드 | TanStack Table + table DOM | TanStack Table + div renderer |
+| 프레임워크 | React 18 | React **19.2.7** |
+| 언어 | TypeScript 5.7 | TypeScript **5.9.3** |
+| 빌드 | Vite 6, Turbo | Vite **6.4.3**, Turbo |
+| 패키지 관리 | pnpm 9 | pnpm **9.15.0** |
+| 테스트 | Vitest (패키지별) | Vitest **4.1.9** |
+| 문서화 | Storybook 8 | Storybook **10.4.6** (`apps/storybook`) |
+| 런타임 | Node 18+ (V1 기준) | Node **20+** |
+| 데이터 그리드 | TanStack Table + table DOM | TanStack Table + Virtual + div renderer |
 | 차트 | visx (monolith `GenChart`) | visx + headless composable API (신규 설계) |
 | UI | Radix UI | Radix UI (V1에서 이식) |
 

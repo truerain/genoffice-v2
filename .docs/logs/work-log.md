@@ -6,6 +6,13 @@
 -->
 # GenOffice V2 작업 로그
 
+## 2026-07-07
+
+### AGENTS.md · README.md — Core Stack 정본 동기화
+
+- **요약:** React 19, TypeScript 5.9, Storybook 10, Vitest 4 등 루트 `pnpm.overrides` 기준으로 스택 문서 갱신. 미사용 Nx 항목 제거.
+- **파일:** `AGENTS.md`, `README.md`
+
 ## 2026-07-01
 
 ### gen-datagrid, gen-datagrid-crud — V1 동기화 (gridProps·로딩 루프·columnFitMode fill)
