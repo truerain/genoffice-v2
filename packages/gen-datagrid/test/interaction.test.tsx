@@ -318,6 +318,37 @@ describe('GenDataGrid interaction contract', () => {
     });
   });
 
+  it('enables row hover highlight by default and allows opt-out', () => {
+    const { container: onContainer } = render(
+      <GenDataGrid
+        gridId="row-hover-default-grid"
+        data={rows}
+        columns={columns}
+        getRowId={(row) => row.id}
+      />
+    );
+    expect(
+      onContainer.querySelector('[data-gen-datagrid-root="true"]')?.getAttribute(
+        'data-row-hover-highlight'
+      )
+    ).toBe('true');
+
+    const { container: offContainer } = render(
+      <GenDataGrid
+        gridId="row-hover-off-grid"
+        data={rows}
+        columns={columns}
+        getRowId={(row) => row.id}
+        enableRowHoverHighlight={false}
+      />
+    );
+    expect(
+      offContainer.querySelector('[data-gen-datagrid-root="true"]')?.getAttribute(
+        'data-row-hover-highlight'
+      )
+    ).toBe('false');
+  });
+
   it('keeps keyboard navigation scoped to the focused grid', async () => {
     const { container } = render(
       <>

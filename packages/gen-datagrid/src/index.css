@@ -25,8 +25,9 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  color: inherit;
-  background: inherit;
+  border: 1px solid var(--gen-datagrid-border);
+  color: var(--gen-datagrid-text);
+  background: var(--gen-datagrid-bg);
   font-size: var(--gen-datagrid-font-size);
 }
 
@@ -135,7 +136,7 @@
   text-overflow: ellipsis;
   border-right: 1px solid var(--gen-datagrid-body-cell-border);
   border-bottom: 1px solid var(--gen-datagrid-body-cell-border);
-  background: inherit;
+  background: var(--gen-datagrid-body-cell-bg);
   color: var(--gen-datagrid-body-cell-text);
 }
 
@@ -541,6 +542,13 @@
 .gen-datagrid__cell[data-active-cell='true'] {
   outline: 2px solid var(--gen-datagrid-active-color);
   outline-offset: -2px;
+}
+
+/* Row hover (Gate 8.8). Yields to current-row, selection, deleted. */
+.gen-datagrid[data-row-hover-highlight='true']
+  .gen-datagrid__row:hover:not([data-current-row='true']):not([data-deleted-row='true'])
+  .gen-datagrid__cell:not([data-selected-cell='true']) {
+  background-color: var(--gen-datagrid-row-hover-bg);
 }
 
 .gen-datagrid__row[data-current-row='true'] .gen-datagrid__cell {

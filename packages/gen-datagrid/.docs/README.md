@@ -33,6 +33,7 @@ Current status: the main GenDataGrid MVP surface has implementation coverage. Ac
 - [Gate 8.6-d Visual Row Merge Architecture](architecture/gate-8-6-d-visual-row-merge-architecture.md)
 - [Gate 8.7 System Columns Architecture](architecture/gate-8-7-system-columns-architecture.md)
 - [Gate 8.7-a Current Row Highlight Architecture](architecture/gate-8-7-a-current-row-highlight-architecture.md)
+- [Gate 8.8 Row Hover Highlight Architecture](architecture/gate-8-8-row-hover-highlight-architecture.md)
 - [GenDataGridHandle Data Ownership Architecture](architecture/handle-data-ownership-architecture.md)
 
 ## Reference

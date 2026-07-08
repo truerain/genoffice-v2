@@ -8,6 +8,23 @@
 
 ## 2026-07-09
 
+### Gate 8.8 Row Hover Highlight 구현
+
+- **요약:** `enableRowHoverHighlight` 기본 **true**(AG Grid와 동일). 끄려면 `false`. `--gen-datagrid-row-hover-bg` + 루트 data-attr + CSS `:hover`. current/selection/deleted에 양보.
+- **검증:** vitest row hover 테스트, datagrid/crud build.
+- **파일:** `packages/gen-datagrid/src/{GenDataGrid.types.ts, renderers/div-grid/DataGridRoot.tsx, styles/tokens.css, index.css}`, `test/interaction.test.tsx`, architecture/reference/plan 문서
+
+### Gate 8.8 Row Hover Highlight architecture 등록
+
+- **요약:** AG Grid Row Hover Highlight 대응 설계를 Gate **8.8**(8.7 동급 피어, 8.7-a 하위 아님)로 문서화. API `enableRowHoverHighlight`, 토큰 `--gen-datagrid-row-hover-bg`, current row와 구분·cascade. 구현은 planned.
+- **파일:** `packages/gen-datagrid/.docs/architecture/gate-8-8-row-hover-highlight-architecture.md`(신규), `packages/gen-datagrid/.docs/README.md`, `packages/gen-datagrid/.docs/plan/remaining-work-plan.md`
+
+### gen-datagrid Shell/Body 토큰 루트·셀 연결
+
+- **요약:** 미연결이던 Shell(`bg`/`border`/`text`)·Body(`body-cell-bg`)를 `.gen-datagrid` 외곽선·배경·글자색과 `.gen-datagrid__cell` 기본 배경에 연결.
+- **검증:** datagrid/crud build 성공.
+- **파일:** `packages/gen-datagrid/src/{index.css, styles/tokens.css}`, architecture 문서
+
 ### gen-datagrid 토큰 하이브리드 재구조화 구현
 
 - **요약:** `src/tokens.css`를 `src/styles/tokens.css`로 이동하고 Shell→Regions→System→Chrome→Features 계층으로 재작성. theme semantic은 Shell만 브리지. `index.css`에서 legacy `--gen-datagrid-color-*` 전량 제거·영역 토큰 치환. system 컬럼은 header/body/footer 토큰 분리.

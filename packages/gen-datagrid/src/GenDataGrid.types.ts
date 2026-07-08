@@ -353,6 +353,8 @@ export type GenDataGridProps<TData> = {
   rowStatusResolver?: (ctx: GenDataGridRowStatusContext<TData>) => GenDataGridRowStatus;
   enableCurrentRowHighlight?: boolean;
   onCurrentRowChange?: (rowId: string | null) => void;
+  /** Highlight the body row under the pointer. Default true; set false to disable. */
+  enableRowHoverHighlight?: boolean;
   getCellValidation?: (
     ctx: GenDataGridValidationContext<TData>
   ) => GenDataGridCellValidation | null | undefined;

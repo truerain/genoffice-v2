@@ -75,6 +75,7 @@ type GenDataGridDataProps<TData> =
 | `enableRowNumber` | `enableRowNumber` | 유지 | MVP | row number system column. |
 | `enableRowStatus` | `enableRowStatus` | 유지 | MVP | created/updated/deleted 표시 column. |
 | `enableActiveRowHighlight` | `enableCurrentRowHighlight` | 변경 | MVP | Master/Detail 기준 current row highlight. |
+| (기본 ON / `suppressRowHoverHighlight`) | `enableRowHoverHighlight` | 신규 | MVP | Row hover highlight. Default **true** (AG Grid와 동일). Gate 8.8. |
 | `enableRangeSelection` | `enableRangeSelection` | 유지 | MVP | drag range selection. |
 | `enableGrouping` | `enableGrouping` | MVP 제외 | Extension | TanStack grouping은 tree/detail과 조합 정책 정리 후 공개. |
 | `rowSpanning` | `rowMerge` | 변경 | Extension | div에서는 native rowSpan이 없으므로 `rowMerge` 또는 `visualRowMerge` 명칭 권장. |
@@ -431,6 +432,7 @@ type GenDataGridProps<TData> =
     enableRowNumber?: boolean;
     enableRowStatus?: boolean;
     enableCurrentRowHighlight?: boolean;
+    enableRowHoverHighlight?: boolean;
     onCurrentRowChange?: (rowId: string | null) => void;
     getCellValidation?: (
       ctx: GenDataGridValidationContext<TData>

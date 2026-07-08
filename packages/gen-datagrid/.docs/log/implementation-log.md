@@ -1,5 +1,21 @@
 ## 2026-07-09
 
+### Gate 8.8 Row Hover Highlight 구현 (default true)
+
+- **조치:** `enableRowHoverHighlight` 추가(기본 **true**). 루트 `data-row-hover-highlight`, 토큰 `--gen-datagrid-row-hover-bg`(accent 8%). CSS `:hover`로 행 강조; current/selection/deleted에는 `:not`으로 양보. architecture·api-structure·api-comparison·remaining-work·tokens architecture 갱신. interaction 테스트(기본 ON / opt-out).
+- **관련 파일:** `src/GenDataGrid.types.ts`, `src/renderers/div-grid/DataGridRoot.tsx`, `src/styles/tokens.css`, `src/index.css`, `test/interaction.test.tsx`, `.docs/architecture/gate-8-8-*.md`, `.docs/reference/*`, `.docs/plan/remaining-work-plan.md`
+
+### Gate 8.8 Row Hover Highlight architecture (설계만)
+
+- **조치:** `enableRowHoverHighlight` 설계를 Gate **8.8**(8.7 동급 피어)로 문서화. 8.7-a current row와 트리거·의미 구분, AG Grid `rowHoverColor`/`ag-row-hover` 대응, 토큰·cascade·구현 스케치 포함. 코드 미구현.
+- **관련 파일:** `docs/architecture/gate-8-8-row-hover-highlight-architecture.md`(신규), `docs/README.md`, `docs/plan/remaining-work-plan.md`
+
+### Shell/Body 토큰을 루트·셀에 연결
+
+- **조치:** `.gen-datagrid`에 `border`/`color`/`background`를 Shell 토큰으로 연결(외곽선·기본면). `.gen-datagrid__cell` 기본 배경을 `inherit` → `--gen-datagrid-body-cell-bg`. architecture §4.1·§4.3 적용처 표기 갱신.
+- **검증:** `gen-datagrid`·`gen-datagrid-crud` build. dist에 루트 border/bg/text·body-cell-bg 인라인 확인.
+- **관련 파일:** `packages/gen-datagrid/src/index.css`, `packages/gen-datagrid/src/styles/tokens.css`, `packages/gen-datagrid/.docs/architecture/design-tokens-architecture.md`
+
 ### 디자인 토큰 하이브리드 재구조화 구현 (단계 1~4)
 
 - **조치:** `src/tokens.css` → `src/styles/tokens.css` 이동. Shell→Header/Body/Footer→System→Chrome→Features 계층으로 재정의. theme semantic은 Shell만 브리지(`bg/surface/border/text/accent`). `--gen-datagrid-color-*`·`system-cell-*`·`status-*` 제거. `index.css`는 영역별 토큰만 참조(system header/body/footer 분리, chrome filter/pagination, row-status rename).

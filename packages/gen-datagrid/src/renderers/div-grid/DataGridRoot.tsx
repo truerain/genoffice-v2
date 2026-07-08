@@ -140,6 +140,7 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
     rowStatusResolver,
     enableCurrentRowHighlight = false,
     onCurrentRowChange,
+    enableRowHoverHighlight = true,
     getCellValidation,
     enableVirtualization = false,
     enableTreeRows = false,
@@ -1123,6 +1124,7 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
       role="grid"
       data-gen-datagrid-root="true"
       data-grid-id={resolvedGridId}
+      data-row-hover-highlight={enableRowHoverHighlight ? 'true' : 'false'}
       aria-rowcount={tableRows.length}
       aria-colcount={visibleColumns.length}
       className={['gen-datagrid', className].filter(Boolean).join(' ')}

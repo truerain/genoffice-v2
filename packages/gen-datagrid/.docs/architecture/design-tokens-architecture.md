@@ -112,14 +112,14 @@ System을 header/body/footer로 나누는 것은 AG Grid보다 촘촘하지만, 
 
 | 토큰 | 기본 파생 | theme 브리지 |
 | --- | --- | --- |
-| `--gen-datagrid-bg` | — | `var(--color-bg-primary, #ffffff)` |
-| `--gen-datagrid-border` | — | `var(--color-border-default, #d0d7de)` |
-| `--gen-datagrid-text` | — | `var(--color-fg-primary, #24292f)` |
-| `--gen-datagrid-text-muted` | — | `var(--color-fg-secondary, #57606a)` |
-| `--gen-datagrid-text-disabled` | — | `var(--color-text-disabled, #8c959f)` |
-| `--gen-datagrid-accent` | — | `var(--color-primary, #0969da)` |
-| `--gen-datagrid-surface` | — | `var(--color-bg-tertiary, #f6f8fa)` — header/footer/system/chrome 파생용 Shell 보조면 |
-| `--gen-datagrid-font-size` | `14px` | — |
+| `--gen-datagrid-bg` | `.gen-datagrid` background | `var(--color-bg-primary, #ffffff)` |
+| `--gen-datagrid-border` | `.gen-datagrid` border (외곽선) | `var(--color-border-default, #d0d7de)` |
+| `--gen-datagrid-text` | `.gen-datagrid` color | `var(--color-fg-primary, #24292f)` |
+| `--gen-datagrid-text-muted` | 컨트롤 muted | `var(--color-fg-secondary, #57606a)` |
+| `--gen-datagrid-text-disabled` | disabled | `var(--color-text-disabled, #8c959f)` |
+| `--gen-datagrid-accent` | accent / hover | `var(--color-primary, #0969da)` |
+| `--gen-datagrid-surface` | header/footer/system/chrome 파생 + filter-clear | `var(--color-bg-tertiary, #f6f8fa)` |
+| `--gen-datagrid-font-size` | `.gen-datagrid` font-size | `14px` |
 
 ### 4.2 Header
 
@@ -135,11 +135,11 @@ System을 header/body/footer로 나누는 것은 AG Grid보다 촘촘하지만, 
 
 | 토큰 | 기본 파생 |
 | --- | --- |
-| `--gen-datagrid-body-cell-bg` | `var(--gen-datagrid-bg)` |
+| `--gen-datagrid-body-cell-bg` | `var(--gen-datagrid-bg)` — `.gen-datagrid__cell` 기본 배경 |
 | `--gen-datagrid-body-cell-text` | `var(--gen-datagrid-text)` |
 | `--gen-datagrid-body-cell-border` | `var(--gen-datagrid-border)` |
 
-공통 셀 border(`header-cell`, `cell`, `footer-row-cell`)는 각 영역 border 토큰을 참조.
+공통 셀 border(`header-cell`, `cell`, `footer-row-cell`)는 각 영역 border 토큰을 참조. 일반 바디 셀 배경은 `inherit`이 아니라 `--gen-datagrid-body-cell-bg`를 쓴다(current-row/selection/system/pinned이 덮어씀).
 
 ### 4.4 Footer
 
@@ -192,6 +192,7 @@ column filter UI(trigger, popover) 토큰 세분화 수준은 [plan §4 오픈 �
 | 그룹 | 토큰 | 비고 |
 | --- | --- | --- |
 | **Interaction** | `--gen-datagrid-active-color` | `var(--gen-datagrid-accent)` |
+| | `--gen-datagrid-row-hover-bg` | accent 8% + bg (Gate 8.8, default ON) |
 | | `--gen-datagrid-selection-bg` | accent 12% mix |
 | | `--gen-datagrid-selection-bg-pinned` | accent 12% + bg |
 | | `--gen-datagrid-current-row-bg` | accent 7% + bg |

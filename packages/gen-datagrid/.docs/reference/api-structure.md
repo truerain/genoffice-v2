@@ -284,9 +284,10 @@ Implementation status: `enableRangeSelection`, `selectedRanges`, `defaultSelecte
 | `enableRowStatus` | `boolean` | MVP | row status column |
 | `rowStatusResolver` | `(ctx: GenDataGridRowStatusContext<TData>) => GenDataGridRowStatus` | MVP | row status resolver |
 | `enableCurrentRowHighlight` | `boolean` | MVP | current row highlight |
+| `enableRowHoverHighlight` | `boolean` | MVP | row hover highlight (default **true**; set `false` to disable). Gate 8.8 |
 | `onCurrentRowChange` | `(rowId: string \| null) => void` | MVP | current row callback derived from active cell row |
 
-Implementation status: row number, row selection, and row status props are implemented in Gate 8.7. `enableCurrentRowHighlight` and `onCurrentRowChange` are implemented in Gate 8.7-a. Controlled `currentRowId` and `defaultCurrentRowId` are deferred until a later slice.
+Implementation status: row number, row selection, and row status props are implemented in Gate 8.7. `enableCurrentRowHighlight` and `onCurrentRowChange` are implemented in Gate 8.7-a. `enableRowHoverHighlight` (default true) is implemented in Gate 8.8. Controlled `currentRowId` and `defaultCurrentRowId` are deferred until a later slice.
 
 
 ### 5.6-a Validation Feature

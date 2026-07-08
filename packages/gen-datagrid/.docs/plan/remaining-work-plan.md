@@ -238,6 +238,29 @@ Exit criteria (충족):
 - controlled `activeCell`과 controlled `currentRowId` 충돌 정책
 - active cell과 current row 독립 이동 정책
 
+### Gate 8.8 Row Hover Highlight
+
+Status: complete.
+
+목표: 포인터 아래 행을 시각 강조하는 Row Hover Highlight (`enableRowHoverHighlight`, default **true**).
+
+Architecture:
+
+- `../architecture/gate-8-8-row-hover-highlight-architecture.md`
+
+Scope:
+
+- `enableRowHoverHighlight?: boolean` (default **true**; `false`로 끔)
+- `--gen-datagrid-row-hover-bg` 토큰
+- 루트 `data-row-hover-highlight` + 행 `:hover` 스타일
+- current row / selection / deleted와의 cascade (hover가 양보)
+
+Exit criteria:
+
+- [x] prop off/on 시각·테스트 고정 (기본 ON, `false` 시 비활성)
+- [x] pinned·virtual는 CSS `:hover` 1차 (마커 방식은 회귀 시 승격)
+- [x] `enableCurrentRowHighlight`와 동시 사용 시 current가 hover보다 우선
+
 ### Virtualization Follow-up
 
 - column virtualization

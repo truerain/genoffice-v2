@@ -12,6 +12,7 @@
  */
 :root {
   /* ── Shell (theme semantic 브리지는 여기만) ── */
+  /* Shell: .gen-datagrid 루트에 bg/border/text 직접 연결. surface는 header/footer/system/chrome 파생 + filter-clear */
   --gen-datagrid-bg: var(--color-bg-primary, #ffffff);
   --gen-datagrid-surface: var(--color-bg-tertiary, #f6f8fa);
   --gen-datagrid-border: var(--color-border-default, #d0d7de);
@@ -65,6 +66,11 @@
 
   /* ── Features · Interaction ── */
   --gen-datagrid-active-color: var(--gen-datagrid-accent);
+  --gen-datagrid-row-hover-bg: color-mix(
+    in srgb,
+    var(--gen-datagrid-accent) 8%,
+    var(--gen-datagrid-bg)
+  );
   --gen-datagrid-selection-bg: color-mix(
     in srgb,
     var(--gen-datagrid-accent) 12%,
