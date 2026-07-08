@@ -1,0 +1,113 @@
+/**
+ * @file packages/gen-datagrid/src/styles/tokens.css
+ * @description GenDataGrid design tokens (--gen-datagrid-*). Hybrid hierarchy: Shell → Regions → System → Chrome → Features.
+ * @created 2026-07-08
+ * @updated 2026-07-09
+ *
+ * @remark
+ * - 앱이 @gen-office/theme/index.css를 로드하면 Shell의 semantic(--color-*) 브리지로 테마·다크가 반영되고, 미로드 시 폴백 hex가 사용됩니다.
+ * - theme CSS는 import하지 않습니다(로드는 앱 책임). 하위 레이어는 --gen-datagrid-*만 참조합니다.
+ * - 소비자 커스터마이징: :root 또는 [data-gen-datagrid-root]에서 --gen-datagrid-* 재정의.
+ * - 구조 정본: packages/gen-datagrid/.docs/architecture/design-tokens-architecture.md
+ */
+:root {
+  /* ── Shell (theme semantic 브리지는 여기만) ── */
+  --gen-datagrid-bg: var(--color-bg-primary, #ffffff);
+  --gen-datagrid-surface: var(--color-bg-tertiary, #f6f8fa);
+  --gen-datagrid-border: var(--color-border-default, #d0d7de);
+  --gen-datagrid-text: var(--color-fg-primary, #24292f);
+  --gen-datagrid-text-muted: var(--color-fg-secondary, #57606a);
+  --gen-datagrid-text-disabled: var(--color-text-disabled, #8c959f);
+  --gen-datagrid-accent: var(--color-primary, #0969da);
+  --gen-datagrid-font-size: 14px;
+
+  /* ── Header ── */
+  --gen-datagrid-header-bg: var(--gen-datagrid-surface);
+  --gen-datagrid-header-text: var(--gen-datagrid-text);
+  --gen-datagrid-header-border: var(--gen-datagrid-border);
+  --gen-datagrid-header-group-bg: color-mix(
+    in srgb,
+    var(--gen-datagrid-text) 4%,
+    var(--gen-datagrid-header-bg)
+  );
+  --gen-datagrid-header-font-weight: 600;
+
+  /* ── Body ── */
+  --gen-datagrid-body-cell-bg: var(--gen-datagrid-bg);
+  --gen-datagrid-body-cell-text: var(--gen-datagrid-text);
+  --gen-datagrid-body-cell-border: var(--gen-datagrid-border);
+
+  /* ── Footer (집계 footer row) ── */
+  --gen-datagrid-footer-bg: var(--gen-datagrid-surface);
+  --gen-datagrid-footer-text: var(--gen-datagrid-text);
+  --gen-datagrid-footer-border: var(--gen-datagrid-border);
+  --gen-datagrid-footer-rowgroup-bg: var(--gen-datagrid-footer-bg);
+
+  /* ── System · Header / Body / Footer override ── */
+  --gen-datagrid-system-header-bg: var(--gen-datagrid-header-bg);
+  --gen-datagrid-system-header-text: var(--gen-datagrid-header-text);
+  --gen-datagrid-system-body-bg: var(--gen-datagrid-surface);
+  --gen-datagrid-system-body-text: var(--gen-datagrid-text-muted);
+  --gen-datagrid-system-footer-bg: var(--gen-datagrid-footer-bg);
+  --gen-datagrid-system-footer-text: var(--gen-datagrid-text-muted);
+  --gen-datagrid-system-row-number-font-size: 12px;
+  --gen-datagrid-system-row-status-dot-size: 8px;
+  --gen-datagrid-system-row-selection-size: 14px;
+
+  /* ── Chrome (global-filter, pagination, footer-bar) ── */
+  --gen-datagrid-chrome-filter-bg: var(--gen-datagrid-bg);
+  --gen-datagrid-chrome-filter-border: var(--gen-datagrid-border);
+  --gen-datagrid-chrome-filter-input-border: var(--gen-datagrid-border);
+  --gen-datagrid-chrome-pagination-bg: var(--gen-datagrid-bg);
+  --gen-datagrid-chrome-pagination-border: var(--gen-datagrid-border);
+  --gen-datagrid-chrome-pagination-button-bg: var(--gen-datagrid-surface);
+  --gen-datagrid-chrome-pagination-button-text: var(--gen-datagrid-text);
+
+  /* ── Features · Interaction ── */
+  --gen-datagrid-active-color: var(--gen-datagrid-accent);
+  --gen-datagrid-selection-bg: color-mix(
+    in srgb,
+    var(--gen-datagrid-accent) 12%,
+    transparent
+  );
+  --gen-datagrid-selection-bg-pinned: color-mix(
+    in srgb,
+    var(--gen-datagrid-accent) 12%,
+    var(--gen-datagrid-bg)
+  );
+  --gen-datagrid-current-row-bg: color-mix(
+    in srgb,
+    var(--gen-datagrid-accent) 7%,
+    var(--gen-datagrid-bg)
+  );
+  --gen-datagrid-editor-border-color: var(--gen-datagrid-accent);
+
+  /* ── Features · Row status (V2 literal; theme --color-status-* 미연결) ── */
+  --gen-datagrid-row-status-created: #1a7f37;
+  --gen-datagrid-row-status-updated: #bf8700;
+  --gen-datagrid-row-status-deleted: #cf222e;
+
+  /* ── Features · Dirty / deleted / validation ── */
+  --gen-datagrid-dirty-color: #bf8700;
+  --gen-datagrid-dirty-row-bg: color-mix(in srgb, #bf8700 8%, transparent);
+  --gen-datagrid-validation-error-color: #cf222e;
+  --gen-datagrid-validation-warning-color: #bf8700;
+  --gen-datagrid-deleted-row-text: var(--gen-datagrid-text-muted);
+  --gen-datagrid-deleted-row-bg: color-mix(in srgb, #cf222e 8%, transparent);
+
+  /* ── Features · Skeleton ── */
+  --gen-datagrid-placeholder-bar: color-mix(
+    in srgb,
+    var(--gen-datagrid-text-disabled) 28%,
+    transparent
+  );
+
+  /* ── Features · Visual row merge sticky label ── */
+  --gen-datagrid-merge-label-bg: color-mix(
+    in srgb,
+    var(--gen-datagrid-bg) 92%,
+    var(--gen-datagrid-accent)
+  );
+  --gen-datagrid-merge-label-text: var(--gen-datagrid-text);
+  --gen-datagrid-merge-label-accent: var(--gen-datagrid-accent);
+}

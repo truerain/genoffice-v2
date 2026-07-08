@@ -6,6 +6,25 @@
 -->
 # GenOffice V2 작업 로그
 
+## 2026-07-09
+
+### gen-datagrid 토큰 하이브리드 재구조화 구현
+
+- **요약:** `src/tokens.css`를 `src/styles/tokens.css`로 이동하고 Shell→Regions→System→Chrome→Features 계층으로 재작성. theme semantic은 Shell만 브리지. `index.css`에서 legacy `--gen-datagrid-color-*` 전량 제거·영역 토큰 치환. system 컬럼은 header/body/footer 토큰 분리.
+- **검증:** `pnpm -C packages/gen-datagrid build`, `pnpm -C packages/gen-datagrid-crud build` 성공. crud dist 인라인 확인(legacy 없음).
+- **파일:** `packages/gen-datagrid/src/styles/tokens.css`, `packages/gen-datagrid/src/index.css`, `packages/gen-datagrid/src/tokens.css`(삭제), `.docs/08-DESIGN-TOKENS-GUIDE.md`, `packages/gen-datagrid/.docs/{architecture,plan,log}/*`, `.docs/10-THEME-TOKEN-MIGRATION-PLAN.md`
+
+### gen-datagrid 토큰 문서 architecture / plan 분리
+
+- **요약:** `design-tokens-architecture.md`에 섞여 있던 마이그레이션·실행 단계·오픈 이슈·검증을 `plan/design-tokens-restructure-plan.md`로 분리. 패키지 `.docs` 관례(architecture=구조, plan=실행)에 맞춤. 실행 순서 표기는 로드맵 Phase와 구분해 **단계 0~4**로 통일.
+- **파일:** `packages/gen-datagrid/.docs/{architecture/design-tokens-architecture.md, plan/design-tokens-restructure-plan.md(신규)}`, `packages/gen-datagrid/.docs/README.md`, `.docs/10-THEME-TOKEN-MIGRATION-PLAN.md`
+
+### gen-datagrid 디자인 토큰 하이브리드 구조·재구조화 계획 문서 작성
+
+- **요약:** 초기 팔레트형 토큰의 한계를 정리하고 Shell→Regions→System→Chrome→Features 하이브리드 계층을 확정. theme semantic은 Shell 브리지만(D4 정제).
+- **범위:** 문서만(코드 무변경). 실행은 plan 문서 단계 순서로 후속.
+- **파일:** `packages/gen-datagrid/.docs/architecture/design-tokens-architecture.md`, `packages/gen-datagrid/.docs/plan/design-tokens-restructure-plan.md`, `.docs/10-THEME-TOKEN-MIGRATION-PLAN.md` §6.5, `.docs/logs/decisions.md`
+
 ## 2026-07-08
 
 ### gen-datagrid 기본 폰트 토큰 추가 (--gen-datagrid-font-size: 14px)

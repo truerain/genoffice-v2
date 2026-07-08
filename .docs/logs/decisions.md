@@ -8,6 +8,15 @@
 
 역시간순. 같은 날짜 섹션 안에서도 **최신 항목이 위**.
 
+## 2026-07-09
+
+### gen-datagrid 토큰 계층: 하이브리드 구조 확정 (D4 정제)
+
+- **결정:** (D4 정제) theme semantic(`--color-*`) 참조는 **Shell 토큰 3~5개**에만 한정. 하위(Header/Body/Footer/System/Chrome/Feature)는 `--gen-datagrid-*`만 참조·파생. 추상 팔레트 레이어(`--gen-datagrid-color-*`) 폐기.
+- **구조:** Shell → Regions(Header/Body/Footer) → System(Header/Body/Footer override) → Chrome → Features. AG Grid 영역 prefix + GenDataGrid DOM·system 분리 + feature 토큰 하이브리드.
+- **구현:** WS1.2로 분리. 정본 `packages/gen-datagrid/.docs/architecture/design-tokens-architecture.md`, `.docs/10` §6.5.
+- **비채택:** 전 레이어 semantic 참조(WS1, mini-theme 중복), gen-chart식 완전 자립 hex+dark preset(브랜드 단일 소스·유지보수 비용).
+
 ## 2026-07-08
 
 ### 디자인 토큰 소유권: 패키지 전용 토큰의 패키지 내부화 + CSS 로드 컨벤션(B)

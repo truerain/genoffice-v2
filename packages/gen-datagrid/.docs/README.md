@@ -9,10 +9,12 @@ Current status: the main GenDataGrid MVP surface has implementation coverage. Ac
 ## Plan
 
 - [Remaining Work Plan](plan/remaining-work-plan.md)
+- [Design Tokens Restructure Plan](plan/design-tokens-restructure-plan.md)
 - [Gate 9 Handle / Data Ownership Readiness Plan](plan/handle-extension-plan.md)
 
 ## Architecture
 
+- [Design Tokens Architecture (하이브리드)](architecture/design-tokens-architecture.md)
 - [Gate 1-2 Architecture](architecture/gate-1-2-architecture.md)
 - [Gate 3 Architecture](architecture/gate-3-architecture.md)
 - [Gate 4 Architecture](architecture/gate-4-architecture.md)

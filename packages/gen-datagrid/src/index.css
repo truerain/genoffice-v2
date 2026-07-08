@@ -1,8 +1,14 @@
-/* packages/gen-datagrid/src/index.css
- * Defines baseline styles for GenDataGrid.
- * Colors are driven by --gen-datagrid-* tokens (see ./tokens.css).
+/**
+ * @file packages/gen-datagrid/src/index.css
+ * @description Baseline styles for GenDataGrid. Colors/typography via --gen-datagrid-* (see ./styles/tokens.css).
+ * @created 2026-06-23
+ * @updated 2026-07-09
+ *
+ * @remark
+ * - @import './styles/tokens.css' only; theme CSS is app-owned (B convention).
+ * - Do not reference --color-* or legacy --gen-datagrid-color-* here.
  */
-@import './tokens.css';
+@import './styles/tokens.css';
 
 :where([data-gen-datagrid-root='true']) {
   box-sizing: border-box;
@@ -48,8 +54,8 @@
   align-items: center;
   min-width: 0;
   padding: 6px 8px;
-  border-bottom: 1px solid var(--gen-datagrid-color-border);
-  background: var(--gen-datagrid-color-bg);
+  border-bottom: 1px solid var(--gen-datagrid-chrome-filter-border);
+  background: var(--gen-datagrid-chrome-filter-bg);
 }
 
 .gen-datagrid__global-filter-input {
@@ -57,7 +63,7 @@
   max-width: 100%;
   height: 28px;
   padding: 0 8px;
-  border: 1px solid var(--gen-datagrid-color-border);
+  border: 1px solid var(--gen-datagrid-chrome-filter-input-border);
   border-radius: 3px;
   font: inherit;
 }
@@ -103,23 +109,44 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  border-right: 1px solid var(--gen-datagrid-color-border);
-  border-bottom: 1px solid var(--gen-datagrid-color-border);
+  border-right: 1px solid var(--gen-datagrid-body-cell-border);
+  border-bottom: 1px solid var(--gen-datagrid-body-cell-border);
   color: var(--gen-datagrid-merge-label-text);
   background: var(--gen-datagrid-merge-label-bg);
   box-shadow: inset 3px 0 0 var(--gen-datagrid-merge-label-accent), 0 1px 2px rgb(31 35 40 / 12%);
 }
 
-.gen-datagrid__header-cell,
-.gen-datagrid__cell,
+.gen-datagrid__header-cell {
+  min-width: 0;
+  padding: 0 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-right: 1px solid var(--gen-datagrid-header-border);
+  border-bottom: 1px solid var(--gen-datagrid-header-border);
+  background: inherit;
+}
+
+.gen-datagrid__cell {
+  min-width: 0;
+  padding: 0 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-right: 1px solid var(--gen-datagrid-body-cell-border);
+  border-bottom: 1px solid var(--gen-datagrid-body-cell-border);
+  background: inherit;
+  color: var(--gen-datagrid-body-cell-text);
+}
+
 .gen-datagrid__footer-row-cell {
   min-width: 0;
   padding: 0 8px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  border-right: 1px solid var(--gen-datagrid-color-border);
-  border-bottom: 1px solid var(--gen-datagrid-color-border);
+  border-right: 1px solid var(--gen-datagrid-footer-border);
+  border-bottom: 1px solid var(--gen-datagrid-footer-border);
   background: inherit;
 }
 
@@ -130,7 +157,7 @@
   align-items: center;
   gap: 2px;
   overflow: visible;
-  font-weight: 600;
+  font-weight: var(--gen-datagrid-header-font-weight);
   color: var(--gen-datagrid-header-text);
   background: var(--gen-datagrid-header-bg);
 }
@@ -143,16 +170,25 @@
   height: auto;
 }
 
-.gen-datagrid__header-cell[data-system-column='true'],
-.gen-datagrid__cell[data-system-column='true'],
-.gen-datagrid__footer-row-cell[data-system-column='true'] {
+.gen-datagrid__header-cell[data-system-column='true'] {
   justify-content: center;
   padding: 0;
-  color: var(--gen-datagrid-system-cell-text);
+  color: var(--gen-datagrid-system-header-text);
+  background: var(--gen-datagrid-system-header-bg);
 }
 
 .gen-datagrid__cell[data-system-column='true'] {
-  background: var(--gen-datagrid-system-cell-bg);
+  justify-content: center;
+  padding: 0;
+  color: var(--gen-datagrid-system-body-text);
+  background: var(--gen-datagrid-system-body-bg);
+}
+
+.gen-datagrid__footer-row-cell[data-system-column='true'] {
+  justify-content: center;
+  padding: 0;
+  color: var(--gen-datagrid-system-footer-text);
+  background: var(--gen-datagrid-system-footer-bg);
 }
 
 .gen-datagrid__cell[data-system-column='true'] .gen-datagrid__cell-merge-content {
@@ -216,7 +252,7 @@
 }
 
 .gen-datagrid__footer-rowgroup {
-  background: var(--gen-datagrid-color-surface);
+  background: var(--gen-datagrid-footer-rowgroup-bg);
 }
 
 .gen-datagrid__footer-rowgroup[data-sticky-footer-row='true'] {
@@ -230,7 +266,8 @@
   display: flex;
   align-items: center;
   font-weight: 600;
-  background: var(--gen-datagrid-color-surface);
+  color: var(--gen-datagrid-footer-text);
+  background: var(--gen-datagrid-footer-bg);
 }
 
 .gen-datagrid__reorder-handle {
@@ -244,14 +281,14 @@
   padding: 0;
   border: 0;
   border-radius: 3px;
-  color: var(--gen-datagrid-color-text-muted);
+  color: var(--gen-datagrid-text-muted);
   background: transparent;
 }
 
 .gen-datagrid__reorder-handle:hover,
 .gen-datagrid__reorder-handle:focus-visible {
-  color: var(--gen-datagrid-color-text);
-  background: color-mix(in srgb, var(--gen-datagrid-color-text-muted) 12%, transparent);
+  color: var(--gen-datagrid-text);
+  background: color-mix(in srgb, var(--gen-datagrid-text-muted) 12%, transparent);
   outline: none;
 }
 
@@ -276,15 +313,15 @@
   padding: 0;
   border: 0;
   border-radius: 3px;
-  color: var(--gen-datagrid-color-text-muted);
+  color: var(--gen-datagrid-text-muted);
   background: transparent;
 }
 
 .gen-datagrid__filter-trigger:hover,
 .gen-datagrid__filter-trigger:focus-visible,
 .gen-datagrid__filter-trigger[data-filter-active='true'] {
-  color: var(--gen-datagrid-color-accent);
-  background: color-mix(in srgb, var(--gen-datagrid-color-accent) 12%, transparent);
+  color: var(--gen-datagrid-accent);
+  background: color-mix(in srgb, var(--gen-datagrid-accent) 12%, transparent);
   outline: none;
 }
 
@@ -297,9 +334,9 @@
   display: grid;
   gap: 6px;
   padding: 8px;
-  border: 1px solid var(--gen-datagrid-color-border);
+  border: 1px solid var(--gen-datagrid-border);
   border-radius: 4px;
-  background: var(--gen-datagrid-color-bg);
+  background: var(--gen-datagrid-bg);
   box-shadow: 0 8px 24px rgb(31 35 40 / 16%);
 }
 
@@ -308,17 +345,17 @@
   min-width: 0;
   height: 28px;
   padding: 0 8px;
-  border: 1px solid var(--gen-datagrid-color-border);
+  border: 1px solid var(--gen-datagrid-border);
   border-radius: 3px;
   font: inherit;
 }
 
 .gen-datagrid__filter-clear {
   height: 26px;
-  border: 1px solid var(--gen-datagrid-color-border);
+  border: 1px solid var(--gen-datagrid-border);
   border-radius: 3px;
-  color: var(--gen-datagrid-color-text);
-  background: var(--gen-datagrid-color-surface);
+  color: var(--gen-datagrid-text);
+  background: var(--gen-datagrid-surface);
   font: inherit;
 }
 
@@ -344,7 +381,7 @@
 
 .gen-datagrid__resize-handle:hover,
 .gen-datagrid__resize-handle:focus-visible {
-  background: color-mix(in srgb, var(--gen-datagrid-color-accent) 35%, transparent);
+  background: color-mix(in srgb, var(--gen-datagrid-accent) 35%, transparent);
   outline: none;
 }
 
@@ -372,38 +409,38 @@
 .gen-datagrid__cell:has(.gen-datagrid__row-number) {
   justify-content: center;
   padding: 0;
-  color: var(--gen-datagrid-system-cell-text);
-  background: var(--gen-datagrid-system-cell-bg);
+  color: var(--gen-datagrid-system-body-text);
+  background: var(--gen-datagrid-system-body-bg);
 }
 
 .gen-datagrid__row-status {
-  width: 8px;
-  height: 8px;
+  width: var(--gen-datagrid-system-row-status-dot-size);
+  height: var(--gen-datagrid-system-row-status-dot-size);
   border-radius: 999px;
   background: transparent;
 }
 
 .gen-datagrid__row-status[data-gen-datagrid-row-status='created'] {
-  background: var(--gen-datagrid-status-created);
+  background: var(--gen-datagrid-row-status-created);
 }
 
 .gen-datagrid__row-status[data-gen-datagrid-row-status='updated'] {
-  background: var(--gen-datagrid-status-updated);
+  background: var(--gen-datagrid-row-status-updated);
 }
 
 .gen-datagrid__row-status[data-gen-datagrid-row-status='deleted'] {
-  background: var(--gen-datagrid-status-deleted);
+  background: var(--gen-datagrid-row-status-deleted);
 }
 
 .gen-datagrid__row-selection-checkbox {
-  width: 14px;
-  height: 14px;
+  width: var(--gen-datagrid-system-row-selection-size);
+  height: var(--gen-datagrid-system-row-selection-size);
   margin: 0;
 }
 
 .gen-datagrid__row-number {
   font-variant-numeric: tabular-nums;
-  font-size: 12px;
+  font-size: var(--gen-datagrid-system-row-number-font-size);
 }
 
 .gen-datagrid__detail-toggle {
@@ -415,18 +452,18 @@
   justify-content: center;
   margin: 0 6px 0 -2px;
   padding: 0;
-  border: 1px solid var(--gen-datagrid-color-border);
+  border: 1px solid var(--gen-datagrid-border);
   border-radius: 3px;
-  color: var(--gen-datagrid-color-text);
-  background: var(--gen-datagrid-color-bg);
+  color: var(--gen-datagrid-text);
+  background: var(--gen-datagrid-bg);
   font: inherit;
   line-height: 1;
 }
 
 .gen-datagrid__detail-toggle:hover,
 .gen-datagrid__detail-toggle:focus-visible {
-  border-color: var(--gen-datagrid-color-accent);
-  color: var(--gen-datagrid-color-accent);
+  border-color: var(--gen-datagrid-accent);
+  color: var(--gen-datagrid-accent);
   outline: none;
 }
 
@@ -448,18 +485,18 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-  border: 1px solid var(--gen-datagrid-color-border);
+  border: 1px solid var(--gen-datagrid-border);
   border-radius: 3px;
-  color: var(--gen-datagrid-color-text);
-  background: var(--gen-datagrid-color-bg);
+  color: var(--gen-datagrid-text);
+  background: var(--gen-datagrid-bg);
   font: inherit;
   line-height: 1;
 }
 
 .gen-datagrid__tree-toggle:hover,
 .gen-datagrid__tree-toggle:focus-visible {
-  border-color: var(--gen-datagrid-color-accent);
-  color: var(--gen-datagrid-color-accent);
+  border-color: var(--gen-datagrid-accent);
+  color: var(--gen-datagrid-accent);
   outline: none;
 }
 
@@ -485,13 +522,13 @@
   height: var(--gen-datagrid-detail-row-height, 160px);
   overflow: auto;
   padding: 12px;
-  border-right: 1px solid var(--gen-datagrid-color-border);
-  border-bottom: 1px solid var(--gen-datagrid-color-border);
-  background: var(--gen-datagrid-color-bg);
+  border-right: 1px solid var(--gen-datagrid-body-cell-border);
+  border-bottom: 1px solid var(--gen-datagrid-body-cell-border);
+  background: var(--gen-datagrid-body-cell-bg);
 }
 
 .gen-datagrid__cell--placeholder {
-  background: var(--gen-datagrid-color-bg);
+  background: var(--gen-datagrid-body-cell-bg);
 }
 
 .gen-datagrid__cell-placeholder-bar {
@@ -547,10 +584,16 @@
   box-shadow: inset 3px 0 0 var(--gen-datagrid-validation-warning-color), inset 0 0 0 1px color-mix(in srgb, var(--gen-datagrid-validation-warning-color) 58%, transparent);
 }
 
-.gen-datagrid__header-cell[data-pinned-cell],
-.gen-datagrid__cell[data-pinned-cell],
+.gen-datagrid__header-cell[data-pinned-cell] {
+  background: var(--gen-datagrid-header-bg);
+}
+
+.gen-datagrid__cell[data-pinned-cell] {
+  background: var(--gen-datagrid-body-cell-bg);
+}
+
 .gen-datagrid__footer-row-cell[data-pinned-cell] {
-  background: var(--gen-datagrid-color-bg);
+  background: var(--gen-datagrid-footer-bg);
 }
 
 .gen-datagrid__cell[data-pinned-cell][data-selected-cell='true'] {
@@ -603,32 +646,32 @@
   align-items: center;
   gap: 8px;
   padding: 8px;
-  border-top: 1px solid var(--gen-datagrid-color-border);
-  background: var(--gen-datagrid-color-bg);
+  border-top: 1px solid var(--gen-datagrid-chrome-pagination-border);
+  background: var(--gen-datagrid-chrome-pagination-bg);
   overflow: hidden;
 }
 
 .gen-datagrid__pagination button {
   height: 28px;
   padding: 0 10px;
-  border: 1px solid var(--gen-datagrid-color-border);
+  border: 1px solid var(--gen-datagrid-chrome-pagination-border);
   border-radius: 3px;
-  color: var(--gen-datagrid-color-text);
-  background: var(--gen-datagrid-color-surface);
+  color: var(--gen-datagrid-chrome-pagination-button-text);
+  background: var(--gen-datagrid-chrome-pagination-button-bg);
   font: inherit;
 }
 
 .gen-datagrid__pagination button:disabled {
-  color: var(--gen-datagrid-color-text-disabled);
+  color: var(--gen-datagrid-text-disabled);
   cursor: not-allowed;
 }
 
 .gen-datagrid__pagination-page-size {
   height: 28px;
-  border: 1px solid var(--gen-datagrid-color-border);
+  border: 1px solid var(--gen-datagrid-chrome-pagination-border);
   border-radius: 3px;
-  color: var(--gen-datagrid-color-text);
-  background: var(--gen-datagrid-color-bg);
+  color: var(--gen-datagrid-text);
+  background: var(--gen-datagrid-chrome-pagination-bg);
   font: inherit;
 }
 

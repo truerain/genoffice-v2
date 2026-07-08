@@ -1,3 +1,23 @@
+## 2026-07-09
+
+### 디자인 토큰 하이브리드 재구조화 구현 (단계 1~4)
+
+- **조치:** `src/tokens.css` → `src/styles/tokens.css` 이동. Shell→Header/Body/Footer→System→Chrome→Features 계층으로 재정의. theme semantic은 Shell만 브리지(`bg/surface/border/text/accent`). `--gen-datagrid-color-*`·`system-cell-*`·`status-*` 제거. `index.css`는 영역별 토큰만 참조(system header/body/footer 분리, chrome filter/pagination, row-status rename).
+- **검증:** `gen-datagrid`·`gen-datagrid-crud` build 성공. crud dist에 `--gen-datagrid-bg`·`system-body`·`row-status-created` 인라인, legacy `color-bg` 없음 확인.
+- **관련 파일:** `packages/gen-datagrid/src/styles/tokens.css`(이동·재작성), `packages/gen-datagrid/src/tokens.css`(삭제), `packages/gen-datagrid/src/index.css`, `.docs/08-DESIGN-TOKENS-GUIDE.md`, plan/architecture 문서
+
+### 토큰 문서 architecture / plan 분리
+
+- **조치:** 구조·규칙은 `architecture/design-tokens-architecture.md`, 마이그레이션·단계·검증은 `plan/design-tokens-restructure-plan.md`로 분리. README Plan·`.docs/10` §6.5 링크 갱신.
+- **다음:** plan 단계 1 `tokens.css` 재작성.
+
+### 디자인 토큰 하이브리드 구조·재구조화 계획 (단계 0)
+
+- **배경:** WS1 `tokens.css`가 `--gen-datagrid-color-*` 팔레트 레이어로 theme semantic을 재수출하고, footer/filter/system이 영역 토큰 없이 foundation을 직접 참조. System은 이름만 통합이고 body bg만 실질 적용.
+- **확정:** AG Grid 영역 prefix + GenDataGrid DOM(System header/body/footer) + feature 토큰 **하이브리드**. theme 연동은 Shell(`bg/border/text/accent`)만 `var(--color-*, #hex)`. 하위는 `--gen-datagrid-*` 파생만.
+- **산출물:** architecture(계층·규칙), plan(마이그레이션·단계 0~4·검증). `.docs/10` §6.5·`decisions.md` D4 정제 연동.
+- **다음:** plan 단계 1 `tokens.css` 재작성 → 단계 2 `index.css` 치환.
+
 ## 2026-07-08
 
 ### 기본 폰트 토큰 신설 — `--gen-datagrid-font-size: 14px`

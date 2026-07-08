@@ -144,7 +144,7 @@ flowchart TD
 | 고객사 로고색, 앱 전용 강조색 | **앱**에서 기존 토큰 override | `--color-primary`만 변경 |
 | 새 상태 색 (예: `pending`) | **theme** semantic (+ 필요 시 component) | `--color-status-pending` |
 | Button·Dialog 공통 스타일 | **theme** `components/*.css` | `--button-*`, `--dialog-*` |
-| 데이터 그리드 색 | **gen-datagrid** | `--gen-datagrid-*` (theme semantic 참조 + 폴백) |
+| 데이터 그리드 색 | **gen-datagrid** | `--gen-datagrid-*` (Shell만 theme semantic 브리지 + 폴백) |
 | 대시보드 차트 색 | **gen-chart** | 시리즈·범례 팔레트 |
 | 한 화면·한 배지 | **앱/페이지 CSS** | `--app-*` 또는 기존 status 재사용 |
 
@@ -223,7 +223,7 @@ packages/theme/src/styles/tokens/
     └── dialog.css
 ```
 
-> 그리드 색은 theme가 아니라 `@gen-office/gen-datagrid`가 소유합니다: `packages/gen-datagrid/src/tokens.css`의 `--gen-datagrid-*` (theme semantic `--color-*` 참조 + 폴백).
+> 그리드 색은 theme가 아니라 `@gen-office/gen-datagrid`가 소유합니다: `packages/gen-datagrid/src/styles/tokens.css`의 `--gen-datagrid-*` (Shell만 theme semantic `--color-*` 브리지 + 폴백; Header/Body/Footer/System/Chrome/Feature는 패키지 토큰 파생). 구조: [design-tokens-architecture.md](../packages/gen-datagrid/.docs/architecture/design-tokens-architecture.md).
 
 ### 5.4 UI 컴포넌트에 새 variant가 필요할 때
 

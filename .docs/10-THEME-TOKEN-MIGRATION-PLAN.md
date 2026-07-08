@@ -28,7 +28,7 @@
 | D1 | 패키지 전용 토큰은 **해당 패키지 내부**에서 정의 | 브랜드/중립 팔레트(base·semantic)는 theme 잔류 |
 | D2 | theme `components/grid.css` **완전 삭제** (V1 하위호환·어댑터 금지) | V2 런타임 소비처 없음(검증됨) |
 | D3 | `gen-datagrid`는 `--gen-datagrid-*` 토큰을 **내부 신규 정의** | V1 `--grid-*` 네이밍/값 승계 안 함 |
-| D4 | 토큰 값 출처 = **theme semantic 참조 + 폴백** (`var(--color-*, #hex)`) | 다크모드 자동 상속, 브랜드 단일 소스 유지 |
+| D4 | 토큰 값 출처 = **Shell만** theme semantic 참조 + 폴백 (`var(--color-*, #hex)`); 하위는 `--gen-datagrid-*` 파생 | 2026-07-09 정제. 상세 §6.5 · design-tokens-architecture.md |
 | D5 | CSS 로드 컨벤션 목표 = **B 방식** (앱이 로드, 패키지는 self-`@import` 없음) | gen-datagrid는 처음부터 B로 생성 |
 | D6 | 기존 패키지(ui/mdi/gen-chart/gen-frame)의 A→B 전환은 **별도 작업으로 분리** | 그리드 트랙과 결합 금지 |
 
@@ -44,7 +44,7 @@
 | `mdi` | A (self-import) | 확인 필요 |
 | `gen-chart` | A (self-import) | 사실상 무관 (런타임 스타일 대부분 JS 토큰 hex, theme var는 `fontFamily` 1건·폴백 있음) |
 | `gen-frame` | A (self-import) | 확인 필요 |
-| `gen-datagrid` | **없음** (theme 미연동, hex 하드코딩) | — |
+| `gen-datagrid` | **B** (`tokens.css`, self-import 없음) | Shell 브리지 + 폴백 hex. WS1.2에서 계층 재구조화 예정 |
 
 - 앱은 theme를 로드함: `apps/demo/src/main.tsx`가 `@gen-office/theme/index.css` import, `apps/storybook`는 preview에서 로드.
 - 따라서 목표(B)는 앱 전제 조건을 이미 만족한다.
@@ -141,12 +141,33 @@
 
 ### 6.4 WS1 태스크 체크리스트
 
-- [ ] gen-datagrid 토큰 전수 명세표 확정(A/B/C + 신규 네이밍·값·폴백)
-- [ ] `packages/gen-datagrid/src/tokens.css` 작성
-- [ ] `index.css` hex → `var(--gen-datagrid-*)` 치환
-- [ ] 라이트/다크 시각 확인(스토리)
-- [ ] theme grid.css 및 내부 5곳 + 문서 2곳 정리(§3.2)
-- [ ] 검증(§10) 및 로그(§11)
+- [x] gen-datagrid 토큰 전수 명세표 확정(A/B/C + 신규 네이밍·값·폴백) — 1차(팔레트형)
+- [x] `packages/gen-datagrid/src/tokens.css` 작성
+- [x] `index.css` hex → `var(--gen-datagrid-*)` 치환
+- [x] 라이트/다크 시각 확인(데모)
+- [x] theme grid.css 및 내부 5곳 + 문서 2곳 정리(§3.2)
+- [x] 검증(§10) 및 로그(§11)
+
+### 6.5 WS1.2 — gen-datagrid 토큰 계층 재구조화 (하이브리드, 후속)
+
+WS1은 theme 연동·hex 제거를 달성했으나, 토큰 트리가 **팔레트(Foundation) 중심**이라 영역(Header/Body/Footer/System)·기능 분리가 불완전하다. AG Grid 영역 prefix + GenDataGrid DOM 구조 + feature 토큰 **하이브리드**로 재정의한다.
+
+**정본:** [design-tokens-architecture.md](../packages/gen-datagrid/.docs/architecture/design-tokens-architecture.md) · [design-tokens-restructure-plan.md](../packages/gen-datagrid/.docs/plan/design-tokens-restructure-plan.md)
+
+| 항목 | WS1 | WS1.2 |
+| --- | --- | --- |
+| 최상위 | `--gen-datagrid-color-*` (semantic 재수출) | **Shell** `--gen-datagrid-bg/border/text/accent` |
+| theme semantic | 전 레이어 | **Shell만** `var(--color-*, #hex)` 브리지 |
+| System | `--gen-datagrid-system-cell-*` | `system-header/body/footer-*` + 타입별 feature |
+| Footer/Chrome | foundation 직접 참조 | `--gen-datagrid-footer-*`, `--gen-datagrid-chrome-*` |
+
+**WS1.2 체크리스트**
+
+- [x] 구조·계획 문서 작성 (architecture + plan 분리)
+- [x] `src/styles/tokens.css` 계층 재작성 (`src/tokens.css`에서 이동)
+- [x] `index.css` 영역 토큰 치환, `--gen-datagrid-color-*` 제거
+- [x] gen-datagrid / gen-datagrid-crud 빌드 (데모 라이트/다크 육안은 수동)
+- [x] `08-DESIGN-TOKENS-GUIDE.md` grid 절 갱신
 
 ---
 
@@ -212,7 +233,7 @@ WS2 (독립) ─┘   단, WS2는 내부적으로 "폴백 보강 → self-import
 
 ## 12. 미결정 / 오픈 이슈
 
-- gen-datagrid 토큰 파일 배치: 별도 `tokens.css` vs `index.css` 상단 `:root` (권장: 별도 파일)
-- C군 신규 토큰 최종 네이밍·값(상태색의 `--color-status-*` 참조 범위)
+- ~~gen-datagrid 토큰 파일 배치~~ → **확정:** 별도 `tokens.css` (design-tokens-architecture.md §6)
+- ~~C군 신규 토큰 최종 네이밍~~ → **WS1.2 정본:** design-tokens-architecture.md §4·§7. status 색은 feature literal(updated=amber).
 - WS2 폴백 정책: 전수 폴백 vs "앱 theme 로드 강제 + 개발 가드"
-- theme-dark에서 datagrid 자체 raw 값이 남는 항목이 있는지(있으면 datagrid 측 다크 처리 방법)
+- feature 전용 raw literal의 다크 대응: Shell 브리지로 대부분 해소; 잔여는 WS1.2 구현 시 검증
