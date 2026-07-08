@@ -4,6 +4,16 @@ Records GenDataGridCrud package planning and implementation changes.
 
 # GenDataGridCrud 구현 로그
 
+## 2026-07-08
+
+### 셀 편집값 in-place 표시 (dirty overlay)
+
+- **증상:** 셀을 편집하면 dirty 마커는 뜨지만 표시값이 원본으로 원복되고, 저장(refetch) 후에만 값이 보였다.
+- **원인:** GenDataGrid는 헤드리스 계약(`gen-datagrid/.docs/reference/cell-edit-api.md §7`)상 편집 시 `data`를 직접 변경하지 않고 dirty state에만 값을 기록한다. 표시 반영은 "부모"가 `onCellValueChange`로 `data`를 갱신해야 하는데, CRUD 래퍼가 그 역할을 하지 않아 기존 행 편집이 화면에 반영되지 않았다.
+- **조치:** `useDataGridCrudController`가 컨트롤러가 이미 보유한 `dirtyState.cells`(편집값 포함)를 기반으로 표시 데이터(`displayData = gridData + dirty overlay`)를 파생해 그리드에 전달하도록 변경. 그리드 코어는 계약대로 무변경.
+- **계약 유지:** 커밋은 `getChangeSet`의 patch 기반이라 그대로 동작. `handle.getData()`(commitArgs.data)와 표시 데이터가 편집값으로 일관됨. `dataVersion` 변경/`acceptChanges` 시 dirty가 비워지며 overlay도 자동 해제.
+- **관련 파일:** `src/crud/useDataGridCrudController.tsx`
+
 ## 2026-07-01
 
 ### CRUD state 함수 identity 의존성 보정 (V1 `01cd1dd`)

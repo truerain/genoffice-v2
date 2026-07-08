@@ -166,6 +166,26 @@ export function useDataGridCrudController<TData>(
     [createdRowPosition, createdRows, data]
   );
 
+  // GenDataGrid는 편집 시 data를 직접 변경하지 않고 dirty state에만 값을 기록한다
+  // (cell-edit-api.md §7). CRUD 래퍼가 "부모" 역할로 편집값을 표시 데이터에 병합해
+  // in-place로 반영한다. 커밋 계약(getChangeSet)은 patch 기반이라 그대로 유지된다.
+  const displayData = React.useMemo(() => {
+    if (dirtyState.cells.length === 0) return gridData;
+    const patchByRowId = new Map<string, Record<string, unknown>>();
+    for (const cell of dirtyState.cells) {
+      const existing = patchByRowId.get(cell.rowId);
+      if (existing) {
+        existing[cell.columnId] = cell.value;
+      } else {
+        patchByRowId.set(cell.rowId, { [cell.columnId]: cell.value });
+      }
+    }
+    return gridData.map((row, index) => {
+      const patch = patchByRowId.get(getRowId(row, index));
+      return patch ? ({ ...(row as object), ...patch } as TData) : row;
+    });
+  }, [gridData, dirtyState.cells, getRowId]);
+
   const createdRowIds = React.useMemo(
     () =>
       createdRows.length === 0
@@ -447,7 +467,7 @@ export function useDataGridCrudController<TData>(
   return {
     gridRef,
     state,
-    gridData,
+    gridData: displayData,
     actionApi,
     gridStateProps,
   };

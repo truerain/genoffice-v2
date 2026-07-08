@@ -8,6 +8,13 @@
 
 ## 2026-07-08
 
+### gen-datagrid-crud — 셀 편집값 in-place 표시 (dirty overlay)
+
+- **요약:** 셀 편집 시 dirty 마커만 뜨고 값이 원복되던 문제 해결. GenDataGrid는 헤드리스 계약(cell-edit-api.md §7)상 편집 시 `data`를 안 바꾸고 dirty state에만 기록하며, 표시 반영은 "부모" 책임인데 CRUD 래퍼가 이를 이행하지 않았음. `useDataGridCrudController`가 보유 중인 `dirtyState.cells`로 표시 데이터(`displayData = gridData + overlay`)를 파생해 그리드에 전달하도록 수정(그리드 코어 무변경).
+- **계약 유지:** 커밋은 patch 기반이라 그대로 동작, `handle.getData()`와 표시가 일관, `dataVersion`/`acceptChanges` 시 overlay 자동 해제.
+- **검증:** `pnpm -C packages/gen-datagrid-crud build`(d.ts 포함) 통과, `apps/demo` `tsc --noEmit` 통과, lint 0
+- **파일:** `packages/gen-datagrid-crud/src/crud/useDataGridCrudController.tsx`, `packages/gen-datagrid-crud/.docs/implementation-log.md`
+
 ### apps/demo — buildCommitPayload 단순화 (changeSet row 직접 사용)
 
 - **요약:** Gate 13으로 실제 타입에 `changeSet.updated[i].row`/`deleted[i].row?`가 노출되어, `buildCommitPayload`가 `args.data`에서 원본+patch를 재구성하던 로직을 제거하고 항목의 `row`를 직접 매핑하도록 단순화. `getRowId` 인자 제거. `deleted.row`는 undefined일 수 있어 있는 경우만 전송.
