@@ -8,6 +8,15 @@
 -->
 # @gen-office/demo 구현 로그
 
+## 2026-07-08
+
+### componentRegistry 구조 개선 (D2 후속, plan §11)
+
+- **요약:** V1식 가독성 + V2 타입 안전성 하이브리드로 전환. 페이지 8종에 default export 추가(named export 유지), `componentRegistry.dynamic.ts`를 `page(() => import('@/...'))` 한 줄 로더 + 도메인 그룹 주석 + `satisfies Record<string, RegistryComponent>`로 재작성. `ComponentName`을 `keyof typeof componentRegistry`에서 파생(`componentRegistry.ts`), `types.ts`는 파생 타입 re-export로 이중 유지보수 제거. `@/` 별칭(tsconfig `paths` + vite `resolve.alias`) 도입.
+- **결정:** `buildAppMenuFromV1.ts`의 `V2_READY_COMPONENTS`는 "V1 메뉴 노출 게이트"로 의미가 별개라 유지. prefetch 헬퍼는 현 규모상 미도입.
+- **파일:** `src/app/config/componentRegistry.dynamic.ts`, `componentRegistry.ts`, `componentRegistry.types.ts`, `tsconfig.json`, `vite.config.ts`, `src/pages/**`(8개 default export)
+- **검증:** `pnpm -C apps/demo exec tsc --noEmit` 통과, `pnpm -C apps/demo build` 통과(8개 페이지 개별 lazy chunk 확인)
+
 ## 2026-07-07
 
 ### V1 mock menu 트리 연동

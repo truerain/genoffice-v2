@@ -8,6 +8,13 @@
 
 ## 2026-07-08
 
+### apps/demo — componentRegistry 하이브리드 구조 개선(plan §11)
+
+- **요약:** 페이지 수 증가 대비 V1식 가독성 + V2 타입 안전성 결합. 페이지 8종 default export 추가(named 유지), `componentRegistry.dynamic.ts`를 `page(() => import('@/...'))` 한 줄 로더 + 도메인 그룹 + `satisfies`로 재작성. `ComponentName`을 registry key(`keyof typeof`)에서 파생해 이중 유지보수 제거, `@/` 별칭(tsconfig + vite) 도입.
+- **결정:** `V2_READY_COMPONENTS`(메뉴 노출 게이트)는 의미가 별개라 유지, prefetch 헬퍼는 미도입.
+- **파일:** `apps/demo/src/app/config/{componentRegistry.dynamic.ts, componentRegistry.ts, componentRegistry.types.ts}`, `apps/demo/{tsconfig.json, vite.config.ts}`, `apps/demo/src/pages/**`(8)
+- **검증:** `tsc --noEmit` 통과, `pnpm -C apps/demo build` 통과(페이지별 lazy chunk 분리 확인)
+
 ### apps/demo/.docs — 폴더 재편(architecture/plan/rules/logs) 정합성 정리
 
 - **요약:** demo 문서를 하위 폴더로 재편한 뒤 어긋난 `@file` 헤더·상대 링크를 일괄 정정. 이동 파일 5종 헤더 갱신, 문서 간 형제 링크 및 외부(packages/·repo-root `.docs/`) 링크 depth 보정, README 문서 목록 링크 수정 + `logs/implementation-log.md` 항목 추가. 외부 문서에서 옛 평면 경로로 들어오던 인바운드 링크(`.docs/02·04·06`, `gen-frame/.docs`)도 정정.

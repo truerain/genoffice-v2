@@ -301,3 +301,5 @@ export function ChartDemoPage() {
     </PageLayout>
   );
 }
+
+export default ChartDemoPage;

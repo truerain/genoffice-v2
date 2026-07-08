@@ -1,56 +1,39 @@
 /**
  * @file apps/demo/src/app/config/componentRegistry.dynamic.ts
- * @description Lazy component map — componentName → React.lazy (Gate D2).
+ * @description Lazy component map — componentName → React.lazy default page (Gate D2).
  * @created 2026-06-28
+ * @updated 2026-07-08
  *
  * @remark
- * - PlaceholderPage, ChartDemoPage, DashboardDemoPage
- * - D3 fills Chart/Dashboard page implementations
+ * - 페이지는 default export; 항목은 `page(() => import('@/...'))` 한 줄
+ * - ComponentName은 이 맵의 key에서 파생 (componentRegistry.ts)
+ * - 새 페이지: 아래 맵에 한 줄 추가 + 페이지 default export
  *
+ * @history
+ * - 2026-07-08 D2 후속: default export 한 줄 로더 + @/ alias + key 파생 타입
  */
 
-import { lazy } from 'react';
-import type { ComponentName, RegistryComponent } from './componentRegistry.types';
+import { lazy, type ComponentType } from 'react';
+import type { RegistryComponent } from './componentRegistry.types';
 
-export const componentRegistry: Record<ComponentName, RegistryComponent> = {
-  PlaceholderPage: lazy(() =>
-    import('../../pages/placeholder/PlaceholderPage').then((module) => ({
-      default: module.PlaceholderPage as RegistryComponent,
-    })),
-  ),
-  ChartDemoPage: lazy(() =>
-    import('../../pages/demo/ChartDemoPage').then((module) => ({
-      default: module.ChartDemoPage as RegistryComponent,
-    })),
-  ),
-  DashboardDemoPage: lazy(() =>
-    import('../../pages/demo/DashboardDemoPage').then((module) => ({
-      default: module.DashboardDemoPage as RegistryComponent,
-    })),
-  ),
-  UserManagementPage: lazy(() =>
-    import('../../pages/admin/user-management/UserManagementPage').then((module) => ({
-      default: module.UserManagementPage as RegistryComponent,
-    })),
-  ),
-  MenuManagementPage: lazy(() =>
-    import('../../pages/admin/menu-management/MenuManagementPage').then((module) => ({
-      default: module.MenuManagementPage as RegistryComponent,
-    })),
-  ),
-  ActualsPage: lazy(() =>
-    import('../../pages/co/actuals/ActualsPage').then((module) => ({
-      default: module.ActualsPage as RegistryComponent,
-    })),
-  ),
-  CustomerInfoPage: lazy(() =>
-    import('../../pages/customer/customer-info/CustomerInfoPage').then((module) => ({
-      default: module.CustomerInfoPage as RegistryComponent,
-    })),
-  ),
-  ComingSoonPage: lazy(() =>
-    import('../../pages/placeholder/ComingSoonPage').then((module) => ({
-      default: module.ComingSoonPage as RegistryComponent,
-    })),
-  ),
-};
+/** default export 페이지 모듈을 registry 컴포넌트로 래핑 (페이지별 prop 타입 캐스팅 제거) */
+const page = (loader: () => Promise<{ default: ComponentType<Record<string, never>> }>): RegistryComponent =>
+  lazy(loader) as unknown as RegistryComponent;
+
+export const componentRegistry = {
+  // 공통 / 플레이스홀더
+  PlaceholderPage: page(() => import('@/pages/placeholder/PlaceholderPage')),
+  ComingSoonPage: page(() => import('@/pages/placeholder/ComingSoonPage')),
+
+  // Demo
+  ChartDemoPage: page(() => import('@/pages/demo/ChartDemoPage')),
+  DashboardDemoPage: page(() => import('@/pages/demo/DashboardDemoPage')),
+
+  // 시스템 관리
+  UserManagementPage: page(() => import('@/pages/admin/user-management/UserManagementPage')),
+  MenuManagementPage: page(() => import('@/pages/admin/menu-management/MenuManagementPage')),
+
+  // 업무
+  ActualsPage: page(() => import('@/pages/co/actuals/ActualsPage')),
+  CustomerInfoPage: page(() => import('@/pages/customer/customer-info/CustomerInfoPage')),
+} satisfies Record<string, RegistryComponent>;

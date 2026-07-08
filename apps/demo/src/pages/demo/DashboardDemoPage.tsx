@@ -193,3 +193,5 @@ export function DashboardDemoPage() {
     </PageLayout>
   );
 }
+
+export default DashboardDemoPage;

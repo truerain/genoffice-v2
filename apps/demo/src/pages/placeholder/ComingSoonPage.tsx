@@ -33,3 +33,5 @@ export function ComingSoonPage({ title }: ComingSoonPageProps) {
     </PageLayout>
   );
 }
+
+export default ComingSoonPage;

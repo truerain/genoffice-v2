@@ -103,3 +103,5 @@ export function PlaceholderPage({ title }: PlaceholderPageProps) {
     </PageLayout>
   );
 }
+
+export default PlaceholderPage;

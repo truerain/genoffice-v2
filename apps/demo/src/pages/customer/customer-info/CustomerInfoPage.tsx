@@ -174,3 +174,5 @@ export function CustomerInfoPage() {
     </PageLayout>
   );
 }
+
+export default CustomerInfoPage;

@@ -95,3 +95,5 @@ export function UserManagementPage() {
     </PageLayout>
   );
 }
+
+export default UserManagementPage;

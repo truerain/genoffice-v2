@@ -106,3 +106,5 @@ export function MenuManagementPage() {
     </PageLayout>
   );
 }
+
+export default MenuManagementPage;

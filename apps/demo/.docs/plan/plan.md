@@ -279,17 +279,17 @@ gen-chart **C8의 demo 부분을 선행** 완료 ([phase.md](../../../../package
 
 ### 완료 조건
 
-- [ ] 페이지 컴포넌트 export를 default로 표준화 → 항목을 `Name: lazy(() => import('...'))` 한 줄로 축소
-- [ ] `ComponentName`을 맵 키에서 파생(`keyof typeof componentRegistry`) → `types`/`dynamic` 이중 유지보수 제거 (순환 참조 방지 위해 `RegistryComponent`만 `types`에 유지)
-- [ ] `@/` 경로 별칭 도입 — `apps/demo/tsconfig.json` `paths` + `vite.config.ts` `resolve.alias`
-- [ ] 도메인 주석 그룹핑(고객 / 시스템 관리 / Demo 등)
-- [ ] (선택) prefetch 헬퍼 + unknown name graceful fallback(`ComingSoonPage`) 유지
-- [ ] `buildAppMenuFromV1.ts`의 `V2_READY_COMPONENTS` gating Set과 파생 타입 중복 정리 여부 결정
+- [x] 페이지 컴포넌트에 default export 추가(named export 유지) → 항목을 `page(() => import('@/...'))` 한 줄로 축소
+- [x] `ComponentName`을 맵 키에서 파생(`keyof typeof componentRegistry`) → `types`/`dynamic` 이중 유지보수 제거 (`RegistryComponent`는 `types`에 유지, `ComponentName`은 `componentRegistry.ts`에서 파생 후 `types`가 re-export)
+- [x] `@/` 경로 별칭 도입 — `apps/demo/tsconfig.json` `paths` + `vite.config.ts` `resolve.alias`
+- [x] 도메인 주석 그룹핑(공통·플레이스홀더 / Demo / 시스템 관리 / 업무)
+- [ ] (선택) prefetch 헬퍼 — 미도입(현 규모 불필요). unknown name graceful fallback은 registry 소비측(`isComponentName`)에서 유지
+- [x] `buildAppMenuFromV1.ts`의 `V2_READY_COMPONENTS`는 "V1 메뉴 노출 게이트"로 의미가 별개 → 유지(파생 `Set<ComponentName>`로 그대로 동작)
 
 ### Gate
 
-- [ ] `pnpm -C apps/demo build` — 페이지별 lazy chunk 분리 유지
-- [ ] `pnpm -C apps/demo exec tsc --noEmit` — componentName 타입 체크 유지
+- [x] `pnpm -C apps/demo build` — 페이지별 lazy chunk 분리 유지(8개 페이지 개별 chunk 확인)
+- [x] `pnpm -C apps/demo exec tsc --noEmit` — componentName 타입 체크 유지
 - [ ] 메뉴 클릭 → MDI 탭 오픈 회귀 없음 (수동)
 
 ### 트레이드오프
