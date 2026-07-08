@@ -4,14 +4,14 @@
  * @created 2026-06-29
  *
  * @remark
- * - DemoUserRow(응답) / UserRequest(요청: 응답 파생 titleName* 제외, PK 필수)
+ * - UserRow(응답) / UserRequest(요청: 응답 파생 titleName* 제외, PK 필수)
  * - 커밋 정책: 데이터 연동 가이드(.docs/guide/data-integration.md) 참조
  *
  * @history
  * - 2026-07-08 UserRequest를 응답 파생 타입(Omit)으로 전환, NEW_ID sentinel 도입
  */
 
-export type DemoUserRow = {
+export type UserRow = {
   userId: string;
   loginId: string;
   empNo: string;
@@ -34,9 +34,10 @@ export const NEW_ID = '' as const;
 export const NEW_ROW_ID_PREFIX = 'new-';
 
 /** 서버로 보내는 편집 필드(응답 파생 titleName* 제외, PK userId 포함) */
-export type UserRequest = Omit<DemoUserRow, 'titleName' | 'titleNameEng'>;
+export type UserRequest = Omit<UserRow, 'titleName' | 'titleNameEng'>;
 
 /** 목록 조회 파라미터 */
 export interface UserListParams {
+  empNo?: string;
   empName?: string;
 }

@@ -16,7 +16,7 @@
 
 import { http, HttpResponse, type HttpHandler } from 'msw';
 import { getApiBaseUrl } from '../../shared/api/env';
-import { NEW_ID, type DemoUserRow, type UserRequest } from '../../pages/admin/user/user.types';
+import { NEW_ID, type UserRow, type UserRequest } from '../../pages/admin/user/user.types';
 import { INITIAL_DEMO_USERS } from '../data/users';
 
 interface UserCommitPayload {
@@ -25,7 +25,7 @@ interface UserCommitPayload {
   deleted: UserRequest[];
 }
 
-let store: DemoUserRow[] = INITIAL_DEMO_USERS.map((row) => ({ ...row }));
+let store: UserRow[] = INITIAL_DEMO_USERS.map((row) => ({ ...row }));
 let sequence = 0;
 
 const base = getApiBaseUrl().replace(/\/$/, '');
@@ -36,7 +36,7 @@ function createUserId(): string {
 }
 
 /** 신규 행: 서버가 PK 채번(요청의 NEW_ID는 무시), 응답 파생 필드는 미설정 */
-function toRow(request: UserRequest): DemoUserRow {
+function toRow(request: UserRequest): UserRow {
   return {
     userId: createUserId(),
     loginId: request.loginId,

@@ -10,6 +10,24 @@
 
 ## 2026-07-08
 
+### 데이터 훅 파일 컨벤션 확정 (`{domain}Query` / `{domain}Mutation`, 단수)
+
+- **요약:** 모호한 `useUsers` 파일명을 폐기하고 조회/쓰기를 의도 기반 파일로 고정 분리. `useUsers.ts` → `userQuery.ts`, `userMutations.ts` → `userMutation.ts`(단수). react-query 어휘(query/mutation) + `userApi` 단수 집합명과 정합.
+- **컨벤션:** `{domain}Page`(컴포넌트, PascalCase 파일) / `{domain}Query` / `{domain}Mutation`(camelCase 파일). 파일명은 카테고리 단수, 훅은 행위별(`useUsersQuery`, 향후 `useUserDetailQuery`).
+- **근거:** api에 훅 섞기는 transport의 React 무의존 위배로 비채택. 대신 transport(api) ↔ hooks(query/mutation) 2축 유지. 조회가 늘면 `userQuery.ts`에 리소스별 훅 추가.
+- **파일:** `pages/admin/user/{userQuery.ts(신규), userMutation.ts(신규), UserPage.tsx}`, `useUsers.ts`·`userMutations.ts` 삭제, `.docs/guide/data-integration.md`(§2 표·컨벤션·§5·§7·§9 갱신)
+- **검증:** `pnpm -C apps/demo exec tsc --noEmit` 통과, lint 0.
+
+### UserPage CUD 집약 (userCommit.ts → userMutations.ts + useUserMutations 훅)
+
+- **요약:** 읽기/쓰기 파일 분리 원칙에 맞춰 쓰기(CUD)를 한 곳으로 집약. `userCommit.ts`를 `userMutations.ts`로 통합하고, `newRow`/`validateCommit`/`handleCommit`을 `useUserMutations()` 훅으로 노출. UserPage는 결선만 담당.
+- **useUsers.ts:** `useCommitUsersMutation` 제거 → `useUsersQuery`(읽기)만 유지.
+- **userMutations.ts(신규):** 순수 매핑(`toUserRequest`/`buildUserCommitPayload`) + 커밋 mutation(`useCommitUsersMutation`, 파일 로컬) + `useUserMutations()`(newRow·validateCommit·handleCommit·isCommitting).
+- **UserPage.tsx:** 인라인 createRow/validateCommit/handleCommit 제거, `const { newRow, validateCommit, handleCommit } = useUserMutations()`로 결선. `createRow={newRow}`.
+- **삭제:** `pages/admin/user/userCommit.ts`.
+- **파일:** `pages/admin/user/{userMutations.ts(신규), useUsers.ts, UserPage.tsx}`, `.docs/guide/data-integration.md`(§7·§9 체크리스트 갱신)
+- **검증:** `pnpm -C apps/demo exec tsc --noEmit` 통과, lint 0.
+
 ### UserPage 커밋 계약 적용 (PK 필수 + NEW_ID sentinel + 전체 행 update)
 
 - **요약:** 데이터 연동 가이드의 커밋 표준을 UserPage에 코드 반영. `CommitPayload<TRequest>`의 `updated/deleted`를 `TRequest[]`(전체 행)로 변경, PK를 요청 타입 필수로 두고 신규는 `NEW_ID` sentinel로 표기.

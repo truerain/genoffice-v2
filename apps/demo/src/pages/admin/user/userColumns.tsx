@@ -8,9 +8,12 @@
  */
 
 import type { ColumnDef } from '@tanstack/react-table';
-import type { DemoUserRow } from './user.types';
+import type { UserRow } from './user.types';
 
-export const userColumns: ColumnDef<DemoUserRow, unknown>[] = [
+/**
+ * Grid Columns 정의
+ */
+export const userColumns: ColumnDef<UserRow, unknown>[] = [
   {
     accessorKey: 'loginId',
     header: 'Login ID',

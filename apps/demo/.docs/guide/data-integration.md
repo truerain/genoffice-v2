@@ -33,13 +33,17 @@
 | 파일 | 역할 |
 | --- | --- |
 | `xxx.types.ts` | 응답 타입(`XxxRow`) · 요청 타입(`XxxRequest`) · 조회 파라미터(`XxxListParams`) |
-| `xxxApi.ts` | transport: `xxxKeys`(쿼리 키 팩토리) · `fetchXxx(params)` · `commitXxx(payload)` |
-| `xxxCommit.ts` | 그리드 `changeSet` → `CommitPayload` 매핑(도메인 매퍼만) |
-| `useXxx.ts` | react-query 훅(`useXxxQuery(params)` · `useCommitXxxMutation`) |
+| `xxxApi.ts` | transport: `xxxKeys`(쿼리 키 팩토리) · `fetchXxx(params)` · `commitXxx(payload)` (React 무의존) |
+| `xxxQuery.ts` | 조회(read) 훅: `useXxxQuery(params)` (리소스별 훅 추가 위치) |
+| `xxxMutation.ts` | 쓰기(CUD) 훅: `useXxxMutations()` + 커밋 매핑(`toXxxRequest` · `buildXxxCommitPayload`) |
 | `XxxPage.tsx` | 화면: 필터바 + `GenDataGridCrud` + 훅 결선 |
 | `xxxColumns.tsx` | 컬럼 정의 |
 | `src/mocks/handlers/xxxHandlers.ts` | MSW: GET(필터) · POST commit(분기) |
 | `src/mocks/data/xxx.ts` | MSW 시드 데이터 |
+
+- 데이터 훅은 **`{domain}Query` / `{domain}Mutation`** 로 조회/쓰기를 분리하는 고정 컨벤션입니다(파일명은 단수).
+- 컴포넌트 파일 `{domain}Page`만 PascalCase(`UserPage.tsx`), 나머지 모듈은 camelCase(`userQuery.ts`, `userMutation.ts`).
+- 파일명은 카테고리 단수지만 훅은 행위별로 명명합니다(`useUsersQuery`, 향후 `useUserDetailQuery` 등).
 
 ## 3. 요청/응답 타입 분리
 
@@ -81,7 +85,7 @@ export interface CommitPayload<TRequest> {
   - 전제: **요청 타입 = 서버가 덮어쓸 편집 컬럼 전체**. 화면이 편집 컬럼 일부만 다루면 누락 컬럼이 초기화될 수 있으니, 그런 화면은 부분 update 방식으로 별도 검토합니다.
   - 주의: 전체 덮어쓰기는 동시편집 시 타인 변경을 덮을 수 있음 → 필요 시 낙관적 락(row version)으로 보완.
   - 그리드 `changeSet.created/updated/deleted`의 각 항목은 **전체 행(`row`)** 을 제공하므로 빌더는 그 값을 그대로 매핑합니다(원본 재구성 불필요). `deleted[i].row`는 생성 직후 삭제 등으로 `undefined`일 수 있어 그 경우는 서버 전송에서 제외합니다.
-- 매핑은 `xxxCommit.ts`에 격리하고 페이지 인라인 매핑을 두지 않습니다.
+- 매핑은 `xxxMutation.ts`에 격리하고 페이지 인라인 매핑을 두지 않습니다.
 
 ```ts
 // shared/api/commit.ts — 화면 무관 빌더(changeSet 항목의 전체 행을 직접 매핑)
@@ -99,8 +103,8 @@ export function buildCommitPayload<TRow, TRequest>(
 ```
 
 ```ts
-// xxxCommit.ts — 화면별 매퍼 한 개(요청 필드만 명시 pick, 신규는 sentinel)
-function toUserRequest(row: DemoUserRow): UserRequest {
+// xxxMutation.ts — 화면별 매퍼 한 개(요청 필드만 명시 pick, 신규는 sentinel)
+function toUserRequest(row: UserRow): UserRequest {
   return {
     userId: row.userId.startsWith(NEW_ROW_ID_PREFIX) ? NEW_ID : row.userId,
     loginId: row.loginId,
@@ -129,22 +133,35 @@ export const userKeys = {
   - 값이 동일하면 `refetch()`로 강제 재조회.
 - `fetchXxx(params)`는 querystring으로 서버 필터를 전달합니다.
 
-## 7. 쓰기(mutation)
+## 7. 쓰기(CUD) — `xxxMutation.ts`로 집약
+
+- 읽기(`xxxQuery.ts`)와 쓰기(CUD)를 파일로 분리합니다. 쓰기는 **`xxxMutation.ts`** 한 곳에 모읍니다.
+- 순수 매핑(`toXxxRequest` / `buildXxxCommitPayload`)과, i18n/뮤테이션에 의존하는 페이지 결선 핸들러(`newRow` / `validateCommit` / `handleCommit`)를 **훅 `useXxxMutations()`** 로 노출합니다.
 
 ```ts
-export function useCommitUsersMutation() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (payload: UserCommitPayload) => commitUsers(payload),
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: userKeys.all() });
-    },
-  });
+// xxxMutation.ts
+export function buildUserCommitPayload(args: DataGridCrudCommitArgs<UserRow>): UserCommitPayload {
+  return buildCommitPayload(args, toUserRequest);
+}
+
+export function useUserMutations() {
+  const { t } = useI18n();
+  const commit = useCommitUsersMutation(); // invalidateQueries({ queryKey: userKeys.all() })
+
+  const newRow = useCallback((): UserRow => ({ /* 기본 행, 임시 rowId */ }), [t]);
+  const validateCommit = useCallback((args) => { /* fieldErrors 규칙 */ }, [t]);
+  const handleCommit = useCallback(async (args) => {
+    await commit.mutateAsync(buildUserCommitPayload(args));
+    return { ok: true };
+  }, [commit]);
+
+  return { newRow, validateCommit, handleCommit, isCommitting: commit.isPending };
 }
 ```
 
 - 커밋 성공 시 `invalidateQueries({ queryKey: xxxKeys.all() })`로 목록을 무효화(자동 refetch)합니다.
 - `UserCommitPayload = CommitPayload<UserRequest>` 별칭으로 화면별 특수화합니다.
+- 페이지는 `const { newRow, validateCommit, handleCommit } = useXxxMutations()`만 결선하고 CUD 로직을 갖지 않습니다.
 
 ## 8. MSW 핸들러
 
@@ -156,9 +173,9 @@ export function useCommitUsersMutation() {
 
 1. `xxx.types.ts`: `XxxRow`(응답) · `XxxRequest`(응답 파생, PK 필수) · `XxxListParams`.
 2. `xxxApi.ts`: `xxxKeys` · `fetchXxx(params)` · `commitXxx(payload)`.
-3. `xxxCommit.ts`: `toXxxRequest(row)` + `buildXxxCommitPayload(args) = buildCommitPayload(args, toXxxRequest)`.
-4. `useXxx.ts`: `useXxxQuery(params)` · `useCommitXxxMutation`.
-5. `XxxPage.tsx`: `StandardFilterBar`(draft/applied) + `GenDataGridCrud` + 훅 결선, `onCommit`은 `buildXxxCommitPayload` 사용.
+3. `xxxQuery.ts`: `useXxxQuery(params)` (읽기 전용, 리소스별 훅 추가).
+4. `xxxMutation.ts`: 순수 매핑(`toXxxRequest` · `buildXxxCommitPayload`) + `useXxxMutations()`(newRow · validateCommit · handleCommit).
+5. `XxxPage.tsx`: `StandardFilterBar`(draft/applied) + `GenDataGridCrud` + 훅 결선(`useXxxQuery` · `useXxxMutations`). 페이지에 CUD 로직 없음.
 6. `src/mocks/handlers/xxxHandlers.ts` + `src/mocks/data/xxx.ts` + `handlers/index.ts` 등록.
 7. `componentRegistry.dynamic.ts`에 페이지 등록.
 

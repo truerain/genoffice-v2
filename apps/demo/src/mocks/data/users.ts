@@ -8,9 +8,9 @@
  *
  */
 
-import type { DemoUserRow } from '../../pages/admin/user/user.types';
+import type { UserRow } from '../../pages/admin/user/user.types';
 
-export const INITIAL_DEMO_USERS: DemoUserRow[] = [
+export const INITIAL_DEMO_USERS: UserRow[] = [
   {
     userId: 'u-1',
     loginId: 'admin',
@@ -19,6 +19,10 @@ export const INITIAL_DEMO_USERS: DemoUserRow[] = [
     empNameEng: 'System Admin',
     displayName: 'System Admin',
     email: 'admin@example.com',
+    orgId: 'ORG-IT',
+    titleCd: 'T1',
+    titleName: '부장',
+    titleNameEng: 'General Manager',
     langCd: 'ko',
     active: true,
   },
@@ -30,6 +34,10 @@ export const INITIAL_DEMO_USERS: DemoUserRow[] = [
     empNameEng: 'Jane Doe',
     displayName: 'Jane Doe',
     email: 'jane.doe@example.com',
+    orgId: 'ORG-SALES',
+    titleCd: 'T2',
+    titleName: '과장',
+    titleNameEng: 'Manager',
     langCd: 'en',
     active: true,
   },
@@ -41,6 +49,10 @@ export const INITIAL_DEMO_USERS: DemoUserRow[] = [
     empNameEng: 'Inactive User',
     displayName: 'Inactive User',
     email: 'inactive@example.com',
+    orgId: 'ORG-HR',
+    titleCd: 'T3',
+    titleName: '사원',
+    titleNameEng: 'Staff',
     langCd: 'ko',
     active: false,
   },
