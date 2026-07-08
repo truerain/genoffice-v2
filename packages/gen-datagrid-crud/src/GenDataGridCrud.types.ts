@@ -130,7 +130,7 @@ export type DataGridCrudActionBarOptions<TData> = {
 };
 
 export type DataGridCrudController<TData> = {
-  gridRef: React.RefObject<GenDataGridHandle<TData>>;
+  gridRef: React.RefObject<GenDataGridHandle<TData> | null>;
   state: DataGridCrudUiState<TData>;
   gridData: readonly TData[];
   actionApi: DataGridCrudActionApi;

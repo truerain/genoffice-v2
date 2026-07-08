@@ -1,3 +1,19 @@
+## 2026-07-08
+
+### Gate 13 완료 — dist `.d.ts` 방출 정상화
+
+- **근본 원인:** 패키지 `tsconfig.json`의 `composite: true` + `references`(`tsconfig.test.json`) 조합에서 선언 방출이 동작하지 않았다. `vite-plugin-dts@5.0.2`는 성공 로그만 남기고 파일을 쓰지 않았고, `tsc --emitDeclarationOnly`도 같은 원인으로 `TS6305`가 났다. `.tsbuildinfo` 캐시 삭제로는 해결되지 않음(설정 문제).
+- **조치:** 각 패키지에 선언 전용 클린 설정 `tsconfig.build.json`(`composite:false`, `emitDeclarationOnly:true`, `references:[]`, stories/test 제외) 추가. build script를 `vite build && tsc -p tsconfig.build.json`로 변경. `vite.config.ts`에서 무동작 `vite-plugin-dts` 제거 및 미사용 devDep 정리.
+- **드러난 타입 오류 수정:** `DataGridCrudActionBar` save 버튼 `variant` `'brand'`→`'primary'`(`ButtonVariant`에 `'brand'` 없음), `DataGridCrudController.gridRef`를 React 19 `useRef` 반환에 맞춰 `RefObject<GenDataGridHandle<TData> | null>`로 수정.
+- **결과:** `gen-datagrid` dist 44개 / `gen-datagrid-crud` dist 5개 `.d.ts` 실제 생성. `changeSet.updated[i].row: TData`·`deleted[i].row?: TData`·`cells` 포함 확인. `apps/demo` 임시 스텁 `src/types/gen-datagrid-crud.d.ts` 제거 후 `tsc --noEmit` 통과.
+- **관련 파일:** `packages/gen-datagrid/tsconfig.build.json`(신규), `packages/gen-datagrid-crud/tsconfig.build.json`(신규), 두 패키지 `package.json`·`vite.config.ts`, `packages/gen-datagrid-crud/src/components/DataGridCrudActionBar.tsx`, `packages/gen-datagrid-crud/src/GenDataGridCrud.types.ts`, `apps/demo/src/types/gen-datagrid-crud.d.ts`(삭제).
+
+### Gate 13 등록 — dist `.d.ts` 미방출 진단 (계획)
+
+- **진단:** `gen-datagrid`·`gen-datagrid-crud`가 `package.json` `types`로 `./dist/index.d.ts`를 가리키지만 dist에는 `.d.ts`가 없다. `vite-plugin-dts`가 설정돼 있고 빌드 로그는 `[unplugin:dts] Declaration files built`를 출력하나 실제 파일이 기록되지 않는다(패키지 어디에도 신규 `.d.ts` 없음). `pnpm.overrides`의 `vite-plugin-dts: 5.0.2` 핀이 비정상적으로 보임.
+- **영향:** 소비처(`apps/demo`)가 임시 ambient 스텁으로 API를 수동 선언 중이며, 스텁이 실제 런타임 `changeSet`(`updated[i].row`, `deleted[i].row`, `cells`)을 누락. 런타임 `dist/index.mjs`는 이미 `row`를 반환하므로 순수 타입 파이프라인 문제.
+- **조치:** `remaining-work-plan.md`에 **Gate 13. Type Declaration Distribution** 등록(플러그인 정상화 → d.ts 방출 → 데모 스텁 제거 → 소비처 검증). 코드 변경 없음(계획/진단만).
+
 ## 2026-07-01
 
 ### columnFitMode fill 수평 overflow 보정 (V1 `854afb7`)

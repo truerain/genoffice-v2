@@ -150,7 +150,7 @@ export function DataGridCrudActionBar<TData>(props: {
         key={item.key}
         type="button"
         size="sm"
-        variant={item.key === 'save' ? 'brand' : 'secondary'}
+        variant={item.key === 'save' ? 'primary' : 'secondary'}
         leftIcon={item.icon}
         disabled={disabled}
         loading={loading}
