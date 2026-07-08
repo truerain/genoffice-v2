@@ -20,7 +20,7 @@ import {
   INITIAL_MENU_ROWS,
 } from './menuData';
 import type { MenuRow } from './menu.types';
-import styles from './MenuPage.module.css';
+import styles from '../../../shared/styles/standardLayout.module.css';
 
 export function MenuPage() {
   const { t } = useI18n();
@@ -71,7 +71,7 @@ export function MenuPage() {
     >
       <div className={styles.workarea}>
         <GenDataGridCrud
-          className={styles.crud}
+          className={styles.fill}
           title={t('menu.menuManagement')}
           data={rows}
           columns={menuColumns}

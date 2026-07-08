@@ -22,7 +22,7 @@ import { userColumns } from './userColumns';
 import type { UserListParams } from './user.types';
 import { useUsersQuery } from './userQuery';
 import { useUserMutations } from './userMutation';
-import styles from './UserPage.module.css';
+import styles from '../../../shared/styles/standardLayout.module.css';
 
 const EMPTY_FILTERS: UserListParams = { empName: '' };
 
@@ -88,7 +88,7 @@ export function UserPage() {
     >
       <div className={styles.workarea}>
         <GenDataGridCrud
-          className={styles.crud}
+          className={styles.fill}
           title={t('menu.userManagement')}
           data={rows}
           columns={userColumns}

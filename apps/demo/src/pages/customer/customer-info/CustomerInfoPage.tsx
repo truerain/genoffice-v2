@@ -19,7 +19,7 @@ import { CustomerFilterBar } from './CustomerFilterBar';
 import { customerInfoColumns } from './customerInfoColumns';
 import { filterCustomers, INITIAL_CUSTOMERS } from './customerInfoData';
 import type { Customer, CustomerFilterState } from './customerInfo.types';
-import styles from './CustomerInfoPage.module.css';
+import styles from '../../../shared/styles/standardLayout.module.css';
 
 const EMPTY_FILTERS: CustomerFilterState = {
   search: '',
@@ -158,7 +158,7 @@ export function CustomerInfoPage() {
     >
       <div className={styles.workarea}>
         <GenDataGridCrud
-          className={styles.crud}
+          className={styles.fill}
           title={t('menu.customerInfo')}
           data={displayRows}
           columns={customerInfoColumns}

@@ -1,0 +1,24 @@
+/**
+ * @file apps/demo/src/shared/styles/standardLayout.module.css
+ * @description 표준 페이지 콘텐츠 레이아웃 — PageLayout(fill) 안쪽의 채움/그리드 공통 스타일.
+ * @created 2026-07-08
+ *
+ * @remark
+ * - ui의 PageLayout(외곽: padding·gap·header·filter)과 역할 분담: 이 파일은 content 안쪽 담당
+ * - workarea: 콘텐츠 채움 컬럼 / fill: 남는 공간을 채우는 자식(그리드 등)
+ * - 비율·가로·스플리터 등 화면 고유 배치는 각 화면 모듈에서 정의(여기 넣지 않음)
+ *
+ */
+
+.workarea {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: var(--spacing-md);
+}
+
+.fill {
+  flex: 1;
+  min-height: 0;
+}

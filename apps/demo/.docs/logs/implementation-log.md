@@ -10,6 +10,22 @@
 
 ## 2026-07-08
 
+### 화면 소스·스타일 컨벤션 문서화 (guide/page-conventions.md)
+
+- **요약:** 이번 세션에서 정립한 규칙(파일 구성/네이밍, 데이터 훅 분리, 함수 정렬·주석, CSS 규칙)을 단일 가이드로 통합.
+- **내용:** `{domain}Query`/`{domain}Mutation` 분리·단수 파일명, transport↔hooks 축, 리소스=훅·독립 캐시, 진입점 상단 배치+`[메인]` 표기+함수별 주석, `standardLayout.module.css`(workarea/fill)·CSS import 이름 규칙(`styles`/`{page}Style`)·토큰 우선.
+- **파일:** `guide/page-conventions.md`(신규), `.docs/README.md`(문서 목록에 추가). 세부는 data-integration.md/ui-direction.md 상호 링크로 중복 최소화.
+
+### 표준 페이지 레이아웃 CSS 공유화 (standardLayout.module.css)
+
+- **요약:** CRUD 페이지 4곳이 복제하던 flex-height 보일러플레이트(`.workarea`+`.crud`)를 공유 모듈로 통합. `ui`의 `PageLayout`(외곽)과 역할 분담해 content 안쪽 채움만 담당.
+- **신규:** `src/shared/styles/standardLayout.module.css` — `.workarea`(채움 컬럼, gap=`--spacing-md`) · `.fill`(남는 공간 채우는 자식). 비율/가로/스플리터 등 화면 고유 배치는 각 화면 모듈 몫으로 명시.
+- **적용:** `UserPage`/`MenuPage`/`CustomerInfoPage`/`ActualsPage`가 `standard.workarea`+`standard.fill` 사용. 그리드 className은 `standard.fill`.
+- **삭제:** `UserPage.module.css`·`MenuPage.module.css`·`CustomerInfoPage.module.css`(중복만 있어 제거). `ActualsPage.module.css`는 `.settingsBody`만 남기고 하드코딩값을 토큰화(`gap:8px`→`--spacing-sm`, `font-size:14px`→`--font-size-sm`, 값 동일).
+- **파일:** `shared/styles/standardLayout.module.css`(신규), 위 4개 `Page.tsx`, `ActualsPage.module.css`, 3개 모듈 삭제
+- **import 규칙:** 공유 표준 레이아웃은 `styles`로 import(모든 페이지 동일 의미), 화면 전용 모듈은 `{page}Style`(예: `actualsPageStyle`)로 구분. `data-integration.md` §2에 명문화.
+- **검증:** `pnpm -C apps/demo exec tsc --noEmit` 통과, lint 0.
+
 ### 데이터 훅 파일 컨벤션 확정 (`{domain}Query` / `{domain}Mutation`, 단수)
 
 - **요약:** 모호한 `useUsers` 파일명을 폐기하고 조회/쓰기를 의도 기반 파일로 고정 분리. `useUsers.ts` → `userQuery.ts`, `userMutations.ts` → `userMutation.ts`(단수). react-query 어휘(query/mutation) + `userApi` 단수 집합명과 정합.

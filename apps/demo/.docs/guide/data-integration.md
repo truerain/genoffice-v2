@@ -44,6 +44,7 @@
 - 데이터 훅은 **`{domain}Query` / `{domain}Mutation`** 로 조회/쓰기를 분리하는 고정 컨벤션입니다(파일명은 단수).
 - 컴포넌트 파일 `{domain}Page`만 PascalCase(`UserPage.tsx`), 나머지 모듈은 camelCase(`userQuery.ts`, `userMutation.ts`).
 - 파일명은 카테고리 단수지만 훅은 행위별로 명명합니다(`useUsersQuery`, 향후 `useUserDetailQuery` 등).
+- **CSS import 규칙:** 공유 표준 레이아웃(`shared/styles/standardLayout.module.css`)은 항상 **`styles`** 로 import(`styles.workarea` · `styles.fill`). 화면 전용 모듈이 있으면 **`{page}Style`**(예: `actualsPageStyle`)로 구분해 이름 충돌을 피합니다.
 
 ## 3. 요청/응답 타입 분리
 

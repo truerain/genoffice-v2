@@ -17,7 +17,8 @@ import { ActualsFilterBar } from './ActualsFilterBar';
 import { actualsColumns } from './actualsColumns';
 import { filterActualsRows, MOCK_ACTUALS_SOURCE } from './actualsData';
 import type { ActualsFilterState } from './actuals.types';
-import styles from './ActualsPage.module.css';
+import styles from '../../../shared/styles/standardLayout.module.css';
+import actualsPageStyle from './ActualsPage.module.css';
 
 const EMPTY_FILTERS: ActualsFilterState = {
   fiscalMonth: '',
@@ -59,7 +60,7 @@ export function ActualsPage() {
     >
       <div className={styles.workarea}>
         <GenDataGridCrud
-          className={styles.crud}
+          className={styles.fill}
           title={t('menu.actuals')}
           readonly
           data={rows}
@@ -121,7 +122,7 @@ export function ActualsPage() {
         }
         initialHeight={320}
       >
-        <div className={styles.settingsBody}>
+        <div className={actualsPageStyle.settingsBody}>
           <p>{t('page.actuals.settings.description')}</p>
           <p>{t('page.actuals.settings.rowHeight')}</p>
           <p>{t('page.actuals.settings.virtualization')}</p>
