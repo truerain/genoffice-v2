@@ -8,6 +8,26 @@
 
 ## 2026-07-08
 
+### gen-datagrid 기본 폰트 토큰 추가 (--gen-datagrid-font-size: 14px)
+
+- **요약:** 그리드 기본 글꼴 크기 토큰 `--gen-datagrid-font-size`(기본 `14px`)를 `tokens.css`에 신설하고 `.gen-datagrid` 루트에 적용. 셀·헤더·에디터가 상속하며, `:root`/`[data-gen-datagrid-root]`/래퍼에서 재정의해 페이지·셀 단위 override 가능. `row-number`(12px 명시) 등은 영향 없음.
+- **검증:** `pnpm -C packages/gen-datagrid build`, `pnpm -C packages/gen-datagrid-crud build` 성공. crud dist에 토큰 정의·적용 인라인 확인.
+- **파일:** `packages/gen-datagrid/src/{tokens.css, index.css}`
+
+### gen-datagrid 디자인 토큰 내부화 + theme grid.css 이관 (WS1)
+
+- **요약:** theme의 `components/grid.css`(`--grid-*`, V2 런타임 소비처 없음)를 삭제하고, `gen-datagrid`가 자체 `--gen-datagrid-*` 토큰을 소유하도록 이전. `packages/gen-datagrid/src/tokens.css` 신설(theme semantic `--color-*` 참조 + 폴백 hex), `index.css`의 하드코딩 색상 전량을 토큰으로 치환. theme CSS는 self-import하지 않는 B 방식(로드는 앱 책임). 다크모드는 semantic 전환으로 자동 상속.
+- **theme 정리:** `variables.css` import 제거, `theme-dark.css` grid 블록 제거, `Theme.stories.tsx` grid 스와치 제거, `cssTokens.test.ts` grid 항목 제거(+dark 단언 `--color-background`로 교정), 문서 3곳(08-가이드, theme architecture/token-mapping) 갱신.
+- **검증:** `pnpm -C packages/theme test` 11/11, `pnpm -C packages/gen-datagrid build` 성공(토큰 dist 인라인 확인), lint 0.
+- **범위 밖(후속 WS2):** ui/mdi/gen-chart/gen-frame의 A→B(self-`@import` 제거) 전환은 별도 작업으로 분리(.docs/10 §7).
+- **파일:** `packages/gen-datagrid/src/{tokens.css(신규), index.css}`, `packages/theme/src/styles/{variables.css, tokens/theme-dark.css, tokens/components/grid.css(삭제)}`, `packages/theme/src/stories/Theme.stories.tsx`, `packages/theme/test/cssTokens.test.ts`, `packages/theme/.docs/{architecture.md, ref/token-mapping.md}`, `.docs/08-DESIGN-TOKENS-GUIDE.md`, `packages/gen-datagrid/.docs/log/implementation-log.md`
+
+### theme 토큰 마이그레이션 계획 문서 신설
+
+- **요약:** 패키지 전용 토큰의 패키지 내부 소유 방침과 CSS 로드 컨벤션(B) 전환을 위한 진행 계획을 별도 문서로 정리. theme `components/grid.css`는 V2 런타임 소비처가 없음을 확인(gen-grid 부재)하고 완전 삭제 + gen-datagrid 자체 `--gen-datagrid-*` 토큰 신규 정의 방향으로 계획 수립. gen-datagrid는 처음부터 B 방식(앱이 theme 로드, 패키지는 semantic 참조 + 폴백, self-`@import` 없음)으로 생성. 기존 ui/mdi/gen-chart/gen-frame의 A→B 전환은 별도 워크스트림(WS2)으로 분리.
+- **범위:** 문서만 작성(코드 무변경). 구현 착수 전 단계.
+- **파일:** `.docs/10-THEME-TOKEN-MIGRATION-PLAN.md`(신규), `.docs/logs/decisions.md`
+
 ### gen-datagrid-crud — 셀 편집값 in-place 표시 (dirty overlay)
 
 - **요약:** 셀 편집 시 dirty 마커만 뜨고 값이 원복되던 문제 해결. GenDataGrid는 헤드리스 계약(cell-edit-api.md §7)상 편집 시 `data`를 안 바꾸고 dirty state에만 기록하며, 표시 반영은 "부모" 책임인데 CRUD 래퍼가 이를 이행하지 않았음. `useDataGridCrudController`가 보유 중인 `dirtyState.cells`로 표시 데이터(`displayData = gridData + overlay`)를 파생해 그리드에 전달하도록 수정(그리드 코어 무변경).

@@ -10,6 +10,14 @@
 
 ## 2026-07-08
 
+### 디자인 토큰 소유권: 패키지 전용 토큰의 패키지 내부화 + CSS 로드 컨벤션(B)
+
+- **결정:** (D1) 패키지 전용 디자인 토큰은 **해당 패키지 내부에서 정의**한다. base·semantic 등 cross-cutting 팔레트는 `packages/theme`에 잔류. (D2) theme `components/grid.css`를 **완전 삭제**한다(V1 하위호환·어댑터 금지). (D3) `gen-datagrid`는 `--gen-datagrid-*` 토큰을 **자체 신규 정의**하고 V1 `--grid-*` 네이밍/값을 승계하지 않는다. (D4) datagrid 토큰 값은 **theme semantic 참조 + 폴백**(`var(--color-*, #hex)`)으로 다크모드 자동 상속·브랜드 단일 소스를 유지. (D5) CSS 로드 목표 컨벤션은 **B 방식**(앱이 theme 1회 로드, 라이브러리 패키지는 self-`@import` 없이 토큰 참조+폴백). (D6) 기존 ui/mdi/gen-chart/gen-frame의 A→B 전환은 그리드 트랙과 분리한 별도 워크스트림으로 진행.
+- **배경:** theme `--grid-*`의 V2 런타임 소비처(`gen-grid`)가 이 레포에 부재(검증 0건)하고, `gen-datagrid`는 theme와 단절되어 hex 하드코딩 상태. theme grid 토큰은 V1 기준이라 updated 상태색·헤더 높이 등 V2와 충돌하고 active/editing/dirty/validation/visual-merge 등 커버리지 갭이 큼.
+- **트레이드오프:** A(패키지 self-import)의 중복 비용은 실질적으로 미미(번들 dedupe·멱등 `:root`)하나, B는 결합도·로드 순서 관점에서 더 건전. ui/mdi는 theme var 폴백이 없어 A→B 전환 시 폴백 보강이 선행되어야 안전(그래서 WS2로 분리).
+- **비채택:** theme grid.css 유지 후 부분 이관(3번째 혼재 상태·의미 충돌 승계), gen-datagrid 완전 자립(brand 복제로 단일 소스 붕괴·다크 별도 관리).
+- **문서:** [.docs/10-THEME-TOKEN-MIGRATION-PLAN.md](../10-THEME-TOKEN-MIGRATION-PLAN.md)
+
 ### 데모 CRUD 커밋 계약: CommitPayload<TRequest> + PK 필수(sentinel) + 전체 행 update
 
 - **결정:** CRUD 화면 공용 커밋 계약을 `shared/api/commit.ts`의 `CommitPayload<TRequest>`(`created/updated/deleted`)로 통일. 요청 타입에 **PK를 필수 포함**하고 신규는 sentinel(`NEW_ID`)로 표기, 서버(MSW)는 `id===NEW_ID`면 채번. **update는 전체 행**(모든 편집 컬럼) 전송(일반 `UPDATE SET 전체` / ORM save 정합).

@@ -5,7 +5,6 @@
  */
 @import './tokens/base.css';
 @import './tokens/semantic.css';
-@import './tokens/components/grid.css';
 @import './tokens/components/button.css';
 @import './tokens/components/dialog.css';
 @import './tokens/components/filter-bar.css';

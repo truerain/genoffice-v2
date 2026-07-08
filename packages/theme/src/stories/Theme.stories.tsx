@@ -152,9 +152,6 @@ function ComponentTokensPanel() {
       <CssVarSwatch label="Button default border" cssVar="--button-default-border" />
       <CssVarSwatch label="Dialog bg" cssVar="--dialog-bg" />
       <CssVarSwatch label="Dialog border" cssVar="--dialog-border" />
-      <CssVarSwatch label="Grid bg" cssVar="--grid-bg" />
-      <CssVarSwatch label="Grid border" cssVar="--grid-border" />
-      <CssVarSwatch label="Grid header bg" cssVar="--grid-header-bg" />
     </SwatchGrid>
   );
 }

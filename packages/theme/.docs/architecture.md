@@ -54,7 +54,7 @@ packages/theme/
 │           ├── base.css                1층 hex 팔레트·spacing·typography
 │           ├── semantic.css            --color-bg-*, --color-fg-* …
 │           ├── theme-dark.css          [data-theme=dark] override
-│           └── components/             button, dialog, grid
+│           └── components/             button, dialog
 ├── test/                               Vitest
 ├── package.json
 ├── tsconfig.json
@@ -101,7 +101,7 @@ flowchart TB
 
 ## 2. CSS 토큰 계층
 
-토큰은 **아래 → 위** 순으로 쌓입니다. 복잡한 UI(그리드 hover·선택 행 등)는 **2층 component 토큰**과 `color-mix`로 처리합니다.
+토큰은 **아래 → 위** 순으로 쌓입니다. 복잡한 UI의 hover·선택 등은 **2층 component 토큰**과 `color-mix`로 처리합니다. 그리드 토큰(`--gen-datagrid-*`)은 theme가 아니라 `@gen-office/gen-datagrid`가 소유하며, theme의 semantic(`--color-*`)을 참조 + 폴백합니다.
 
 ```mermaid
 flowchart BT
@@ -109,13 +109,12 @@ flowchart BT
   SEM["semantic.css<br/>--color-bg-primary, --color-fg-primary"]
   BTN["components/button.css"]
   DLG["components/dialog.css"]
-  GRD["components/grid.css<br/>color-mix + --color-primary"]
   DARK["theme-dark.css"]
   APP["ui / apps / gen-datagrid<br/>var(--token)"]
 
   BASE --> SEM
-  SEM --> BTN & DLG & GRD
-  BTN & DLG & GRD --> DARK
+  SEM --> BTN & DLG
+  BTN & DLG --> DARK
   DARK --> APP
 ```
 
@@ -137,7 +136,8 @@ flowchart BT
 | --- | --- |
 | `button.css` | variant별 배경·테두리·focus ring (`--button-primary-*` 등) |
 | `dialog.css` | 모달 chrome |
-| `grid.css` | 헤더·행·셀·selection·row-status. hover/selected는 `color-mix(in srgb, var(--color-primary) …)` |
+
+> 그리드 토큰(`--gen-datagrid-*`)은 theme 컴포넌트 층이 아니라 `@gen-office/gen-datagrid`(`src/tokens.css`)가 소유합니다. theme의 semantic(`--color-*`)을 참조 + 폴백합니다.
 
 ### CSS import 체인
 
@@ -307,8 +307,9 @@ export function App() {
 
 ### gen-datagrid
 
-- `components/grid.css` 토큰 직접 참조
-- 행 hover/selected tint는 `--color-primary` 기반 `color-mix`
+- 자체 `--gen-datagrid-*` 토큰(`packages/gen-datagrid/src/tokens.css`)을 소유하며 theme의 semantic(`--color-*`)을 참조 + 폴백
+- 행 current/selected tint는 `--color-primary`(accent) 기반 `color-mix`
+- theme CSS는 self-import하지 않음(로드는 앱 책임)
 
 ---
 

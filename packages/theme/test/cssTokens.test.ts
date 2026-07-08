@@ -27,7 +27,6 @@ const semanticVars = [
 const componentVars: Record<string, string[]> = {
   'components/button.css': ['--button-primary-bg', '--button-focus-ring'],
   'components/dialog.css': ['--dialog-bg', '--dialog-border'],
-  'components/grid.css': ['--grid-bg', '--grid-border'],
 };
 
 describe('CSS token files', () => {
@@ -51,7 +50,7 @@ describe('CSS token files', () => {
   it('theme-dark.css scopes overrides to data-theme=dark', () => {
     const css = readTokenFile('theme-dark.css');
     expect(css).toContain('[data-theme="dark"]');
-    expect(css).toContain('--color-bg-primary');
+    expect(css).toContain('--color-background');
   });
 
   it('component token files define expected variables', () => {

@@ -1,6 +1,8 @@
 /* packages/gen-datagrid/src/index.css
  * Defines baseline styles for GenDataGrid.
+ * Colors are driven by --gen-datagrid-* tokens (see ./tokens.css).
  */
+@import './tokens.css';
 
 :where([data-gen-datagrid-root='true']) {
   box-sizing: border-box;
@@ -19,6 +21,7 @@
   overflow: hidden;
   color: inherit;
   background: inherit;
+  font-size: var(--gen-datagrid-font-size);
 }
 
 .gen-datagrid__viewport {
@@ -45,8 +48,8 @@
   align-items: center;
   min-width: 0;
   padding: 6px 8px;
-  border-bottom: 1px solid #d0d7de;
-  background: #ffffff;
+  border-bottom: 1px solid var(--gen-datagrid-color-border);
+  background: var(--gen-datagrid-color-bg);
 }
 
 .gen-datagrid__global-filter-input {
@@ -54,7 +57,7 @@
   max-width: 100%;
   height: 28px;
   padding: 0 8px;
-  border: 1px solid #d0d7de;
+  border: 1px solid var(--gen-datagrid-color-border);
   border-radius: 3px;
   font: inherit;
 }
@@ -100,11 +103,11 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  border-right: 1px solid #d0d7de;
-  border-bottom: 1px solid #d0d7de;
-  color: #24292f;
-  background: color-mix(in srgb, #ffffff 92%, #0969da);
-  box-shadow: inset 3px 0 0 #0969da, 0 1px 2px rgb(31 35 40 / 12%);
+  border-right: 1px solid var(--gen-datagrid-color-border);
+  border-bottom: 1px solid var(--gen-datagrid-color-border);
+  color: var(--gen-datagrid-merge-label-text);
+  background: var(--gen-datagrid-merge-label-bg);
+  box-shadow: inset 3px 0 0 var(--gen-datagrid-merge-label-accent), 0 1px 2px rgb(31 35 40 / 12%);
 }
 
 .gen-datagrid__header-cell,
@@ -115,8 +118,8 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  border-right: 1px solid #d0d7de;
-  border-bottom: 1px solid #d0d7de;
+  border-right: 1px solid var(--gen-datagrid-color-border);
+  border-bottom: 1px solid var(--gen-datagrid-color-border);
   background: inherit;
 }
 
@@ -128,7 +131,8 @@
   gap: 2px;
   overflow: visible;
   font-weight: 600;
-  background: #f6f8fa;
+  color: var(--gen-datagrid-header-text);
+  background: var(--gen-datagrid-header-bg);
 }
 
 .gen-datagrid__header-cell[data-filter-open='true'] {
@@ -144,11 +148,11 @@
 .gen-datagrid__footer-row-cell[data-system-column='true'] {
   justify-content: center;
   padding: 0;
-  color: #57606a;
+  color: var(--gen-datagrid-system-cell-text);
 }
 
 .gen-datagrid__cell[data-system-column='true'] {
-  background: #f6f8fa;
+  background: var(--gen-datagrid-system-cell-bg);
 }
 
 .gen-datagrid__cell[data-system-column='true'] .gen-datagrid__cell-merge-content {
@@ -204,7 +208,7 @@
 .gen-datagrid__header-cell--group {
   justify-content: center;
   text-align: center;
-  background: #eef2f6;
+  background: var(--gen-datagrid-header-group-bg);
 }
 
 .gen-datagrid__header-cell--group .gen-datagrid__header-content {
@@ -212,7 +216,7 @@
 }
 
 .gen-datagrid__footer-rowgroup {
-  background: #f6f8fa;
+  background: var(--gen-datagrid-color-surface);
 }
 
 .gen-datagrid__footer-rowgroup[data-sticky-footer-row='true'] {
@@ -226,7 +230,7 @@
   display: flex;
   align-items: center;
   font-weight: 600;
-  background: #f6f8fa;
+  background: var(--gen-datagrid-color-surface);
 }
 
 .gen-datagrid__reorder-handle {
@@ -240,14 +244,14 @@
   padding: 0;
   border: 0;
   border-radius: 3px;
-  color: #57606a;
+  color: var(--gen-datagrid-color-text-muted);
   background: transparent;
 }
 
 .gen-datagrid__reorder-handle:hover,
 .gen-datagrid__reorder-handle:focus-visible {
-  color: #24292f;
-  background: color-mix(in srgb, #57606a 12%, transparent);
+  color: var(--gen-datagrid-color-text);
+  background: color-mix(in srgb, var(--gen-datagrid-color-text-muted) 12%, transparent);
   outline: none;
 }
 
@@ -272,15 +276,15 @@
   padding: 0;
   border: 0;
   border-radius: 3px;
-  color: #57606a;
+  color: var(--gen-datagrid-color-text-muted);
   background: transparent;
 }
 
 .gen-datagrid__filter-trigger:hover,
 .gen-datagrid__filter-trigger:focus-visible,
 .gen-datagrid__filter-trigger[data-filter-active='true'] {
-  color: #0969da;
-  background: color-mix(in srgb, #0969da 12%, transparent);
+  color: var(--gen-datagrid-color-accent);
+  background: color-mix(in srgb, var(--gen-datagrid-color-accent) 12%, transparent);
   outline: none;
 }
 
@@ -293,9 +297,9 @@
   display: grid;
   gap: 6px;
   padding: 8px;
-  border: 1px solid #d0d7de;
+  border: 1px solid var(--gen-datagrid-color-border);
   border-radius: 4px;
-  background: #ffffff;
+  background: var(--gen-datagrid-color-bg);
   box-shadow: 0 8px 24px rgb(31 35 40 / 16%);
 }
 
@@ -304,17 +308,17 @@
   min-width: 0;
   height: 28px;
   padding: 0 8px;
-  border: 1px solid #d0d7de;
+  border: 1px solid var(--gen-datagrid-color-border);
   border-radius: 3px;
   font: inherit;
 }
 
 .gen-datagrid__filter-clear {
   height: 26px;
-  border: 1px solid #d0d7de;
+  border: 1px solid var(--gen-datagrid-color-border);
   border-radius: 3px;
-  color: #24292f;
-  background: #f6f8fa;
+  color: var(--gen-datagrid-color-text);
+  background: var(--gen-datagrid-color-surface);
   font: inherit;
 }
 
@@ -340,7 +344,7 @@
 
 .gen-datagrid__resize-handle:hover,
 .gen-datagrid__resize-handle:focus-visible {
-  background: color-mix(in srgb, #0969da 35%, transparent);
+  background: color-mix(in srgb, var(--gen-datagrid-color-accent) 35%, transparent);
   outline: none;
 }
 
@@ -368,8 +372,8 @@
 .gen-datagrid__cell:has(.gen-datagrid__row-number) {
   justify-content: center;
   padding: 0;
-  color: #57606a;
-  background: #f6f8fa;
+  color: var(--gen-datagrid-system-cell-text);
+  background: var(--gen-datagrid-system-cell-bg);
 }
 
 .gen-datagrid__row-status {
@@ -380,15 +384,15 @@
 }
 
 .gen-datagrid__row-status[data-gen-datagrid-row-status='created'] {
-  background: #1a7f37;
+  background: var(--gen-datagrid-status-created);
 }
 
 .gen-datagrid__row-status[data-gen-datagrid-row-status='updated'] {
-  background: #bf8700;
+  background: var(--gen-datagrid-status-updated);
 }
 
 .gen-datagrid__row-status[data-gen-datagrid-row-status='deleted'] {
-  background: #cf222e;
+  background: var(--gen-datagrid-status-deleted);
 }
 
 .gen-datagrid__row-selection-checkbox {
@@ -411,18 +415,18 @@
   justify-content: center;
   margin: 0 6px 0 -2px;
   padding: 0;
-  border: 1px solid #d0d7de;
+  border: 1px solid var(--gen-datagrid-color-border);
   border-radius: 3px;
-  color: #24292f;
-  background: #ffffff;
+  color: var(--gen-datagrid-color-text);
+  background: var(--gen-datagrid-color-bg);
   font: inherit;
   line-height: 1;
 }
 
 .gen-datagrid__detail-toggle:hover,
 .gen-datagrid__detail-toggle:focus-visible {
-  border-color: #0969da;
-  color: #0969da;
+  border-color: var(--gen-datagrid-color-accent);
+  color: var(--gen-datagrid-color-accent);
   outline: none;
 }
 
@@ -444,18 +448,18 @@
   align-items: center;
   justify-content: center;
   padding: 0;
-  border: 1px solid #d0d7de;
+  border: 1px solid var(--gen-datagrid-color-border);
   border-radius: 3px;
-  color: #24292f;
-  background: #ffffff;
+  color: var(--gen-datagrid-color-text);
+  background: var(--gen-datagrid-color-bg);
   font: inherit;
   line-height: 1;
 }
 
 .gen-datagrid__tree-toggle:hover,
 .gen-datagrid__tree-toggle:focus-visible {
-  border-color: #0969da;
-  color: #0969da;
+  border-color: var(--gen-datagrid-color-accent);
+  color: var(--gen-datagrid-color-accent);
   outline: none;
 }
 
@@ -481,33 +485,33 @@
   height: var(--gen-datagrid-detail-row-height, 160px);
   overflow: auto;
   padding: 12px;
-  border-right: 1px solid #d0d7de;
-  border-bottom: 1px solid #d0d7de;
-  background: #ffffff;
+  border-right: 1px solid var(--gen-datagrid-color-border);
+  border-bottom: 1px solid var(--gen-datagrid-color-border);
+  background: var(--gen-datagrid-color-bg);
 }
 
 .gen-datagrid__cell--placeholder {
-  background: #ffffff;
+  background: var(--gen-datagrid-color-bg);
 }
 
 .gen-datagrid__cell-placeholder-bar {
   height: 10px;
   display: block;
   border-radius: 999px;
-  background: color-mix(in srgb, #8c959f 28%, transparent);
+  background: var(--gen-datagrid-placeholder-bar);
 }
 
 .gen-datagrid__cell[data-active-cell='true'] {
-  outline: 2px solid #0969da;
+  outline: 2px solid var(--gen-datagrid-active-color);
   outline-offset: -2px;
 }
 
 .gen-datagrid__row[data-current-row='true'] .gen-datagrid__cell {
-  background-color: color-mix(in srgb, #0969da 7%, #ffffff);
+  background-color: var(--gen-datagrid-current-row-bg);
 }
 
 .gen-datagrid__cell[data-selected-cell='true'] {
-  background: color-mix(in srgb, #0969da 12%, transparent);
+  background: var(--gen-datagrid-selection-bg);
 }
 
 .gen-datagrid__cell[data-editing-cell='true'] {
@@ -536,29 +540,29 @@
 }
 
 .gen-datagrid__cell[data-validation-state='error'] {
-  box-shadow: inset 3px 0 0 #cf222e, inset 0 0 0 1px color-mix(in srgb, #cf222e 58%, transparent);
+  box-shadow: inset 3px 0 0 var(--gen-datagrid-validation-error-color), inset 0 0 0 1px color-mix(in srgb, var(--gen-datagrid-validation-error-color) 58%, transparent);
 }
 
 .gen-datagrid__cell[data-validation-state='warning'] {
-  box-shadow: inset 3px 0 0 #bf8700, inset 0 0 0 1px color-mix(in srgb, #bf8700 58%, transparent);
+  box-shadow: inset 3px 0 0 var(--gen-datagrid-validation-warning-color), inset 0 0 0 1px color-mix(in srgb, var(--gen-datagrid-validation-warning-color) 58%, transparent);
 }
 
 .gen-datagrid__header-cell[data-pinned-cell],
 .gen-datagrid__cell[data-pinned-cell],
 .gen-datagrid__footer-row-cell[data-pinned-cell] {
-  background: #ffffff;
+  background: var(--gen-datagrid-color-bg);
 }
 
 .gen-datagrid__cell[data-pinned-cell][data-selected-cell='true'] {
-  background: color-mix(in srgb, #0969da 12%, #ffffff);
+  background: var(--gen-datagrid-selection-bg-pinned);
 }
 
 .gen-datagrid__cell[data-pinned-cell][data-active-cell='true'] {
-  outline-color: #0969da;
+  outline-color: var(--gen-datagrid-active-color);
 }
 
 .gen-datagrid__cell[data-pinned-cell][data-editing-cell='true'] {
-  box-shadow: 0 0 0 1px #0969da inset;
+  box-shadow: 0 0 0 1px var(--gen-datagrid-editor-border-color) inset;
 }
 
 .gen-datagrid__header-cell[data-pinned-edge='left-end'],
@@ -574,21 +578,21 @@
 }
 
 .gen-datagrid__cell[data-dirty-cell='true'] {
-  box-shadow: inset 3px 0 0 #bf8700;
+  box-shadow: inset 3px 0 0 var(--gen-datagrid-dirty-color);
 }
 
 .gen-datagrid__row[data-dirty-row='true'] .gen-datagrid__cell {
   background-image: linear-gradient(
     90deg,
-    color-mix(in srgb, #bf8700 8%, transparent),
+    var(--gen-datagrid-dirty-row-bg),
     transparent 48px
   );
 }
 
 .gen-datagrid__row[data-deleted-row='true'] .gen-datagrid__cell {
-  color: #57606a;
+  color: var(--gen-datagrid-deleted-row-text);
   text-decoration: line-through;
-  background-color: color-mix(in srgb, #cf222e 8%, transparent);
+  background-color: var(--gen-datagrid-deleted-row-bg);
 }
 
 .gen-datagrid__pagination,
@@ -599,32 +603,32 @@
   align-items: center;
   gap: 8px;
   padding: 8px;
-  border-top: 1px solid #d0d7de;
-  background: #ffffff;
+  border-top: 1px solid var(--gen-datagrid-color-border);
+  background: var(--gen-datagrid-color-bg);
   overflow: hidden;
 }
 
 .gen-datagrid__pagination button {
   height: 28px;
   padding: 0 10px;
-  border: 1px solid #d0d7de;
+  border: 1px solid var(--gen-datagrid-color-border);
   border-radius: 3px;
-  color: #24292f;
-  background: #f6f8fa;
+  color: var(--gen-datagrid-color-text);
+  background: var(--gen-datagrid-color-surface);
   font: inherit;
 }
 
 .gen-datagrid__pagination button:disabled {
-  color: #8c959f;
+  color: var(--gen-datagrid-color-text-disabled);
   cursor: not-allowed;
 }
 
 .gen-datagrid__pagination-page-size {
   height: 28px;
-  border: 1px solid #d0d7de;
+  border: 1px solid var(--gen-datagrid-color-border);
   border-radius: 3px;
-  color: #24292f;
-  background: #ffffff;
+  color: var(--gen-datagrid-color-text);
+  background: var(--gen-datagrid-color-bg);
   font: inherit;
 }
 
@@ -637,7 +641,7 @@
   width: 100%;
   min-width: 0;
   height: calc(100% - 6px);
-  border: 1px solid #0969da;
+  border: 1px solid var(--gen-datagrid-editor-border-color);
   border-radius: 2px;
   font: inherit;
   user-select: text;

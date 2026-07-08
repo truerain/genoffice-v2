@@ -1,5 +1,21 @@
 ## 2026-07-08
 
+### 기본 폰트 토큰 신설 — `--gen-datagrid-font-size: 14px`
+
+- **배경:** 그리드에 글꼴 크기 토큰이 없어 셀 폰트가 앱 기본값을 상속. 14px을 기본으로 하는 단일 조정 지점 필요.
+- **조치:** `tokens.css`에 `--gen-datagrid-font-size: 14px`(Typography 섹션) 추가, `index.css`의 `.gen-datagrid` 루트에 `font-size: var(--gen-datagrid-font-size)` 적용. 셀·헤더·에디터(`font: inherit`)가 상속. `--gen-datagrid-*` 규약대로 `:root`/`[data-gen-datagrid-root]`/래퍼에서 재정의해 페이지·셀 단위 override 가능. `row-number`는 12px 명시라 무영향.
+- **검증:** `pnpm -C packages/gen-datagrid build`·`pnpm -C packages/gen-datagrid-crud build` 성공, crud dist에 토큰 정의·적용 인라인 확인.
+- **관련 파일:** `packages/gen-datagrid/src/{tokens.css, index.css}`
+
+### 디자인 토큰 내부화 — `--gen-datagrid-*` 신설 + theme grid.css 이관
+
+- **배경:** `index.css`가 GitHub Primer 계열 hex를 하드코딩(테마/다크 미지원). theme의 `--grid-*`는 V1(`gen-grid`) 기준이라 V2 런타임 소비처가 없고 updated 상태색·헤더 높이 등 충돌. 패키지 전용 토큰은 패키지 내부에서 정의하는 방침(.docs/10) 적용.
+- **조치:** `src/tokens.css` 신설 — `--gen-datagrid-*`(foundation/chrome/state/status/validation/skeleton/merge)를 theme semantic(`--color-*`) **참조 + 폴백 hex**로 정의. `index.css`는 `@import './tokens.css'`만 하고 theme CSS는 self-import하지 않음(로드는 앱 책임=B 방식). `index.css`의 모든 하드코딩 색상을 `var(--gen-datagrid-*)`로 치환(중립 drop-shadow rgb는 유지).
+- **매핑 요약:** accent→`--color-primary`, border→`--color-border-default`, surface→`--color-bg-tertiary`, text/muted/disabled→`--color-fg-primary`/`--color-fg-secondary`/`--color-text-disabled`, status→`--color-status-*`. 다크는 semantic이 뒤집히며 자동 상속.
+- **theme 정리:** `components/grid.css` 삭제, `variables.css` import 제거, `theme-dark.css` grid 블록 제거, `Theme.stories.tsx` grid 스와치 제거, `cssTokens.test.ts` grid 항목 제거(+ dark 단언을 `--color-background`로 교정). 문서(08-가이드, theme architecture/token-mapping) 갱신.
+- **검증:** `pnpm -C packages/theme test` 11/11 통과, `pnpm -C packages/gen-datagrid build` 성공(dist/index.css 16.59kB, 토큰 인라인 확인), lint 0.
+- **관련 파일:** `packages/gen-datagrid/src/tokens.css`(신규), `packages/gen-datagrid/src/index.css`, `packages/theme/src/styles/{variables.css, tokens/theme-dark.css, tokens/components/grid.css(삭제)}`, `packages/theme/src/stories/Theme.stories.tsx`, `packages/theme/test/cssTokens.test.ts`, `packages/theme/.docs/{architecture.md, ref/token-mapping.md}`, `.docs/08-DESIGN-TOKENS-GUIDE.md`
+
 ### Gate 13 완료 — dist `.d.ts` 방출 정상화
 
 - **근본 원인:** 패키지 `tsconfig.json`의 `composite: true` + `references`(`tsconfig.test.json`) 조합에서 선언 방출이 동작하지 않았다. `vite-plugin-dts@5.0.2`는 성공 로그만 남기고 파일을 쓰지 않았고, `tsc --emitDeclarationOnly`도 같은 원인으로 `TS6305`가 났다. `.tsbuildinfo` 캐시 삭제로는 해결되지 않음(설정 문제).

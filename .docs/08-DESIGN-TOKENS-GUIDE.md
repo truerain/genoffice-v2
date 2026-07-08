@@ -63,7 +63,7 @@ base.css              원시 팔레트, --color-primary, status 색
     ↓
 semantic.css          UI가 읽는 이름 (--color-bg-*, --color-fg-*, --color-status-*)
     ↓
-components/*.css      Button, Dialog, Grid 전용 (--button-*, --grid-* …)
+components/*.css      Button, Dialog 전용 (--button-*, --dialog-* …)
     ↓
 theme-dark.css        [data-theme="dark"] 일 때 위 값 덮어쓰기
     ↓
@@ -74,7 +74,7 @@ theme-dark.css        [data-theme="dark"] 일 때 위 값 덮어쓰기
 flowchart BT
   BASE["base.css<br/>hex 팔레트, primary, status"]
   SEM["semantic.css<br/>bg, fg, border, status"]
-  COMP["components/*.css<br/>button, dialog, grid"]
+  COMP["components/*.css<br/>button, dialog"]
   DARK["theme-dark.css"]
   USE["앱 · ui · gen-datagrid"]
 
@@ -123,7 +123,7 @@ Button 스타일은 `packages/ui`가 `packages/theme`의 **component 토큰**을
 ```mermaid
 flowchart TD
   Q1{여러 앱·패키지에서<br/>공통으로 쓰나?}
-  Q2{Button / Grid / Dialog 등<br/>프레임워크 UI가<br/>쓰나?}
+  Q2{Button / Dialog 등<br/>프레임워크 UI가<br/>쓰나?}
   Q3{특정 고객사·앱만의<br/>브랜딩인가?}
   Q4{차트 시리즈 색인가?}
 
@@ -143,7 +143,8 @@ flowchart TD
 | --- | --- | --- |
 | 고객사 로고색, 앱 전용 강조색 | **앱**에서 기존 토큰 override | `--color-primary`만 변경 |
 | 새 상태 색 (예: `pending`) | **theme** semantic (+ 필요 시 component) | `--color-status-pending` |
-| Button·Dialog·Grid 공통 스타일 | **theme** `components/*.css` | `--button-*`, `--grid-*` |
+| Button·Dialog 공통 스타일 | **theme** `components/*.css` | `--button-*`, `--dialog-*` |
+| 데이터 그리드 색 | **gen-datagrid** | `--gen-datagrid-*` (theme semantic 참조 + 폴백) |
 | 대시보드 차트 색 | **gen-chart** | 시리즈·범례 팔레트 |
 | 한 화면·한 배지 | **앱/페이지 CSS** | `--app-*` 또는 기존 status 재사용 |
 
@@ -219,9 +220,10 @@ packages/theme/src/styles/tokens/
 ├── theme-dark.css
 └── components/
     ├── button.css
-    ├── dialog.css
-    └── grid.css
+    └── dialog.css
 ```
+
+> 그리드 색은 theme가 아니라 `@gen-office/gen-datagrid`가 소유합니다: `packages/gen-datagrid/src/tokens.css`의 `--gen-datagrid-*` (theme semantic `--color-*` 참조 + 폴백).
 
 ### 5.4 UI 컴포넌트에 새 variant가 필요할 때
 
