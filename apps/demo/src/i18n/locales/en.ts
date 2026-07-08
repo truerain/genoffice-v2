@@ -76,6 +76,11 @@ const en: MessageTree = {
     userManagement: {
       description: 'Reference CRUD screen — GenDataGridCrud with in-memory mock save.',
       newUser: 'New user',
+      filters: {
+        empName: 'Name',
+        empNamePlaceholder: 'Search by name',
+        search: 'Search',
+      },
       validation: {
         loginId: 'Login ID is required.',
       },

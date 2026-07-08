@@ -8,6 +8,53 @@
 
 ## 2026-07-08
 
+### apps/demo — buildCommitPayload 단순화 (changeSet row 직접 사용)
+
+- **요약:** Gate 13으로 실제 타입에 `changeSet.updated[i].row`/`deleted[i].row?`가 노출되어, `buildCommitPayload`가 `args.data`에서 원본+patch를 재구성하던 로직을 제거하고 항목의 `row`를 직접 매핑하도록 단순화. `getRowId` 인자 제거. `deleted.row`는 undefined일 수 있어 있는 경우만 전송.
+- **파일:** `apps/demo/src/shared/api/commit.ts`, `apps/demo/src/pages/admin/user/userCommit.ts`, `apps/demo/.docs/guide/data-integration.md`
+- **검증:** `apps/demo` `tsc --noEmit` 통과, lint 0
+
+### gen-datagrid / gen-datagrid-crud — dist `.d.ts` 방출 정상화 (Gate 13 완료)
+
+- **요약:** 두 grid 패키지가 성공 로그만 남기고 실제 `.d.ts`를 배포하지 않던 문제 해결. 근본 원인은 `tsconfig.json`의 `composite + references` 조합(`vite-plugin-dts@5.0.2`·`tsc` 모두 미방출/`TS6305`). 선언 전용 `tsconfig.build.json` 추가 후 build script를 `vite build && tsc -p tsconfig.build.json`로 전환, 무동작 `vite-plugin-dts` 제거.
+- **부수:** d.ts 방출로 드러난 crud 타입 오류 2건 수정(`ButtonVariant` `'brand'`→`'primary'`, `gridRef` nullable RefObject). `apps/demo` 임시 스텁(`src/types/gen-datagrid-crud.d.ts`) 제거.
+- **검증:** gen-datagrid dist 44개 / crud dist 5개 `.d.ts` 생성, `changeSet.updated[i].row`·`deleted[i].row?`·`cells` 포함. `apps/demo` `tsc --noEmit` 통과.
+- **범위 밖:** `vite-plugin-dts@5.0.2`는 root override로 타 패키지(ui/theme/utils/mdi/gen-chart/gen-frame)도 사용 — package review 트랙 소유이므로 미변경(잠재 동일 증상 기록).
+- **파일:** `packages/gen-datagrid/tsconfig.build.json`(신규), `packages/gen-datagrid-crud/tsconfig.build.json`(신규), 두 패키지 `package.json`·`vite.config.ts`, `packages/gen-datagrid-crud/src/components/DataGridCrudActionBar.tsx`, `packages/gen-datagrid-crud/src/GenDataGridCrud.types.ts`, `apps/demo/src/types/gen-datagrid-crud.d.ts`(삭제), `packages/gen-datagrid/.docs/{plan/remaining-work-plan.md, log/implementation-log.md}`
+
+### apps/demo — UserPage 커밋 계약 적용 (PK 필수 + NEW_ID sentinel + 전체 행 update)
+
+- **요약:** 데이터 연동 가이드 표준을 UserPage에 반영. `CommitPayload.updated/deleted`를 전체 행 `TRequest[]`로, PK 필수 + 신규는 `NEW_ID` sentinel. 소비 grid 타입의 `changeSet.updated`가 `{rowId,patch}`만 주므로 `buildCommitPayload(args, getRowId, toRequest)`가 `args.data`에서 원본+patch 병합해 전체 행 재구성. MSW는 sentinel 채번 + `{...row,...req}` 병합.
+- **파일:** `apps/demo/src/pages/admin/user/{user.types.ts, userCommit.ts, UserPage.tsx}`, `apps/demo/src/shared/api/commit.ts`, `apps/demo/src/mocks/handlers/userHandlers.ts`, `apps/demo/.docs/guide/data-integration.md`
+- **검증:** `tsc --noEmit`·`pnpm -C apps/demo build` 통과, lint 0
+
+### apps/demo — CommitPayload 일반화 (공용 타입 + 제네릭 빌더)
+
+- **요약:** CRUD 화면 공용 커밋 계약을 `shared/api/commit.ts`로 일반화(`CommitPayload<TRequest>` + `buildCommitPayload`). `UserCommitPayload`는 `CommitPayload<UserRequest>` 별칭, `userCommit.ts`는 `toUserRequest` 매퍼만 유지. MSW 로컬 타입은 디커플링 위해 유지.
+- **파일:** `apps/demo/src/shared/api/commit.ts`(신규), `apps/demo/src/pages/admin/user/{userApi.ts, userCommit.ts}`
+- **검증:** `tsc --noEmit`·`pnpm -C apps/demo build` 통과, lint 0
+
+### apps/demo — UserPage V1 패턴 반영 (요청/응답 타입 · 파라미터 필터 · 커밋 매핑 격리)
+
+- **요약:** `admin/user` 레퍼런스에 V1 좋은 패턴 3종 이식(flat·transport/훅 분리·MSW 유지). 요청/응답 타입 분리(`UserRequest`/`DemoUserRow`), `userKeys` 팩토리 + `empName` 파라미터 필터(`StandardFilterBar`), 커밋 매핑 격리(`userCommit.ts`). V1 부채(폴더 과분리·중복 타입·미사용 뮤테이션)는 비채택.
+- **파일:** `apps/demo/src/pages/admin/user/{user.types.ts, userApi.ts, userCommit.ts(신규), useUsers.ts, UserPage.tsx}`, `apps/demo/src/mocks/handlers/userHandlers.ts`, `apps/demo/src/i18n/locales/{ko,en}.ts`
+- **검증:** `tsc --noEmit`·`pnpm -C apps/demo build` 통과, lint 0
+
+### apps/demo — 데이터 계층 TanStack Query + MSW 도입 (UserPage 레퍼런스)
+
+- **요약:** 실제 업무 흐름(컴포넌트 → react-query 훅 → httpClient → 네트워크)을 데모에 확립. `@tanstack/react-query`(dep)·`msw`(devDep) 추가, `QueryClientProvider` 도입, mock을 MSW로 일원화(auth/app-menu/users 핸들러). UserPage를 useQuery+useMutation 레퍼런스로 전환.
+- **정리:** `authApi/appMenuApi` in-code mock 분기 제거, `env` `useMock*`→`isMswEnabled`, `mock/mockAuth.ts` 삭제, 페이지 `userData.ts`→`mocks/data/users.ts`.
+- **경계:** react-query/MSW는 apps/demo 한정. MSW는 dev에서만 기동(프로덕션 tree-shake 제외). 결정 로그는 `.docs/logs/decisions.md` 참조.
+- **파일:** `apps/demo/src/{main.tsx, app/providers/AppProviders.tsx, shared/api/**, mocks/**, pages/admin/user/**}`, `apps/demo/package.json`, `apps/demo/public/mockServiceWorker.js`
+- **검증:** `tsc --noEmit`·`build` 통과, dev(8081) 정상
+
+### apps/demo — admin 페이지 "Management" 제거 리네임
+
+- **요약:** 디렉토리명 축소 목적으로 `admin/user-management`→`admin/user`, `admin/menu-management`→`admin/menu`. 파일명·컴포넌트/식별자·레지스트리 키·라우트 문자열에서 `Management` 일괄 제거(`UserManagementPage`→`UserPage`, `MenuManagementPage`→`MenuPage`, `MenuManagementRow`→`MenuRow`, `*Columns` 축약). 배선 3곳(registry 키/경로, `V2_READY_COMPONENTS`, `mocks/data/menu.ts` execComponent) 동기화.
+- **범위 제외:** i18n 키(`userManagement`/`menuManagement`)는 파일/라우트가 아니라 유지.
+- **파일:** `apps/demo/src/pages/admin/{user,menu}/**`(각 5, 구 폴더 삭제), `apps/demo/src/app/config/componentRegistry.dynamic.ts`, `apps/demo/src/app/menu/buildAppMenuFromV1.ts`, `apps/demo/src/mocks/data/menu.ts`
+- **검증:** `tsc --noEmit` 통과, `pnpm -C apps/demo build` 통과(`UserPage`/`MenuPage` 청크 분리 확인)
+
 ### apps/demo — componentRegistry 하이브리드 구조 개선(plan §11)
 
 - **요약:** 페이지 수 증가 대비 V1식 가독성 + V2 타입 안전성 결합. 페이지 8종 default export 추가(named 유지), `componentRegistry.dynamic.ts`를 `page(() => import('@/...'))` 한 줄 로더 + 도메인 그룹 + `satisfies`로 재작성. `ComponentName`을 registry key(`keyof typeof`)에서 파생해 이중 유지보수 제거, `@/` 별칭(tsconfig + vite) 도입.

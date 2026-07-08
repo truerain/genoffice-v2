@@ -75,6 +75,11 @@ const ko = {
     userManagement: {
       description: 'GenDataGridCrud 참조 CRUD 화면 — mock in-memory 저장.',
       newUser: 'New user',
+      filters: {
+        empName: '이름',
+        empNamePlaceholder: '이름 검색',
+        search: '검색',
+      },
       validation: {
         loginId: 'Login ID는 필수입니다.',
       },

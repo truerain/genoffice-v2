@@ -30,8 +30,8 @@ export const componentRegistry = {
   DashboardDemoPage: page(() => import('@/pages/demo/DashboardDemoPage')),
 
   // 시스템 관리
-  UserManagementPage: page(() => import('@/pages/admin/user-management/UserManagementPage')),
-  MenuManagementPage: page(() => import('@/pages/admin/menu-management/MenuManagementPage')),
+  UserPage: page(() => import('@/pages/admin/user/UserPage')),
+  MenuPage: page(() => import('@/pages/admin/menu/MenuPage')),
 
   // 업무
   ActualsPage: page(() => import('@/pages/co/actuals/ActualsPage')),

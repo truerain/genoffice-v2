@@ -104,7 +104,7 @@ const menus: V1AppMenu[] = [
     displayYn: 'Y',
     useYn: 'Y',
     sortOrder: 1,
-    execComponent: 'UserManagementPage',
+    execComponent: 'UserPage',
   },
   {
     menuId: 800200,
@@ -115,7 +115,7 @@ const menus: V1AppMenu[] = [
     displayYn: 'Y',
     useYn: 'Y',
     sortOrder: 2,
-    execComponent: 'MenuManagementPage',
+    execComponent: 'MenuPage',
   },
   {
     menuId: 800300,

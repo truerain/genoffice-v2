@@ -191,9 +191,9 @@ Status: complete (2026-07-08).
   - `DataGridCrudController.gridRef` 타입을 React 19 `useRef` 반환에 맞춰
     `RefObject<GenDataGridHandle<TData> | null>`로 수정.
 - `apps/demo` 임시 스텁 `src/types/gen-datagrid-crud.d.ts` 제거, 실제 타입으로 검증.
-- (미적용/선택) 실제 `changeSet.updated[i].row` 노출로 `apps/demo/src/shared/api/commit.ts`의
-  `buildCommitPayload`를 `args.data` 재구성 대신 `row` 직접 사용으로 단순화 가능
-  (가이드 문서 계약 변경을 수반하므로 후속 판단).
+- 실제 `changeSet.updated[i].row` 노출로 `apps/demo/src/shared/api/commit.ts`의
+  `buildCommitPayload`를 `args.data` 재구성 대신 `row` 직접 사용으로 단순화 완료
+  (`getRowId` 인자 제거, 가이드 `data-integration.md` 시그니처 동기화).
 
 Exit criteria (충족):
 

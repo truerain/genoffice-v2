@@ -1,6 +1,6 @@
 /**
- * @file apps/demo/src/pages/admin/menu-management/menuManagementColumns.tsx
- * @description Column definitions for MenuManagement tree grid (Gate D4).
+ * @file apps/demo/src/pages/admin/menu/menuColumns.tsx
+ * @description Column definitions for Menu tree grid (Gate D4).
  * @created 2026-06-29
  *
  * @remark
@@ -8,9 +8,9 @@
  */
 
 import type { ColumnDef } from '@tanstack/react-table';
-import type { MenuManagementRow } from './menuManagement.types';
+import type { MenuRow } from './menu.types';
 
-export const menuManagementColumns: ColumnDef<MenuManagementRow, unknown>[] = [
+export const menuColumns: ColumnDef<MenuRow, unknown>[] = [
   {
     accessorKey: 'menuName',
     header: 'Menu name',

@@ -9,6 +9,7 @@
  * - CSS: theme, ui, mdi, app layout
  *
  * @history
+ * - 2026-07-08 데이터계층: MSW 워커 기동(dev)
  * - 2026-06-29 D4: gen-datagrid-crud CSS
  * - 2026-06-29 F3: gen-frame CSS
  * - 2026-06-29 Soft Modern demo-ui.css
@@ -28,17 +29,27 @@ import './styles/app.css';
 import './styles/demo-ui.css';
 import { AppProviders } from './app/providers/AppProviders';
 import { App } from './app/App';
+import { isMswEnabled } from './shared/api/env';
 
-const rootElement = document.getElementById('root');
-
-if (!rootElement) {
-  throw new Error('Root element #root not found');
+async function enableMocking(): Promise<void> {
+  if (!isMswEnabled()) return;
+  const { worker } = await import('./mocks/browser');
+  await worker.start({ onUnhandledRequest: 'bypass' });
 }
 
-createRoot(rootElement).render(
-  <StrictMode>
-    <AppProviders>
-      <App />
-    </AppProviders>
-  </StrictMode>,
-);
+function renderApp(): void {
+  const rootElement = document.getElementById('root');
+  if (!rootElement) {
+    throw new Error('Root element #root not found');
+  }
+
+  createRoot(rootElement).render(
+    <StrictMode>
+      <AppProviders>
+        <App />
+      </AppProviders>
+    </StrictMode>,
+  );
+}
+
+void enableMocking().then(renderApp);

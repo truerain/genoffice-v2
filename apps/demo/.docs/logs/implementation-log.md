@@ -10,6 +10,60 @@
 
 ## 2026-07-08
 
+### UserPage 커밋 계약 적용 (PK 필수 + NEW_ID sentinel + 전체 행 update)
+
+- **요약:** 데이터 연동 가이드의 커밋 표준을 UserPage에 코드 반영. `CommitPayload<TRequest>`의 `updated/deleted`를 `TRequest[]`(전체 행)로 변경, PK를 요청 타입 필수로 두고 신규는 `NEW_ID` sentinel로 표기.
+- **types:** `UserRequest = Omit<DemoUserRow,'titleName'|'titleNameEng'>`(파생 제외, PK 포함), `NEW_ID`/`NEW_ROW_ID_PREFIX` 상수 추가.
+- **builder:** 소비 중인 `@gen-office/gen-datagrid` 타입의 `changeSet.updated`는 `{rowId, patch}`만 제공(전체 행 없음). → `buildCommitPayload(args, getRowId, toRequest)`가 `args.data`에서 원본을 찾아 `{...base, ...patch}`로 전체 행 재구성. `deleted`도 원본에서 전체 행 매핑.
+- **commit 매핑:** `userCommit.ts` `toUserRequest(row)`는 편집 필드만 명시 pick + 임시 rowId(`new-*`)면 PK를 `NEW_ID`로 치환. `buildUserCommitPayload(args)`.
+- **MSW:** `userHandlers` 커밋을 `created/updated/deleted: UserRequest[]`로 변경 — `userId===NEW_ID`면 채번, updated는 `{...row, ...req}` 병합, deleted는 키 매칭 제거.
+- **page:** `UserPage` createRow가 `NEW_ROW_ID_PREFIX` 사용, onCommit이 `buildUserCommitPayload(args)` 호출.
+- **파일:** `pages/admin/user/{user.types.ts, userCommit.ts, UserPage.tsx}`, `shared/api/commit.ts`, `mocks/handlers/userHandlers.ts`, `.docs/guide/data-integration.md`(빌더 시그니처 정정)
+- **검증:** `tsc --noEmit`·`pnpm -C apps/demo build` 통과, lint 0.
+
+### 데이터 연동 가이드 문서 추가 (guide/data-integration.md)
+
+- **요약:** CRUD 화면 데이터 계층 합의(요청/응답 타입 분리, PK 필수+`NEW_ID` sentinel, 전체 행 update, `CommitPayload<TRequest>`, 쿼리 키 팩토리+`StandardFilterBar` 필터, MSW 디커플링)를 표준 문서로 정리. 새 화면 작성 체크리스트 포함. `.docs/README.md` 문서 목록에 연결, 결정 로그(`decisions.md`)에 계약 결정 기록.
+- **비고:** 문서는 합의된 목표 컨벤션 기준. UserPage 코드 반영은 후속 작업.
+- **파일:** `apps/demo/.docs/guide/data-integration.md`(신규), `apps/demo/.docs/README.md`, `.docs/logs/decisions.md`
+
+### CommitPayload 일반화 (공용 타입 + 제네릭 빌더)
+
+- **요약:** 화면 공통 커밋 계약을 `shared/api/commit.ts`로 일반화. `CommitPayload<TRequest>`(created/updated/deleted) + `buildCommitPayload<TRow, TRequest>(changeSet, toRequest)` 추가. 화면은 요청 매퍼(`toRequest`)만 작성.
+- **UserPage 적용:** `UserCommitPayload`를 `CommitPayload<UserRequest>` 별칭으로 전환(`extends` 대신 제네릭 별칭 — lint/가독성). `userCommit.ts`는 `toUserRequest`만 남기고 `buildUserCommitPayload`는 `buildCommitPayload` 위임.
+- **경계:** MSW `userHandlers.ts`의 로컬 커밋 타입은 client↔mock 디커플링 위해 유지(공유 타입 미결합). 패키지(`gen-datagrid-crud`) 승격은 두 번째 화면 채택 시 재검토.
+- **파일:** `apps/demo/src/shared/api/commit.ts`(신규), `apps/demo/src/pages/admin/user/{userApi.ts, userCommit.ts}`
+- **검증:** `tsc --noEmit`·`pnpm -C apps/demo build` 통과, lint 0.
+
+### UserPage V1 패턴 반영 (요청/응답 타입 · 파라미터 필터 · 커밋 매핑 격리)
+
+- **요약:** V2 `admin/user`에 V1의 좋은 3패턴을 이식(flat 구조·transport/훅 분리·MSW mock 유지). (1) 요청/응답 타입 분리, (2) 쿼리 키 팩토리 + `empName` 파라미터 필터, (3) 커밋 매핑 격리. V1 부채(`api/`·`model/` 과분리, `User2` 중복 타입, 미사용 granular 뮤테이션)는 비채택.
+- **타입:** `user.types.ts`에 `UserRequest`(응답 전용 `userId`·`titleName*` 제외, 편집 필드 optional) + `UserListParams`(`empName?`) 추가.
+- **transport:** `userApi.ts`에 `userKeys` 팩토리(`all`/`list(params)`), `fetchUsers(params)`(querystring `empName`), `UserRequest` 기반 `UserCommitPayload`.
+- **매핑 격리:** `userCommit.ts` 신규 — `buildUserCommitPayload(changeSet)` + `toUserRequest`로 요청 필드만 pick(인라인 매핑 페이지에서 제거).
+- **훅:** `useUsers.ts` `useUsersQuery(params)` 파라미터화 + 명시적 반환 타입(선언 이식성). onSuccess `invalidateQueries({ queryKey: userKeys.all() })`.
+- **페이지:** `UserPage.tsx`에 `StandardFilterBar`(draft) + 검색(같은 값이면 `refetch`, 다르면 applied 반영 → queryKey 변경 refetch). onCommit은 `buildUserCommitPayload` 사용.
+- **MSW:** `userHandlers.ts` GET에 `empName`(대소문자 무시 includes) 필터, POST commit은 `UserRequest` 적용 + `created` 서버 `userId` 생성.
+- **i18n:** `page.userManagement.filters.{empName,empNamePlaceholder,search}` ko/en 추가.
+- **검증:** `tsc --noEmit`·`pnpm -C apps/demo build` 통과, lint 0.
+
+### 데이터 계층: TanStack Query + MSW 도입 (UserPage 레퍼런스)
+
+- **요약:** 실제 업무 흐름("컴포넌트 → useQuery/useMutation → httpClient → 네트워크")을 데모에 확립. `@tanstack/react-query`(dep)·`msw`(devDep) 도입, `QueryClientProvider`를 `AppProviders`에 추가. mock은 MSW로 일원화.
+- **MSW 인프라:** `src/mocks/browser.ts`, `src/mocks/handlers/{index,authHandlers,appMenuHandlers,userHandlers}.ts`, 서버 시드 `src/mocks/data/users.ts`. `public/mockServiceWorker.js` 생성. `main.tsx`에서 `isMswEnabled()`(dev)일 때만 워커 기동.
+- **api 정리:** `authApi`/`appMenuApi`의 in-code mock 분기 제거(항상 httpClient). `env.ts`의 `useMockAuth/useMockMenu` → `isMswEnabled`. `shared/api/mock/mockAuth.ts` 삭제(로직 authHandlers 이관).
+- **UserPage:** `userApi.ts`(fetchUsers/commitUsers) + `useUsers.ts`(useUsersQuery/useCommitUsersMutation) 추가. `UserPage.tsx`를 훅 기반으로 리팩터(`dataVersion`=`dataUpdatedAt`, onCommit→changeSet 전송→invalidate). 페이지 `userData.ts` 삭제(시드는 mocks/data로 이동).
+- **범위 밖:** MenuPage/ActualsPage/CustomerInfoPage 직접 import 유지, AuthProvider/useAppMenu는 기존 훅 스타일 유지(호출부는 MSW 백엔드로 동작).
+- **검증:** `tsc --noEmit` 통과, `pnpm -C apps/demo build` 통과(MSW는 프로덕션 tree-shake 제외, `UserPage` 청크에 react-query 반영). dev(8081) HMR 정상.
+
+### admin 페이지 "Management" 제거 리네임
+
+- **요약:** 디렉토리명 축소 목적으로 `admin/user-management`→`admin/user`, `admin/menu-management`→`admin/menu`로 개명. 파일명·컴포넌트/식별자·레지스트리 키·라우트 문자열에서 `Management` 일괄 제거. `UserManagementPage`→`UserPage`, `MenuManagementPage`→`MenuPage`, 타입 `MenuManagementRow`→`MenuRow`, const `userManagementColumns`→`userColumns`·`menuManagementColumns`→`menuColumns`. `menuData.ts`의 표시용 `menuPath` `/admin/user`·`/admin/menu`로 축소.
+- **배선:** `componentRegistry.dynamic.ts` 키/경로, `buildAppMenuFromV1.ts` `V2_READY_COMPONENTS`, `mocks/data/menu.ts` `execComponent`를 새 키로 동기화.
+- **범위 제외:** i18n 키 `userManagement`/`menuManagement`는 파일/라우트가 아니므로 유지(`t('page.userManagement.*')` 호출 그대로).
+- **파일:** `src/pages/admin/user/**`(5), `src/pages/admin/menu/**`(5) 신규 + 구 폴더 삭제, `src/app/config/componentRegistry.dynamic.ts`, `src/app/menu/buildAppMenuFromV1.ts`, `src/mocks/data/menu.ts`
+- **검증:** `tsc --noEmit` 통과, `pnpm -C apps/demo build` 통과(`UserPage`/`MenuPage` 청크 분리 확인)
+
 ### componentRegistry 구조 개선 (D2 후속, plan §11)
 
 - **요약:** V1식 가독성 + V2 타입 안전성 하이브리드로 전환. 페이지 8종에 default export 추가(named export 유지), `componentRegistry.dynamic.ts`를 `page(() => import('@/...'))` 한 줄 로더 + 도메인 그룹 주석 + `satisfies Record<string, RegistryComponent>`로 재작성. `ComponentName`을 `keyof typeof componentRegistry`에서 파생(`componentRegistry.ts`), `types.ts`는 파생 타입 re-export로 이중 유지보수 제거. `@/` 별칭(tsconfig `paths` + vite `resolve.alias`) 도입.

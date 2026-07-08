@@ -1,5 +1,5 @@
 /**
- * @file apps/demo/src/pages/admin/menu-management/menuManagementData.ts
+ * @file apps/demo/src/pages/admin/menu/menuData.ts
  * @description Mock hierarchical menu rows (Gate D4).
  * @created 2026-06-29
  *
@@ -8,9 +8,9 @@
  */
 
 import type { DataGridCrudCommitArgs } from '@gen-office/gen-datagrid-crud';
-import type { MenuManagementRow } from './menuManagement.types';
+import type { MenuRow } from './menu.types';
 
-export const INITIAL_MENU_ROWS: MenuManagementRow[] = [
+export const INITIAL_MENU_ROWS: MenuRow[] = [
   {
     menuId: 'menu-system',
     menuName: 'System',
@@ -22,16 +22,16 @@ export const INITIAL_MENU_ROWS: MenuManagementRow[] = [
       {
         menuId: 'menu-system-users',
         menuName: 'User Management',
-        menuPath: '/admin/user-management',
-        componentName: 'UserManagementPage',
+        menuPath: '/admin/user',
+        componentName: 'UserPage',
         sortOrder: 1,
         useYn: true,
       },
       {
         menuId: 'menu-system-menus',
         menuName: 'Menu Management',
-        menuPath: '/admin/menu-management',
-        componentName: 'MenuManagementPage',
+        menuPath: '/admin/menu',
+        componentName: 'MenuPage',
         sortOrder: 2,
         useYn: true,
       },
@@ -90,10 +90,10 @@ export const DEFAULT_TREE_EXPANDED: Record<string, boolean> = {
 };
 
 function updateMenuTree(
-  rows: readonly MenuManagementRow[],
+  rows: readonly MenuRow[],
   rowId: string,
-  patch: Partial<MenuManagementRow>,
-): MenuManagementRow[] {
+  patch: Partial<MenuRow>,
+): MenuRow[] {
   return rows.map((row) => {
     if (row.menuId === rowId) {
       return { ...row, ...patch };
@@ -106,9 +106,9 @@ function updateMenuTree(
 }
 
 function deleteFromMenuTree(
-  rows: readonly MenuManagementRow[],
+  rows: readonly MenuRow[],
   rowId: string,
-): MenuManagementRow[] {
+): MenuRow[] {
   return rows
     .filter((row) => row.menuId !== rowId)
     .map((row) =>
@@ -119,9 +119,9 @@ function deleteFromMenuTree(
 }
 
 export function applyMenuCommit(
-  rows: readonly MenuManagementRow[],
-  args: DataGridCrudCommitArgs<MenuManagementRow>,
-): MenuManagementRow[] {
+  rows: readonly MenuRow[],
+  args: DataGridCrudCommitArgs<MenuRow>,
+): MenuRow[] {
   let next = [...rows];
 
   for (const item of args.changeSet.deleted) {

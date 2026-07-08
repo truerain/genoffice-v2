@@ -20,8 +20,8 @@ const V1_COMPONENT_ALIASES: Record<string, ComponentName> = {
 const V2_READY_COMPONENTS = new Set<ComponentName>([
   'CustomerInfoPage',
   'ActualsPage',
-  'UserManagementPage',
-  'MenuManagementPage',
+  'UserPage',
+  'MenuPage',
   'ChartDemoPage',
   'DashboardDemoPage',
 ]);

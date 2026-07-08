@@ -1,6 +1,6 @@
 /**
- * @file apps/demo/src/pages/admin/user-management/userManagementColumns.tsx
- * @description Column definitions for UserManagement (Gate D4).
+ * @file apps/demo/src/pages/admin/user/userColumns.tsx
+ * @description Column definitions for User admin (Gate D4).
  * @created 2026-06-29
  *
  * @remark
@@ -8,9 +8,9 @@
  */
 
 import type { ColumnDef } from '@tanstack/react-table';
-import type { DemoUserRow } from './userManagement.types';
+import type { DemoUserRow } from './user.types';
 
-export const userManagementColumns: ColumnDef<DemoUserRow, unknown>[] = [
+export const userColumns: ColumnDef<DemoUserRow, unknown>[] = [
   {
     accessorKey: 'loginId',
     header: 'Login ID',

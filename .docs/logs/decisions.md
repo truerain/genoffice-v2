@@ -8,6 +8,24 @@
 
 역시간순. 같은 날짜 섹션 안에서도 **최신 항목이 위**.
 
+## 2026-07-08
+
+### 데모 CRUD 커밋 계약: CommitPayload<TRequest> + PK 필수(sentinel) + 전체 행 update
+
+- **결정:** CRUD 화면 공용 커밋 계약을 `shared/api/commit.ts`의 `CommitPayload<TRequest>`(`created/updated/deleted`)로 통일. 요청 타입에 **PK를 필수 포함**하고 신규는 sentinel(`NEW_ID`)로 표기, 서버(MSW)는 `id===NEW_ID`면 채번. **update는 전체 행**(모든 편집 컬럼) 전송(일반 `UPDATE SET 전체` / ORM save 정합).
+- **배경:** rowId 단일 문자열은 복합키에 부적합, delta-only update는 "UPDATE 모든 컬럼" 관례와 어긋남. 요청/응답 타입 분리는 파생·감사 필드 배제와 오버포스팅 방지를 위해 유지.
+- **트레이드오프:** sentinel은 매직 밸류 계약이라 문서화 필요(타입 안전성은 optional 대비 실질 동등). 전체 행 update는 "요청 타입 = 편집 컬럼 전체"일 때만 안전(부분 projection 화면은 별도 검토), 동시편집 클로버는 낙관적 락으로 보완.
+- **비채택:** `api/`·`model/` 폴더 과분리, `{key,patch}` envelope(구조 한 겹 추가), `userId?` optional(정밀도·관례 애매).
+- **문서:** [apps/demo/.docs/guide/data-integration.md](../../apps/demo/.docs/guide/data-integration.md) (화면 작성 표준·체크리스트).
+
+### 데모 데이터 계층: TanStack Query + MSW 채택
+
+- **결정:** `apps/demo`의 데이터 흐름을 실제 업무와 동일하게 "컴포넌트 → react-query 훅 → httpClient → 네트워크"로 세우고, dev mock은 **MSW로 일원화**. `@tanstack/react-query`(dep), `msw`(devDep) 도입.
+- **배경:** 기존 mock은 api 모듈 내 분기(`useMockAuth/useMockMenu`)라 페이지 데이터 흐름이 실제와 달랐음. MSW는 네트워크만 가로채므로 페이지/‌api 코드가 프로덕션과 동일해져 레퍼런스로서 신뢰도가 높음.
+- **범위:** UserPage를 최초 레퍼런스(useQuery+useMutation)로 전환. auth/app-menu mock은 MSW 핸들러로 이관(구 `mock/mockAuth.ts` 삭제). MenuPage/Actuals/CustomerInfo는 후속.
+- **경계:** react-query/MSW는 `apps/demo`에 한정(패키지 미도입). MSW 워커는 `import.meta.env.DEV && VITE_ENABLE_MSW !== 'false'`일 때만 동적 import → 프로덕션 번들에서 tree-shake로 제외.
+- **트레이드오프:** 의존성/부트스트랩 복잡도 증가 대신 데모가 실제 데이터 흐름을 충실히 재현. 시드/서버 상태는 `src/mocks/data` + 핸들러 in-memory store로 이동(페이지에서 직접 import 제거).
+
 ## 2026-06-29
 
 ### `@gen-office/gen-frame` 패키지 신설 (설계)

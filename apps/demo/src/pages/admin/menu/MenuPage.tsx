@@ -1,5 +1,5 @@
 /**
- * @file apps/demo/src/pages/admin/menu-management/MenuManagementPage.tsx
+ * @file apps/demo/src/pages/admin/menu/MenuPage.tsx
  * @description Hierarchical menu admin — GenDataGridCrud + tree rows (Gate D4).
  * @created 2026-06-29
  *
@@ -13,18 +13,18 @@ import { GenDataGridCrud } from '@gen-office/gen-datagrid-crud';
 import type { DataGridCrudCommitArgs } from '@gen-office/gen-datagrid-crud';
 import { PageHeader, PageLayout } from '@gen-office/ui';
 import { useI18n } from '../../../i18n';
-import { menuManagementColumns } from './menuManagementColumns';
+import { menuColumns } from './menuColumns';
 import {
   applyMenuCommit,
   DEFAULT_TREE_EXPANDED,
   INITIAL_MENU_ROWS,
-} from './menuManagementData';
-import type { MenuManagementRow } from './menuManagement.types';
-import styles from './MenuManagementPage.module.css';
+} from './menuData';
+import type { MenuRow } from './menu.types';
+import styles from './MenuPage.module.css';
 
-export function MenuManagementPage() {
+export function MenuPage() {
   const { t } = useI18n();
-  const [rows, setRows] = useState<MenuManagementRow[]>(() =>
+  const [rows, setRows] = useState<MenuRow[]>(() =>
     structuredClone(INITIAL_MENU_ROWS),
   );
   const [dataVersion, setDataVersion] = useState(0);
@@ -33,10 +33,10 @@ export function MenuManagementPage() {
   );
 
   const validateCommit = useCallback(
-    (args: DataGridCrudCommitArgs<MenuManagementRow>) => {
+    (args: DataGridCrudCommitArgs<MenuRow>) => {
       const fieldErrors: Record<string, string> = {};
 
-      const checkRow = (row: MenuManagementRow) => {
+      const checkRow = (row: MenuRow) => {
         if (!row.menuName?.trim()) {
           fieldErrors[`${row.menuId}.menuName`] = t('page.menuManagement.validation.menuName');
         }
@@ -74,7 +74,7 @@ export function MenuManagementPage() {
           className={styles.crud}
           title={t('menu.menuManagement')}
           data={rows}
-          columns={menuManagementColumns}
+          columns={menuColumns}
           getRowId={(row) => row.menuId}
           dataVersion={dataVersion}
           createRow={() => ({
@@ -93,7 +93,7 @@ export function MenuManagementPage() {
           }}
           gridProps={{
             enableTreeRows: true,
-            getSubRows: (row: MenuManagementRow) => row.children,
+            getSubRows: (row: MenuRow) => row.children,
             treeExpandedRows,
             onTreeExpandedRowsChange: setTreeExpandedRows,
             treeIndentWidth: 18,
@@ -107,4 +107,4 @@ export function MenuManagementPage() {
   );
 }
 
-export default MenuManagementPage;
+export default MenuPage;
