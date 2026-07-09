@@ -6,6 +6,16 @@ Records GenDataGridCrud package planning and implementation changes.
 
 ## 2026-07-09
 
+### Remaining Work Plan — Dirty baseline revert cross-link
+
+- **요약:** gen-datagrid dirty baseline 복귀 시 field clean 미구현 이슈를 backlog에 cross-link. CRUD는 grid dirty에만 의존.
+- **파일:** `.docs/plan/remaining-work-plan.md`
+
+### GenDataGridCrud `gridRef` prop
+
+- **요약:** 외부에서 `GenDataGridHandle`(예: `emitCellValueChange`)을 쓸 수 있도록 optional `gridRef` 추가. 내부 controller ref와 병합.
+- **파일:** `src/GenDataGridCrud.tsx`, `src/GenDataGridCrud.types.ts`
+
 ### Remaining Work Plan — Built-in Editor meta cross-link
 
 - **요약:** gen-datagrid Gate 4.3 editor meta backlog 링크 갱신 (`Built-in Editor Column Meta Extensions`).

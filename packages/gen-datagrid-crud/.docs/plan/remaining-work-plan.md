@@ -81,6 +81,15 @@ Exit criteria:
 
 - `apps/demo/src/pages/admin/user/UserPage.tsx` — `userColumns` (`userId` non-editable, `loginId` 첫 editable)
 
+### Dirty State — Field Baseline Revert (gen-datagrid 선행)
+
+Status: **blocked on gen-datagrid** (planned).
+
+- **증상:** 셀 값을 변경 후 **원래 값으로 되돌려도** dirty 마커·`rowStatus: updated`·CRUD Save 가능 상태가 남는다 (`apps/demo` `useYn` toggle `Y`→`N`→`Y` 등).
+- **소유:** `@gen-office/gen-datagrid` — `handleCellValueChange`가 baseline 대비 `value` 동일 시 dirty entry를 제거하지 않음.
+- **CRUD 영향:** `useDataGridCrudController`는 grid `dirtyState`에만 의존(overlay·`rowStatusResolver`). 코어 수정 없이 crud 패키지에서 우회 불가.
+- **계획:** [gen-datagrid — Dirty State Baseline Revert](../../gen-datagrid/.docs/plan/remaining-work-plan.md#dirty-state-baseline-revert-field-level-clean)
+
 ### Add Row — Insert Position (삽입 위치)
 
 Status: **부분 구현** (Gate 11). 문서·테스트·미세 UX 보완은 backlog.

@@ -186,6 +186,8 @@ export type GenDataGridCrudProps<TData> = {
   actionBar?: DataGridCrudActionBarOptions<TData>;
   onStateChange?: (state: DataGridCrudUiState<TData>) => void;
   gridProps?: Omit<GenDataGridProps<TData>, GridPropsOwnedByCrud>;
+  /** GenDataGrid handle ref (emitCellValueChange 등 imperative API용) */
+  gridRef?: React.Ref<GenDataGridHandle<TData>>;
   className?: string;
   style?: React.CSSProperties;
 };
