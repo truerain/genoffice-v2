@@ -8,6 +8,52 @@
 
 ## 2026-07-09
 
+### gen-datagrid — Editor Input Normalize 계획 (Backlog)
+
+- **요약:** `meta.editNormalize`·format preset·builtin factory 방안을 remaining-work-plan에 등록. demo loginId custom editor 배경.
+- **파일:** `packages/gen-datagrid/.docs/plan/remaining-work-plan.md`, `gen-datagrid-crud/.docs/plan/remaining-work-plan.md`, `implementation-log.md`
+
+### apps/demo UserPage — loginId 소문자 입력 제한
+
+- **요약:** `loginId` 컬럼 custom editor로 입력 시 `toLowerCase()` 적용. commit/validate에서도 소문자 정규화.
+- **파일:** `apps/demo/src/pages/admin/user/userColumnEditors.tsx`, `userColumns.ts`, `userMutation.ts`
+
+### gen-datagrid-crud — Add Row 삽입 위치 계획 정리
+
+- **요약:** `createdRowPosition` top/bottom 기구현·prepend 보완·테스트·arbitrary insert 보류 범위를 `remaining-work-plan.md`에 문서화.
+- **파일:** `packages/gen-datagrid-crud/.docs/plan/remaining-work-plan.md`, `implementation-log.md`
+
+### gen-datagrid-crud — Remaining Work Plan 신설
+
+- **요약:** `packages/gen-datagrid-crud/.docs/plan/remaining-work-plan.md` 생성. Add Row 후 첫 editable 컬럼 focus/edit 백로그 등록.
+- **파일:** `packages/gen-datagrid-crud/.docs/plan/remaining-work-plan.md`, `.docs/README.md`, `implementation-log.md`
+
+### gen-datagrid — Row Status Context API 계획 (Backlog)
+
+- **요약:** 페이지·컬럼에서 `rowStatus` 조회 API 추가 계획을 `remaining-work-plan.md`에 등록 (demo userColumns 배경).
+- **파일:** `packages/gen-datagrid/.docs/plan/remaining-work-plan.md`, `packages/gen-datagrid/.docs/log/implementation-log.md`
+
+### apps/demo UserPage — userId 신규 행만 셀 표시
+
+- **요약:** `userColumns` userId `cell` — `NEW_ROW_ID_PREFIX` 행만 값 표시, 기존 행은 빈 셀
+- **파일:** `apps/demo/src/pages/admin/user/userColumns.ts`
+
+### apps/demo UserPage — userId 신규 행 편집 불가
+
+- **요약:** `userColumns` userId 컬럼 `meta.editable`을 함수로 전환 — `NEW_ROW_ID_PREFIX` 행은 편집 차단
+- **파일:** `apps/demo/src/pages/admin/user/userColumns.ts`
+
+### apps/demo UserPage — USE_YN 공통코드 FilterBar 연동
+
+- **요약:** `GET /api/common/code?clss-cd=USE_YN` 조회 → FilterBar select. `shared/api/commonCodeApi|Query`, `lkupClssCd` 추가. user 목록 `useYn` 필터 반영.
+- **파일:** `shared/api/commonCodeApi.ts`, `commonCodeQuery.ts`, `shared/domain/lkupClssCd.ts`, `pages/admin/user/UserPage.tsx`, `user.types.ts`, `userApi.ts`, `mocks/handlers/{commonHandlers,userHandlers}.ts`, `mocks/data/common.ts`, i18n
+- **검증:** `pnpm -C apps/demo build`
+
+### 워크스페이스 에디터 탭 크기 2칸 고정
+
+- **요약:** `.vscode/settings.json` 추가 — `editor.tabSize: 2`, `detectIndentation: false` (.editorconfig와 정합)
+- **파일:** `.vscode/settings.json`
+
 ### apps/demo — React Fast Refresh 복구 (MDI 탭 dev 유지)
 
 - **요약:** `@vitejs/plugin-react@4.7` 추가 (Vite 6.4 호환; 6.x는 `vite/internal` 오류). esbuild-only dev full reload → MDI 탭 초기화 완화.

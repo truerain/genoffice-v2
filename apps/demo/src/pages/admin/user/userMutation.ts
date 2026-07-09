@@ -48,7 +48,7 @@ export function useUserMutations() {
       displayName: t('page.userManagement.newUser'),
       email: '',
       langCd: 'ko',
-      active: true,
+      useYn: 'Y',
     }),
     [t],
   );
@@ -61,7 +61,9 @@ export function useUserMutations() {
       // 수정된 행: 로그인ID는 비어 있으면 안 된다
       for (const item of args.changeSet.updated) {
         const current = args.data.find((row) => row.userId === item.rowId);
-        const loginId = String(item.patch.loginId ?? current?.loginId ?? '').trim();
+        const loginId = String(item.patch.loginId ?? current?.loginId ?? '')
+          .trim()
+          .toLowerCase();
         if (!loginId) {
           fieldErrors[`${item.rowId}.loginId`] = t('page.userManagement.validation.loginId');
         }
@@ -69,7 +71,8 @@ export function useUserMutations() {
 
       // 새로 추가된 행: 동일하게 로그인ID 필수
       for (const row of args.changeSet.created) {
-        if (!row.loginId?.trim()) {
+        const loginId = row.loginId?.trim().toLowerCase() ?? '';
+        if (!loginId) {
           fieldErrors[`${row.userId}.loginId`] = t('page.userManagement.validation.loginId');
         }
       }
@@ -123,7 +126,7 @@ export function buildUserCommitPayload(
 function toUserRequest(row: UserRow): UserRequest {
   return {
     userId: row.userId.startsWith(NEW_ROW_ID_PREFIX) ? NEW_ID : row.userId,
-    loginId: row.loginId,
+    loginId: row.loginId.trim().toLowerCase(),
     empNo: row.empNo,
     empName: row.empName,
     empNameEng: row.empNameEng,
@@ -132,6 +135,6 @@ function toUserRequest(row: UserRow): UserRequest {
     orgId: row.orgId,
     titleCd: row.titleCd,
     langCd: row.langCd,
-    active: row.active,
+    useYn: row.useYn,
   };
 }

@@ -79,6 +79,8 @@ const en: MessageTree = {
       filters: {
         empName: 'Name',
         empNamePlaceholder: 'Search by name',
+        useYn: 'Use',
+        useYnAll: 'All',
         search: 'Search',
       },
       validation: {

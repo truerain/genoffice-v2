@@ -78,6 +78,8 @@ const ko = {
       filters: {
         empName: '이름',
         empNamePlaceholder: '이름 검색',
+        useYn: '사용 여부',
+        useYnAll: '전체',
         search: '검색',
       },
       validation: {

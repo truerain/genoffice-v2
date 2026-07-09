@@ -56,6 +56,8 @@ function buildQuery(params?: UserListParams): string {
   const search = new URLSearchParams();
   const empName = params.empName?.trim();
   if (empName) search.set('empName', empName);
+  const useYn = params.useYn?.trim();
+  if (useYn) search.set('useYn', useYn);
   const query = search.toString();
   return query ? `?${query}` : '';
 }

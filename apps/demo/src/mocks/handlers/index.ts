@@ -8,8 +8,16 @@
  *
  */
 
+import { HttpHandler } from 'msw';
 import { appMenuHandlers } from './appMenuHandlers';
 import { authHandlers } from './authHandlers';
 import { userHandlers } from './userHandlers';
+import { commonHandlers } from './commonHandlers';
 
-export const handlers = [...authHandlers, ...appMenuHandlers, ...userHandlers];
+export const handlers: HttpHandler[] = 
+[
+    ...authHandlers, 
+    ...appMenuHandlers, 
+    ...userHandlers,
+    ...commonHandlers,
+];

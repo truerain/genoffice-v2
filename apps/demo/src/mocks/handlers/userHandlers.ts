@@ -48,7 +48,7 @@ function toRow(request: UserRequest): UserRow {
     orgId: request.orgId,
     titleCd: request.titleCd,
     langCd: request.langCd,
-    active: request.active,
+    useYn: request.useYn,
   };
 }
 
@@ -56,9 +56,14 @@ export const userHandlers: HttpHandler[] = [
   http.get(`${base}/api/admin/users`, ({ request }) => {
     const url = new URL(request.url);
     const empName = url.searchParams.get('empName')?.trim().toLowerCase() ?? '';
-    const items = empName
-      ? store.filter((row) => row.empName.toLowerCase().includes(empName))
-      : store;
+    const useYn = url.searchParams.get('useYn')?.trim() ?? '';
+    let items = store;
+    if (empName) {
+      items = items.filter((row) => row.empName.toLowerCase().includes(empName));
+    }
+    if (useYn) {
+      items = items.filter((row) => row.useYn === useYn);
+    }
     return HttpResponse.json({ items });
   }),
 
