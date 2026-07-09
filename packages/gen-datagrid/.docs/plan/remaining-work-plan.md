@@ -238,6 +238,75 @@ Exit criteria (충족):
 - controlled `activeCell`과 controlled `currentRowId` 충돌 정책
 - active cell과 current row 독립 이동 정책
 
+### Row Status Context API (Page / Column Access)
+
+Status: planned.
+
+배경 (2026-07-09, `apps/demo` UserPage):
+
+- `GenDataGridRowStatus`(`clean` | `created` | `updated` | `deleted`)는 Gate 8.7·`GenDataGridCrud`
+  `rowStatusResolver`로 이미 계산되지만, **앱 컬럼 정의**(`meta.editable`, `cell`, `getEditOptions` 등)의
+  콜백 컨텍스트에는 내려오지 않는다.
+- 소비처가 신규/수정 행 분기를 `row.userId`·`NEW_ROW_ID_PREFIX` 같은 **도메인 데이터 우회**로 처리 중이며,
+  `deleted`/`updated` 구분이 불가능하다.
+- `enableRowStatus` 시스템 컬럼·`data-gen-datagrid-row-status` DOM은 **시각 확인용**이며, 타입 안전한
+  컬럼 로직 API가 아니다.
+
+목표: 페이지·컬럼 레이어에서 **그리드가 이미 해석한 row status**를 조회해, editable/display/validation
+규칙에 사용할 수 있는 public API를 추가한다.
+
+Architecture (신규 또는 Gate 8.7 follow-up):
+
+- `../architecture/gate-8-7-system-columns-architecture.md` §Row Status 연계
+- (작성 시) `../architecture/gate-8-9-row-status-context-api-architecture.md` — 컨텍스트 확장·단일
+  resolver 소유권·CRUD 연동
+
+제안 API (1차, 택1 또는 병행 — architecture에서 확정):
+
+1. **컨텍스트 확장 (권장 1차)**  
+   `GenDataGridEditableContext` 및 동일 패턴 콜백(`GenDataGridValidationContext`,
+   `GenDataGridBodyColSpanContext`, `GenDataGridVisualRowMergeContext` 등)에  
+   `rowStatus: GenDataGridRowStatus` 추가.  
+   내부 `resolveRowStatus()` 결과를 재사용(컬럼·편집기·검증이 동일 정본).
+
+2. **명시 조회 헬퍼 (보조)**  
+   `GenDataGridHandle.getRowStatus(rowId): GenDataGridRowStatus | undefined` — imperative·테스트·
+   Storybook용. 컬럼 콜백과 값이 일치해야 함.
+
+3. **CRUD 연동**  
+   `GenDataGridCrud`의 `rowStatusResolver`(createdRowIdSet + dirty/deleted)를 grid 쪽 단일 resolver로
+   위임; 앱이 `gridProps.rowStatusResolver`를 오버라이드할 때도 컬럼 `rowStatus`와 **동일 함수**를
+   쓰도록 문서화.
+
+Scope:
+
+- `GenDataGrid.types.ts` — 컨텍스트 타입·handle 메서드(선택) 확장
+- `DataGridRoot` / `DataGridBodyRow` — `resolveRowStatus` 결과를 editable·cell·validation 경로에 주입
+- `editableCell.ts` — `createEditableContext`에 `rowStatus` 포함
+- `api-structure.md`, `api-comparison-with-gen-grid.md` 갱신
+- interaction 테스트: created/updated/deleted 행에서 `meta.editable(({ rowStatus }) => …)` 동작
+- `gen-datagrid-crud` — 기존 `rowStatusResolver`와 중복 없이 grid 주입 경로 확인
+- 소비처 예시: `apps/demo` `userColumns` — `NEW_ROW_ID_PREFIX` 대신 `rowStatus === 'created'`로
+  userId 표시/편집 정책 (별도 앱 PR)
+
+Deferred:
+
+- custom row status **renderer** API (Gate 8.7 excluded 유지)
+- `createdRowIdSet` 등 CRUD 내부 집합의 직접 export
+- server-side row status와의 동기화 (dirty만으로 `updated` 판별하는 현 정책 유지)
+
+Exit criteria:
+
+- 컬럼 `meta.editable` / `cell` / `getEditOptions`에서 `rowStatus`를 타입 안전하게 읽을 수 있다.
+- grid 기본 resolver와 `rowStatusResolver` 오버라이드 시 컬럼·시스템 status 컬럼이 **같은 값**을 쓴다.
+- `GenDataGridCrud` + demo UserPage 패턴이 문서·스토리 또는 테스트로 고정된다.
+- `userId`·sentinel 접두사에 의존한 행 상태 분기 가이드가 demo `.docs`에 “비권장”으로 명시된다.
+
+참고 소비처:
+
+- `apps/demo/src/pages/admin/user/userColumns.ts` (userId 표시/편집)
+- `apps/demo/.docs/guide/page-conventions.md` §공통코드·컬럼 분기
+
 ### Gate 8.8 Row Hover Highlight
 
 Status: complete.
@@ -299,3 +368,4 @@ Exit criteria:
 - row/cell className and style callback API
 - empty state and toolbar slot API
 - public surface 안정화 후 API reference split
+- **Row Status Context API** (위 Backlog) — 컬럼·페이지용 `rowStatus` 컨텍스트

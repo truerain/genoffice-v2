@@ -1,5 +1,10 @@
 ## 2026-07-09
 
+### Row Status Context API 계획 (Backlog)
+
+- **요약:** 앱 컬럼·페이지에서 `rowStatus`를 조회할 수 있는 API 추가 계획을 `remaining-work-plan.md` Backlog에 등록. 배경: demo `userColumns`의 `userId`/sentinel 우회.
+- **파일:** `packages/gen-datagrid/.docs/plan/remaining-work-plan.md`
+
 ### Gate 8.8 Row Hover Highlight 구현 (default true)
 
 - **조치:** `enableRowHoverHighlight` 추가(기본 **true**). 루트 `data-row-hover-highlight`, 토큰 `--gen-datagrid-row-hover-bg`(accent 8%). CSS `:hover`로 행 강조; current/selection/deleted에는 `:not`으로 양보. architecture·api-structure·api-comparison·remaining-work·tokens architecture 갱신. interaction 테스트(기본 ON / opt-out).
