@@ -8,6 +8,12 @@
 
 ## 2026-07-09
 
+### gen-datagrid — Row Status Cell Display Context 구현
+
+- **요약:** `meta.renderCell`·`cellClassName`·`cellStyle`에 `rowStatus` 포함 `GenDataGridCellContext` 주입. demo `userId` sentinel 우회 제거. demo에 `@gen-office/gen-datagrid` 직접 의존성 추가.
+- **검증:** `pnpm -C packages/gen-datagrid test` 188/188 통과.
+- **파일:** `packages/gen-datagrid/src/GenDataGrid.types.ts`, `features/display/resolveCellMeta.ts`, `renderers/div-grid/DataGridBodyRow.tsx`, `DataGridCell.tsx`, `index.ts`, `apps/demo/package.json`, `apps/demo/src/pages/admin/user/userColumns.ts`
+
 ### gen-datagrid — MasterDetail 확장 버튼 재정의 계획 (Backlog)
 
 - **요약:** MasterDetail 확장 버튼의 위치(`detailToggleColumnId`)·렌더링(`renderDetailToggle`)·기본 스타일 토큰화 항목을 추가개발 계획에 등록.

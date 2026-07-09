@@ -6,13 +6,14 @@
  * @remark
  * - JSX 없음 → `.ts` (React Fast Refresh 시 page reload 방지)
  *
- * - userId: 신규 행만 셀 표시, 편집 불가
+ * - userId: 신규 행만 셀 표시, 편집 불가 (`meta.renderCell` + rowStatus)
  * - loginId: 소문자만 입력 (userColumnEditors)
  * - empNo: 최대 10자 (userColumnEditors)
  * - titleCd: 공통코드 lookup → titleName 표시, select editor
  * - useYn: Y/N Switch — 셀 render 자체가 toggle (편집 모드 없음)
  *
  * @history
+ * - 2026-07-09 userId: meta.renderCell + rowStatus로 신규 행 표시 (sentinel 우회 제거)
  * - 2026-07-09 매핑 없는 선행 컬럼 추가(Expand toggle anchor)
  * - 2026-07-09 useYn: 셀 render Switch toggle (emitCellValueChange)
  * - 2026-07-09 orgName: 부서 Popup lookup (orgId)
@@ -21,13 +22,13 @@
  * - 2026-07-09 userColumns.tsx → userColumns.ts
  */
 
-import type { ColumnDef } from '@tanstack/react-table';
 import type * as React from 'react';
+import type { GenDataGridCellContext, GenDataGridColumnDef } from '@gen-office/gen-datagrid';
 import type { Lkup } from '../../../shared/domain/lkup.types';
 import type { Org } from '../../../shared/domain/org.types';
 import { lkupNameByCd, toLkupEditOptions } from '../../../shared/domain/lkupResolve';
 import { orgNameById } from '../../../shared/domain/orgResolve';
-import { NEW_ROW_ID_PREFIX, type UserRow } from './user.types';
+import type { UserRow } from './user.types';
 import { empNoEditor, lowercaseTextEditor } from './userColumnEditors';
 import { createOrgLookupEditor } from './orgLookupEditor';
 import { createUseYnToggleCell } from './userColumnCells';
@@ -40,7 +41,7 @@ export function createUserColumns(
   titleCodes: readonly Lkup[],
   orgs: readonly Org[],
   cellBridgeRef: React.RefObject<UserGridCellBridge>,
-): ColumnDef<UserRow, unknown>[] {
+): GenDataGridColumnDef<UserRow, unknown>[] {
   const titleNameByCd = (titleCd?: string) => lkupNameByCd(titleCodes, titleCd);
   const titleEditOptions = toLkupEditOptions(titleCodes);
   const orgLookupEditor = createOrgLookupEditor(orgs);
@@ -68,11 +69,9 @@ export function createUserColumns(
       meta: {
         editable: false,
         align: 'center',
+        renderCell: ({ rowStatus, value }: GenDataGridCellContext) =>
+          rowStatus === 'created' ? '' : String(value ?? ''),
       },
-      cell: ({ row, getValue }) =>
-        row.original.userId.startsWith(NEW_ROW_ID_PREFIX)
-          ? ''
-          : String(getValue() ?? ''),
     },
     {
       accessorKey: 'loginId',
