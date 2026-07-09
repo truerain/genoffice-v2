@@ -152,7 +152,7 @@ export function AppShell() {
           ) : menuError ? (
             <p className={styles.error}>{menuError.message}</p>
           ) : (
-            <div className={styles.workareaHost} data-demo-workarea="">
+            <div className={styles.workareaHost} data-app-workarea="">
               <MdiPageHost
                 maxTabs={DEMO_MAX_TABS}
                 tabPosition="bottom"

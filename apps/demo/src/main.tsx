@@ -12,7 +12,8 @@
  * - 2026-07-08 데이터계층: MSW 워커 기동(dev)
  * - 2026-06-29 D4: gen-datagrid-crud CSS
  * - 2026-06-29 F3: gen-frame CSS
- * - 2026-06-29 Soft Modern demo-ui.css
+ * - 2026-07-09 app-shell.css + datagrid-overrides.css (template naming)
+ * - 2026-06-29 Soft Modern app-shell (formerly demo-ui.css)
  * - 2026-06-28 D3: gen-chart CSS
  * - 2026-06-28 D1: AppProviders, mdi/ui CSS
  */
@@ -26,7 +27,8 @@ import '@gen-office/gen-frame/index.css';
 import '@gen-office/gen-chart/index.css';
 import '@gen-office/gen-datagrid-crud/index.css';
 import './styles/app.css';
-import './styles/demo-ui.css';
+import './styles/app-shell.css';
+import './styles/datagrid-overrides.css';
 import { AppProviders } from './app/providers/AppProviders';
 import { App } from './app/App';
 import { isMswEnabled } from './shared/api/env';

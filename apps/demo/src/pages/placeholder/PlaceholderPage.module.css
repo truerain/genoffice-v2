@@ -19,7 +19,7 @@
   padding: 16px;
   border-radius: 8px;
   border: 1px solid var(--color-border-default);
-  background: var(--color-bg-secondary, var(--demo-surface-elevated, #f8f9fa));
+  background: var(--color-bg-secondary, var(--app-surface-bg, #f8f9fa));
 }
 
 .linksTitle {

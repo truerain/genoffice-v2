@@ -1,0 +1,151 @@
+/**
+ * @file apps/demo/src/styles/datagrid-overrides.css
+ * @description App-level overrides for @gen-office/gen-datagrid and gen-datagrid-crud.
+ * @created 2026-07-09
+ * @updated 2026-07-09
+ *
+ * @remark
+ * - Import after @gen-office/gen-datagrid-crud/index.css in main.tsx.
+ * - 아래 INDEX는 이름만 나열(값·기본 파생 없음). 정본: packages/gen-datagrid/src/styles/tokens.css
+ * - Override: :root, [data-app-workarea], [data-gen-datagrid-root], [data-grid-id], .gen-datagrid-crud
+ * - Shell 토큰만 바꿔도 하위 파생이 대부분 연쇄 반영됨.
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+ * OVERRIDE INDEX (names only — uncomment rules below as needed)
+ *
+ * @gen-office/gen-datagrid — packages/gen-datagrid/src/styles/tokens.css
+ * ───────────────────────────────────────────────────────────────────────────
+ * Shell
+ *   --gen-datagrid-bg
+ *   --gen-datagrid-surface
+ *   --gen-datagrid-border
+ *   --gen-datagrid-text
+ *   --gen-datagrid-text-muted
+ *   --gen-datagrid-text-disabled
+ *   --gen-datagrid-accent
+ *   --gen-datagrid-font-size
+ *
+ * Header
+ *   --gen-datagrid-header-bg
+ *   --gen-datagrid-header-text
+ *   --gen-datagrid-header-border
+ *   --gen-datagrid-header-group-bg
+ *   --gen-datagrid-header-font-weight
+ *
+ * Body
+ *   --gen-datagrid-body-cell-bg
+ *   --gen-datagrid-body-cell-text
+ *   --gen-datagrid-body-cell-border
+ *
+ * Footer
+ *   --gen-datagrid-footer-bg
+ *   --gen-datagrid-footer-text
+ *   --gen-datagrid-footer-border
+ *   --gen-datagrid-footer-rowgroup-bg
+ *
+ * System (data-system-column)
+ *   --gen-datagrid-system-header-bg
+ *   --gen-datagrid-system-header-text
+ *   --gen-datagrid-system-body-bg
+ *   --gen-datagrid-system-body-text
+ *   --gen-datagrid-system-footer-bg
+ *   --gen-datagrid-system-footer-text
+ *   --gen-datagrid-system-row-number-font-size
+ *   --gen-datagrid-system-row-status-dot-size
+ *   --gen-datagrid-system-row-selection-size
+ *
+ * Chrome (global-filter, pagination, footer-bar)
+ *   --gen-datagrid-chrome-filter-bg
+ *   --gen-datagrid-chrome-filter-border
+ *   --gen-datagrid-chrome-filter-input-border
+ *   --gen-datagrid-chrome-pagination-bg
+ *   --gen-datagrid-chrome-pagination-border
+ *   --gen-datagrid-chrome-pagination-button-bg
+ *   --gen-datagrid-chrome-pagination-button-text
+ *
+ * Features · interaction
+ *   --gen-datagrid-active-color
+ *   --gen-datagrid-row-hover-bg
+ *   --gen-datagrid-selection-bg
+ *   --gen-datagrid-selection-bg-pinned
+ *   --gen-datagrid-current-row-bg
+ *   --gen-datagrid-editor-border-color
+ *
+ * Features · row status
+ *   --gen-datagrid-row-status-created
+ *   --gen-datagrid-row-status-updated
+ *   --gen-datagrid-row-status-deleted
+ *
+ * Features · dirty / deleted / validation
+ *   --gen-datagrid-dirty-color
+ *   --gen-datagrid-dirty-row-bg
+ *   --gen-datagrid-deleted-row-text
+ *   --gen-datagrid-deleted-row-bg
+ *   --gen-datagrid-validation-error-color
+ *   --gen-datagrid-validation-warning-color
+ *
+ * Features · skeleton / visual row merge
+ *   --gen-datagrid-placeholder-bar
+ *   --gen-datagrid-merge-label-bg
+ *   --gen-datagrid-merge-label-text
+ *   --gen-datagrid-merge-label-accent
+ *
+ * 소비자 정의 (tokens.css 미포함 — index.css var(..., fallback)만)
+ *   --gen-datagrid-header-height
+ *   --gen-datagrid-row-height
+ *   --gen-datagrid-footer-row-height
+ *   --gen-datagrid-detail-row-height
+ *   --gen-datagrid-current-row-height
+ *
+ * @gen-office/gen-datagrid-crud — packages/gen-datagrid-crud/src/styles/tokens.css
+ * ───────────────────────────────────────────────────────────────────────────
+ * Shell
+ *   --gen-datagrid-crud-border
+ *   --gen-datagrid-crud-bg
+ *   --gen-datagrid-crud-text
+ *   --gen-datagrid-crud-text-muted
+ *   --gen-datagrid-crud-surface
+ *
+ * Action bar
+ *   --gen-datagrid-crud-actionbar-bg
+ *   --gen-datagrid-crud-actionbar-border
+ *   --gen-datagrid-crud-actionbar-padding
+ *   --gen-datagrid-crud-actionbar-gap
+ *   --gen-datagrid-crud-actionbar-title-font-size
+ *   --gen-datagrid-crud-actionbar-title-font-weight
+ *   --gen-datagrid-crud-actionbar-title-color
+ *   --gen-datagrid-crud-actionbar-total-font-size
+ *   --gen-datagrid-crud-actionbar-total-color
+ *   --gen-datagrid-crud-actionbar-divider
+ *
+ * Layout
+ *   --gen-datagrid-crud-layout-grid-separator
+ *
+ * 토큰 없음 — 선택자 override (packages/gen-datagrid/src/index.css)
+ * ───────────────────────────────────────────────────────────────────────────
+ *   [data-pinned-edge='left-end']     pinned ↔ scroll 경계 shadow (box-shadow)
+ *   [data-pinned-edge='right-start']
+ *   .gen-datagrid__sticky-merge-label  merge label 외곽 shadow (색은 merge-label-accent)
+ *   column filter popover              box-shadow 0 8px 24px …
+ *   [data-validation-state='error']    inset shadow 형태 (색은 validation-*-color)
+ *   [data-validation-state='warning']
+ *   [data-dirty-cell='true']           inset 3px left bar (색은 dirty-color)
+ *
+ * 구조·파생: packages/gen-datagrid/.docs/architecture/design-tokens-architecture.md §4
+ * CRUD:       packages/gen-datagrid-crud/.docs/architecture/design-tokens-architecture.md §5
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Active overrides (demo) ── */
+
+/* Example — pinned edge: shadow off, border on
+[data-app-workarea] [data-pinned-edge='left-end'] {
+  box-shadow: none;
+  border-right: 1px solid var(--gen-datagrid-border);
+}
+
+[data-app-workarea] [data-pinned-edge='right-start'] {
+  box-shadow: none;
+  border-left: 1px solid var(--gen-datagrid-border);
+}
+*/

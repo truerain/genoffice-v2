@@ -76,7 +76,7 @@ export interface DemoAppProfile {
     logoSrc?: string;
     alt: string;
   };
-  /** chrome 토큰 scope — demo-ui.css와 data-attribute 연동 */
+  /** chrome 토큰 scope — app-shell.css와 data-attribute 연동 */
   chromeVariant?: 'default' | 'dark';
   /** 전체 메뉴 중 노출할 pageId 화이트리스트 (없으면 전체) */
   menuPageIds?: string[];
@@ -247,7 +247,8 @@ apps/demo/src/
 ├── pages/                            # 기존 유지 — 프로필 무관
 ├── shared/
 └── styles/
-    └── demo-ui.css                   # [data-demo-chrome="dark"] 등 profile scope 확장
+    └── app-shell.css                 # [data-app-chrome="dark"] 등 profile scope 확장
+    └── datagrid-overrides.css        # gen-datagrid 앱 override (선택)
 ```
 
 ### 6.2 파일별 책임
@@ -346,16 +347,16 @@ export function resolvePageContent(payload: OpenPagePayload): ReactNode {
 
 ## 8. UI · 테마 scope
 
-프로필마다 chrome을 다르게 보이려면 `demo-ui.css`에 scope를 추가합니다.
+프로필마다 chrome을 다르게 보이려면 `app-shell.css`에 scope를 추가합니다.
 
 ```text
 [data-gen-frame-root]              — 기본 chrome (현재 dark)
-[data-demo-workarea]               — workarea 틴트
-[data-demo-profile="ops-mdi"]      — ops 전용 chrome override (선택)
+[data-app-workarea]                 — workarea 틴트
+[data-app-profile="ops-mdi"]        — ops 전용 chrome override (선택)
 ```
 
-`DemoWorkspaceShell` 루트에 `data-demo-profile={profile.id}`를 부여합니다.  
-자세한 토큰 규칙은 [ui-direction.md](../guide/ui-direction.md)를 따릅니다.
+`DemoWorkspaceShell` 루트에 `data-app-profile={profile.id}`를 부여합니다.  
+자세한 토큰 규칙은 [app-styles-naming.md](../guide/app-styles-naming.md), [ui-direction.md](../guide/ui-direction.md)를 따릅니다.
 
 ---
 

@@ -1,0 +1,145 @@
+/**
+ * @file apps/demo/src/styles/app-shell.css
+ * @description App shell tokens and chrome/workarea/MDI styling (reference-app template layer).
+ * @created 2026-06-29
+ * @updated 2026-07-09
+ *
+ * @remark
+ * - Forking apps/demo → apps/<name>: keep --app-* / data-app-*; adjust values here.
+ * - Workarea scope: [data-app-workarea] on AppShell main.
+ * - Does not modify packages/theme. See app-styles-naming.md for full styles layout.
+ *
+ * @history
+ * - 2026-07-09 Renamed from demo-ui.css; --demo-* → --app-*, data-demo-workarea → data-app-workarea
+ */
+
+:root {
+  --app-radius-sm: var(--border-radius-md);
+  --app-radius-md: var(--border-radius-lg);
+  --app-radius-lg: var(--border-radius-xl);
+
+  --app-workarea-bg: var(--color-workarea, var(--color-bg-secondary));
+  --app-surface-bg: var(--color-background);
+  --app-chrome-bg: #171717;
+  --app-chrome-bg-elevated: #262626;
+  --app-chrome-fg: #f5f5f5;
+  --app-chrome-fg-muted: #a3a3a3;
+
+  --app-surface-border: color-mix(in srgb, var(--color-border-default) 72%, transparent);
+  --app-chrome-border: #2e2e2e;
+  --app-chrome-hover: rgba(255, 255, 255, 0.08);
+  --app-chrome-active: rgba(255, 255, 255, 0.14);
+
+  --app-shadow-elevated: var(--shadow-sm);
+  --app-shadow-chrome: 0 1px 0 color-mix(in srgb, var(--color-border-default) 40%, transparent);
+
+  --app-page-padding: var(--spacing-md);
+  --app-section-gap: var(--spacing-lg);
+  --page-layout-padding: var(--app-page-padding);
+  --page-layout-gap: var(--app-section-gap);
+  --app-hint-color: var(--color-fg-secondary);
+
+  /* MDI tab bar (inside workarea) */
+  --app-mdi-tabbar-bg: var(--base-neutral-150, #e8e8e8);
+  --app-mdi-tab-bg: var(--base-neutral-100, #f0f0f0);
+  --app-mdi-tab-bg-hover: var(--base-neutral-75, #f5f5f5);
+  --app-mdi-tab-bg-active: var(--color-background, #ffffff);
+  --app-mdi-tab-fg: var(--color-text-secondary, #6b6b6b);
+  --app-mdi-tab-fg-active: var(--color-text, #1d1d1b);
+  --app-mdi-tab-border: var(--color-border, #e0e0e0);
+  --app-mdi-tab-accent: var(--color-primary, #171717);
+}
+
+[data-theme='dark'] {
+  --app-workarea-bg: var(--color-background);
+  --app-surface-bg: var(--color-surface);
+  --app-chrome-bg: var(--color-background);
+
+  --app-shadow-elevated: 0 1px 3px 0 rgb(0 0 0 / 0.35);
+  --app-shadow-chrome: 0 1px 0 color-mix(in srgb, var(--color-border-default) 55%, transparent);
+}
+
+[data-app-workarea] {
+  --color-bg-primary: var(--app-workarea-bg);
+}
+
+[data-gen-frame-root] {
+  --color-bg-primary: var(--app-chrome-bg);
+  --color-fg-primary: var(--app-chrome-fg);
+  --color-fg-secondary: var(--app-chrome-fg-muted);
+  --color-border-default: var(--app-chrome-border);
+  --color-text-disabled: #737373;
+
+  /* hover/active가 color-mix(..., var(--color-primary), ...) 이므로
+     어두운 배경에서는 primary를 밝은 accent로 */
+  --color-primary: #ffffff;
+}
+
+[data-app-workarea] {
+  --color-bg-primary: var(--app-workarea-bg);
+  --color-fg-primary: var(--color-text);
+  --color-fg-secondary: var(--color-text-secondary);
+  --color-primary: #171717;
+}
+
+/* MDI tabs — active vs inactive contrast (role/aria hooks from @gen-office/mdi) */
+[data-app-workarea] [role='tablist'] {
+  background-color: var(--app-mdi-tabbar-bg);
+  border-color: var(--app-mdi-tab-border);
+}
+
+[data-app-workarea] [role='tab'] {
+  background-color: var(--app-mdi-tab-bg);
+  border-color: var(--app-mdi-tab-border);
+  color: var(--app-mdi-tab-fg);
+}
+
+[data-app-workarea] [role='tab']:hover {
+  background-color: var(--app-mdi-tab-bg-hover);
+}
+
+[data-app-workarea] [role='tab'][aria-selected='true'] {
+  background-color: var(--app-mdi-tab-bg-active);
+  border-color: var(--app-mdi-tab-border);
+  color: var(--app-mdi-tab-fg-active);
+  box-shadow: 0 -2px 8px rgb(0 0 0 / 0.08);
+  z-index: 2;
+}
+
+[data-app-workarea] [role='tab'][aria-selected='false'] span {
+  color: var(--app-mdi-tab-fg);
+  font-weight: var(--font-weight-medium, 500);
+}
+
+[data-app-workarea] [role='tab'][aria-selected='true'] span {
+  color: var(--app-mdi-tab-fg-active);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+[data-app-workarea] [role='tab'][aria-selected='true']::after {
+  height: 3px;
+  background-color: var(--app-mdi-tab-accent);
+}
+
+/* tabPosition=bottom — accent on top edge (connects to content) */
+[data-app-workarea] [role='tablist']:last-child [role='tab'][aria-selected='true']::after {
+  bottom: 0;
+  top: auto;
+}
+
+[data-app-workarea] [role='tablist']:last-child [role='tab'][aria-selected='true'] {
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
+}
+
+[data-gen-frame-root] > header {
+  color: var(--app-chrome-fg);
+}
+
+.user {
+  color: var(--app-chrome-fg-muted);
+}
+
+[data-gen-frame-root][data-gen-frame-layout='leftPanel'] > div > nav {
+  background: var(--app-chrome-bg-elevated);
+  border-right-color: var(--app-chrome-border);
+}

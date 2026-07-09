@@ -8,6 +8,11 @@
 
 ## 2026-07-09
 
+### apps/demo 앱 스타일 template 네이밍
+
+- **요약:** reference app fork용 `demo-ui.css` → `app-shell.css`, `--app-*`, `datagrid-overrides.css`, `app-styles-naming.md`.
+- **파일:** `apps/demo/src/styles/*`, `apps/demo/.docs/guide/app-styles-naming.md`
+
 ### gen-datagrid-crud 디자인 토큰 구현 (WS1.3)
 
 - **요약:** `styles/tokens.css` 신설, `index.css` theme 직참조 제거·보더 정리. CRUD 토큰은 `--gen-datagrid-*` Shell만 파생. dist 검증·vitest 17 passed.

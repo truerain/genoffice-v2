@@ -181,7 +181,9 @@ apps/demo/
     │   ├── index.ts
     │   └── locales/
     └── styles/
-        └── app.css                 # 앱 전용 (토큰은 theme)
+        ├── app.css                 # 전역 리셋
+        ├── app-shell.css           # --app-* shell (template)
+        └── datagrid-overrides.css  # gen-datagrid override (선택)
 ```
 
 ### 모듈 책임

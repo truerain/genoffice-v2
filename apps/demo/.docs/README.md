@@ -12,7 +12,8 @@ V2 **reference 백오피스 앱**입니다. 패키지를 조합해 실제 운영
 | [architecture/architecture.md](./architecture/architecture.md) | 레이어, 디렉터리, 데이터 흐름, 패키지 의존, 레이아웃 계약 |
 | [architecture/multi-app-frame.md](./architecture/multi-app-frame.md) | App Profile, MDI/single·layout 조합, multi-persona 파일 배치 (M0~M4) |
 | [plan/plan.md](./plan/plan.md) | 구현 Phase D0~D5, componentRegistry 개선, Gate, V1 이식 범위 |
-| [guide/ui-direction.md](./guide/ui-direction.md) | Soft Modern demo 토큰, chrome / workarea 계층 |
+| [guide/app-styles-naming.md](./guide/app-styles-naming.md) | 앱 CSS 파일·`--app-*` 템플릿 네이밍 (fork 시) |
+| [guide/ui-direction.md](./guide/ui-direction.md) | Soft Modern shell 토큰, chrome / workarea 계층 |
 | [guide/data-integration.md](./guide/data-integration.md) | 화면 데이터 연동 표준 — TanStack Query · MSW · 요청/응답 타입 · CommitPayload |
 | [guide/page-conventions.md](./guide/page-conventions.md) | 화면 소스·스타일 컨벤션 — 파일 구성/네이밍, 훅 분리, 함수 정렬·주석, CSS 규칙 |
 | [logs/implementation-log.md](./logs/implementation-log.md) | 구현·설계 변경 로그 (역시간순, 한국어) |

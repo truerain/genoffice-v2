@@ -14,8 +14,8 @@
 .sidebar {
   flex-shrink: 0;
   width: 228px;
-  border-right: 1px solid var(--demo-chrome-border);
-  background: var(--demo-chrome-bg);
+  border-right: 1px solid var(--app-chrome-border);
+  background: var(--app-chrome-bg);
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -52,7 +52,7 @@
   width: 100%;
   padding: 9px 12px;
   border: none;
-  border-radius: var(--demo-radius-sm);
+  border-radius: var(--app-radius-sm);
   background: transparent;
   text-align: left;
   font-size: 14px;
@@ -62,7 +62,7 @@
 }
 
 .item:hover {
-  background: color-mix(in srgb, var(--color-primary) 6%, var(--demo-chrome-bg));
+  background: color-mix(in srgb, var(--color-primary) 6%, var(--app-chrome-bg));
 }
 
 .item:focus-visible {

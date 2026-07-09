@@ -4,7 +4,7 @@
  * @created 2026-06-29
  *
  * @remark
- * - Tokens from src/styles/demo-ui.css
+ * - Tokens from src/styles/app-shell.css
  *
  */
 
@@ -14,22 +14,22 @@
 }
 
 .elevated {
-  border: 1px solid var(--demo-surface-border);
-  border-radius: var(--demo-radius-md);
-  background: var(--demo-surface-bg);
-  box-shadow: var(--demo-shadow-elevated);
+  border: 1px solid var(--app-surface-border);
+  border-radius: var(--app-radius-md);
+  background: var(--app-surface-bg);
+  box-shadow: var(--app-shadow-elevated);
 }
 
 .chrome {
-  border: 1px solid var(--demo-chrome-border);
-  border-radius: var(--demo-radius-sm);
-  background: var(--demo-chrome-bg);
-  box-shadow: var(--demo-shadow-chrome);
+  border: 1px solid var(--app-chrome-border);
+  border-radius: var(--app-radius-sm);
+  background: var(--app-chrome-bg);
+  box-shadow: var(--app-shadow-chrome);
 }
 
 .flat {
   border: none;
-  border-radius: var(--demo-radius-sm);
+  border-radius: var(--app-radius-sm);
   background: transparent;
   box-shadow: none;
 }

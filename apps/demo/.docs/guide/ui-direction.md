@@ -6,7 +6,8 @@
 
  @remark
  - Demo-scoped visual system; theme/ui/mdi 패키지 변경 없음
- - 구현: src/styles/demo-ui.css, shared/components/DemoSurface
+ - 구현: src/styles/app-shell.css, shared/components/DemoSurface
+ - 네이밍: [app-styles-naming.md](./app-styles-naming.md)
 -->
 # Demo UI 방향 — Soft Modern
 
@@ -20,7 +21,7 @@
 | 범위 | `apps/demo`만. `@gen-office/theme` 토큰을 **참조**하되 패키지 수정 없음 |
 | 데이터 우선 | 차트·그리드 영역은 blur·강한 장식 없이 가독성 유지 |
 | 계층 3단 | Chrome → Workarea → Elevated Surface |
-| 토큰 정렬 | 비공식 `--color-surface-default` 등 제거, theme semantic + `--demo-*` alias |
+| 토큰 정렬 | 비공식 `--color-surface-default` 등 제거, theme semantic + `--app-*` alias |
 
 ## 2. 레이어 정의
 
@@ -28,26 +29,26 @@
 ┌─────────────────────────────────────────────┐
 │ Chrome — header, sidebar                    │  흰/표면 + 얕은 shadow
 ├──────────┬──────────────────────────────────┤
-│ sidebar  │ Workarea — MDI 탭 패널 배경       │  --demo-workarea-bg (틴트)
+│ sidebar  │ Workarea — MDI 탭 패널 배경       │  --app-workarea-bg (틴트)
 │          │  ┌────────────────────────────┐  │
-│          │  │ Elevated Surface — 카드     │  │  --demo-surface-bg + shadow-sm
+│          │  │ Elevated Surface — 카드     │  │  --app-surface-bg + shadow-sm
 │          │  └────────────────────────────┘  │
 └──────────┴──────────────────────────────────┘
 ```
 
-## 3. Demo 토큰 (`demo-ui.css`)
+## 3. App shell 토큰 (`app-shell.css`)
 
 | 토큰 | light | dark |
 | --- | --- | --- |
-| `--demo-workarea-bg` | `--color-workarea` | `--color-background` |
-| `--demo-surface-bg` | `--color-background` | `--color-surface` |
-| `--demo-chrome-bg` | `--color-background` | `--color-background` |
-| `--demo-radius-sm` | `--border-radius-md` (8px) | 동일 |
-| `--demo-radius-md` | `--border-radius-lg` (12px) | 동일 |
-| `--demo-shadow-elevated` | `--shadow-sm` | 어두운 shadow 오버라이드 |
-| `--demo-shadow-chrome` | `--shadow-sm` | 동일 |
+| `--app-workarea-bg` | `--color-workarea` | `--color-background` |
+| `--app-surface-bg` | `--color-background` | `--color-surface` |
+| `--app-chrome-bg` | `--color-background` | `--color-background` |
+| `--app-radius-sm` | `--border-radius-md` (8px) | 동일 |
+| `--app-radius-md` | `--border-radius-lg` (12px) | 동일 |
+| `--app-shadow-elevated` | `--shadow-sm` | 어두운 shadow 오버라이드 |
+| `--app-shadow-chrome` | `--shadow-sm` | 동일 |
 
-Workarea는 `AppShell`의 `main[data-demo-workarea]`에서 `--color-bg-primary`를 `--demo-workarea-bg`로 스코프 오버라이드합니다.
+Workarea는 `AppShell`의 `main[data-app-workarea]`에서 `--color-bg-primary`를 `--app-workarea-bg`로 스코프 오버라이드합니다.
 
 ## 4. 공통 컴포넌트
 
@@ -68,7 +69,7 @@ Workarea는 `AppShell`의 `main[data-demo-workarea]`에서 `--color-bg-primary`�
 
 | 영역 | 파일 |
 | --- | --- |
-| 토큰 | `src/styles/demo-ui.css` |
+| 토큰 | `src/styles/app-shell.css` |
 | Surface | `src/shared/components/DemoSurface/*` |
 | Shell | `AppShell.module.css`, `MenuSidebar.module.css` |
 | 로그인 | `LoginPage.tsx`, `LoginPage.module.css` |

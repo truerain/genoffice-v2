@@ -8,6 +8,13 @@
 -->
 # @gen-office/demo 구현 로그
 
+## 2026-07-09
+
+### 앱 스타일 template 네이밍 (`demo-ui` → `app-shell`)
+
+- **요약:** reference app fork를 위해 `demo-ui.css` → `app-shell.css`, `--demo-*` → `--app-*`, `data-demo-workarea` → `data-app-workarea`. `datagrid-overrides.css` 스캐폴드·`app-styles-naming.md` 정본 추가.
+- **파일:** `src/styles/{app-shell,datagrid-overrides}.css`, `main.tsx`, shell·surface CSS modules, `.docs/guide/app-styles-naming.md`
+
 ## 2026-07-08
 
 ### 화면 소스·스타일 컨벤션 문서화 (guide/page-conventions.md)
