@@ -13,6 +13,7 @@ Indexes planning documents for the GenDataGrid CRUD package.
 
 ## Plan
 
+- [Remaining Work Plan](plan/remaining-work-plan.md) — Gate 12 이후 추가 개발·백로그
 - [Design Tokens Restructure Plan](plan/design-tokens-restructure-plan.md)
 - [Gate 10 Thin Shell Plan](gate-10-thin-shell-plan.md)
 - [Gate 11 CRUD Mutation Completion Plan](gate-11-crud-mutation-plan.md)
@@ -30,5 +31,5 @@ Indexes planning documents for the GenDataGrid CRUD package.
 
 - [GenDataGrid Design Tokens Architecture](../../gen-datagrid/.docs/architecture/design-tokens-architecture.md)
 - [Controlled vs Uncontrolled App Guide](../../gen-datagrid/.docs/reference/controlled-uncontrolled-app-guide.md)
-- [Gate 9 Handle / Data Ownership Readiness Plan](../../gen-datagrid/.docs/plan/handle-extension-plan.md)
+- [GenDataGrid Remaining Work Plan](../../gen-datagrid/.docs/plan/remaining-work-plan.md)
 - [GenDataGridHandle Data Ownership Architecture](../../gen-datagrid/.docs/architecture/handle-data-ownership-architecture.md)

@@ -1,5 +1,10 @@
 ## 2026-07-09
 
+### Editor Input Normalize 계획 (Backlog)
+
+- **요약:** `meta.editNormalize`·format preset·builtin editor factory 방안을 `remaining-work-plan.md`에 정리. gen-datagrid-crud는 editor 범위 외 cross-link.
+- **파일:** `.docs/plan/remaining-work-plan.md`, `../../gen-datagrid-crud/.docs/plan/remaining-work-plan.md`
+
 ### Row Status Context API 계획 (Backlog)
 
 - **요약:** 앱 컬럼·페이지에서 `rowStatus`를 조회할 수 있는 API 추가 계획을 `remaining-work-plan.md` Backlog에 등록. 배경: demo `userColumns`의 `userId`/sentinel 우회.

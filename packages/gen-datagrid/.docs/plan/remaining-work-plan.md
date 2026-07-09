@@ -307,6 +307,95 @@ Exit criteria:
 - `apps/demo/src/pages/admin/user/userColumns.ts` (userId 표시/편집)
 - `apps/demo/.docs/guide/page-conventions.md` §공통코드·컬럼 분기
 
+### Editor Input Normalize — Format Presets (meta.editNormalize)
+
+Status: planned.
+
+배경 (2026-07-09, `apps/demo` `loginId` / `userColumnEditors.tsx`):
+
+- 소문자 전용 입력을 위해 app에서 `renderEditor`로 built-in text editor를 **거의 재작성**했다.
+- `handleBuiltinEditorKeyDown`, `createEditorBlurHandler`를 쓰지 않아 **키보드·blur 계약**이 built-in과 어긋날 수 있다.
+- paste는 editor를 거치지 않아 app `validateCommit` / commit mapper에서 **별도 정규화**가 필요하다.
+- `uppercaseText`, `digitsOnly` 등이 늘면 app마다 editor 복제가 반복된다.
+
+**패키지 소유:** `@gen-office/gen-datagrid` (editing runtime).  
+**`gen-datagrid-crud`는 editor 미제공** — [CRUD package design](../../gen-datagrid-crud/.docs/gen-datagrid-crud-package-design.md) §포함하지 않는다 (cell editing 재구현 안 함). CRUD는 `gridProps` 위임·문서 예시만.
+
+목표: format 제약(소문자·대문자·숫자만 등)을 **meta 한 줄**로 선언하고, typing·paste·printable-key 진입 등 **모든 입력 경로**에 동일 적용한다.
+
+#### 권장 1차 API
+
+```ts
+// GenDataGridColumnMeta
+editNormalize?: (value: unknown, ctx: GenDataGridEditableContext<TData>) => unknown;
+
+// 사용 예
+meta: {
+  editable: true,
+  editType: 'text',
+  editNormalize: (v) => String(v ?? '').toLowerCase(),
+}
+
+// 또는 preset editType (내부적으로 editNormalize와 동일 구현)
+editType: 'lowercaseText' | 'uppercaseText' | 'digitsOnly';
+```
+
+공통 헬퍼 export (패키지 또는 `@gen-office/utils`):
+
+- `normalizeLowercase`, `normalizeUppercase`, `normalizeDigitsOnly`
+
+#### 적용 지점 (누락 시 버그)
+
+1. `DefaultCellEditor` `onChange` (`renderEditor.tsx`)
+2. paste application → `onCellValueChange` 직전 (Gate 4.2 경로)
+3. (선택) printable-key로 편집 시작할 때 첫 문자
+
+#### 2차 — custom editor 기반 (mask·lookup 등)
+
+built-in으로 안 되는 UI는 **factory export**로 복제만 줄인다.
+
+```ts
+import { createBuiltinTextEditor, normalizeLowercase } from '@gen-office/gen-datagrid';
+
+meta: { renderEditor: createBuiltinTextEditor({ normalize: normalizeLowercase }) }
+```
+
+- `handleBuiltinEditorKeyDown`, `createEditorBlurHandler`를 public export 또는 factory 내부 캡슐화
+- popover/modal lookup은 app custom `renderEditor` 유지 (Gate 4.1-d surface)
+
+#### 제공 범위 정리
+
+| 종류 | 제공 위치 | 비고 |
+| --- | --- | --- |
+| lowercase / uppercase / digits | gen-datagrid meta (1차) | loginId, code, 사번 |
+| text / number / date / select / textarea / checkbox | **기구현** `editType` | 변경 없음 |
+| email·phone mask, 공통코드 select | app | 도메인·i18n 결합 |
+| lookup / modal editor | app `renderEditor` | 무거우면 2차 별도 모듈 검토 |
+
+#### Scope
+
+- `GenDataGrid.types.ts` — `editNormalize`, preset `editType`
+- `renderEditor.tsx`, paste pipeline — 정규화 hook
+- `cell-edit-api.md`, `editor-implementation-contract.md` 갱신
+- interaction 테스트: typing, paste, Tab/Enter/Escape가 built-in text와 동일
+- 소비처: `apps/demo` `userColumns` — `userColumnEditors.tsx` 제거·meta 전환 (별도 app PR)
+
+#### Deferred
+
+- regex·복잡 mask·IME 조합 세밀 정책
+- `@gen-office/datagrid-editors` 분리 패키지 (preset이 크게 늘 때만)
+
+Exit criteria:
+
+- `editNormalize` 또는 `editType: 'lowercaseText'`만으로 demo `loginId`가 동작하고 custom `renderEditor`가 불필요하다.
+- paste로 대문자를 넣어도 commit 전 값이 정규화된다.
+- CRUD `flushEditing()` + Save 경로에서 동일 값이 `getChangeSet()`에 반영된다.
+
+참고 소비처:
+
+- `apps/demo/src/pages/admin/user/userColumnEditors.tsx`
+- `apps/demo/src/pages/admin/user/userColumns.ts` (`loginId`)
+
 ### Gate 8.8 Row Hover Highlight
 
 Status: complete.
@@ -338,6 +427,7 @@ Exit criteria:
 
 ### Clipboard And Editing Follow-up
 
+- **Editor input normalize** — [`meta.editNormalize` / format presets](#editor-input-normalize--format-presets-metaeditnormalize) (demo `loginId` 배경)
 - paste-to-selection
 - clipboard value formatter policy
 - paste type coercion policy

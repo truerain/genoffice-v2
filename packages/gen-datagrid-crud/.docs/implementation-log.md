@@ -6,6 +6,21 @@ Records GenDataGridCrud package planning and implementation changes.
 
 ## 2026-07-09
 
+### Remaining Work Plan — Editor 제공 범위 외 명시
+
+- **요약:** cell editor는 gen-datagrid 책임. CRUD plan에 범위 외 절·gen-datagrid `editNormalize` backlog 링크.
+- **파일:** `.docs/plan/remaining-work-plan.md`
+
+### Remaining Work Plan — Add Row 삽입 위치 정리
+
+- **요약:** `createdRowPosition` (top/bottom) Gate 11 기구현 현황·연속 Add prepend 갭·per-call/arbitrary insert 범위를 `remaining-work-plan.md`에 정리.
+- **파일:** `.docs/plan/remaining-work-plan.md`
+
+### Remaining Work Plan 신설 — Add Row 첫 editable 포커스
+
+- **요약:** `plan/remaining-work-plan.md` 생성. 행 추가 후 첫 editable 컬럼 edit 진입 백로그 등록 (gen-datagrid handle API 선행 의존).
+- **파일:** `.docs/plan/remaining-work-plan.md`, `.docs/README.md`
+
 ### 디자인 토큰·theme 정렬 구현 (단계 1~3)
 
 - **조치:** `src/styles/tokens.css` 신설 (`--gen-datagrid-crud-*`, gen-datagrid Shell 파생). `index.css` theme `--color-*` 제거, action bar separator 1줄, grid `border-top` 삭제.
