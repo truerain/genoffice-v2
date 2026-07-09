@@ -23,7 +23,7 @@ import type {
 import { useI18n } from '../../../i18n';
 import { buildCommitPayload } from '../../../shared/api/commit';
 import { commitUsers, userKeys, type UserCommitPayload } from './userApi';
-import { NEW_ID, NEW_ROW_ID_PREFIX, type UserRow, type UserRequest } from './user.types';
+import { EMP_NO_MAX_LENGTH, NEW_ID, NEW_ROW_ID_PREFIX, type UserRow, type UserRequest } from './user.types';
 
 /**
  * [메인] Page가 사용하는 쓰기(CUD) 훅.
@@ -127,7 +127,7 @@ function toUserRequest(row: UserRow): UserRequest {
   return {
     userId: row.userId.startsWith(NEW_ROW_ID_PREFIX) ? NEW_ID : row.userId,
     loginId: row.loginId.trim().toLowerCase(),
-    empNo: row.empNo,
+    empNo: row.empNo.slice(0, EMP_NO_MAX_LENGTH),
     empName: row.empName,
     empNameEng: row.empNameEng,
     displayName: row.displayName,

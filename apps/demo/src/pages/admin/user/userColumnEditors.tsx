@@ -9,6 +9,12 @@
 
 import type * as React from 'react';
 import type { GenDataGridEditorContext } from '@gen-office/gen-datagrid';
+import { EMP_NO_MAX_LENGTH } from './user.types';
+
+type TextEditorOptions = {
+  maxLength?: number;
+  normalize?: (value: string) => string;
+};
 
 function editorKeyDown<TData>(
   event: React.KeyboardEvent<HTMLElement>,
@@ -44,31 +50,50 @@ function editorKeyDown<TData>(
   }
 }
 
-/** 소문자(a-z, 0-9, 기타 문자)만 draft에 반영하는 text editor */
-export function lowercaseTextEditor<TData>(ctx: GenDataGridEditorContext<TData>) {
-  const value = ctx.draftValue == null ? '' : String(ctx.draftValue);
-
-  return (
-    <input
-      aria-label={`${ctx.columnId} editor`}
-      autoCapitalize="off"
-      autoComplete="off"
-      autoCorrect="off"
-      autoFocus
-      className="gen-datagrid__editor"
-      placeholder={ctx.placeholder}
-      spellCheck={false}
-      type="text"
-      value={value}
-      onFocus={(event) => {
-        if (!ctx.selectOnFocus) return;
-        event.currentTarget.select();
-      }}
-      onChange={(event) => ctx.setDraftValue(event.target.value.toLowerCase())}
-      onBlur={() => {
-        if (ctx.commitOnBlur !== false) ctx.commit();
-      }}
-      onKeyDown={(event) => editorKeyDown(event, ctx)}
-    />
-  );
+function applyTextEditorValue(raw: string, options: TextEditorOptions) {
+  let next = raw;
+  if (options.normalize) next = options.normalize(next);
+  if (options.maxLength != null) next = next.slice(0, options.maxLength);
+  return next;
 }
+
+export function createTextEditor<TData>(options: TextEditorOptions = {}) {
+  return function textEditor(ctx: GenDataGridEditorContext<TData>) {
+    const value = ctx.draftValue == null ? '' : String(ctx.draftValue);
+
+    return (
+      <input
+        aria-label={`${ctx.columnId} editor`}
+        autoCapitalize="off"
+        autoComplete="off"
+        autoCorrect="off"
+        autoFocus
+        className="gen-datagrid__editor"
+        maxLength={options.maxLength}
+        placeholder={ctx.placeholder}
+        spellCheck={false}
+        type="text"
+        value={value}
+        onFocus={(event) => {
+          if (!ctx.selectOnFocus) return;
+          event.currentTarget.select();
+        }}
+        onChange={(event) =>
+          ctx.setDraftValue(applyTextEditorValue(event.target.value, options))
+        }
+        onBlur={() => {
+          if (ctx.commitOnBlur !== false) ctx.commit();
+        }}
+        onKeyDown={(event) => editorKeyDown(event, ctx)}
+      />
+    );
+  };
+}
+
+/** 소문자만 draft에 반영하는 text editor */
+export const lowercaseTextEditor = createTextEditor({
+  normalize: (value) => value.toLowerCase(),
+});
+
+/** 사번 — 최대 길이 제한 */
+export const empNoEditor = createTextEditor({ maxLength: EMP_NO_MAX_LENGTH });

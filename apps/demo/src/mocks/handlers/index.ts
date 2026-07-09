@@ -13,6 +13,7 @@ import { appMenuHandlers } from './appMenuHandlers';
 import { authHandlers } from './authHandlers';
 import { userHandlers } from './userHandlers';
 import { commonHandlers } from './commonHandlers';
+import { orgHandlers } from './orgHandlers';
 
 export const handlers: HttpHandler[] = 
 [
@@ -20,4 +21,5 @@ export const handlers: HttpHandler[] =
     ...appMenuHandlers, 
     ...userHandlers,
     ...commonHandlers,
+    ...orgHandlers,
 ];

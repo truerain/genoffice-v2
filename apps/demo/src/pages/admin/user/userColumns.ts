@@ -8,109 +8,166 @@
  *
  * - userId: 신규 행만 셀 표시, 편집 불가
  * - loginId: 소문자만 입력 (userColumnEditors)
+ * - empNo: 최대 10자 (userColumnEditors)
+ * - titleCd: 공통코드 lookup → titleName 표시, select editor
+ * - useYn: Y/N Switch — 셀 render 자체가 toggle (편집 모드 없음)
  *
  * @history
- * - 2026-07-09 loginId: 소문자 전용 editor
+ * - 2026-07-09 매핑 없는 선행 컬럼 추가(Expand toggle anchor)
+ * - 2026-07-09 useYn: 셀 render Switch toggle (emitCellValueChange)
+ * - 2026-07-09 orgName: 부서 Popup lookup (orgId)
+ * - 2026-07-09 empNo: 최대 10자 editor
  * - 2026-07-09 userId: 신규 행만 셀 표시
- * - 2026-07-09 userId: 신규 행(NEW_ROW_ID_PREFIX)은 편집 불가
  * - 2026-07-09 userColumns.tsx → userColumns.ts
  */
 
 import type { ColumnDef } from '@tanstack/react-table';
+import type * as React from 'react';
+import type { Lkup } from '../../../shared/domain/lkup.types';
+import type { Org } from '../../../shared/domain/org.types';
+import { lkupNameByCd, toLkupEditOptions } from '../../../shared/domain/lkupResolve';
+import { orgNameById } from '../../../shared/domain/orgResolve';
 import { NEW_ROW_ID_PREFIX, type UserRow } from './user.types';
-import { lowercaseTextEditor } from './userColumnEditors';
+import { empNoEditor, lowercaseTextEditor } from './userColumnEditors';
+import { createOrgLookupEditor } from './orgLookupEditor';
+import { createUseYnToggleCell } from './userColumnCells';
+import type { UserGridCellBridge } from './userGridCellBridge';
 
 /**
- * Grid Columns 정의
+ * 공통코드·부서 lookup이 필요한 Grid Columns 정의.
  */
-export const userColumns: ColumnDef<UserRow, unknown>[] = [
-  {
-    accessorKey: 'userId',
-    header: '사용자 ID',
-    size: 100,
-    meta: {
-      editable: false,
-      align: 'center',
+export function createUserColumns(
+  titleCodes: readonly Lkup[],
+  orgs: readonly Org[],
+  cellBridgeRef: React.RefObject<UserGridCellBridge>,
+): ColumnDef<UserRow, unknown>[] {
+  const titleNameByCd = (titleCd?: string) => lkupNameByCd(titleCodes, titleCd);
+  const titleEditOptions = toLkupEditOptions(titleCodes);
+  const orgLookupEditor = createOrgLookupEditor(orgs);
+  const useYnToggleCell = createUseYnToggleCell(cellBridgeRef);
+
+  return [
+    {
+      id: '_leading',
+      header: '',
+      size: 40,
+      minSize: 40,
+      maxSize: 40,
+      enableResizing: false,
+      enableColumnFilter: false,
+      meta: {
+        editable: false,
+        align: 'center',
+      },
+      cell: () => '',
     },
-    cell: ({ row, getValue }) =>
-      row.original.userId.startsWith(NEW_ROW_ID_PREFIX)
-        ?  '' : String(getValue() ?? ''),
-  },
-  {
-    accessorKey: 'loginId',
-    header: 'Login ID',
-    size: 140,
-    meta: {
-      editable: true,
-      editType: 'text',
-      renderEditor: lowercaseTextEditor,
+    {
+      accessorKey: 'userId',
+      header: '사용자 ID',
+      size: 100,
+      meta: {
+        editable: false,
+        align: 'center',
+      },
+      cell: ({ row, getValue }) =>
+        row.original.userId.startsWith(NEW_ROW_ID_PREFIX)
+          ? ''
+          : String(getValue() ?? ''),
     },
-  },
-  {
-    accessorKey: 'empNo',
-    header: '사번',
-    size: 120,
-    meta: { 
-      editable: true ,
-      align: 'center',
+    {
+      accessorKey: 'loginId',
+      header: 'Login ID',
+      size: 140,
+      meta: {
+        editable: true,
+        editType: 'text',
+        renderEditor: lowercaseTextEditor,
+      },
     },
-  },
-  {
-    accessorKey: 'empName',
-    header: '사용자명',
-    size: 130,
-    meta: { 
-      editable: true,
+    {
+      accessorKey: 'empNo',
+      header: '사번',
+      size: 120,
+      meta: {
+        editable: true,
+        align: 'center',
+        editType: 'text',
+        renderEditor: empNoEditor,
+      },
     },
-  },
-  {
-    accessorKey: 'empNameEng',
-    header: '사용자명(영문)',
-    size: 180,
-    meta: { 
-      editable: true,
+    {
+      accessorKey: 'empName',
+      header: '사용자명',
+      size: 130,
+      meta: {
+        editable: true,
+      },
     },
-  },
-  {
-    accessorKey: 'email',
-    header: 'Email',
-    size: 300,
-    meta: { editable: true },
-  },
-  {
-    accessorKey: 'titleName',
-    header: '직책',
-    size: 150,
-    meta: { 
-      editable: true,
-      align: 'center',
+    {
+      accessorKey: 'empNameEng',
+      header: '사용자명(영문)',
+      size: 180,
+      meta: {
+        editable: true,
+      },
     },
-  },
-  {
-    accessorKey: 'orgName',
-    header: '부서',
-    size: 150,
-    meta: { 
-      editable: true,
-      align: 'center',
+    {
+      accessorKey: 'email',
+      header: 'Email',
+      size: 300,
+      meta: { editable: true },
     },
-  },
-  {
-    accessorKey: 'active',
-    header: 'Active',
-    size: 90,
-    meta: { editable: true, align: 'center' },
-  },
-  {
-    accessorKey: 'lastUpdatedDate',
-    header: '최종수정시간',
-    size: 150,
-    meta: { editable: true, align: 'center' },
-  },
-  {
-    accessorKey: 'lastUpdatedName',
-    header: '최종수정자',
-    size: 160,
-    meta: { editable: true, align: 'center' },
-  },
-];
+    {
+      accessorKey: 'titleCd',
+      header: '직책',
+      size: 150,
+      meta: {
+        editable: true,
+        align: 'center',
+        editType: 'select',
+        getEditOptions: () => titleEditOptions,
+      },
+      cell: ({ row }) => {
+        const titleCd = row.original.titleCd;
+        return titleNameByCd(titleCd) || row.original.titleName || titleCd || '';
+      },
+    },
+    {
+      accessorKey: 'orgId',
+      header: '부서',
+      size: 180,
+      meta: {
+        editable: true,
+        align: 'center',
+        editBlurOwnership: 'modal',
+        renderEditor: orgLookupEditor,
+      },
+      cell: ({ row }) => {
+        const id = row.original.orgId;
+        return orgNameById(orgs, id) || row.original.orgName || id || '';
+      },
+    },
+    {
+      accessorKey: 'useYn',
+      header: '사용',
+      size: 90,
+      meta: {
+        editable: false,
+        align: 'center',
+      },
+      cell: useYnToggleCell,
+    },
+    {
+      accessorKey: 'lastUpdatedDate',
+      header: '최종수정시간',
+      size: 150,
+      meta: { editable: true, align: 'center' },
+    },
+    {
+      accessorKey: 'lastUpdatedName',
+      header: '최종수정자',
+      size: 160,
+      meta: { editable: true, align: 'center' },
+    },
+  ];
+}

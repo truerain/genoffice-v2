@@ -16,8 +16,48 @@
 
 import { http, HttpResponse, type HttpHandler } from 'msw';
 import { getApiBaseUrl } from '../../shared/api/env';
+import { LKUP_CLSS_CD } from '../../shared/domain/lkupClssCd';
+import { lkupNameByCd } from '../../shared/domain/lkupResolve';
+import { orgNameById } from '../../shared/domain/orgResolve';
 import { NEW_ID, type UserRow, type UserRequest } from '../../pages/admin/user/user.types';
+import { INITIAL_CODE } from '../data/common';
+import { INITIAL_DEMO_ORGS } from '../data/orgs';
 import { INITIAL_DEMO_USERS } from '../data/users';
+
+const TITLE_CODES = INITIAL_CODE.filter((row) => row.lkupClssCd === LKUP_CLSS_CD.TITLE_CD);
+
+function withResolvedTitle(row: UserRow, titleCd?: string): UserRow {
+  const cd = titleCd ?? row.titleCd;
+  if (!cd) return row;
+  const titleName = lkupNameByCd(TITLE_CODES, cd);
+  return {
+    ...row,
+    titleCd: cd,
+    ...(titleName ? { titleName } : {}),
+  };
+}
+
+function withResolvedOrg(row: UserRow, orgId?: string): UserRow {
+  const id = orgId ?? row.orgId;
+  if (!id) return row;
+  const orgName = orgNameById(INITIAL_DEMO_ORGS, id);
+  return {
+    ...row,
+    orgId: id,
+    ...(orgName ? { orgName } : {}),
+  };
+}
+
+function mergeCommittedRow(row: UserRow, patch: UserRequest): UserRow {
+  let merged: UserRow = { ...row, ...patch };
+  if (patch.titleCd !== undefined) {
+    merged = withResolvedTitle(merged, patch.titleCd);
+  }
+  if (patch.orgId !== undefined) {
+    merged = withResolvedOrg(merged, patch.orgId);
+  }
+  return merged;
+}
 
 interface UserCommitPayload {
   created: UserRequest[];
@@ -37,19 +77,22 @@ function createUserId(): string {
 
 /** 신규 행: 서버가 PK 채번(요청의 NEW_ID는 무시), 응답 파생 필드는 미설정 */
 function toRow(request: UserRequest): UserRow {
-  return {
-    userId: createUserId(),
-    loginId: request.loginId,
-    empNo: request.empNo,
-    empName: request.empName,
-    empNameEng: request.empNameEng,
-    displayName: request.displayName,
-    email: request.email,
-    orgId: request.orgId,
-    titleCd: request.titleCd,
-    langCd: request.langCd,
-    useYn: request.useYn,
-  };
+  return withResolvedOrg(
+    withResolvedTitle({
+      userId: createUserId(),
+      loginId: request.loginId,
+      empNo: request.empNo,
+      empName: request.empName,
+      empNameEng: request.empNameEng,
+      displayName: request.displayName,
+      email: request.email,
+      orgId: request.orgId,
+      titleCd: request.titleCd,
+      langCd: request.langCd,
+      useYn: request.useYn,
+    }),
+    request.orgId,
+  );
 }
 
 export const userHandlers: HttpHandler[] = [
@@ -82,7 +125,8 @@ export const userHandlers: HttpHandler[] = [
         .filter((row) => !deleted.has(row.userId))
         .map((row) => {
           const patch = updates.get(row.userId);
-          return patch ? { ...row, ...patch } : row;
+          if (!patch) return row;
+          return mergeCommittedRow(row, patch);
         }),
       ...body.created.map((request) => toRow(request)),
     ];

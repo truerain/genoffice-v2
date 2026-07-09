@@ -10,6 +10,7 @@
 
 export const LKUP_CLSS_CD = {
   USE_YN: 'USE_YN',
+  TITLE_CD: 'TITLE_CD',
 } as const;
 
 export type LkupClssCd = (typeof LKUP_CLSS_CD)[keyof typeof LKUP_CLSS_CD];

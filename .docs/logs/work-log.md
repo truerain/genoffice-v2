@@ -8,6 +8,61 @@
 
 ## 2026-07-09
 
+### gen-datagrid — MasterDetail 확장 버튼 재정의 계획 (Backlog)
+
+- **요약:** MasterDetail 확장 버튼의 위치(`detailToggleColumnId`)·렌더링(`renderDetailToggle`)·기본 스타일 토큰화 항목을 추가개발 계획에 등록.
+- **파일:** `packages/gen-datagrid/.docs/plan/remaining-work-plan.md`
+
+### apps/demo UserPage — userColumns 선행 더미 컬럼 추가
+
+- **요약:** 매핑 없는 `_leading` 컬럼을 맨 앞에 추가해 MasterDetail expand toggle이 데이터 컬럼 앞에서 고정되도록 조정.
+- **파일:** `apps/demo/src/pages/admin/user/userColumns.ts`
+
+### apps/demo UserPage — MasterDetail Row 사용자 상세 폼 조회
+
+- **요약:** `GenDataGridCrud` `gridProps`에 `enableMasterDetail`을 연결하고, 행 확장 시 사용자 정보를 2열 폼 형태로 조회하는 detail panel을 추가.
+- **파일:** `UserPage.tsx`, `userDetailPanel.module.css`
+
+### gen-datagrid — Dirty State Baseline Revert 계획 (Backlog)
+
+- **요약:** 값을 baseline으로 되돌려도 dirty가 남는 이슈를 `remaining-work-plan.md` Backlog에 등록. gen-datagrid-crud cross-link.
+- **파일:** `packages/gen-datagrid/.docs/plan/remaining-work-plan.md`, `packages/gen-datagrid-crud/.docs/plan/remaining-work-plan.md`
+
+### apps/demo UserPage — useYn 셀 render Switch toggle
+
+- **요약:** `useYn` 컬럼을 편집 모드 없이 셀에 Switch를 항상 표시. `GenDataGridHandle.emitCellValueChange`로 dirty 반영. `GenDataGridCrud`에 `gridRef` prop 추가.
+- **파일:** `userColumnCells.tsx`, `userGridCellBridge.ts`, `userColumns.ts`, `UserPage.tsx`, `packages/gen-datagrid/src/GenDataGrid.types.ts`, `DataGridRoot.tsx`, `packages/gen-datagrid-crud/src/GenDataGridCrud.tsx`, `GenDataGridCrud.types.ts`
+
+### apps/demo UserPage — useYn Switch toggle editor
+
+- **요약:** `useYn` 컬럼 `@gen-office/ui` Switch editor. Y/N만 허용, 토글 시 `applyValue` 즉시 반영. 표시는 USE_YN 공통코드 lookup.
+- **파일:** `userColumnEditors.tsx`, `userColumns.ts`, `UserPage.tsx`
+
+### apps/demo UserPage — 부서 Modal lookup (Popover → Modal)
+
+- **요약:** `orgLookupEditor`를 Modal 패턴으로 전환 (`editBlurOwnership: 'modal'`). 편집 시 모달에서 검색·선택.
+- **파일:** `orgLookupEditor.tsx`, `userColumns.ts`, `UserPage.tsx`
+
+### apps/demo UserPage — 부서 Popup lookup (orgId)
+
+- **요약:** 가상 부서 23건·GET /api/admin/orgs. `orgId` 컬럼 Popover 검색 editor·`orgName` 표시. commit 시 mock orgName 갱신.
+- **파일:** `mocks/data/orgs.ts`, `orgHandlers.ts`, `orgApi.ts`, `orgQuery.ts`, `orgLookupEditor.tsx`, `userColumns.ts`, `UserPage.tsx`, `userHandlers.ts`
+
+### apps/demo UserPage — TITLE_CD 직책 공통코드·select editor
+
+- **요약:** mock `TITLE_CD` 직책 리스트 추가. `titleCd` 컬럼 lookup 표시·select 편집. commit 시 mock에서 `titleName` 갱신.
+- **파일:** `mocks/data/common.ts`, `lkupClssCd.ts`, `lkupResolve.ts`, `userColumns.ts`, `UserPage.tsx`, `userHandlers.ts`
+
+### gen-datagrid — Built-in Editor meta 확장 계획
+
+- **요약:** `editMaxLength`·`editNormalize` 등 built-in editor column meta 후보 리스트·Gate 4.3 slice를 remaining-work-plan에 등록.
+- **파일:** `packages/gen-datagrid/.docs/plan/remaining-work-plan.md`, `gen-datagrid-crud/.docs/plan/remaining-work-plan.md`, `implementation-log.md`
+
+### apps/demo UserPage — empNo 10자 입력 제한
+
+- **요약:** `empNo` 컬럼 `maxLength` editor 적용. commit 시 `slice(0, 10)` 정규화.
+- **파일:** `userColumnEditors.tsx`, `userColumns.ts`, `user.types.ts`, `userMutation.ts`
+
 ### gen-datagrid — Editor Input Normalize 계획 (Backlog)
 
 - **요약:** `meta.editNormalize`·format preset·builtin factory 방안을 remaining-work-plan에 등록. demo loginId custom editor 배경.

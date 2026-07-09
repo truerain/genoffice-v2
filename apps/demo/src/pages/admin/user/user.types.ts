@@ -36,6 +36,9 @@ export const NEW_ID = '' as const;
 /** 신규 행의 임시 rowId 접두(그리드 식별용). 커밋 매핑에서 NEW_ID로 치환 */
 export const NEW_ROW_ID_PREFIX = '_new-';
 
+/** 사번 최대 입력 길이 */
+export const EMP_NO_MAX_LENGTH = 10;
+
 /** 서버로 보내는 편집 필드(응답 파생 titleName* 제외, PK userId 포함) */
 export type UserRequest = Omit<UserRow, 'titleName' | 'titleNameEng'>;
 

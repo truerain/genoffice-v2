@@ -22,4 +22,29 @@ export const INITIAL_CODE: Lkup[] = [
     lkupCd: 'N',
     lkupName: 'No',
   },
+  {
+    lkupClssCd: LKUP_CLSS_CD.TITLE_CD,
+    lkupCd: 'T1',
+    lkupName: '부장',
+  },
+  {
+    lkupClssCd: LKUP_CLSS_CD.TITLE_CD,
+    lkupCd: 'T2',
+    lkupName: '과장',
+  },
+  {
+    lkupClssCd: LKUP_CLSS_CD.TITLE_CD,
+    lkupCd: 'T3',
+    lkupName: '사원',
+  },
+  {
+    lkupClssCd: LKUP_CLSS_CD.TITLE_CD,
+    lkupCd: 'T4',
+    lkupName: '대리',
+  },
+  {
+    lkupClssCd: LKUP_CLSS_CD.TITLE_CD,
+    lkupCd: 'T5',
+    lkupName: '팀장',
+  },
 ];
