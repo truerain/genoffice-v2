@@ -62,6 +62,7 @@ export function useOpenPage({
         title: tab.title,
         content: tab.content,
         closable: pinnedPageIds.has(payload.pageId) ? false : tab.closable,
+        meta: tab.meta,
       };
     },
     [pinnedPageIds],

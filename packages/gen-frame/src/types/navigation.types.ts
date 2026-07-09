@@ -30,6 +30,7 @@ export interface MdiTabInput {
   title: string;
   content: ReactNode;
   closable?: boolean;
+  meta?: Record<string, unknown>;
 }
 
 export interface MdiNavigationStore {

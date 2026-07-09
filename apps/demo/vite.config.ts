@@ -4,7 +4,11 @@
  * @created 2026-06-28
  *
  * @remark
- * - `esbuild.jsx: automatic` — `@vitejs/plugin-react` 6 + vite 6.4 exports 이슈 회피
+ * - `esbuild.jsx: automatic` — `@vitejs/plugin-react` 6는 vite 6.4 `exports` 이슈로 SPA dev 미사용
+ * - MDI 탭 유지: `useDevMdiTabPersistence`(dev sessionStorage) + mdi HMR store 보존
+ *
+ * @history
+ * - 2026-07-09 plugin-react 시도 → vite 6.4 ERR_PACKAGE_PATH_NOT_EXPORTED, 롤백
  */
 
 import { defineConfig } from 'vite';

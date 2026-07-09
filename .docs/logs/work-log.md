@@ -8,6 +8,23 @@
 
 ## 2026-07-09
 
+### apps/demo dev MDI 탭 sessionStorage 복원
+
+- **요약:** Vite dev가 `page reload`할 때(예: `userColumns` 저장) MDI 탭을 `sessionStorage`에 저장·복원. `import.meta.env.DEV` 전용. 탭 `meta.componentName`·`params` 전달을 위해 gen-frame `MdiTabInput.meta`·`createMdiNavigationController` 보강.
+- **파일:** `apps/demo/src/app/mdi/*`, `AppShell.tsx`, `openPage.tsx`, `useOpenPage.ts`, `packages/gen-frame/src/navigation/createMdiNavigationController.ts`, `*Columns.ts`(JSX 없는 컬럼 3건 `.ts`화)
+- **미적용:** `@vitejs/plugin-react` — vite 6.4 `exports` 이슈로 롤백
+
+### @gen-office/mdi dev HMR 탭 상태 보존
+
+- **요약:** Vite HMR 시 `defaultMDIStore` 인스턴스를 `import.meta.hot.data`에 보관·재사용해 demo 개발 중 mdi 모듈 갱신 후에도 열린 탭이 유지되도록 함. 프로덕션 빌드 영향 없음(`import.meta.hot` 미사용).
+- **범위:** `packages/mdi/src/store/mdiStore.ts`, `packages/mdi/src/env.d.ts`
+- **후속:** sessionStorage 기반 full-reload 복원(2번)은 demo에서 별도 검토 예정
+
+### gen-chart 디자인 토큰 architecture (ChartTokens vs grid)
+
+- **요약:** TS ChartTokens + CSS chrome 정본. gen-datagrid와 원칙 정렬·구현 분리, B convention/theme bridge/demo 연동 후속 checklist(H1~H5).
+- **파일:** `packages/gen-chart/.docs/architecture/design-tokens-architecture.md`, `08-DESIGN-TOKENS-GUIDE.md` chart 절
+
 ### apps/demo 앱 스타일 template 네이밍
 
 - **요약:** reference app fork용 `demo-ui.css` → `app-shell.css`, `--app-*`, `datagrid-overrides.css`, `app-styles-naming.md`.

@@ -46,6 +46,10 @@ export function createPageTab(payload: OpenPagePayload): MDITab {
       />
     ),
     closable: payload.pageId !== DEMO_HOME_PAGE_ID,
+    meta: {
+      componentName: payload.componentName,
+      params: payload.params,
+    },
   };
 }
 
