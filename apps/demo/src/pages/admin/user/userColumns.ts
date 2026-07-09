@@ -21,7 +21,10 @@ export const userColumns: ColumnDef<UserRow, unknown>[] = [
     accessorKey: 'userId',
     header: '사용자 ID',
     size: 100,
-    meta: { editable: true },
+    meta: { 
+      editable: true ,
+      align: 'center',
+    },
   },
   {
     accessorKey: 'loginId',
@@ -30,21 +33,70 @@ export const userColumns: ColumnDef<UserRow, unknown>[] = [
     meta: { editable: true },
   },
   {
-    accessorKey: 'displayName',
-    header: 'Display name',
+    accessorKey: 'empNo',
+    header: '사번',
+    size: 120,
+    meta: { 
+      editable: true ,
+      align: 'center',
+    },
+  },
+  {
+    accessorKey: 'empName',
+    header: '사용자명',
+    size: 130,
+    meta: { 
+      editable: true,
+    },
+  },
+  {
+    accessorKey: 'empNameEng',
+    header: '사용자명(영문)',
     size: 180,
-    meta: { editable: true },
+    meta: { 
+      editable: true,
+    },
   },
   {
     accessorKey: 'email',
     header: 'Email',
-    size: 220,
+    size: 300,
     meta: { editable: true },
+  },
+  {
+    accessorKey: 'titleName',
+    header: '직책',
+    size: 150,
+    meta: { 
+      editable: true,
+      align: 'center',
+    },
+  },
+  {
+    accessorKey: 'orgName',
+    header: '부서',
+    size: 150,
+    meta: { 
+      editable: true,
+      align: 'center',
+    },
   },
   {
     accessorKey: 'active',
     header: 'Active',
     size: 90,
+    meta: { editable: true, align: 'center' },
+  },
+  {
+    accessorKey: 'lastUpdatedDate',
+    header: '최종수정시간',
+    size: 150,
+    meta: { editable: true, align: 'center' },
+  },
+  {
+    accessorKey: 'lastUpdatedName',
+    header: '최종수정자',
+    size: 160,
     meta: { editable: true, align: 'center' },
   },
 ];

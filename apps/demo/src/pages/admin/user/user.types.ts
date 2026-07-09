@@ -25,8 +25,8 @@ export type UserRow = {
   titleName?: string;
   titleNameEng?: string;
   langCd: string
-  active: boolean;
-  lastUpdatedDate: string;
+  useYn: string;
+  lastUpdatedDate?: string;
   lastUpdatedName?: string;
 };
 

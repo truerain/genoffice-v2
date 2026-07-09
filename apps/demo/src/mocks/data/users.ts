@@ -25,7 +25,7 @@ export const INITIAL_DEMO_USERS: UserRow[] = [
     titleName: '부장',
     titleNameEng: 'General Manager',
     langCd: 'ko',
-    active: true,
+    useYn: 'Y',
     lastUpdatedDate: '20260709 00:00:00',
     lastUpdatedName: 'SYSTEM'
     },
@@ -43,7 +43,7 @@ export const INITIAL_DEMO_USERS: UserRow[] = [
     titleName: '과장',
     titleNameEng: 'Manager',
     langCd: 'en',
-    active: true,
+    useYn: 'Y',
     lastUpdatedDate: '20260709 00:00:00',
     lastUpdatedName: 'SYSTEM'
   },
@@ -61,7 +61,7 @@ export const INITIAL_DEMO_USERS: UserRow[] = [
     titleName: '사원',
     titleNameEng: 'Staff',
     langCd: 'ko',
-    active: false,
+    useYn: 'N',
     lastUpdatedDate: '20260709 00:00:00',
     lastUpdatedName: 'SYSTEM'
   },
