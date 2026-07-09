@@ -20,12 +20,15 @@ export const INITIAL_DEMO_USERS: UserRow[] = [
     displayName: 'System Admin',
     email: 'admin@example.com',
     orgId: 'ORG-IT',
+    orgName: 'IT 혁신팀',
     titleCd: 'T1',
     titleName: '부장',
     titleNameEng: 'General Manager',
     langCd: 'ko',
     active: true,
-  },
+    lastUpdatedDate: '20260709 00:00:00',
+    lastUpdatedName: 'SYSTEM'
+    },
   {
     userId: 'u-2',
     loginId: 'jdoe',
@@ -35,11 +38,14 @@ export const INITIAL_DEMO_USERS: UserRow[] = [
     displayName: 'Jane Doe',
     email: 'jane.doe@example.com',
     orgId: 'ORG-SALES',
+    orgName: '영업팀',
     titleCd: 'T2',
     titleName: '과장',
     titleNameEng: 'Manager',
     langCd: 'en',
     active: true,
+    lastUpdatedDate: '20260709 00:00:00',
+    lastUpdatedName: 'SYSTEM'
   },
   {
     userId: 'u-3',
@@ -50,10 +56,13 @@ export const INITIAL_DEMO_USERS: UserRow[] = [
     displayName: 'Inactive User',
     email: 'inactive@example.com',
     orgId: 'ORG-HR',
+    orgName: '인사혁신팀',
     titleCd: 'T3',
     titleName: '사원',
     titleNameEng: 'Staff',
     langCd: 'ko',
     active: false,
+    lastUpdatedDate: '20260709 00:00:00',
+    lastUpdatedName: 'SYSTEM'
   },
 ];

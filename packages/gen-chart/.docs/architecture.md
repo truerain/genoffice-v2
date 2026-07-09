@@ -454,7 +454,7 @@ Gate 상세: [gates.md](./gates.md)
 | --- | --- |
 | legend·plot layout 순환 | legend HTML 고정 추정 → 추후 measure |
 | composed + stacked | C4에서 stacked 우선 |
-| ChartTokens vs theme CSS | `.docs`에 D4 임시 정책; 수동 정렬 |
+| ChartTokens vs theme CSS | [design-tokens-architecture.md](./architecture/design-tokens-architecture.md) — TS preset + B convention 목표; Phase 1 hex |
 | motion + hit-test | 목표 geometry 고정 |
 | scope creep (crosshair, dual Y) | backlog 명시 (crosshair Phase 1.5) |
 

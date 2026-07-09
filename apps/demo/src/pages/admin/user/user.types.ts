@@ -20,11 +20,14 @@ export type UserRow = {
   displayName: string;
   email?: string;
   orgId?: string;
+  orgName?: string;
   titleCd?: string;
   titleName?: string;
   titleNameEng?: string;
   langCd: string
   active: boolean;
+  lastUpdatedDate: string;
+  lastUpdatedName?: string;
 };
 
 /** 신규(create) 시 PK 자리에 넣는 sentinel — 서버가 채번 트리거로 인식 */

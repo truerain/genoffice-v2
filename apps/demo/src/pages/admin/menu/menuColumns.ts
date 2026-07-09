@@ -1,10 +1,13 @@
 /**
- * @file apps/demo/src/pages/admin/menu/menuColumns.tsx
+ * @file apps/demo/src/pages/admin/menu/menuColumns.ts
  * @description Column definitions for Menu tree grid (Gate D4).
  * @created 2026-06-29
  *
  * @remark
+ * - JSX 없음 → `.ts` (React Fast Refresh 시 page reload 방지)
  *
+ * @history
+ * - 2026-07-09 menuColumns.tsx → menuColumns.ts
  */
 
 import type { ColumnDef } from '@tanstack/react-table';

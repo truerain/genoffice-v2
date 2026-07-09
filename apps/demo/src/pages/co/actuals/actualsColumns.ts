@@ -1,11 +1,14 @@
 /**
- * @file apps/demo/src/pages/co/actuals/actualsColumns.tsx
+ * @file apps/demo/src/pages/co/actuals/actualsColumns.ts
  * @description Column definitions for Actuals readonly grid (Gate D4).
  * @created 2026-06-29
  *
  * @remark
  * - acctCd headerSpan: 2 — merges acctCd/acctName header band
+ * - JSX 없음 → `.ts` (React Fast Refresh 시 page reload 방지)
  *
+ * @history
+ * - 2026-07-09 actualsColumns.tsx → actualsColumns.ts
  */
 
 import type { ColumnDef } from '@tanstack/react-table';
