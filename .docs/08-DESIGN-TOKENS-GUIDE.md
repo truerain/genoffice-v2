@@ -146,7 +146,7 @@ flowchart TD
 | Button·Dialog 공통 스타일 | **theme** `components/*.css` | `--button-*`, `--dialog-*` |
 | 데이터 그리드 색 | **gen-datagrid** | `--gen-datagrid-*` (Shell만 theme semantic 브리지 + 폴백) |
 | CRUD 셸·Action bar | **gen-datagrid-crud** | `--gen-datagrid-crud-*` (`--gen-datagrid-*` 파생; theme `--color-*` 직참조 금지) |
-| 대시보드 차트 색 | **gen-chart** | 시리즈·범례 팔레트 |
+| 대시보드 차트 색 | **gen-chart** | `ChartTokens` (TS preset + `options.tokens`; chrome은 CSS). [design-tokens-architecture.md](../packages/gen-chart/.docs/architecture/design-tokens-architecture.md) |
 | 한 화면·한 배지 | **앱/페이지 CSS** | `--app-*` 또는 기존 status 재사용 |
 
 ---
