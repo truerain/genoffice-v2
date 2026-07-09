@@ -4,20 +4,22 @@
  * @created 2026-06-28
  *
  * @remark
- * - `esbuild.jsx: automatic` — `@vitejs/plugin-react` 6 + vite 6.4 exports 이슈 회피
+ * - `@vitejs/plugin-react@4.7` — Vite 6.4 호환 Fast Refresh (plugin-react 6.x는 Vite 8 전용)
+ *
+ * @history
+ * - 2026-07-09 plugin-react 복구 (esbuild-only full reload → 탭 초기화 이슈)
  */
 
+import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
+  plugins: [react()],
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
     },
-  },
-  esbuild: {
-    jsx: 'automatic',
   },
   server: {
     port: 5173,

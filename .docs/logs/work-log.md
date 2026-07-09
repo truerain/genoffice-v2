@@ -8,6 +8,12 @@
 
 ## 2026-07-09
 
+### apps/demo — React Fast Refresh 복구 (MDI 탭 dev 유지)
+
+- **요약:** `@vitejs/plugin-react@4.7` 추가 (Vite 6.4 호환; 6.x는 `vite/internal` 오류). esbuild-only dev full reload → MDI 탭 초기화 완화.
+- **파일:** `apps/demo/vite.config.ts`, `apps/demo/package.json`, 루트 `package.json` (demo 전용 override)
+- **검증:** `pnpm install`, `pnpm -C apps/demo build`
+
 ### @gen-office/mdi dev HMR 탭 상태 보존 (1번만 유지)
 
 - **요약:** Vite HMR 시 `defaultMDIStore` 인스턴스를 `import.meta.hot.data`에 보관·재사용. 프로덕션 영향 없음.
