@@ -6,6 +6,11 @@ Records GenDataGridCrud package planning and implementation changes.
 
 ## 2026-07-09
 
+### Remaining Work Plan — Built-in Editor meta cross-link
+
+- **요약:** gen-datagrid Gate 4.3 editor meta backlog 링크 갱신 (`Built-in Editor Column Meta Extensions`).
+- **파일:** `.docs/plan/remaining-work-plan.md`
+
 ### Remaining Work Plan — Editor 제공 범위 외 명시
 
 - **요약:** cell editor는 gen-datagrid 책임. CRUD plan에 범위 외 절·gen-datagrid `editNormalize` backlog 링크.

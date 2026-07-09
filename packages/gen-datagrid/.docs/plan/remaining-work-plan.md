@@ -307,94 +307,114 @@ Exit criteria:
 - `apps/demo/src/pages/admin/user/userColumns.ts` (userId 표시/편집)
 - `apps/demo/.docs/guide/page-conventions.md` §공통코드·컬럼 분기
 
-### Editor Input Normalize — Format Presets (meta.editNormalize)
+### Built-in Editor Column Meta Extensions
 
 Status: planned.
 
-배경 (2026-07-09, `apps/demo` `loginId` / `userColumnEditors.tsx`):
+배경 (2026-07-09, `apps/demo` `userColumnEditors.tsx`):
 
-- 소문자 전용 입력을 위해 app에서 `renderEditor`로 built-in text editor를 **거의 재작성**했다.
-- `handleBuiltinEditorKeyDown`, `createEditorBlurHandler`를 쓰지 않아 **키보드·blur 계약**이 built-in과 어긋날 수 있다.
-- paste는 editor를 거치지 않아 app `validateCommit` / commit mapper에서 **별도 정규화**가 필요하다.
-- `uppercaseText`, `digitsOnly` 등이 늘면 app마다 editor 복제가 반복된다.
+- `loginId` 소문자·`empNo` 10자 제한을 app `renderEditor`로 구현하면 built-in keyboard/blur 계약이 중복된다.
+- `maxLength`처럼 **선언 한 줄**로 충분한 제약도 custom editor가 필요하다.
+- paste·printable-key 진입은 editor를 거치지 않아 app `validateCommit` / commit mapper 보조가 반복된다.
 
-**패키지 소유:** `@gen-office/gen-datagrid` (editing runtime).  
-**`gen-datagrid-crud`는 editor 미제공** — [CRUD package design](../../gen-datagrid-crud/.docs/gen-datagrid-crud-package-design.md) §포함하지 않는다 (cell editing 재구현 안 함). CRUD는 `gridProps` 위임·문서 예시만.
+**패키지 소유:** `@gen-office/gen-datagrid`. **`gen-datagrid-crud`는 editor 미제공** — [CRUD package design](../../gen-datagrid-crud/.docs/gen-datagrid-crud-package-design.md).
 
-목표: format 제약(소문자·대문자·숫자만 등)을 **meta 한 줄**로 선언하고, typing·paste·printable-key 진입 등 **모든 입력 경로**에 동일 적용한다.
+목표: built-in `DefaultCellEditor`가 소비하는 **column meta**를 확장해, format·길이·숫자 범위 등을 `renderEditor` 없이 선언한다. 모든 입력 경로(typing, paste, printable-key)에 **동일 파이프라인** 적용.
 
-#### 권장 1차 API
+#### 기구현 meta (참고 — 변경 없음)
 
-```ts
-// GenDataGridColumnMeta
-editNormalize?: (value: unknown, ctx: GenDataGridEditableContext<TData>) => unknown;
+| Meta | 설명 |
+| --- | --- |
+| `editable` | 편집 가능 여부 (함수형 포함) |
+| `editType` | `text` \| `number` \| `date` \| `select` \| `textarea` \| `checkbox` |
+| `editOptions` / `getEditOptions` | select 옵션 |
+| `editPlaceholder` | input/textarea placeholder |
+| `editSelectOnFocus` | focus 시 전체 선택 (grid prop override) |
+| `editCommitOnBlur` | blur 시 commit (grid prop override) |
+| `editPolicy` | 진입·이동·openOnEditStart·blurOwnership |
+| `editBlurOwnership` | column blur ownership override |
+| `renderEditor` | custom editor (built-in meta보다 우선) |
 
-// 사용 예
-meta: {
-  editable: true,
-  editType: 'text',
-  editNormalize: (v) => String(v ?? '').toLowerCase(),
-}
+Grid props 대응: `editSelectOnFocus`, `editCommitOnBlur`, `editPolicy`, `editorFactory`, `isCellEditable`.
 
-// 또는 preset editType (내부적으로 editNormalize와 동일 구현)
-editType: 'lowercaseText' | 'uppercaseText' | 'digitsOnly';
+#### 추가 개발 후보 meta
+
+| Meta | 타입 | 적용 `editType` | 우선순위 | 설명 · demo 배경 |
+| --- | --- | --- | --- | --- |
+| **`editMaxLength`** | `number` | `text`, `textarea` | **1차** | 최대 글자 수. HTML `maxLength` + `slice`. **empNo 10자** |
+| **`editNormalize`** | `(value, ctx) => unknown` | text 계열 | **1차** | 값 변환 파이프라인. **loginId lowercase** |
+| **`editType` preset** | `lowercaseText` \| `uppercaseText` \| `digitsOnly` \| `alphanumeric` | — | **1차** | `editNormalize` sugar |
+| **`editTrimOnCommit`** | `boolean` | `text`, `textarea` | **1차** | commit 시 `trim()` (공백-only 방지 보조) |
+| **`editPattern`** | `RegExp` 또는 preset id | `text`, `textarea` | 2차 | 허용 문자 정규식. `digitsOnly`는 preset으로 |
+| **`editMinLength`** | `number` | `text`, `textarea` | 2차 | 최소 길이 — **validation** 연동 권장 (입력 차단만으로는 부족) |
+| **`editMin`** / **`editMax`** | `number` | `number`, `date` | 2차 | HTML `min` / `max` |
+| **`editStep`** | `number` | `number` | 2차 | HTML `step` |
+| **`editRows`** / **`editCols`** | `number` | `textarea` | 2차 | textarea 크기 힌트 |
+| **`editInputMode`** | `'text'` \| `'numeric'` \| `'decimal'` \| `'email'` \| `'tel'` \| `'url'` | `text`, `number` | 2차 | 모바일 키보드 힌트 (`inputMode`) |
+| **`editEmptyOption`** | `{ label, value? }` | `select` | 2차 | 빈 값 placeholder option |
+| **`editSelectClearable`** | `boolean` | `select` | 2차 | 선택 해제 허용 |
+| **`editParse`** / **`editFormat`** | `(value, ctx) => …` | `number`, `date`, `text` | 2차 | 표시값 ↔ 편집값 (천단위 등). paste coercion과 연계 |
+| **`editAutoComplete`** | `string` \| `'off'` | `text` | 3차 | HTML `autocomplete` |
+| **`editAutoCapitalize`** / **`editAutoCorrect`** / **`editSpellCheck`** | boolean | `text`, `textarea` | 3차 | 모바일·맞춤법 (loginId: off) |
+| **`editAriaLabel`** | `string` | 전체 | 3차 | `aria-label` override (기본: `{columnId} editor`) |
+| **`editClassName`** | `string` | 전체 | 3차 | editor DOM 추가 class |
+
+**범위 외 (app / custom `renderEditor`):** mask(전화번호)·popover lookup·modal editor·공통코드 `getEditOptions`·도메인 validation message.
+
+#### 값 처리 파이프라인 (구현 계약)
+
+모든 inbound 값에 동일 순서 적용:
+
+```text
+raw input
+  → editNormalize (및 editType preset)
+  → editMaxLength slice
+  → editPattern 필터 (거부 시 이전 draft 유지 또는 partial accept — architecture에서 확정)
+  → draft
+commit 시 (선택) editTrimOnCommit
+paste / printable-key / flushEditing 경로도 동일 hook
 ```
 
-공통 헬퍼 export (패키지 또는 `@gen-office/utils`):
+`GenDataGridEditorContext`에 resolved `maxLength`, `normalize`, `pattern` 등을 전달해 custom `renderEditor`도 동일 meta를 재사용할 수 있게 한다.
 
-- `normalizeLowercase`, `normalizeUppercase`, `normalizeDigitsOnly`
+공통 헬퍼 export (`@gen-office/gen-datagrid` 또는 `@gen-office/utils`):
 
-#### 적용 지점 (누락 시 버그)
+- `normalizeLowercase`, `normalizeUppercase`, `normalizeDigitsOnly`, `normalizeMaxLength(n)`
 
-1. `DefaultCellEditor` `onChange` (`renderEditor.tsx`)
-2. paste application → `onCellValueChange` 직전 (Gate 4.2 경로)
-3. (선택) printable-key로 편집 시작할 때 첫 문자
+#### 구현 slice
 
-#### 2차 — custom editor 기반 (mask·lookup 등)
-
-built-in으로 안 되는 UI는 **factory export**로 복제만 줄인다.
-
-```ts
-import { createBuiltinTextEditor, normalizeLowercase } from '@gen-office/gen-datagrid';
-
-meta: { renderEditor: createBuiltinTextEditor({ normalize: normalizeLowercase }) }
-```
-
-- `handleBuiltinEditorKeyDown`, `createEditorBlurHandler`를 public export 또는 factory 내부 캡슐화
-- popover/modal lookup은 app custom `renderEditor` 유지 (Gate 4.1-d surface)
-
-#### 제공 범위 정리
-
-| 종류 | 제공 위치 | 비고 |
+| Slice | 항목 | 산출 |
 | --- | --- | --- |
-| lowercase / uppercase / digits | gen-datagrid meta (1차) | loginId, code, 사번 |
-| text / number / date / select / textarea / checkbox | **기구현** `editType` | 변경 없음 |
-| email·phone mask, 공통코드 select | app | 도메인·i18n 결합 |
-| lookup / modal editor | app `renderEditor` | 무거우면 2차 별도 모듈 검토 |
+| **4.3-a** | `editMaxLength`, `editNormalize`, preset `editType`, `editTrimOnCommit` | `DefaultCellEditor`, paste, context, tests |
+| **4.3-b** | `editMin`/`editMax`/`editStep`, `editRows`/`editCols`, select empty/clearable | number/textarea/select built-in |
+| **4.3-c** | `editPattern`, `editInputMode`, HTML attribute meta | 고급 text 제약 |
+| **4.3-d** | `createBuiltinTextEditor` factory, keyboard/blur helper export | custom editor 복제 제거 |
 
 #### Scope
 
-- `GenDataGrid.types.ts` — `editNormalize`, preset `editType`
-- `renderEditor.tsx`, paste pipeline — 정규화 hook
-- `cell-edit-api.md`, `editor-implementation-contract.md` 갱신
-- interaction 테스트: typing, paste, Tab/Enter/Escape가 built-in text와 동일
+- `GenDataGrid.types.ts` — meta·context 타입
+- `features/editing/renderEditor.tsx`, `editorContext.ts`, `cellRuntime.ts` — resolve·적용
+- paste pipeline (`features/range-selection/` 등) — inbound 정규화
+- `cell-edit-api.md`, `editor-implementation-contract.md`, `api-structure.md`
+- interaction 테스트: typing, paste, Tab/Enter/Escape, CRUD `flushEditing` + Save
 - 소비처: `apps/demo` `userColumns` — `userColumnEditors.tsx` 제거·meta 전환 (별도 app PR)
 
 #### Deferred
 
-- regex·복잡 mask·IME 조합 세밀 정책
-- `@gen-office/datagrid-editors` 분리 패키지 (preset이 크게 늘 때만)
+- IME 조합 중간 상태·regex 거부 UX 세밀 정책
+- `editMinLength` 입력 차단 vs commit validation only 정책
+- `@gen-office/datagrid-editors` 분리 패키지
 
-Exit criteria:
+#### Exit criteria
 
-- `editNormalize` 또는 `editType: 'lowercaseText'`만으로 demo `loginId`가 동작하고 custom `renderEditor`가 불필요하다.
-- paste로 대문자를 넣어도 commit 전 값이 정규화된다.
-- CRUD `flushEditing()` + Save 경로에서 동일 값이 `getChangeSet()`에 반영된다.
+- `meta: { editType: 'text', editNormalize: lowercase, editMaxLength: 10 }`만으로 demo `loginId`·`empNo` 동작.
+- paste·Save(`flushEditing`) 후에도 동일 제약이 유지된다.
+- built-in keyboard/blur 테스트 회귀 없음.
 
 참고 소비처:
 
 - `apps/demo/src/pages/admin/user/userColumnEditors.tsx`
-- `apps/demo/src/pages/admin/user/userColumns.ts` (`loginId`)
+- `apps/demo/src/pages/admin/user/userColumns.ts` (`loginId`, `empNo`)
 
 ### Gate 8.8 Row Hover Highlight
 
@@ -427,7 +447,7 @@ Exit criteria:
 
 ### Clipboard And Editing Follow-up
 
-- **Editor input normalize** — [`meta.editNormalize` / format presets](#editor-input-normalize--format-presets-metaeditnormalize) (demo `loginId` 배경)
+- **Built-in editor column meta** — [`editMaxLength`, `editNormalize` 등](#built-in-editor-column-meta-extensions) (Gate 4.3 slice)
 - paste-to-selection
 - clipboard value formatter policy
 - paste type coercion policy

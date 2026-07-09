@@ -166,5 +166,5 @@ virtualized 그리드에서는 `scrollToCell` + edit start 순서를 position별
 
 cell editor·입력 format 정규화는 **gen-datagrid** 책임이다. CRUD는 editing runtime을 재구현하지 않는다.
 
-- 구현·백로그: [`gen-datagrid remaining-work-plan` — Editor Input Normalize](../../gen-datagrid/.docs/plan/remaining-work-plan.md#editor-input-normalize--format-presets-metaeditnormalize)
-- app 연동: `GenDataGridCrud` `gridProps` / column `meta`로 위임. demo `userColumnEditors.tsx`는 gen-datagrid slice 완료 후 meta 전환 예정
+- 구현·백로그: [`gen-datagrid` Built-in Editor Column Meta Extensions](../../gen-datagrid/.docs/plan/remaining-work-plan.md#built-in-editor-column-meta-extensions)
+- app 연동: `GenDataGridCrud` `gridProps` / column `meta`로 위임. demo `userColumnEditors.tsx`는 Gate 4.3 완료 후 meta 전환 예정

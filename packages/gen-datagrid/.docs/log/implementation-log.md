@@ -1,5 +1,10 @@
 ## 2026-07-09
 
+### Built-in Editor Column Meta Extensions 계획 (Backlog)
+
+- **요약:** 기구현 meta·추가 후보(`editMaxLength`, `editNormalize` 등) 리스트·Gate 4.3 slice·값 파이프라인을 `remaining-work-plan.md`에 정리.
+- **파일:** `.docs/plan/remaining-work-plan.md`, `../../gen-datagrid-crud/.docs/plan/remaining-work-plan.md`
+
 ### Editor Input Normalize 계획 (Backlog)
 
 - **요약:** `meta.editNormalize`·format preset·builtin editor factory 방안을 `remaining-work-plan.md`에 정리. gen-datagrid-crud는 editor 범위 외 cross-link.
