@@ -8,6 +8,18 @@
 
 ## 2026-07-09
 
+### gen-datagrid-crud 디자인 토큰 구현 (WS1.3)
+
+- **요약:** `styles/tokens.css` 신설, `index.css` theme 직참조 제거·보더 정리. CRUD 토큰은 `--gen-datagrid-*` Shell만 파생. dist 검증·vitest 17 passed.
+- **범위:** `packages/gen-datagrid-crud/src/{styles/tokens.css, index.css}`, crud docs 갱신.
+- **파일:** 위 + `.docs/10-THEME-TOKEN-MIGRATION-PLAN.md` §6.6 체크리스트
+
+### gen-datagrid-crud 디자인 토큰·theme 정렬 계획 문서
+
+- **요약:** CRUD가 theme `--color-*`를 직접 쓰는 문제를 architecture/plan으로 정리. `--gen-datagrid-crud-*` 신설(값은 `--gen-datagrid-*` 파생), `styles/tokens.css`, action bar↔grid 보더 1줄 정책. `.docs/10` §6.6 WS1.3 등록.
+- **범위:** 문서만(코드 무변경).
+- **파일:** `packages/gen-datagrid-crud/.docs/{architecture/design-tokens-architecture.md, plan/design-tokens-restructure-plan.md, README.md}`, `.docs/10-THEME-TOKEN-MIGRATION-PLAN.md`
+
 ### Gate 8.8 Row Hover Highlight 구현
 
 - **요약:** `enableRowHoverHighlight` 기본 **true**(AG Grid와 동일). 끄려면 `false`. `--gen-datagrid-row-hover-bg` + 루트 data-attr + CSS `:hover`. current/selection/deleted에 양보.

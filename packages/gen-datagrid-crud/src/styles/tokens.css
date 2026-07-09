@@ -1,0 +1,33 @@
+/**
+ * @file packages/gen-datagrid-crud/src/styles/tokens.css
+ * @description GenDataGridCrud design tokens (--gen-datagrid-crud-*). Values derive from --gen-datagrid-* Shell only.
+ * @created 2026-07-09
+ *
+ * @remark
+ * - theme CSS는 import하지 않습니다. theme semantic 브리지는 gen-datagrid Shell이 담당합니다.
+ * - 소비자 커스터마이징: :root 또는 .gen-datagrid-crud에서 --gen-datagrid-crud-* 재정의.
+ * - 구조 정본: packages/gen-datagrid-crud/.docs/architecture/design-tokens-architecture.md
+ */
+:root {
+  /* ── Shell (gen-datagrid Shell 파생) ── */
+  --gen-datagrid-crud-border: var(--gen-datagrid-border);
+  --gen-datagrid-crud-bg: var(--gen-datagrid-bg);
+  --gen-datagrid-crud-text: var(--gen-datagrid-text);
+  --gen-datagrid-crud-text-muted: var(--gen-datagrid-text-muted);
+  --gen-datagrid-crud-surface: var(--gen-datagrid-surface);
+
+  /* ── Chrome · Action bar ── */
+  --gen-datagrid-crud-actionbar-bg: var(--gen-datagrid-crud-surface);
+  --gen-datagrid-crud-actionbar-border: var(--gen-datagrid-crud-border);
+  --gen-datagrid-crud-actionbar-padding: 8px;
+  --gen-datagrid-crud-actionbar-gap: 8px;
+  --gen-datagrid-crud-actionbar-title-font-size: 14px;
+  --gen-datagrid-crud-actionbar-title-font-weight: 600;
+  --gen-datagrid-crud-actionbar-title-color: var(--gen-datagrid-crud-text);
+  --gen-datagrid-crud-actionbar-total-font-size: 12px;
+  --gen-datagrid-crud-actionbar-total-color: var(--gen-datagrid-crud-text-muted);
+  --gen-datagrid-crud-actionbar-divider: var(--gen-datagrid-crud-border);
+
+  /* ── Layout · action bar ↔ grid 구분선 ── */
+  --gen-datagrid-crud-layout-grid-separator: var(--gen-datagrid-crud-border);
+}

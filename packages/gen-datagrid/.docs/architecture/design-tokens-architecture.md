@@ -8,7 +8,7 @@
 
 GenDataGrid의 `--gen-datagrid-*` CSS 커스텀 프로퍼티 **계층·네이밍·theme 연동 규칙**을 정의한다. 구현 순서·체크리스트는 [plan/design-tokens-restructure-plan.md](../plan/design-tokens-restructure-plan.md)를 본다.
 
-> **상태:** 초기 토큰 내부화(2026-07-08) 완료 후 **계층 재구조화** 대기. 본 문서는 구조 정본.
+> **상태:** 계층 재구조화(2026-07-09) 및 Gate 8.8 row hover **완료**. 본 문서는 구조 정본.
 >
 > 관련: [design-tokens-restructure-plan.md](../plan/design-tokens-restructure-plan.md) · [.docs/10-THEME-TOKEN-MIGRATION-PLAN.md](../../../../.docs/10-THEME-TOKEN-MIGRATION-PLAN.md) · [08-DESIGN-TOKENS-GUIDE.md](../../../../.docs/08-DESIGN-TOKENS-GUIDE.md) · [Gate 8.7 System Columns](gate-8-7-system-columns-architecture.md)
 

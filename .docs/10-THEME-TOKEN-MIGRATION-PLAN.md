@@ -167,7 +167,19 @@ WS1은 theme 연동·hex 제거를 달성했으나, 토큰 트리가 **팔레트
 - [x] `src/styles/tokens.css` 계층 재작성 (`src/tokens.css`에서 이동)
 - [x] `index.css` 영역 토큰 치환, `--gen-datagrid-color-*` 제거
 - [x] gen-datagrid / gen-datagrid-crud 빌드 (데모 라이트/다크 육안은 수동)
-- [x] `08-DESIGN-TOKENS-GUIDE.md` grid 절 갱신
+### 6.6 WS1.3 — gen-datagrid-crud 토큰 정렬 (후속)
+
+CRUD `index.css`가 theme semantic(`--color-*`)을 직접 참조하고 `--color-fg-default` 등 잘못된 이름을 사용한다. gen-datagrid Shell 파생 + `--gen-datagrid-crud-*`로 정렬한다.
+
+**정본:** [packages/gen-datagrid-crud/.docs/architecture/design-tokens-architecture.md](../packages/gen-datagrid-crud/.docs/architecture/design-tokens-architecture.md) · [plan](../packages/gen-datagrid-crud/.docs/plan/design-tokens-restructure-plan.md)
+
+**WS1.3 체크리스트**
+
+- [x] 구조·계획 문서 작성
+- [x] `src/styles/tokens.css` 신설
+- [x] `index.css` theme 직참조 제거·보더 정리
+- [x] crud build·vitest
+- [ ] demo 라이트/다크 육안
 
 ---
 

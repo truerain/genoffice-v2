@@ -4,6 +4,19 @@ Records GenDataGridCrud package planning and implementation changes.
 
 # GenDataGridCrud 구현 로그
 
+## 2026-07-09
+
+### 디자인 토큰·theme 정렬 구현 (단계 1~3)
+
+- **조치:** `src/styles/tokens.css` 신설 (`--gen-datagrid-crud-*`, gen-datagrid Shell 파생). `index.css` theme `--color-*` 제거, action bar separator 1줄, grid `border-top` 삭제.
+- **검증:** `pnpm -C packages/gen-datagrid-crud build` · vitest 17 passed. dist에 `--gen-datagrid-crud-actionbar-bg` 존재, `--color-fg-default` 없음.
+- **관련 파일:** `src/styles/tokens.css`(신규), `src/index.css`, `.docs/architecture/design-tokens-architecture.md`, `.docs/plan/design-tokens-restructure-plan.md`
+
+### 디자인 토큰·theme 정렬 architecture/plan (단계 0)
+
+- **조치:** `index.css`의 theme semantic 직참조·`--color-fg-default` 오류·이중 보더 이슈를 정리. `--gen-datagrid-crud-*`는 gen-datagrid Shell만 파생, theme `--color-*` 금지. `styles/tokens.css` + action bar chrome + layout separator 정책 문서화.
+- **관련 파일:** `.docs/architecture/design-tokens-architecture.md`(신규), `.docs/plan/design-tokens-restructure-plan.md`(신규), `.docs/README.md`
+
 ## 2026-07-08
 
 ### 셀 편집값 in-place 표시 (dirty overlay)
