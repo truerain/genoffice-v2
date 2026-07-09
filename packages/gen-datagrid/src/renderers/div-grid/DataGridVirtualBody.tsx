@@ -10,6 +10,7 @@ import type {
   GenDataGridCellValidation,
   GenDataGridCellValueChange,
   GenDataGridDetailPanelContext,
+  GenDataGridDetailToggleProps,
   GenDataGridEditableContext,
   GenDataGridEditPolicy,
   GenDataGridEditorFactory,
@@ -109,6 +110,11 @@ type DataGridVirtualBodyProps<TData> = {
   expandedRows?: GenDataGridExpandedRowState;
   getRowCanExpand?: (ctx: GenDataGridRowContext<TData>) => boolean;
   renderDetailPanel?: (ctx: GenDataGridDetailPanelContext<TData>) => React.ReactNode;
+  detailToggleColumnId?: string;
+  renderDetailToggle?: (
+    ctx: import('../../GenDataGrid.types').GenDataGridDetailToggleContext<TData>
+  ) => React.ReactNode;
+  detailToggleProps?: GenDataGridDetailToggleProps;
   detailPanelHeight?: number;
   onExpandedRowToggle?: (rowId: string, expanded: boolean) => void;
   enableTreeRows?: boolean;
@@ -251,6 +257,9 @@ export function DataGridVirtualBody<TData>({
   expandedRows = {},
   getRowCanExpand,
   renderDetailPanel,
+  detailToggleColumnId,
+  renderDetailToggle,
+  detailToggleProps,
   detailPanelHeight = 160,
   onExpandedRowToggle,
   enableTreeRows = false,
@@ -312,6 +321,7 @@ export function DataGridVirtualBody<TData>({
             continueClick: nextRuntime?.resolvedEditPolicy.continueTriggers.click ?? false,
             onCellValueChange,
             onEditCancel: onEditDeactivate,
+            applyCommitValue: editingRuntime.applyCommitValue,
           });
         } else {
           onEditDeactivate();
@@ -700,6 +710,9 @@ export function DataGridVirtualBody<TData>({
                 canExpand={canExpand}
                 isExpanded={isExpanded}
                 onExpandedChange={(expanded) => onExpandedRowToggle?.(row.id, expanded)}
+                detailToggleColumnId={detailToggleColumnId}
+                renderDetailToggle={renderDetailToggle}
+                detailToggleProps={detailToggleProps}
                 treeDepth={enableTreeRows ? row.depth : 0}
                 treeParentRowId={enableTreeRows ? row.parentId : undefined}
                 treeCanExpand={treeCanExpand}

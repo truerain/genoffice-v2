@@ -24,6 +24,8 @@ export type {
   GenDataGridCellContext,
   GenDataGridColumnAlign,
   GenDataGridDetailPanelContext,
+  GenDataGridDetailToggleContext,
+  GenDataGridDetailToggleProps,
   GenDataGridDeleteRowsBehavior,
   GenDataGridEditableContext,
   GenDataGridEditorContext,
@@ -33,7 +35,9 @@ export type {
   GenDataGridEditPolicy,
   GenDataGridEditStartTriggers,
   GenDataGridEditOption,
+  GenDataGridBuiltinEditType,
   GenDataGridEditType,
+  GenDataGridEditTypePreset,
   GenDataGridFilterMode,
   GenDataGridHandle,
   GenDataGridPaginationMode,
@@ -55,6 +59,13 @@ export type {
   GenDataGridVisualRowMergeOption,
   GenDataGridVisualRowMergeState,
 } from './GenDataGrid.types';
+export {
+  normalizeAlphanumeric,
+  normalizeDigitsOnly,
+  normalizeLowercase,
+  normalizeMaxLength,
+  normalizeUppercase,
+} from './features/editing/editValuePipeline';
 export type {
   GenDataGridCellCoord,
   GenDataGridRangeSelection,

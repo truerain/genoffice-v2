@@ -8,6 +8,11 @@
 
 ## 2026-07-09
 
+### gen-datagrid — P1 Built-in Editor Meta + MasterDetail Toggle 구현
+
+- **요약:** editor column meta(`editMaxLength`, `editNormalize`, preset `editType`) 및 MasterDetail toggle API 구현. demo `loginId`/`empNo` meta 전환, `userColumnEditors.tsx` 제거, `detailToggleColumnId: '_leading'`.
+- **파일:** `packages/gen-datagrid/src/features/editing/editValuePipeline.ts`, `features/master-detail/detailToggle.tsx`, `apps/demo/src/pages/admin/user/userColumns.ts`, `UserPage.tsx`
+
 ### gen-datagrid — Row Status Cell Display Context 구현
 
 - **요약:** `meta.renderCell`·`cellClassName`·`cellStyle`에 `rowStatus` 포함 `GenDataGridCellContext` 주입. demo `userId` sentinel 우회 제거. demo에 `@gen-office/gen-datagrid` 직접 의존성 추가.

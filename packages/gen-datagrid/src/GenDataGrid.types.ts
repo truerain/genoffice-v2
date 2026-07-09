@@ -47,13 +47,21 @@ export type GenDataGridHandle<TData = unknown> = {
   getRowStatus: (rowId: string) => GenDataGridRowStatus | undefined;
 };
 
-export type GenDataGridEditType =
+export type GenDataGridBuiltinEditType =
   | 'text'
   | 'number'
   | 'date'
   | 'select'
   | 'textarea'
   | 'checkbox';
+
+export type GenDataGridEditTypePreset =
+  | 'lowercaseText'
+  | 'uppercaseText'
+  | 'digitsOnly'
+  | 'alphanumeric';
+
+export type GenDataGridEditType = GenDataGridBuiltinEditType | GenDataGridEditTypePreset;
 
 export type GenDataGridEditOption = {
   label: string;
@@ -143,6 +151,9 @@ export type GenDataGridEditorContext<TData> = GenDataGridEditableContext<TData> 
   cancel: () => void;
   applyValue: (nextValue: unknown) => void;
   editType?: GenDataGridEditType;
+  inputEditType?: GenDataGridBuiltinEditType;
+  editMaxLength?: number;
+  editTrimOnCommit?: boolean;
   editOptions?: readonly GenDataGridEditOption[];
   placeholder?: string;
   selectOnFocus?: boolean;
@@ -216,6 +227,18 @@ export type GenDataGridDetailPanelContext<TData> = GenDataGridRowContext<TData> 
 export type GenDataGridTreeRowContext<TData> = GenDataGridRowContext<TData> & {
   depth: number;
   parentRowId?: string;
+};
+
+export type GenDataGridDetailToggleContext<TData> = GenDataGridRowContext<TData> & {
+  expanded: boolean;
+  canExpand: boolean;
+  toggle: () => void;
+};
+
+export type GenDataGridDetailToggleProps = {
+  ariaLabelExpand?: string;
+  ariaLabelCollapse?: string;
+  className?: string;
 };
 
 export type GenDataGridPasteErrorReason =
@@ -297,6 +320,9 @@ export type GenDataGridColumnMeta<TData, TValue = unknown> = {
   editCommitOnBlur?: boolean;
   editBlurOwnership?: GenDataGridEditBlurOwnership;
   editPolicy?: GenDataGridEditPolicy;
+  editMaxLength?: number;
+  editNormalize?: (value: unknown, ctx: GenDataGridEditableContext<TData>) => unknown;
+  editTrimOnCommit?: boolean;
   renderCell?: (ctx: GenDataGridCellContext<TData>) => React.ReactNode;
   cellClassName?: string | ((ctx: GenDataGridCellContext<TData>) => string | undefined);
   cellStyle?: React.CSSProperties | ((ctx: GenDataGridCellContext<TData>) => React.CSSProperties | undefined);
@@ -391,6 +417,9 @@ export type GenDataGridProps<TData> = {
   onExpandedRowsChange?: (next: GenDataGridExpandedRowState) => void;
   getRowCanExpand?: (ctx: GenDataGridRowContext<TData>) => boolean;
   renderDetailPanel?: (ctx: GenDataGridDetailPanelContext<TData>) => React.ReactNode;
+  detailToggleColumnId?: string;
+  renderDetailToggle?: (ctx: GenDataGridDetailToggleContext<TData>) => React.ReactNode;
+  detailToggleProps?: GenDataGridDetailToggleProps;
   detailPanelHeight?: number;
   scrollSeeking?: boolean | GenDataGridScrollSeekingOptions;
   clipboardOptions?: {

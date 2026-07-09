@@ -446,25 +446,25 @@
 
 .gen-datagrid__detail-toggle {
   flex: 0 0 auto;
-  width: 22px;
-  height: 22px;
+  width: var(--gen-datagrid-detail-toggle-size, 22px);
+  height: var(--gen-datagrid-detail-toggle-size, 22px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin: 0 6px 0 -2px;
+  margin: 0 var(--gen-datagrid-detail-toggle-gap, 6px) 0 -2px;
   padding: 0;
-  border: 1px solid var(--gen-datagrid-border);
-  border-radius: 3px;
-  color: var(--gen-datagrid-text);
-  background: var(--gen-datagrid-bg);
+  border: 1px solid var(--gen-datagrid-detail-toggle-border, var(--gen-datagrid-border));
+  border-radius: var(--gen-datagrid-detail-toggle-radius, 3px);
+  color: var(--gen-datagrid-detail-toggle-color, var(--gen-datagrid-text));
+  background: var(--gen-datagrid-detail-toggle-bg, var(--gen-datagrid-bg));
   font: inherit;
   line-height: 1;
 }
 
 .gen-datagrid__detail-toggle:hover,
 .gen-datagrid__detail-toggle:focus-visible {
-  border-color: var(--gen-datagrid-accent);
-  color: var(--gen-datagrid-accent);
+  border-color: var(--gen-datagrid-detail-toggle-hover-border, var(--gen-datagrid-accent));
+  color: var(--gen-datagrid-detail-toggle-hover-color, var(--gen-datagrid-accent));
   outline: none;
 }
 

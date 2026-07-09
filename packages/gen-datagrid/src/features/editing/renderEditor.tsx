@@ -40,6 +40,7 @@ function useOpenOnEditStart<TElement extends HTMLElement>(
 function DefaultCellEditor<TData>({ ctx }: { ctx: GenDataGridEditorContext<TData> }) {
   const selectRef = React.useRef<HTMLSelectElement | null>(null);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
+  const inputEditType = ctx.inputEditType ?? 'text';
 
   const handleBlur = React.useMemo(
     () =>
@@ -53,14 +54,14 @@ function DefaultCellEditor<TData>({ ctx }: { ctx: GenDataGridEditorContext<TData
     [ctx]
   );
 
-  useOpenOnEditStart(selectRef, Boolean(ctx.openOnEditStart) && ctx.editType === 'select', (element) => {
+  useOpenOnEditStart(selectRef, Boolean(ctx.openOnEditStart) && inputEditType === 'select', (element) => {
     element.focus();
     element.click();
   });
 
   useOpenOnEditStart(
     inputRef,
-    Boolean(ctx.openOnEditStart) && ctx.editType === 'date',
+    Boolean(ctx.openOnEditStart) && inputEditType === 'date',
     (element) => {
       const pickerElement = element as HTMLInputElement & {
         showPicker?: () => void;
@@ -74,12 +75,13 @@ function DefaultCellEditor<TData>({ ctx }: { ctx: GenDataGridEditorContext<TData
     }
   );
 
-  if (ctx.editType === 'textarea') {
+  if (inputEditType === 'textarea') {
     return (
       <textarea
         aria-label={`${ctx.columnId} editor`}
         autoFocus
         className="gen-datagrid__editor gen-datagrid__editor--textarea"
+        maxLength={ctx.editMaxLength}
         placeholder={ctx.placeholder}
         value={String(normalizeEditorValue(ctx.draftValue))}
         onFocus={(event) => {
@@ -93,7 +95,7 @@ function DefaultCellEditor<TData>({ ctx }: { ctx: GenDataGridEditorContext<TData
     );
   }
 
-  if (ctx.editType === 'select') {
+  if (inputEditType === 'select') {
     return (
       <select
         ref={selectRef}
@@ -114,7 +116,7 @@ function DefaultCellEditor<TData>({ ctx }: { ctx: GenDataGridEditorContext<TData
     );
   }
 
-  if (ctx.editType === 'checkbox') {
+  if (inputEditType === 'checkbox') {
     return (
       <input
         aria-label={`${ctx.columnId} editor`}
@@ -134,9 +136,13 @@ function DefaultCellEditor<TData>({ ctx }: { ctx: GenDataGridEditorContext<TData
       ref={inputRef}
       aria-label={`${ctx.columnId} editor`}
       autoFocus
+      autoCapitalize={ctx.editType === 'lowercaseText' ? 'off' : undefined}
+      autoCorrect={ctx.editType === 'lowercaseText' ? 'off' : undefined}
+      spellCheck={ctx.editType === 'lowercaseText' ? false : undefined}
       className="gen-datagrid__editor"
+      maxLength={ctx.editMaxLength}
       placeholder={ctx.placeholder}
-      type={ctx.editType === 'number' || ctx.editType === 'date' ? ctx.editType : 'text'}
+      type={inputEditType === 'number' || inputEditType === 'date' ? inputEditType : 'text'}
       value={String(normalizeEditorValue(ctx.draftValue))}
       onFocus={(event) => {
         if (!ctx.selectOnFocus) return;

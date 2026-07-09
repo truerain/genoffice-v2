@@ -53,7 +53,7 @@ Deferred:
 
 ### Built-in Editor Column Meta Extensions
 
-Status: planned.
+Status: complete (2026-07-09, slice 4.3-a).
 
 배경 (2026-07-09, `apps/demo` `userColumnEditors.tsx`):
 
@@ -151,18 +151,25 @@ paste / printable-key / flushEditing 경로도 동일 hook
 
 #### Exit criteria
 
-- `meta: { editType: 'text', editNormalize: lowercase, editMaxLength: 10 }`만으로 demo `loginId`·`empNo` 동작.
-- paste·Save(`flushEditing`) 후에도 동일 제약이 유지된다.
-- built-in keyboard/blur 테스트 회귀 없음.
+- `meta: { editType: 'text', editNormalize: lowercase, editMaxLength: 10 }`만으로 demo `loginId`·`empNo` 동작. ✅
+- paste·Save(`flushEditing`) 후에도 동일 제약이 유지된다. ✅
+- built-in keyboard/blur 테스트 회귀 없음. ✅
+
+구현 (4.3-a):
+
+- `editMaxLength`, `editNormalize`, `editTrimOnCommit`, preset `editType` (`lowercaseText` 등)
+- `features/editing/editValuePipeline.ts` — inbound/commit 파이프라인
+- `DefaultCellEditor`, paste, printable-key, `flushEditing` 연동
+- normalize helper export
+- demo `userColumns` meta 전환, `userColumnEditors.tsx` 제거
 
 참고 소비처:
 
-- `apps/demo/src/pages/admin/user/userColumnEditors.tsx`
 - `apps/demo/src/pages/admin/user/userColumns.ts` (`loginId`, `empNo`)
 
 ### MasterDetail Expand Toggle Customization
 
-Status: planned.
+Status: complete (2026-07-09).
 
 배경 (2026-07-09, `apps/demo` UserPage):
 
@@ -203,10 +210,16 @@ Deferred:
 
 Exit criteria:
 
-- 소비처가 확장 버튼 위치를 `detailToggleColumnId`로 바꿀 수 있다.
-- 소비처가 `renderDetailToggle`로 아이콘/버튼 마크업을 교체할 수 있다.
-- 기존 기본 동작(first-user-cell + `+/-`)은 설정 없이 유지된다.
-- virtualization/tree/master-detail 조합에서 토글 동작 회귀가 없다.
+- 소비처가 확장 버튼 위치를 `detailToggleColumnId`로 바꿀 수 있다. ✅
+- 소비처가 `renderDetailToggle`로 아이콘/버튼 마크업을 교체할 수 있다. ✅
+- 기존 기본 동작(first-user-cell + `+/-`)은 설정 없이 유지된다. ✅
+- virtualization/tree/master-detail 조합에서 토글 동작 회귀가 없다. ✅ (interaction 테스트)
+
+구현:
+
+- `detailToggleColumnId`, `renderDetailToggle`, `detailToggleProps`
+- `features/master-detail/detailToggle.tsx`
+- demo `UserPage` — `detailToggleColumnId: '_leading'`
 
 ### P2. 중장기 Follow-up (계속)
 

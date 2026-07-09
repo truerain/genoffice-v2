@@ -1,5 +1,11 @@
 ## 2026-07-09
 
+### P1 Built-in Editor Meta (4.3-a) + MasterDetail Expand Toggle 구현
+
+- **요약:** `editMaxLength`·`editNormalize`·preset `editType`·`editTrimOnCommit` 파이프라인. MasterDetail `detailToggleColumnId`·`renderDetailToggle`·`detailToggleProps`. demo `userColumnEditors` 제거.
+- **검증:** `pnpm -C packages/gen-datagrid test` (추가 interaction 테스트 포함).
+- **파일:** `features/editing/editValuePipeline.ts`, `features/master-detail/detailToggle.tsx`, `GenDataGrid.types.ts`, `renderEditor.tsx`, `DataGridBodyRow.tsx`, `DataGridRoot.tsx`, `paste.ts`, `apps/demo/.../userColumns.ts`, `UserPage.tsx`
+
 ### Row Status Cell Display Context 구현
 
 - **요약:** `meta.renderCell`·`cellClassName`·`cellStyle`에 `GenDataGridCellContext`(`rowStatus` 포함) 주입. demo `userId` 컬럼 sentinel 우회 제거.

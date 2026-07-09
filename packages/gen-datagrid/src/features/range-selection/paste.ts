@@ -11,6 +11,7 @@ import type {
   GenDataGridResolveRowStatusFn,
 } from '../../GenDataGrid.types';
 import { createEditableContext, resolveEditableCell } from '../editing/editableCell';
+import { createEditValueHandlers } from '../editing/editValuePipeline';
 
 export type GenDataGridPasteTargetRange = {
   anchor: { rowId: string; columnId: string };
@@ -191,13 +192,19 @@ export function applyClipboardPaste<TData>({
 
   if (!shouldCancel) {
     for (const candidate of acceptedCandidates) {
+      const meta = candidate.column.columnDef.meta;
+      const { applyCommit } = createEditValueHandlers({
+        meta,
+        editableContext: candidate.editableContext,
+      });
+
       onCellValueChange?.({
         row: candidate.row.original,
         rowId: candidate.row.id,
         rowIndex: candidate.row.index,
         columnId: candidate.column.id,
         previousValue: candidate.editableContext.value,
-        value: candidate.value,
+        value: applyCommit(candidate.value),
       });
     }
   }

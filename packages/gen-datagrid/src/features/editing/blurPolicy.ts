@@ -8,6 +8,7 @@ import type {
   GenDataGridEditPolicy,
   GenDataGridEditType,
 } from '../../GenDataGrid.types';
+import { resolveInputEditType } from './editValuePipeline';
 
 export const GEN_DATAGRID_EDITOR_SURFACE_ATTR = 'data-gen-datagrid-editor-surface';
 
@@ -16,7 +17,7 @@ export type EditingDeactivateAction = 'commit' | 'cancel';
 export function defaultBlurOwnershipForEditType(
   editType?: GenDataGridEditType
 ): GenDataGridEditBlurOwnership {
-  if (editType === 'select') {
+  if (resolveInputEditType(editType) === 'select') {
     return 'portal';
   }
   return 'inline';

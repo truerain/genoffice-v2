@@ -6,6 +6,7 @@ import type {
   GenDataGridEditBlurOwnership,
   GenDataGridEditEntryReason,
   GenDataGridEditOption,
+  GenDataGridBuiltinEditType,
   GenDataGridEditorContext,
   GenDataGridEditType,
 } from '../../GenDataGrid.types';
@@ -17,6 +18,9 @@ type CreateEditorContextArgs<TData> = {
   commit: (nextValue?: unknown) => void;
   cancel: () => void;
   editType?: GenDataGridEditType;
+  inputEditType?: GenDataGridBuiltinEditType;
+  editMaxLength?: number;
+  editTrimOnCommit?: boolean;
   editOptions?: readonly GenDataGridEditOption[];
   placeholder?: string;
   selectOnFocus?: boolean;
@@ -39,6 +43,9 @@ export function createEditorContext<TData>({
   commit,
   cancel,
   editType,
+  inputEditType,
+  editMaxLength,
+  editTrimOnCommit,
   editOptions,
   placeholder,
   selectOnFocus,
@@ -64,6 +71,9 @@ export function createEditorContext<TData>({
       commit(nextValue);
     },
     editType,
+    inputEditType,
+    editMaxLength,
+    editTrimOnCommit,
     editOptions,
     placeholder,
     selectOnFocus,

@@ -24,7 +24,8 @@ import {
   resolveNextActiveCell,
   resolveNextLinearCell,
 } from '../../features/active-cell/navigation';
-import { resolveEditableCell } from '../../features/editing/editableCell';
+import { createEditableContext, resolveEditableCell } from '../../features/editing/editableCell';
+import { createEditValueHandlers } from '../../features/editing/editValuePipeline';
 import {
   resolveEditPolicy,
   type ResolvedGenDataGridEditPolicy,
@@ -156,6 +157,9 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
     onExpandedRowsChange,
     getRowCanExpand,
     renderDetailPanel,
+    detailToggleColumnId,
+    renderDetailToggle,
+    detailToggleProps,
     detailPanelHeight = 160,
     scrollSeeking,
     clipboardOptions,
@@ -572,16 +576,20 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
       return;
     }
 
+    const meta = column.columnDef.meta;
+    const editableContext = createEditableContext({ row, column, resolveRowStatus });
+    const { applyCommit } = createEditValueHandlers({ meta, editableContext });
+
     handleCellValueChange({
       row: row.original,
       rowId: row.id,
       rowIndex: row.index,
       columnId: column.id,
       previousValue: row.getValue(column.id),
-      value: editing.getDraftValue(),
+      value: applyCommit(editing.getDraftValue()),
     });
     editing.cancelEditing();
-  }, [editing, handleCellValueChange, tableRows, visibleColumns]);
+  }, [editing, handleCellValueChange, resolveRowStatus, tableRows, visibleColumns]);
 
   const cancelEditing = React.useCallback(() => {
     editing.cancelEditing();
@@ -820,15 +828,23 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
     });
     if (!isEditable) return false;
 
+    const meta = column.columnDef.meta;
+    const editableContext = createEditableContext({ row, column, resolveRowStatus });
+    const { applyInbound } = createEditValueHandlers({ meta, editableContext });
+    const initialValue =
+      options?.initialValue !== undefined
+        ? applyInbound(options.initialValue)
+        : row.getValue(column.id);
+
     editing.startEditing({
       rowId: activeCell.rowId,
       columnId: activeCell.columnId,
-      value: options?.initialValue ?? row.getValue(column.id),
+      value: initialValue,
       suppressSelectOnFocus: options?.initialValue !== undefined,
       entryReason: options?.entryReason,
     });
     return true;
-  }, [activeCell, editPolicy, editing, isCellEditable, resolvedReadOnly, tableRows, visibleColumns]);
+  }, [activeCell, editPolicy, editing, isCellEditable, resolveRowStatus, resolvedReadOnly, tableRows, visibleColumns]);
 
   const cancelEditingAndRestoreFocus = React.useCallback(() => {
     editing.cancelEditing();
@@ -1230,6 +1246,9 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
             expandedRows={resolvedExpandedRows}
             getRowCanExpand={getRowCanExpand}
             renderDetailPanel={renderDetailPanel}
+            detailToggleColumnId={detailToggleColumnId}
+            renderDetailToggle={renderDetailToggle}
+            detailToggleProps={detailToggleProps}
             detailPanelHeight={detailPanelHeight}
             onExpandedRowToggle={setExpandedRowState}
             enableTreeRows={treeRowsEnabled}
@@ -1293,6 +1312,9 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
             expandedRows={resolvedExpandedRows}
             getRowCanExpand={getRowCanExpand}
             renderDetailPanel={renderDetailPanel}
+            detailToggleColumnId={detailToggleColumnId}
+            renderDetailToggle={renderDetailToggle}
+            detailToggleProps={detailToggleProps}
             detailPanelHeight={detailPanelHeight}
             onExpandedRowToggle={setExpandedRowState}
             enableTreeRows={treeRowsEnabled}

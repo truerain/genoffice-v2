@@ -7,12 +7,13 @@
  * - JSX 없음 → `.ts` (React Fast Refresh 시 page reload 방지)
  *
  * - userId: 신규 행만 셀 표시, 편집 불가 (`meta.renderCell` + rowStatus)
- * - loginId: 소문자만 입력 (userColumnEditors)
- * - empNo: 최대 10자 (userColumnEditors)
+ * - loginId: 소문자만 입력 (`editType: lowercaseText`)
+ * - empNo: 최대 10자 (`editMaxLength`)
  * - titleCd: 공통코드 lookup → titleName 표시, select editor
  * - useYn: Y/N Switch — 셀 render 자체가 toggle (편집 모드 없음)
  *
  * @history
+ * - 2026-07-09 loginId/empNo: built-in editor meta로 전환 (userColumnEditors 제거)
  * - 2026-07-09 userId: meta.renderCell + rowStatus로 신규 행 표시 (sentinel 우회 제거)
  * - 2026-07-09 매핑 없는 선행 컬럼 추가(Expand toggle anchor)
  * - 2026-07-09 useYn: 셀 render Switch toggle (emitCellValueChange)
@@ -29,7 +30,7 @@ import type { Org } from '../../../shared/domain/org.types';
 import { lkupNameByCd, toLkupEditOptions } from '../../../shared/domain/lkupResolve';
 import { orgNameById } from '../../../shared/domain/orgResolve';
 import type { UserRow } from './user.types';
-import { empNoEditor, lowercaseTextEditor } from './userColumnEditors';
+import { EMP_NO_MAX_LENGTH } from './user.types';
 import { createOrgLookupEditor } from './orgLookupEditor';
 import { createUseYnToggleCell } from './userColumnCells';
 import type { UserGridCellBridge } from './userGridCellBridge';
@@ -69,7 +70,7 @@ export function createUserColumns(
       meta: {
         editable: false,
         align: 'center',
-        renderCell: ({ rowStatus, value }: GenDataGridCellContext) =>
+        renderCell: ({ rowStatus, value }: GenDataGridCellContext<UserRow>) =>
           rowStatus === 'created' ? '' : String(value ?? ''),
       },
     },
@@ -79,8 +80,7 @@ export function createUserColumns(
       size: 140,
       meta: {
         editable: true,
-        editType: 'text',
-        renderEditor: lowercaseTextEditor,
+        editType: 'lowercaseText',
       },
     },
     {
@@ -91,7 +91,7 @@ export function createUserColumns(
         editable: true,
         align: 'center',
         editType: 'text',
-        renderEditor: empNoEditor,
+        editMaxLength: EMP_NO_MAX_LENGTH,
       },
     },
     {

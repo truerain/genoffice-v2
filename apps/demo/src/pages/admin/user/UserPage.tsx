@@ -197,6 +197,7 @@ export function UserPage() {
             expandedRows,
             onExpandedRowsChange: setExpandedRows,
             renderDetailPanel,
+            detailToggleColumnId: '_leading',
             detailPanelHeight: 248,
           }}
         />

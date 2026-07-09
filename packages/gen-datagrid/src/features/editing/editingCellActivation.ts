@@ -19,6 +19,7 @@ type DeactivateEditingForCellActivationArgs<TData> = {
   continueClick?: boolean;
   onCellValueChange?: (args: GenDataGridCellValueChange<TData>) => void;
   onEditCancel: () => void;
+  applyCommitValue?: (value: unknown) => unknown;
 };
 
 export function deactivateEditingForCellActivation<TData>({
@@ -33,6 +34,7 @@ export function deactivateEditingForCellActivation<TData>({
   continueClick = false,
   onCellValueChange,
   onEditCancel,
+  applyCommitValue,
 }: DeactivateEditingForCellActivationArgs<TData>) {
   finishEditingOnDeactivate({
     commitOnBlur,
@@ -45,7 +47,7 @@ export function deactivateEditingForCellActivation<TData>({
         rowIndex,
         columnId,
         previousValue,
-        value: draftValue,
+        value: applyCommitValue ? applyCommitValue(draftValue) : draftValue,
       });
       onEditCancel();
     },

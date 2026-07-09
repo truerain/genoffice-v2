@@ -10,6 +10,7 @@ import type {
   GenDataGridCellValueChange,
   GenDataGridEditableContext,
   GenDataGridDetailPanelContext,
+  GenDataGridDetailToggleProps,
   GenDataGridEditPolicy,
   GenDataGridEditorFactory,
   GenDataGridExpandedRowState,
@@ -76,6 +77,11 @@ type DataGridBodyProps<TData> = {
   expandedRows?: GenDataGridExpandedRowState;
   getRowCanExpand?: (ctx: GenDataGridRowContext<TData>) => boolean;
   renderDetailPanel?: (ctx: GenDataGridDetailPanelContext<TData>) => React.ReactNode;
+  detailToggleColumnId?: string;
+  renderDetailToggle?: (
+    ctx: import('../../GenDataGrid.types').GenDataGridDetailToggleContext<TData>
+  ) => React.ReactNode;
+  detailToggleProps?: GenDataGridDetailToggleProps;
   detailPanelHeight?: number;
   onExpandedRowToggle?: (rowId: string, expanded: boolean) => void;
   enableTreeRows?: boolean;
@@ -125,6 +131,9 @@ export function DataGridBody<TData>({
   expandedRows = {},
   getRowCanExpand,
   renderDetailPanel,
+  detailToggleColumnId,
+  renderDetailToggle,
+  detailToggleProps,
   detailPanelHeight = 160,
   onExpandedRowToggle,
   enableTreeRows = false,
@@ -168,6 +177,7 @@ export function DataGridBody<TData>({
           continueClick: nextRuntime?.resolvedEditPolicy.continueTriggers.click ?? false,
           onCellValueChange,
           onEditCancel: onEditDeactivate,
+          applyCommitValue: editingRuntime.applyCommitValue,
         });
       } else {
         onEditDeactivate();
@@ -255,6 +265,9 @@ export function DataGridBody<TData>({
               canExpand={canExpand}
               isExpanded={isExpanded}
               onExpandedChange={(expanded) => onExpandedRowToggle?.(rowId, expanded)}
+              detailToggleColumnId={detailToggleColumnId}
+              renderDetailToggle={renderDetailToggle}
+              detailToggleProps={detailToggleProps}
               treeDepth={enableTreeRows ? row.depth : 0}
               treeParentRowId={enableTreeRows ? row.parentId : undefined}
               treeCanExpand={treeCanExpand}

@@ -5329,6 +5329,182 @@ describe('Gate 8.7 system columns', () => {
     });
   });
 
+  it('applies editMaxLength and lowercaseText preset while typing', async () => {
+    const codeColumns = [
+      {
+        accessorKey: 'name',
+        header: 'Code',
+        size: 120,
+        meta: {
+          editable: true,
+          editType: 'lowercaseText' as const,
+          editMaxLength: 5,
+        },
+      },
+      { accessorKey: 'age', header: 'Age', size: 80 },
+    ];
+
+    const { container } = render(
+      <GenDataGrid
+        gridId="edit-meta-typing-grid"
+        data={rows}
+        columns={codeColumns}
+        getRowId={(row) => row.id}
+      />
+    );
+
+    const cell = getCell(container, '1', 'name');
+    fireEvent.doubleClick(cell);
+    const editor = cell.querySelector<HTMLInputElement>('input[aria-label="name editor"]');
+    if (!editor) throw new Error('Missing editor');
+
+    fireEvent.change(editor, { target: { value: 'AbCdEfGh' } });
+
+    await waitFor(() => {
+      expect(editor.value).toBe('abcde');
+    });
+  });
+
+  it('applies edit meta on printable-key edit start', async () => {
+    const codeColumns = [
+      {
+        accessorKey: 'name',
+        header: 'Code',
+        size: 120,
+        meta: {
+          editable: true,
+          editType: 'lowercaseText' as const,
+        },
+      },
+      { accessorKey: 'age', header: 'Age', size: 80 },
+    ];
+
+    const { container } = render(
+      <GenDataGrid
+        gridId="edit-meta-printable-grid"
+        data={rows}
+        columns={codeColumns}
+        getRowId={(row) => row.id}
+      />
+    );
+
+    const cell = getCell(container, '1', 'name');
+    fireEvent.keyDown(cell, { key: 'X' });
+
+    await waitFor(() => {
+      const editor = cell.querySelector<HTMLInputElement>('input[aria-label="name editor"]');
+      if (!editor) throw new Error('Missing editor');
+      expect(editor.value).toBe('x');
+    });
+  });
+
+  it('applies editMaxLength during clipboard paste', async () => {
+    const onCellValueChange = vi.fn();
+    const codeColumns = [
+      {
+        accessorKey: 'name',
+        header: 'Code',
+        size: 120,
+        meta: {
+          editable: true,
+          editType: 'text' as const,
+          editMaxLength: 4,
+        },
+      },
+      { accessorKey: 'age', header: 'Age', size: 80 },
+    ];
+
+    const { container } = render(
+      <GenDataGrid
+        gridId="edit-meta-paste-grid"
+        data={rows}
+        columns={codeColumns}
+        getRowId={(row) => row.id}
+        onCellValueChange={onCellValueChange}
+      />
+    );
+
+    const cell = getCell(container, '1', 'name');
+    fireEvent.paste(cell, {
+      clipboardData: {
+        getData: () => 'ABCDEFGH',
+      },
+    });
+
+    await waitFor(() => {
+      expect(onCellValueChange).toHaveBeenCalledWith({
+        row: rows[0],
+        rowId: '1',
+        rowIndex: 0,
+        columnId: 'name',
+        previousValue: 'Ada',
+        value: 'ABCD',
+      });
+    });
+  });
+
+  it('anchors master-detail toggle to detailToggleColumnId', () => {
+    const masterColumns = [
+      { id: '_leading', header: '', size: 40, cell: () => '' },
+      { accessorKey: 'name', header: 'Name', size: 120 },
+      { accessorKey: 'age', header: 'Age', size: 80 },
+    ];
+
+    const { container } = render(
+      <GenDataGrid
+        gridId="detail-toggle-anchor-grid"
+        data={rows}
+        columns={masterColumns}
+        getRowId={(row) => row.id}
+        enableMasterDetail
+        detailToggleColumnId="_leading"
+        renderDetailPanel={({ rowId }) => <span>Detail {rowId}</span>}
+      />
+    );
+
+    const leadingToggle = getCell(container, '1', '_leading').querySelector(
+      '[data-gen-datagrid-detail-toggle="true"]'
+    );
+    const nameToggle = getCell(container, '1', 'name').querySelector(
+      '[data-gen-datagrid-detail-toggle="true"]'
+    );
+
+    expect(leadingToggle).not.toBeNull();
+    expect(nameToggle).toBeNull();
+  });
+
+  it('renders custom master-detail toggle through renderDetailToggle', async () => {
+    const { container, queryByText } = render(
+      <GenDataGrid
+        gridId="detail-toggle-custom-grid"
+        data={rows}
+        columns={columns}
+        getRowId={(row) => row.id}
+        enableMasterDetail
+        renderDetailToggle={({ expanded, toggle }) => (
+          <button type="button" data-gen-datagrid-detail-toggle="true" onClick={toggle}>
+            {expanded ? 'collapse' : 'expand'}
+          </button>
+        )}
+        renderDetailPanel={({ rowId }) => <span>Detail {rowId}</span>}
+      />
+    );
+
+    const toggle = getCell(container, '1', 'name').querySelector<HTMLButtonElement>(
+      '[data-gen-datagrid-detail-toggle="true"]'
+    );
+    if (!toggle) throw new Error('Missing custom detail toggle');
+
+    expect(toggle.textContent).toBe('expand');
+
+    fireEvent.click(toggle);
+
+    await waitFor(() => {
+      expect(queryByText('Detail 1')).toBeTruthy();
+      expect(toggle.textContent).toBe('collapse');
+    });
+  });
+
   it('limits row selection to created rows when rowSelectionMode is createdOnly', async () => {
     const onRowSelectionChange = vi.fn();
     const { getByLabelText } = render(

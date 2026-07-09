@@ -9,6 +9,7 @@ import type {
   GenDataGridResolveRowStatusFn,
 } from '../../GenDataGrid.types';
 import { createEditableContext, resolveEditableCell } from './editableCell';
+import { createEditValueHandlers } from './editValuePipeline';
 import { resolveBlurOwnership } from './blurPolicy';
 import { resolveEditPolicy, type ResolvedGenDataGridEditPolicy } from './editPolicy';
 
@@ -19,6 +20,7 @@ export type GenDataGridCellEditingRuntime<TData> = {
   resolvedEditPolicy: ResolvedGenDataGridEditPolicy;
   commitOnBlur: boolean;
   blurOwnership: ReturnType<typeof resolveBlurOwnership>;
+  applyCommitValue: (value: unknown) => unknown;
 };
 
 type ResolveCellEditingRuntimeArgs<TData> = {
@@ -52,6 +54,7 @@ export function resolveCellEditingRuntime<TData>({
     resolveRowStatus,
   });
   const meta = tanstackCell.column.columnDef.meta;
+  const editValueHandlers = createEditValueHandlers({ meta, editableContext });
 
   return {
     row,
@@ -71,5 +74,6 @@ export function resolveCellEditingRuntime<TData>({
       columnPolicy: meta?.editPolicy,
       columnBlurOwnership: meta?.editBlurOwnership,
     }),
+    applyCommitValue: editValueHandlers.applyCommit,
   };
 }

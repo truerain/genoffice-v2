@@ -2,11 +2,14 @@
 // Renders a single body row shared by standard and virtual body renderers.
 
 import { flexRender, type Cell, type Row } from '@tanstack/react-table';
+import type * as React from 'react';
 
 import type {
   GenDataGridActiveCell,
   GenDataGridCellValueChange,
   GenDataGridCellValidation,
+  GenDataGridDetailToggleContext,
+  GenDataGridDetailToggleProps,
   GenDataGridEditableContext,
   GenDataGridEditPolicy,
   GenDataGridEditorFactory,
@@ -25,9 +28,14 @@ import {
   resolveMetaCellStyle,
 } from '../../features/display/resolveCellMeta';
 import { createEditorContext } from '../../features/editing/editorContext';
+import { createEditValueHandlers } from '../../features/editing/editValuePipeline';
 import { resolveNextEditableCell } from '../../features/editing/editNavigation';
 import { renderCellEditor } from '../../features/editing/renderEditor';
 import type { GenDataGridEditingCell } from '../../features/editing/useCellEditing';
+import {
+  renderDefaultDetailToggle,
+  resolveDetailToggleCellIndex,
+} from '../../features/master-detail/detailToggle';
 import { getColumnPinningInfo } from '../../features/pinning/pinningStyles';
 import {
   isCellInRangeSelections,
@@ -112,6 +120,9 @@ type DataGridBodyRowProps<TData> = {
   canExpand?: boolean;
   isExpanded?: boolean;
   onExpandedChange?: (expanded: boolean) => void;
+  detailToggleColumnId?: string;
+  renderDetailToggle?: (ctx: GenDataGridDetailToggleContext<TData>) => React.ReactNode;
+  detailToggleProps?: GenDataGridDetailToggleProps;
   treeDepth?: number;
   treeParentRowId?: string;
   treeCanExpand?: boolean;
@@ -161,6 +172,9 @@ export function DataGridBodyRow<TData>({
   canExpand = false,
   isExpanded = false,
   onExpandedChange,
+  detailToggleColumnId,
+  renderDetailToggle,
+  detailToggleProps,
   treeDepth = 0,
   treeParentRowId,
   treeCanExpand = false,
@@ -244,9 +258,7 @@ export function DataGridBodyRow<TData>({
   const rowId = row.id;
   const rowIndex = row.index;
   const orderedCells = getOrderedVisibleCells(row);
-  const firstUserCellIndex = orderedCells.findIndex(
-    (cell) => !isGenDataGridSystemColumnId(cell.column.id)
-  );
+  const detailToggleCellIndex = resolveDetailToggleCellIndex(orderedCells, detailToggleColumnId);
   let coveredCellCount = 0;
 
   return (
@@ -315,6 +327,11 @@ export function DataGridBodyRow<TData>({
         const pinning = enablePinning
           ? getColumnPinningInfo(cell.column, { zIndex: isEditing ? 5 : 2 })
           : undefined;
+        const meta = cell.column.columnDef.meta;
+        const editValueHandlers = createEditValueHandlers({ meta, editableContext });
+        const applyDraftValue = (nextValue: unknown) => {
+          setDraftValue(editValueHandlers.applyInbound(nextValue));
+        };
         const commit = (nextValue = draftValue) => {
           onCellValueChange?.({
             row: row.original,
@@ -322,11 +339,10 @@ export function DataGridBodyRow<TData>({
             rowIndex,
             columnId,
             previousValue: editableContext.value,
-            value: nextValue,
+            value: editValueHandlers.applyCommit(nextValue),
           });
           onEditCancel();
         };
-        const meta = cell.column.columnDef.meta;
         const requestedBodyColSpan =
           typeof meta?.bodyColSpan === 'function'
             ? meta.bodyColSpan({
@@ -374,7 +390,7 @@ export function DataGridBodyRow<TData>({
             rowIndex,
             columnId,
             previousValue: editableContext.value,
-            value: draftValue,
+            value: editValueHandlers.applyCommit(draftValue),
           });
           onEditCancel();
           continueEditingAt(next, 'tab');
@@ -392,7 +408,7 @@ export function DataGridBodyRow<TData>({
             rowIndex,
             columnId,
             previousValue: editableContext.value,
-            value: draftValue,
+            value: editValueHandlers.applyCommit(draftValue),
           });
           onEditCancel();
           continueEditingAt(next, 'arrowKey');
@@ -400,10 +416,13 @@ export function DataGridBodyRow<TData>({
         const editorContext = createEditorContext({
           editableContext,
           draftValue,
-          setDraftValue,
+          setDraftValue: applyDraftValue,
           commit,
           cancel: onEditCancel,
           editType: meta?.editType,
+          inputEditType: editValueHandlers.inputEditType,
+          editMaxLength: editValueHandlers.maxLength,
+          editTrimOnCommit: editValueHandlers.trimOnCommit,
           editOptions,
           placeholder: meta?.editPlaceholder,
           selectOnFocus,
@@ -432,28 +451,35 @@ export function DataGridBodyRow<TData>({
         const resolvedCellClassName = resolveMetaCellClassName(meta, editableContext);
         const resolvedCellStyle = resolveMetaCellStyle(meta, editableContext);
         const renderedContent = (() => {
-          if (cellIndex !== firstUserCellIndex || isEditing) return content;
+          if (cellIndex !== detailToggleCellIndex || isEditing) return content;
 
-          const detailToggle = canExpand ? (
-            <button
-              type="button"
-              className="gen-datagrid__detail-toggle"
-              data-gen-datagrid-detail-toggle="true"
-              aria-expanded={isExpanded}
-              aria-label={isExpanded ? 'Collapse row ' + rowId + ' detail' : 'Expand row ' + rowId + ' detail'}
-              onMouseDown={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-              }}
-              onClick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                onExpandedChange?.(!isExpanded);
-              }}
-            >
-              {isExpanded ? '-' : '+'}
-            </button>
-          ) : null;
+          const detailToggleContext = {
+            row: row.original,
+            rowId,
+            rowIndex,
+            expanded: Boolean(isExpanded),
+            canExpand: Boolean(canExpand),
+            toggle: () => onExpandedChange?.(!isExpanded),
+          };
+          const detailToggleHandlers = {
+            onMouseDown: (event: React.MouseEvent<HTMLButtonElement>) => {
+              event.preventDefault();
+              event.stopPropagation();
+            },
+            onClick: (event: React.MouseEvent<HTMLButtonElement>) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onExpandedChange?.(!isExpanded);
+            },
+          };
+          const detailToggle = canExpand
+            ? renderDetailToggle?.(detailToggleContext) ??
+              renderDefaultDetailToggle({
+                ctx: detailToggleContext,
+                detailToggleProps,
+                ...detailToggleHandlers,
+              })
+            : null;
 
           if (treeDepth <= 0 && !treeCanExpand) {
             return detailToggle ? (
