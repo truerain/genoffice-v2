@@ -10,6 +10,12 @@
 -->
 # @gen-office/mdi 검토 로그
 
+## 2026-07-09 — dev HMR defaultMDIStore 보존
+
+- **요약:** `import.meta.hot.data`로 Vite dev HMR 시 `defaultMDIStore` 인스턴스 재사용. mdi 모듈 갱신 시 탭 상태 유지. 프로덕션 무영향.
+- **파일:** `src/store/mdiStore.ts`, `src/env.d.ts`
+- **한계:** Vite `page reload`(demo esbuild-only) 시에는 무효 — sessionStorage 복원(2번)은 보류.
+
 ## 2026-06-27 — 패키지 리뷰 1차 마감
 
 ### 판단 요약

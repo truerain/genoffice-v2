@@ -6,6 +6,13 @@
 -->
 # @gen-office/gen-chart 구현 로그
 
+## 2026-07-09
+
+### 디자인 토큰·theme 연동 architecture (정본)
+
+- **요약:** gen-datagrid와 동일 V2 원칙, 구현은 ChartTokens(TS)+SVG+CSS chrome. B convention·theme bridge·ThemeProvider 연동·앱 override를 문서화. 코드는 Phase 1 hex preset 유지.
+- **파일:** `.docs/architecture/design-tokens-architecture.md`(신규), `.docs/README.md`, `architecture.md` §11 링크
+
 ## 2026-06-27
 
 ### Phase 1 마감 — 패키지 리뷰 1차 종료

@@ -26,7 +26,6 @@ export function createMdiNavigationController({
         title: tab.title,
         content: tab.content,
         closable: tab.closable ?? true,
-        meta: tab.meta,
       });
     },
 

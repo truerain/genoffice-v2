@@ -30,7 +30,6 @@ import { Settings } from 'lucide-react';
 import demoBrandLogo from '../assets/brand-logo.png';
 import { useAppToast } from './providers/AppToastProvider';
 import { useOpenPage } from './hooks/useOpenPage';
-import { useDevMdiTabPersistence } from './mdi/useDevMdiTabPersistence';
 import { useAppMenu } from './menu/useAppMenu';
 import { DEMO_HOME_PAGE_ID } from './menu/demoPageIds';
 import { findAppMenuItemByPageId, mapAppMenuToFrameItems } from './menu/mapAppMenuToFrame';
@@ -65,12 +64,7 @@ export function AppShell() {
     [t, locale],
   );
 
-  const pinnedPageIds = useMemo(
-    () => new Set(pinnedPages.map((page) => page.pageId)),
-    [pinnedPages],
-  );
-
-  const { openMenuItem, controller } = useOpenPage({ pinnedPages });
+  const { openMenuItem } = useOpenPage({ pinnedPages });
   const { layout, setLayout } = useFrameLayout('leftPanel', DEMO_FRAME_LAYOUT_STORAGE_KEY);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const activeTabId = useMDIStore((state) => state.activeTabId);
@@ -96,12 +90,6 @@ export function AppShell() {
     items,
     isMenuReady,
     openMenuItem,
-  });
-
-  useDevMdiTabPersistence({
-    isMenuReady,
-    controller,
-    pinnedPageIds,
   });
 
   const handleMaxTabsReached = useCallback(() => {
