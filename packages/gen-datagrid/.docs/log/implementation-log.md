@@ -1,5 +1,20 @@
 ## 2026-07-09
 
+### MasterDetail Expand Toggle 재정의 계획 (Backlog)
+
+- **요약:** 확장 버튼의 위치(anchor)·스타일/아이콘·렌더링 교체(`renderDetailToggle`) 요구를 `remaining-work-plan.md`에 backlog로 추가.
+- **파일:** `.docs/plan/remaining-work-plan.md`
+
+### Dirty State Baseline Revert 계획 (Backlog)
+
+- **요약:** `handleCellValueChange`가 baseline 복귀 시 dirty entry를 제거하지 않는 이슈·제안 계약·테스트·CRUD 연동을 `remaining-work-plan.md`에 정리.
+- **파일:** `.docs/plan/remaining-work-plan.md`, `../../gen-datagrid-crud/.docs/plan/remaining-work-plan.md`
+
+### GenDataGridHandle.emitCellValueChange (interactive cell)
+
+- **요약:** 편집 모드 없이 셀에서 값을 바꿀 때 dirty state와 동일 경로로 기록할 수 있도록 `emitCellValueChange`를 imperative handle에 추가.
+- **파일:** `src/GenDataGrid.types.ts`, `src/renderers/div-grid/DataGridRoot.tsx`
+
 ### Built-in Editor Column Meta Extensions 계획 (Backlog)
 
 - **요약:** 기구현 meta·추가 후보(`editMaxLength`, `editNormalize` 등) 리스트·Gate 4.3 slice·값 파이프라인을 `remaining-work-plan.md`에 정리.

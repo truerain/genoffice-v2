@@ -6,6 +6,7 @@ import { GenDataGrid } from '@gen-office/gen-datagrid';
 import type {
   GenDataGridCellValidation,
   GenDataGridEditPolicy,
+  GenDataGridHandle,
   GenDataGridValidationContext,
 } from '@gen-office/gen-datagrid';
 
@@ -44,6 +45,7 @@ export function GenDataGridCrud<TData>(props: GenDataGridCrudProps<TData>) {
     actionBar,
     onStateChange,
     gridProps,
+    gridRef: externalGridRef,
     className,
     style,
   } = props;
@@ -101,6 +103,19 @@ export function GenDataGridCrud<TData>(props: GenDataGridCrudProps<TData>) {
     [controller.state.fieldErrors, userGetCellValidation]
   );
 
+  const setGridRef = React.useCallback(
+    (handle: GenDataGridHandle<TData> | null) => {
+      controller.gridRef.current = handle;
+      if (!externalGridRef) return;
+      if (typeof externalGridRef === 'function') {
+        externalGridRef(handle);
+        return;
+      }
+      externalGridRef.current = handle;
+    },
+    [controller.gridRef, externalGridRef]
+  );
+
   return (
     <div className={['gen-datagrid-crud', className].filter(Boolean).join(' ')} style={style}>
       {actionBarEnabled ? (
@@ -117,7 +132,7 @@ export function GenDataGridCrud<TData>(props: GenDataGridCrudProps<TData>) {
           editSelectOnFocus={gridProps?.editSelectOnFocus ?? true}
           editPolicy={editPolicy}
           {...controller.gridStateProps}
-          ref={controller.gridRef}
+          ref={setGridRef}
           data={gridData}
           columns={gridColumns}
           getRowId={getRowId}

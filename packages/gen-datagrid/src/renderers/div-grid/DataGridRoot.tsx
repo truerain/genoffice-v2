@@ -665,6 +665,7 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
       acceptChanges,
       deleteRows,
       getDirtyState: () => dirtyState,
+      emitCellValueChange: handleCellValueChange,
     }),
     [
       acceptChanges,
@@ -682,6 +683,7 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
       getChangeSet,
       getDataSnapshot,
       getRowSnapshot,
+      handleCellValueChange,
       resetDirtyState,
       scrollToCell,
     ]

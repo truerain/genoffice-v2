@@ -42,6 +42,8 @@ export type GenDataGridHandle<TData = unknown> = {
   acceptChanges: (rowIds?: readonly string[]) => void;
   deleteRows: (rowIds: readonly string[]) => void;
   getDirtyState: () => GenDataGridDirtyState;
+  /** Interactive cell surfaces (toggle 등)에서 dirty 반영과 동일 경로로 값을 기록한다. */
+  emitCellValueChange: (args: GenDataGridCellValueChange<TData>) => void;
 };
 
 export type GenDataGridEditType =
