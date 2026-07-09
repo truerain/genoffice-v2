@@ -40,6 +40,7 @@ type DataGridCellProps = {
   };
   bodyColSpan?: number;
   style?: React.CSSProperties;
+  className?: string;
   onActivate: (coord: { rowId: string; columnId: string }) => void;
   onEditStart?: (coord: {
     rowId: string;
@@ -70,6 +71,7 @@ export function DataGridCell({
   pinning,
   bodyColSpan,
   style,
+  className,
   onActivate,
   onEditStart,
   children,
@@ -103,7 +105,7 @@ export function DataGridCell({
       }
       aria-invalid={validation?.severity === 'error' ? 'true' : undefined}
       title={validation?.message}
-      className="gen-datagrid__cell"
+      className={['gen-datagrid__cell', className].filter(Boolean).join(' ')}
       style={{ ...pinning?.style, ...style }}
       tabIndex={isActive ? 0 : -1}
       onMouseDown={(event) => {

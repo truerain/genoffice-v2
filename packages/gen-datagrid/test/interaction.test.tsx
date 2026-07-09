@@ -3911,6 +3911,85 @@ describe('GenDataGrid interaction contract', () => {
     });
   });
 
+  it('clears dirty markers when a cell value reverts to its baseline', async () => {
+    const gridRef = React.createRef<GenDataGridHandle>();
+    const { container } = render(
+      <GenDataGrid
+        ref={gridRef}
+        gridId="dirty-baseline-revert-grid"
+        data={rows}
+        columns={editabilityColumns}
+        getRowId={(row) => row.id}
+      />
+    );
+
+    const firstCell = getCell(container, '1', 'name');
+    fireEvent.doubleClick(firstCell);
+    const editor = firstCell.querySelector<HTMLInputElement>('input[aria-label="name editor"]');
+    if (!editor) throw new Error('Missing editor');
+
+    fireEvent.change(editor, { target: { value: 'Ada Dirty' } });
+    fireEvent.keyDown(editor, { key: 'Enter' });
+
+    await waitFor(() => {
+      expect(gridRef.current?.getDirtyState().rowIds).toEqual(['1']);
+    });
+
+    fireEvent.doubleClick(firstCell);
+    const revertEditor = firstCell.querySelector<HTMLInputElement>('input[aria-label="name editor"]');
+    if (!revertEditor) throw new Error('Missing revert editor');
+
+    fireEvent.change(revertEditor, { target: { value: 'Ada' } });
+    fireEvent.keyDown(revertEditor, { key: 'Enter' });
+
+    await waitFor(() => {
+      expect(firstCell.dataset.dirtyCell).toBeUndefined();
+      expect(firstCell.closest('[role="row"]')?.getAttribute('data-dirty-row')).toBeNull();
+      expect(gridRef.current?.getDirtyState().rowIds).toEqual([]);
+      expect(gridRef.current?.getChangeSet().updated).toEqual([]);
+    });
+  });
+
+  it('clears dirty markers when emitCellValueChange reverts to baseline', async () => {
+    const gridRef = React.createRef<GenDataGridHandle<Person>>();
+    render(
+      <GenDataGrid
+        ref={gridRef}
+        gridId="emit-baseline-revert-grid"
+        data={rows}
+        columns={editabilityColumns}
+        getRowId={(row) => row.id}
+      />
+    );
+
+    gridRef.current?.emitCellValueChange({
+      row: rows[0]!,
+      rowId: '1',
+      rowIndex: 0,
+      columnId: 'name',
+      previousValue: 'Ada',
+      value: 'Ada Dirty',
+    });
+
+    await waitFor(() => {
+      expect(gridRef.current?.getDirtyState().rowIds).toEqual(['1']);
+    });
+
+    gridRef.current?.emitCellValueChange({
+      row: { ...rows[0]!, name: 'Ada Dirty' },
+      rowId: '1',
+      rowIndex: 0,
+      columnId: 'name',
+      previousValue: 'Ada Dirty',
+      value: 'Ada',
+    });
+
+    await waitFor(() => {
+      expect(gridRef.current?.getDirtyState().rowIds).toEqual([]);
+      expect(gridRef.current?.getChangeSet().updated).toEqual([]);
+    });
+  });
+
   it('groups dirty cells and deleted rows in the imperative change set', async () => {
     const gridRef = React.createRef<GenDataGridHandle<Person>>();
     const { container } = render(
@@ -5119,6 +5198,135 @@ describe('Gate 8.7 system columns', () => {
       )
     ).toBeTruthy();
     expect(getByLabelText('Select row 1')).toBeTruthy();
+  });
+
+  it('exposes rowStatus in column meta.editable callbacks consistent with rowStatusResolver', async () => {
+    const rowStatusByRowId: Record<string, string> = {};
+    const statusColumns = [
+      {
+        accessorKey: 'name',
+        header: 'Name',
+        size: 120,
+        meta: {
+          editable: (ctx: { rowId: string; rowStatus: string }) => {
+            rowStatusByRowId[ctx.rowId] = ctx.rowStatus;
+            return true;
+          },
+          editType: 'text' as const,
+        },
+      },
+      { accessorKey: 'age', header: 'Age', size: 80 },
+    ];
+
+    const gridRef = React.createRef<GenDataGridHandle<Person>>();
+    const { container } = render(
+      <GenDataGrid
+        ref={gridRef}
+        gridId="row-status-editable-context-grid"
+        data={rows}
+        columns={statusColumns}
+        getRowId={(row) => row.id}
+        rowStatusResolver={({ rowId, dirty, deleted }) => {
+          if (deleted) return 'deleted';
+          if (dirty) return 'updated';
+          if (rowId === '1') return 'created';
+          return 'clean';
+        }}
+      />
+    );
+
+    expect(rowStatusByRowId['1']).toBe('created');
+    expect(rowStatusByRowId['2']).toBe('clean');
+    expect(gridRef.current?.getRowStatus('1')).toBe('created');
+    expect(gridRef.current?.getRowStatus('2')).toBe('clean');
+
+    const secondCell = getCell(container, '2', 'name');
+    fireEvent.doubleClick(secondCell);
+    const editor = secondCell.querySelector<HTMLInputElement>('input[aria-label="name editor"]');
+    if (!editor) throw new Error('Missing editor');
+
+    fireEvent.change(editor, { target: { value: 'Grace Dirty' } });
+    fireEvent.keyDown(editor, { key: 'Enter' });
+
+    await waitFor(() => {
+      expect(rowStatusByRowId['2']).toBe('updated');
+      expect(gridRef.current?.getRowStatus('2')).toBe('updated');
+    });
+
+    gridRef.current?.deleteRows(['2']);
+
+    await waitFor(() => {
+      expect(rowStatusByRowId['2']).toBe('deleted');
+      expect(gridRef.current?.getRowStatus('2')).toBe('deleted');
+    });
+  });
+
+  it('renders meta.renderCell with rowStatus from rowStatusResolver', () => {
+    const displayColumns = [
+      {
+        accessorKey: 'name',
+        header: 'Name',
+        size: 120,
+        meta: {
+          renderCell: ({ rowStatus, value }: { rowStatus: string; value: unknown }) =>
+            rowStatus === 'created' ? '(new)' : String(value ?? ''),
+        },
+      },
+      { accessorKey: 'age', header: 'Age', size: 80 },
+    ];
+
+    const { container } = render(
+      <GenDataGrid
+        gridId="render-cell-row-status-grid"
+        data={rows}
+        columns={displayColumns}
+        getRowId={(row) => row.id}
+        rowStatusResolver={({ rowId }) => (rowId === '1' ? 'created' : 'clean')}
+      />
+    );
+
+    expect(getCell(container, '1', 'name').textContent).toContain('(new)');
+    expect(getCell(container, '2', 'name').textContent).toContain('Grace');
+  });
+
+  it('applies meta.cellClassName based on rowStatus', async () => {
+    const styledColumns = [
+      {
+        accessorKey: 'name',
+        header: 'Name',
+        size: 120,
+        meta: {
+          editable: true,
+          editType: 'text' as const,
+          cellClassName: ({ rowStatus }: { rowStatus: string }) =>
+            rowStatus === 'updated' ? 'cell-updated-by-status' : undefined,
+        },
+      },
+      { accessorKey: 'age', header: 'Age', size: 80 },
+    ];
+
+    const { container } = render(
+      <GenDataGrid
+        gridId="cell-class-row-status-grid"
+        data={rows}
+        columns={styledColumns}
+        getRowId={(row) => row.id}
+      />
+    );
+
+    const secondCell = getCell(container, '2', 'name');
+    expect(secondCell.className).not.toContain('cell-updated-by-status');
+
+    fireEvent.doubleClick(secondCell);
+    const editor = secondCell.querySelector<HTMLInputElement>('input[aria-label="name editor"]');
+    if (!editor) throw new Error('Missing editor');
+
+    fireEvent.change(editor, { target: { value: 'Grace Dirty' } });
+    fireEvent.keyDown(editor, { key: 'Enter' });
+
+    await waitFor(() => {
+      expect(getCell(container, '2', 'name').className).toContain('cell-updated-by-status');
+    });
   });
 
   it('limits row selection to created rows when rowSelectionMode is createdOnly', async () => {

@@ -14,6 +14,7 @@ import type {
   GenDataGridEditPolicy,
   GenDataGridEditorFactory,
   GenDataGridExpandedRowState,
+  GenDataGridResolveRowStatusFn,
   GenDataGridRowContext,
   GenDataGridScrollSeekingOptions,
   GenDataGridTreeRowContext,
@@ -83,6 +84,7 @@ type DataGridVirtualBodyProps<TData> = {
   readOnly?: boolean;
   enablePinning?: boolean;
   isCellEditable?: (ctx: GenDataGridEditableContext<TData>) => boolean;
+  resolveRowStatus?: GenDataGridResolveRowStatusFn<TData>;
   editPolicy?: GenDataGridEditPolicy;
   editSelectOnFocus?: boolean;
   editCommitOnBlur?: boolean;
@@ -230,6 +232,7 @@ export function DataGridVirtualBody<TData>({
   readOnly,
   enablePinning = true,
   isCellEditable,
+  resolveRowStatus,
   editPolicy,
   editSelectOnFocus,
   editCommitOnBlur,
@@ -283,8 +286,9 @@ export function DataGridVirtualBody<TData>({
         isCellEditable,
         editPolicy,
         editCommitOnBlur,
+        resolveRowStatus,
       }),
-    [editCommitOnBlur, editPolicy, isCellEditable, readOnly, rows]
+    [editCommitOnBlur, editPolicy, isCellEditable, readOnly, resolveRowStatus, rows]
   );
 
   const activateCell = React.useCallback(
@@ -667,6 +671,7 @@ export function DataGridVirtualBody<TData>({
                 readOnly={readOnly}
                 enablePinning={enablePinning}
                 isCellEditable={isCellEditable}
+                resolveRowStatus={resolveRowStatus}
                 editPolicy={editPolicy}
                 editSelectOnFocus={editSelectOnFocus}
                 editCommitOnBlur={editCommitOnBlur}

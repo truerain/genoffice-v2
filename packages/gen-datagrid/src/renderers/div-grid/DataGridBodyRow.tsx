@@ -10,6 +10,7 @@ import type {
   GenDataGridEditableContext,
   GenDataGridEditPolicy,
   GenDataGridEditorFactory,
+  GenDataGridResolveRowStatusFn,
   GenDataGridValidationContext,
 } from '../../GenDataGrid.types';
 import {
@@ -19,6 +20,10 @@ import {
 import { resolveEditPolicy } from '../../features/editing/editPolicy';
 import { resolveBlurOwnership } from '../../features/editing/blurPolicy';
 import { createEditableContext, resolveEditableCell } from '../../features/editing/editableCell';
+import {
+  resolveMetaCellClassName,
+  resolveMetaCellStyle,
+} from '../../features/display/resolveCellMeta';
 import { createEditorContext } from '../../features/editing/editorContext';
 import { resolveNextEditableCell } from '../../features/editing/editNavigation';
 import { renderCellEditor } from '../../features/editing/renderEditor';
@@ -77,6 +82,7 @@ type DataGridBodyRowProps<TData> = {
   readOnly?: boolean;
   enablePinning?: boolean;
   isCellEditable?: (ctx: GenDataGridEditableContext<TData>) => boolean;
+  resolveRowStatus?: GenDataGridResolveRowStatusFn<TData>;
   editPolicy?: GenDataGridEditPolicy;
   editSelectOnFocus?: boolean;
   editCommitOnBlur?: boolean;
@@ -127,6 +133,7 @@ export function DataGridBodyRow<TData>({
   readOnly,
   enablePinning = true,
   isCellEditable,
+  resolveRowStatus,
   editPolicy,
   editSelectOnFocus,
   editCommitOnBlur,
@@ -181,6 +188,7 @@ export function DataGridBodyRow<TData>({
             column: cell.column,
             readOnly,
             isCellEditable,
+            resolveRowStatus,
           })
         )
         .map((cell) => ({ rowId: targetRow.id, columnId: cell.column.id }))
@@ -196,6 +204,7 @@ export function DataGridBodyRow<TData>({
     const editableContext = createEditableContext({
       row: targetRow,
       column: targetCell.column,
+      resolveRowStatus,
     });
 
     return {
@@ -205,6 +214,7 @@ export function DataGridBodyRow<TData>({
         column: targetCell.column,
         readOnly,
         isCellEditable,
+        resolveRowStatus,
       }),
       resolvedEditPolicy: resolveEditPolicy(editPolicy, targetCell.column.columnDef.meta?.editPolicy),
     };
@@ -269,12 +279,17 @@ export function DataGridBodyRow<TData>({
 
         const columnId = cell.column.id;
         const isSystemColumn = isGenDataGridSystemColumnId(columnId);
-        const editableContext = createEditableContext({ row, column: cell.column });
+        const editableContext = createEditableContext({
+          row,
+          column: cell.column,
+          resolveRowStatus,
+        });
         const isEditable = resolveEditableCell({
           row,
           column: cell.column,
           readOnly,
           isCellEditable,
+          resolveRowStatus,
         });
         const isEditing = editingCell?.rowId === rowId && editingCell.columnId === columnId;
         const isActivatingAnotherCellWhileEditing = Boolean(
@@ -289,6 +304,7 @@ export function DataGridBodyRow<TData>({
               rowIndex,
               columnId,
               value: editableContext.value,
+              rowStatus: editableContext.rowStatus,
             });
         const visualRowMergeState = isSystemColumn
           ? undefined
@@ -319,6 +335,7 @@ export function DataGridBodyRow<TData>({
                 rowIndex,
                 columnId,
                 value: editableContext.value,
+                rowStatus: editableContext.rowStatus,
               })
             : meta?.bodyColSpan;
         const bodyColSpan = requestedBodyColSpan
@@ -407,9 +424,13 @@ export function DataGridBodyRow<TData>({
               renderEditor: meta?.renderEditor,
               editorFactory,
             })
-          : cell.column.columnDef.cell
-            ? flexRender(cell.column.columnDef.cell, cell.getContext())
-            : formatCellValue(cell.getValue());
+          : meta?.renderCell
+            ? meta.renderCell(editableContext)
+            : cell.column.columnDef.cell
+              ? flexRender(cell.column.columnDef.cell, cell.getContext())
+              : formatCellValue(cell.getValue());
+        const resolvedCellClassName = resolveMetaCellClassName(meta, editableContext);
+        const resolvedCellStyle = resolveMetaCellStyle(meta, editableContext);
         const renderedContent = (() => {
           if (cellIndex !== firstUserCellIndex || isEditing) return content;
 
@@ -518,7 +539,11 @@ export function DataGridBodyRow<TData>({
             focusOnMouseDown={!isActivatingAnotherCellWhileEditing}
             pinning={pinning}
             bodyColSpan={bodyColSpan}
-            style={{ gridColumn: String(cellIndex + 1) + ' / span ' + String(bodyColSpan) }}
+            className={resolvedCellClassName}
+            style={{
+              gridColumn: String(cellIndex + 1) + ' / span ' + String(bodyColSpan),
+              ...resolvedCellStyle,
+            }}
             onActivate={onActiveCellChange}
             onEditStart={({ entryReason }) => {
               if (isSystemColumn || !isEditable) return;

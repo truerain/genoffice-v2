@@ -412,6 +412,16 @@ Implementation status: column meta `align` and `headerAlign` are implemented on 
 
 Implementation status: `editable`, `editType`, `editOptions`, `getEditOptions`, `editPlaceholder`, `editSelectOnFocus`, `editCommitOnBlur`, and `renderEditor` are defined on TanStack `ColumnMeta`. These fields are wired into the editable cell predicate model and runtime editor rendering. Column `renderEditor` has priority over grid-level `editorFactory`, then the built-in default editor is used. Column `editSelectOnFocus` and `editCommitOnBlur` override their grid-level defaults and are exposed through the shared editor context.
 
+### 7.1a Display Cell Meta (Row Status Context)
+
+| Meta | 설명 | Status |
+| --- | --- | --- |
+| `renderCell` | `(ctx: GenDataGridCellContext) => ReactNode` — body 표시. `rowStatus` 포함. TanStack `cell`보다 우선 | implemented |
+| `cellClassName` | `string` 또는 `(ctx) => string` — 추가 cell class | implemented |
+| `cellStyle` | `CSSProperties` 또는 `(ctx) => CSSProperties` — 추가 inline style | implemented |
+
+`GenDataGridCellContext`는 `GenDataGridEditableContext`와 동일(`row`, `rowId`, `rowIndex`, `columnId`, `value`, `rowStatus`). `resolveRowStatus()` 단일 정본을 editable·display·validation이 공유한다.
+
 ### 7.3 Styling Meta
 
 | Meta | 설명 | 우선순위 |
@@ -476,6 +486,8 @@ usage remains valid through the default type argument.
 | `commitDirtyState(rowIds?)` | currently clears dirty/deleted markers like `resetDirtyState` | implemented |
 | `acceptChanges(rowIds?)` | explicit save-success marker acceptance alias over `commitDirtyState` | implemented |
 | `deleteRows(rowIds)` | mark rows as deleted or remove uncontrolled rows depending on `deleteRowsBehavior` | implemented |
+| `emitCellValueChange(args)` | record value change through the same dirty path as editor commit (interactive cells) | implemented |
+| `getRowStatus(rowId)` | return resolved row status for imperative/tests; matches column callback `rowStatus` | implemented |
 
 ### 8.2 Near-term Handle Extension
 

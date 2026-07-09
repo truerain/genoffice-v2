@@ -6,6 +6,7 @@ import type { Row } from '@tanstack/react-table';
 import type {
   GenDataGridEditableContext,
   GenDataGridEditPolicy,
+  GenDataGridResolveRowStatusFn,
 } from '../../GenDataGrid.types';
 import { createEditableContext, resolveEditableCell } from './editableCell';
 import { resolveBlurOwnership } from './blurPolicy';
@@ -27,6 +28,7 @@ type ResolveCellEditingRuntimeArgs<TData> = {
   isCellEditable?: (ctx: GenDataGridEditableContext<TData>) => boolean;
   editPolicy?: GenDataGridEditPolicy;
   editCommitOnBlur?: boolean;
+  resolveRowStatus?: GenDataGridResolveRowStatusFn<TData>;
 };
 
 export function resolveCellEditingRuntime<TData>({
@@ -36,6 +38,7 @@ export function resolveCellEditingRuntime<TData>({
   isCellEditable,
   editPolicy,
   editCommitOnBlur,
+  resolveRowStatus,
 }: ResolveCellEditingRuntimeArgs<TData>): GenDataGridCellEditingRuntime<TData> | null {
   const row = rows.find((item) => item.id === coord.rowId);
   const tanstackCell = row?.getVisibleCells().find((cell) => cell.column.id === coord.columnId);
@@ -46,6 +49,7 @@ export function resolveCellEditingRuntime<TData>({
   const editableContext = createEditableContext({
     row,
     column: tanstackCell.column,
+    resolveRowStatus,
   });
   const meta = tanstackCell.column.columnDef.meta;
 
@@ -57,6 +61,7 @@ export function resolveCellEditingRuntime<TData>({
       column: tanstackCell.column,
       readOnly,
       isCellEditable,
+      resolveRowStatus,
     }),
     resolvedEditPolicy: resolveEditPolicy(editPolicy, meta?.editPolicy),
     commitOnBlur: meta?.editCommitOnBlur ?? editCommitOnBlur ?? true,

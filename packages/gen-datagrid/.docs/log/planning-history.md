@@ -7,6 +7,48 @@ Summarizes completed GenDataGrid planning and gate history that no longer belong
 이 문서는 완료된 계획과 gate 진행 이력을 요약한다. 앞으로 할 일은
 `../plan/remaining-work-plan.md`에서만 관리한다.
 
+## 2026-07-09
+
+### P0 구현 완료 — Dirty Baseline Revert · Row Status Context API
+
+- **Dirty State Baseline Revert:** `handleCellValueChange`가 baseline(`previousValue`)과 동일한 값이면 dirty cell entry를 제거한다. editor commit·`emitCellValueChange` 경로 회귀 테스트 추가.
+- **Row Status Context API:** `GenDataGridEditableContext`·`GenDataGridValidationContext`·`GenDataGridBodyColSpanContext`·`GenDataGridVisualRowMergeContext`에 `rowStatus` 추가. `GenDataGridHandle.getRowStatus(rowId)` imperative API 추가. `resolveRowStatus`를 body row·paste·editing runtime에 주입.
+- **파일:** `src/GenDataGrid.types.ts`, `src/features/editing/editableCell.ts`, `src/renderers/div-grid/DataGridRoot.tsx`, `DataGridBodyRow.tsx`, `DataGridBody.tsx`, `DataGridVirtualBody.tsx`, `test/interaction.test.tsx`, `.docs/plan/remaining-work-plan.md`
+
+### Remaining Work Plan 완료 항목 이관 및 정리
+
+- `../plan/remaining-work-plan.md`에서 완료된 계획 섹션을 제거하고, 남은 항목만 active backlog로 재정렬했다.
+- 완료 이관 항목:
+  - Gate 9. Handle / Data Ownership Readiness
+  - Gate 10. GenDataGridCrud Thin Shell
+  - Gate 11. CRUD Mutation Completion
+  - Gate 12. App Integration / Migration
+  - Gate 13. Type Declaration Distribution (dist .d.ts)
+  - Gate 8.8 Row Hover Highlight
+- active backlog는 우선순위 기준으로 정리했다:
+  - P0: Dirty State Baseline Revert, Row Status Context API
+  - P1: Built-in Editor Column Meta Extensions, MasterDetail Expand Toggle Customization
+  - P2: Virtualization/Filtering/Tree/Public API 후속 과제
+
+### P0. Dirty State Baseline Revert
+
+- `handleCellValueChange`가 셀 값이 baseline과 같아지면 dirty map entry를 `delete`한다.
+- `getChangeSet()`은 map 기준이므로 baseline 복귀 row는 `updated`에서 자동 제외된다.
+- interaction 테스트: editor revert·`emitCellValueChange` revert.
+
+### P0. Row Status Context API
+
+- 컬럼 콜백 컨텍스트(`editable`, `getEditOptions`, `bodyColSpan`, `getCellValidation`)에 `rowStatus`를 주입한다.
+- `GenDataGridHandle.getRowStatus(rowId)`로 imperative 조회를 제공한다.
+- 내부 `resolveRowStatus()` 단일 정본을 system column·컬럼 meta·handle이 공유한다.
+- demo `userColumns` 전환은 별도 app PR로 유지한다.
+
+### P1. Row Status Cell Display Context
+
+- `meta.renderCell`, `meta.cellClassName`, `meta.cellStyle`에 `GenDataGridCellContext`를 사용한다.
+- `renderCell`은 TanStack `columnDef.cell`보다 우선한다.
+- demo `userColumns` `userId`는 `rowStatus === 'created'`로 표시 분기한다.
+
 ## 2026-06-27
 
 ### Plan 문서 구조 정리

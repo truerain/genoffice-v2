@@ -1,5 +1,22 @@
 ## 2026-07-09
 
+### Row Status Cell Display Context 구현
+
+- **요약:** `meta.renderCell`·`cellClassName`·`cellStyle`에 `GenDataGridCellContext`(`rowStatus` 포함) 주입. demo `userId` 컬럼 sentinel 우회 제거.
+- **검증:** `pnpm -C packages/gen-datagrid test` 188/188 통과.
+- **파일:** `src/GenDataGrid.types.ts`, `src/features/display/resolveCellMeta.ts`, `src/renderers/div-grid/DataGridBodyRow.tsx`, `DataGridCell.tsx`, `apps/demo/src/pages/admin/user/userColumns.ts`, `test/interaction.test.tsx`
+
+### P0 Dirty Baseline Revert + Row Status Context API 구현
+
+- **요약:** dirty baseline 복귀 시 field/row marker 자동 clean. 컬럼·validation 콜백에 `rowStatus` 주입 및 `getRowStatus` handle API 추가.
+- **검증:** `pnpm -C packages/gen-datagrid test` 186/186 통과.
+- **파일:** `src/GenDataGrid.types.ts`, `src/features/editing/editableCell.ts`, `src/features/editing/cellRuntime.ts`, `src/features/range-selection/paste.ts`, `src/renderers/div-grid/DataGridRoot.tsx`, `DataGridBodyRow.tsx`, `DataGridBody.tsx`, `DataGridVirtualBody.tsx`, `src/index.ts`, `test/interaction.test.tsx`, `.docs/plan/remaining-work-plan.md`, `.docs/log/planning-history.md`
+
+### Remaining Work Plan 완료 항목 이관 + 우선순위 재정렬
+
+- **요약:** `remaining-work-plan.md`에서 완료된 Gate/계획(9~13, 8.8)을 제거하고 `planning-history.md`로 이관했다. 남은 항목은 P0/P1/P2 우선순위로 재정렬했다.
+- **파일:** `.docs/plan/remaining-work-plan.md`, `.docs/log/planning-history.md`
+
 ### MasterDetail Expand Toggle 재정의 계획 (Backlog)
 
 - **요약:** 확장 버튼의 위치(anchor)·스타일/아이콘·렌더링 교체(`renderDetailToggle`) 요구를 `remaining-work-plan.md`에 backlog로 추가.

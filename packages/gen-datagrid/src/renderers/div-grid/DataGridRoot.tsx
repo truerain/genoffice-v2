@@ -445,15 +445,30 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
 
   const handleCellValueChange = React.useCallback(
     (args: GenDataGridCellValueChange<TData>) => {
-      if (enableDirtyState && !Object.is(args.previousValue, args.value)) {
+      if (enableDirtyState) {
         updateDirtyCells((current) => {
-          const next = new Map(current);
           const key = `${args.rowId}::${args.columnId}`;
-          const existing = next.get(key);
+          const existing = current.get(key);
+          const baseline = existing?.previousValue ?? args.previousValue;
+
+          if (Object.is(args.value, baseline)) {
+            if (!existing) {
+              return current;
+            }
+            const next = new Map(current);
+            next.delete(key);
+            return next;
+          }
+
+          if (Object.is(args.previousValue, args.value)) {
+            return current;
+          }
+
+          const next = new Map(current);
           next.set(key, {
             rowId: args.rowId,
             columnId: args.columnId,
-            previousValue: existing?.previousValue ?? args.previousValue,
+            previousValue: baseline,
             value: args.value,
           });
           return next;
@@ -666,6 +681,15 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
       deleteRows,
       getDirtyState: () => dirtyState,
       emitCellValueChange: handleCellValueChange,
+      getRowStatus: (rowId: string) => {
+        const row = tableRows.find((item) => item.id === rowId);
+        if (!row) return undefined;
+        return resolveRowStatus({
+          row: row.original,
+          rowId: row.id,
+          rowIndex: row.index,
+        });
+      },
     }),
     [
       acceptChanges,
@@ -685,7 +709,9 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
       getRowSnapshot,
       handleCellValueChange,
       resetDirtyState,
+      resolveRowStatus,
       scrollToCell,
+      tableRows,
     ]
   );
 
@@ -1064,6 +1090,7 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
         activeCell,
         readOnly: resolvedReadOnly,
         isCellEditable,
+        resolveRowStatus,
         pasteOptions,
         onCellValueChange: handleCellValueChange,
         onActiveCellChange: setActiveCell,
@@ -1085,6 +1112,7 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
       handleCellValueChange,
       isCellEditable,
       pasteOptions,
+      resolveRowStatus,
       rangeSelection,
       resolvedReadOnly,
       setActiveCell,
@@ -1181,6 +1209,7 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
             readOnly={resolvedReadOnly}
             enablePinning={enablePinning}
             isCellEditable={isCellEditable}
+            resolveRowStatus={resolveRowStatus}
             editPolicy={editPolicy}
             editSelectOnFocus={editSelectOnFocus}
             editCommitOnBlur={editCommitOnBlur}
@@ -1234,6 +1263,7 @@ export function DataGridRoot<TData>(props: DataGridRootProps<TData>) {
             readOnly={resolvedReadOnly}
             enablePinning={enablePinning}
             isCellEditable={isCellEditable}
+            resolveRowStatus={resolveRowStatus}
             editPolicy={editPolicy}
             editSelectOnFocus={editSelectOnFocus}
             editCommitOnBlur={editCommitOnBlur}

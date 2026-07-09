@@ -44,6 +44,7 @@ export type GenDataGridHandle<TData = unknown> = {
   getDirtyState: () => GenDataGridDirtyState;
   /** Interactive cell surfaces (toggle 등)에서 dirty 반영과 동일 경로로 값을 기록한다. */
   emitCellValueChange: (args: GenDataGridCellValueChange<TData>) => void;
+  getRowStatus: (rowId: string) => GenDataGridRowStatus | undefined;
 };
 
 export type GenDataGridEditType =
@@ -77,7 +78,11 @@ export type GenDataGridEditableContext<TData> = {
   rowIndex: number;
   columnId: string;
   value: unknown;
+  rowStatus: GenDataGridRowStatus;
 };
+
+/** Display·style·editable 콜백이 공유하는 body cell 컨텍스트. */
+export type GenDataGridCellContext<TData> = GenDataGridEditableContext<TData>;
 
 export type GenDataGridBodyColSpanContext<TData> = {
   row: TData;
@@ -85,6 +90,7 @@ export type GenDataGridBodyColSpanContext<TData> = {
   rowIndex: number;
   columnId: string;
   value: unknown;
+  rowStatus: GenDataGridRowStatus;
 };
 
 export type GenDataGridVisualRowMergeState =
@@ -103,6 +109,7 @@ export type GenDataGridVisualRowMergeContext<TData> = {
   rowIndex: number;
   columnId: string;
   value: unknown;
+  rowStatus: GenDataGridRowStatus;
 };
 
 export type GenDataGridVisualRowMergeOption =
@@ -126,6 +133,7 @@ export type GenDataGridValidationContext<TData> = {
   rowIndex: number;
   columnId: string;
   value: unknown;
+  rowStatus: GenDataGridRowStatus;
 };
 
 export type GenDataGridEditorContext<TData> = GenDataGridEditableContext<TData> & {
@@ -269,6 +277,12 @@ export type GenDataGridSystemColumnKind = 'rowStatus' | 'rowSelection' | 'rowNum
 export type GenDataGridRowSelectionMode = 'all' | 'createdOnly';
 export type GenDataGridRowStatus = 'clean' | 'created' | 'updated' | 'deleted';
 
+export type GenDataGridResolveRowStatusFn<TData> = (ctx: {
+  row: TData;
+  rowId: string;
+  rowIndex: number;
+}) => GenDataGridRowStatus;
+
 export type GenDataGridColumnMeta<TData, TValue = unknown> = {
   align?: GenDataGridColumnAlign;
   headerAlign?: GenDataGridColumnAlign;
@@ -283,6 +297,9 @@ export type GenDataGridColumnMeta<TData, TValue = unknown> = {
   editCommitOnBlur?: boolean;
   editBlurOwnership?: GenDataGridEditBlurOwnership;
   editPolicy?: GenDataGridEditPolicy;
+  renderCell?: (ctx: GenDataGridCellContext<TData>) => React.ReactNode;
+  cellClassName?: string | ((ctx: GenDataGridCellContext<TData>) => string | undefined);
+  cellStyle?: React.CSSProperties | ((ctx: GenDataGridCellContext<TData>) => React.CSSProperties | undefined);
   renderEditor?: (ctx: GenDataGridEditorContext<TData>) => React.ReactNode;
   headerSpan?: number;
   bodyColSpan?: number | ((ctx: GenDataGridBodyColSpanContext<TData>) => number);

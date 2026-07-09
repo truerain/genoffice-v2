@@ -8,6 +8,7 @@ import type {
   GenDataGridEditableContext,
   GenDataGridPasteError,
   GenDataGridPasteOptions,
+  GenDataGridResolveRowStatusFn,
 } from '../../GenDataGrid.types';
 import { createEditableContext, resolveEditableCell } from '../editing/editableCell';
 
@@ -38,6 +39,7 @@ export type ApplyClipboardPasteArgs<TData> = {
   activeCell: { rowId: string; columnId: string } | null;
   readOnly?: boolean;
   isCellEditable?: (ctx: GenDataGridEditableContext<TData>) => boolean;
+  resolveRowStatus?: GenDataGridResolveRowStatusFn<TData>;
   pasteOptions?: GenDataGridPasteOptions;
   onCellValueChange?: (args: GenDataGridCellValueChange<TData>) => void;
   onActiveCellChange?: (next: { rowId: string; columnId: string }) => void;
@@ -88,6 +90,7 @@ export function applyClipboardPaste<TData>({
   activeCell,
   readOnly,
   isCellEditable,
+  resolveRowStatus,
   pasteOptions,
   onCellValueChange,
   onActiveCellChange,
@@ -141,12 +144,13 @@ export function applyClipboardPaste<TData>({
           continue;
         }
 
-        const editableContext = createEditableContext({ row, column });
+        const editableContext = createEditableContext({ row, column, resolveRowStatus });
         const isEditable = resolveEditableCell({
           row,
           column,
           readOnly,
           isCellEditable,
+          resolveRowStatus,
         });
 
         if (!isEditable) {

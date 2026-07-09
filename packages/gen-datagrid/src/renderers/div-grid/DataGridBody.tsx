@@ -13,6 +13,7 @@ import type {
   GenDataGridEditPolicy,
   GenDataGridEditorFactory,
   GenDataGridExpandedRowState,
+  GenDataGridResolveRowStatusFn,
   GenDataGridRowContext,
   GenDataGridTreeRowContext,
   GenDataGridValidationContext,
@@ -38,6 +39,7 @@ type DataGridBodyProps<TData> = {
   readOnly?: boolean;
   enablePinning?: boolean;
   isCellEditable?: (ctx: GenDataGridEditableContext<TData>) => boolean;
+  resolveRowStatus?: GenDataGridResolveRowStatusFn<TData>;
   editPolicy?: GenDataGridEditPolicy;
   editSelectOnFocus?: boolean;
   editCommitOnBlur?: boolean;
@@ -92,6 +94,7 @@ export function DataGridBody<TData>({
   readOnly,
   enablePinning = true,
   isCellEditable,
+  resolveRowStatus,
   editPolicy,
   editSelectOnFocus,
   editCommitOnBlur,
@@ -141,6 +144,7 @@ export function DataGridBody<TData>({
         isCellEditable,
         editPolicy,
         editCommitOnBlur,
+        resolveRowStatus,
       });
       const nextRuntime = resolveCellEditingRuntime({
         rows,
@@ -149,6 +153,7 @@ export function DataGridBody<TData>({
         isCellEditable,
         editPolicy,
         editCommitOnBlur,
+        resolveRowStatus,
       });
       if (editingRuntime) {
         deactivateEditingForCellActivation({
@@ -222,6 +227,7 @@ export function DataGridBody<TData>({
               readOnly={readOnly}
               enablePinning={enablePinning}
               isCellEditable={isCellEditable}
+              resolveRowStatus={resolveRowStatus}
               editPolicy={editPolicy}
               editSelectOnFocus={editSelectOnFocus}
               editCommitOnBlur={editCommitOnBlur}
