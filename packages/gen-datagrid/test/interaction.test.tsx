@@ -2597,6 +2597,297 @@ describe('GenDataGrid interaction contract', () => {
     });
   });
 
+  it('moves active cell in one click from another editing cell to lookup display', async () => {
+    const onCellValueChange = vi.fn();
+    const { container } = render(
+      <GenDataGrid
+        gridId="lookup-activate-grid"
+        data={rows}
+        columns={[
+          {
+            accessorKey: 'name',
+            header: 'Name',
+            size: 160,
+            meta: { editable: true },
+          },
+          {
+            accessorKey: 'role',
+            header: 'Role',
+            size: 200,
+            meta: {
+              editable: true,
+              editType: 'lookup',
+              editLookup: {
+                getDisplayValue: (value) => String(value ?? ''),
+                renderModal: (ctx) => (
+                  <div role="dialog" aria-label="lookup dialog">
+                    <button type="button" onClick={() => ctx.closeModal()}>
+                      Close
+                    </button>
+                  </div>
+                ),
+              },
+            },
+          },
+        ]}
+        getRowId={(row) => row.id}
+        defaultActiveCell={{ rowId: '1', columnId: 'name' }}
+        onCellValueChange={onCellValueChange}
+      />
+    );
+
+    const nameCell = getCell(container, '1', 'name');
+    const roleCell = getCell(container, '1', 'role');
+    fireEvent.doubleClick(nameCell);
+
+    await waitFor(() => {
+      expect(nameCell.dataset.editingCell).toBe('true');
+    });
+
+    fireEvent.mouseDown(roleCell.querySelector('.gen-datagrid__lookup-display-value')!);
+
+    await waitFor(() => {
+      expect(nameCell.dataset.editingCell).toBeUndefined();
+      expect(roleCell.dataset.activeCell).toBe('true');
+      expect(roleCell.dataset.editingCell).toBeUndefined();
+    });
+  });
+
+  it('opens built-in lookup from display-cell trigger without double-click edit', async () => {
+    const onCellValueChange = vi.fn();
+    const { container } = render(
+      <GenDataGrid
+        gridId="builtin-lookup-display-grid"
+        data={rows}
+        columns={[
+          {
+            accessorKey: 'name',
+            header: 'Name',
+            size: 200,
+            meta: {
+              editable: true,
+              editType: 'lookup',
+              editLookup: {
+                getDisplayValue: (value) => String(value ?? ''),
+                renderModal: (ctx) => (
+                  <div role="dialog" aria-label="lookup dialog">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        ctx.applyValue('Lookup Ada');
+                        ctx.closeModal();
+                      }}
+                    >
+                      Pick Lookup Ada
+                    </button>
+                  </div>
+                ),
+              },
+            },
+          },
+        ]}
+        getRowId={(row) => row.id}
+        onCellValueChange={onCellValueChange}
+      />
+    );
+
+    const firstCell = getCell(container, '1', 'name');
+    expect(firstCell.querySelector('.gen-datagrid__lookup-display')).not.toBeNull();
+    expect(document.body.querySelector('[aria-label="lookup dialog"]')).toBeNull();
+
+    const lookupTrigger = firstCell.querySelector<HTMLButtonElement>(
+      '.gen-datagrid__lookup-trigger'
+    );
+    if (!lookupTrigger) throw new Error('Missing lookup display trigger');
+    fireEvent.click(lookupTrigger);
+
+    const pickButton = await waitFor(() => {
+      const dialog = document.body.querySelector('[aria-label="lookup dialog"]');
+      const button = dialog?.querySelector<HTMLButtonElement>('button[type="button"]');
+      if (!button?.textContent?.includes('Pick Lookup Ada')) {
+        throw new Error('Missing lookup pick button');
+      }
+      return button;
+    });
+
+    fireEvent.click(pickButton);
+
+    await waitFor(() => {
+      expect(onCellValueChange).toHaveBeenCalledWith({
+        row: rows[0],
+        rowId: '1',
+        rowIndex: 0,
+        columnId: 'name',
+        previousValue: 'Ada',
+        value: 'Lookup Ada',
+      });
+      expect(firstCell.dataset.editingCell).toBe('true');
+    });
+  });
+
+  it('commits built-in lookup selection through editLookup.renderModal', async () => {
+    const onCellValueChange = vi.fn();
+    const { container } = render(
+      <GenDataGrid
+        gridId="builtin-lookup-grid"
+        data={rows}
+        columns={[
+          {
+            accessorKey: 'name',
+            header: 'Name',
+            size: 200,
+            meta: {
+              editable: true,
+              editType: 'lookup',
+              editLookup: {
+                getDisplayValue: (value) => String(value ?? ''),
+                renderModal: (ctx) => (
+                  <div role="dialog" aria-label="lookup dialog">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        ctx.applyValue('Lookup Ada');
+                        ctx.closeModal();
+                      }}
+                    >
+                      Pick Lookup Ada
+                    </button>
+                  </div>
+                ),
+              },
+            },
+          },
+        ]}
+        getRowId={(row) => row.id}
+        onCellValueChange={onCellValueChange}
+      />
+    );
+
+    const firstCell = getCell(container, '1', 'name');
+    fireEvent.doubleClick(firstCell);
+
+    expect(document.body.querySelector('[aria-label="lookup dialog"]')).toBeNull();
+
+    const lookupTrigger = firstCell.querySelector<HTMLButtonElement>(
+      '.gen-datagrid__lookup-trigger'
+    );
+    if (!lookupTrigger) throw new Error('Missing lookup trigger');
+    fireEvent.click(lookupTrigger);
+
+    const pickButton = await waitFor(() => {
+      const dialog = document.body.querySelector('[aria-label="lookup dialog"]');
+      const button = dialog?.querySelector<HTMLButtonElement>('button[type="button"]');
+      if (!button?.textContent?.includes('Pick Lookup Ada')) {
+        throw new Error('Missing lookup pick button');
+      }
+      return button;
+    });
+
+    fireEvent.click(pickButton);
+
+    await waitFor(() => {
+      expect(onCellValueChange).toHaveBeenCalledWith({
+        row: rows[0],
+        rowId: '1',
+        rowIndex: 0,
+        columnId: 'name',
+        previousValue: 'Ada',
+        value: 'Lookup Ada',
+      });
+      expect(firstCell.dataset.editingCell).toBe('true');
+    });
+  });
+
+  it('commits built-in lookup mapSelection through applySelection', async () => {
+    type Dept = { deptId: string; deptName: string };
+    type Employee = Person & { deptId?: string; deptName: string };
+
+    const deptRows: Employee[] = [
+      { id: '1', name: 'Ada', age: 37, deptId: 'D1', deptName: 'Alpha' },
+      { id: '2', name: 'Grace', age: 41, deptName: 'Beta' },
+    ];
+    const onCellValueChange = vi.fn();
+    const { container } = render(
+      <GenDataGrid
+        gridId="builtin-lookup-map-selection-grid"
+        data={deptRows}
+        columns={[
+          {
+            accessorKey: 'deptId',
+            header: 'Dept',
+            size: 200,
+            meta: {
+              editable: true,
+              editType: 'lookup',
+              editLookup: {
+                getDisplayValue: (_value, { row }) => row.deptName,
+                mapSelection: (dept: Dept) => ({
+                  deptId: dept.deptId,
+                  deptName: dept.deptName,
+                }),
+                renderModal: (ctx) => (
+                  <div role="dialog" aria-label="dept lookup dialog">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        ctx.applySelection({ deptId: 'D2', deptName: 'Beta Next' });
+                        ctx.closeModal();
+                      }}
+                    >
+                      Pick Beta Next
+                    </button>
+                  </div>
+                ),
+              },
+            },
+          },
+        ]}
+        getRowId={(row) => row.id}
+        onCellValueChange={onCellValueChange}
+      />
+    );
+
+    const firstCell = getCell(container, '1', 'deptId');
+    fireEvent.doubleClick(firstCell);
+
+    const lookupTrigger = firstCell.querySelector<HTMLButtonElement>(
+      '.gen-datagrid__lookup-trigger'
+    );
+    if (!lookupTrigger) throw new Error('Missing lookup trigger');
+    fireEvent.click(lookupTrigger);
+
+    const pickButton = await waitFor(() => {
+      const dialog = document.body.querySelector('[aria-label="dept lookup dialog"]');
+      const button = dialog?.querySelector<HTMLButtonElement>('button[type="button"]');
+      if (!button?.textContent?.includes('Pick Beta Next')) {
+        throw new Error('Missing lookup pick button');
+      }
+      return button;
+    });
+
+    fireEvent.click(pickButton);
+
+    await waitFor(() => {
+      expect(onCellValueChange).toHaveBeenCalledWith({
+        row: deptRows[0],
+        rowId: '1',
+        rowIndex: 0,
+        columnId: 'deptId',
+        previousValue: 'D1',
+        value: 'D2',
+      });
+      expect(onCellValueChange).toHaveBeenCalledWith({
+        row: deptRows[0],
+        rowId: '1',
+        rowIndex: 0,
+        columnId: 'deptName',
+        previousValue: 'Alpha',
+        value: 'Beta Next',
+      });
+      expect(firstCell.dataset.editingCell).toBe('true');
+    });
+  });
+
   it('cancels modal-owned editing when another cell is activated', async () => {
     const onCellValueChange = vi.fn();
     const { container } = render(

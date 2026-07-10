@@ -1,5 +1,38 @@
 ## 2026-07-10
 
+### Edit Lookup — mapSelection + applyRowPatch
+
+- **요약:** `editLookup.mapSelection(selection) => patch`, `ctx.applySelection`, `ctx.applyRowPatch` 추가. lookup modal이 여러 columnId를 dirty 경로로 반영. demo org lookup은 `mapSelection`으로 orgId·orgName 동시 반영.
+- **검증:** gen-datagrid test, demo tsc
+- **파일:** `GenDataGrid.types.ts`, `DataGridBodyRow.tsx`, `LookupCellEditor.tsx`, `resolveEditLookup.ts`, `cell-edit-api.md`, `test/interaction.test.tsx`
+
+### Edit Lookup — modal 결과 후 편집 상태 유지
+
+- **요약:** `GenDataGridEditorContext.commitAndKeepEditing` 추가. Lookup modal의 `applyValue`는 dirty/commit 반영 후에도 editor를 유지하며, 선택·취소·backdrop·Escape는 modal만 닫고 input focus로 복귀.
+- **검증:** `pnpm -C packages/gen-datagrid test` — 203/203, `pnpm -C apps/demo exec tsc --noEmit`
+- **파일:** `GenDataGrid.types.ts`, `editorContext.ts`, `DataGridBodyRow.tsx`, `LookupCellEditor.tsx`, `orgLookupModal.tsx`, `test/interaction.test.tsx`
+
+### Edit Lookup — display cell active 이동 1클릭 수정
+
+- **요약:** `LookupDisplayCell` span `stopPropagation` 제거(텍스트 클릭 시 `activateCell` 정상 동작). trigger는 `onActiveCellChange` 후 `onEditStart`로 이전 셀 편집 종료·active 이동·modal open 일괄 처리.
+- **파일:** `LookupDisplayCell.tsx`, `DataGridBodyRow.tsx`, `test/interaction.test.tsx`
+
+### Edit Lookup — display cell trigger (LookupDisplayCell)
+
+- **요약:** 편집 모드가 아닐 때도 부서명 옆 **조회 버튼(돋보기)** 표시. 클릭 시 modal open. demo `orgId`의 `cell` renderer 제거(텍스트만 보이던 원인).
+- **파일:** `LookupDisplayCell.tsx`, `lookupDisplayValue.ts`, `DataGridBodyRow.tsx`, `index.css`, `userColumns.ts`
+
+### Edit Lookup — modal은 trigger 버튼으로만 open
+
+- **요약:** 편집 진입·input focus 시 modal 자동 open 제거. `LookupCellEditor` 초기 `open: false`, trigger 클릭 시에만 portal mount.
+- **파일:** `features/editing/LookupCellEditor.tsx`, `test/interaction.test.tsx`, `architecture/edit-lookup-architecture.md`
+
+### Edit Lookup (built-in modal editor)
+
+- **요약:** `editType: 'lookup'` / `meta.editLookup` built-in lookup shell. `LookupCellEditor`, `resolveEditLookup`, lookup 기본 modal blur. demo `orgId` 마이그레이션.
+- **검증:** `pnpm -C packages/gen-datagrid test` 201/201, `pnpm -C apps/demo exec tsc --noEmit`
+- **파일:** `features/editing/LookupCellEditor.tsx`, `resolveEditLookup.ts`, `renderEditor.tsx`, `blurPolicy.ts`, `editValuePipeline.ts`, `GenDataGrid.types.ts`, `index.css`, `test/resolveEditLookup.test.ts`, `test/interaction.test.tsx`, `apps/demo/.../orgLookupModal.tsx`, `userColumns.ts`
+
 ### MasterDetail chevron toggle + Storybook
 
 - **요약:** `renderDetailChevronToggle` helper · gen-datagrid/CRUD Storybook masterDetail 예제 · demo UserPage chevron 적용.

@@ -4,11 +4,14 @@
 import * as React from 'react';
 
 import type {
+  GenDataGridColumnMeta,
   GenDataGridEditorContext,
   GenDataGridEditorFactory,
 } from '../../GenDataGrid.types';
 import { createEditorBlurHandler } from './blurPolicy';
 import { handleBuiltinEditorKeyDown } from './builtinEditorKeyboard';
+import { LookupCellEditor } from './LookupCellEditor';
+import { resolveEditLookupConfig } from './resolveEditLookup';
 
 function normalizeEditorValue(value: unknown) {
   if (value == null) return '';
@@ -157,14 +160,29 @@ function DefaultCellEditor<TData>({ ctx }: { ctx: GenDataGridEditorContext<TData
 
 type RenderCellEditorArgs<TData> = {
   ctx: GenDataGridEditorContext<TData>;
+  columnMeta?: GenDataGridColumnMeta<TData>;
   renderEditor?: (ctx: GenDataGridEditorContext<TData>) => React.ReactNode;
   editorFactory?: GenDataGridEditorFactory<TData>;
 };
 
 export function renderCellEditor<TData>({
   ctx,
+  columnMeta,
   renderEditor,
   editorFactory,
 }: RenderCellEditorArgs<TData>) {
-  return renderEditor?.(ctx) ?? editorFactory?.(ctx) ?? <DefaultCellEditor ctx={ctx} />;
+  if (renderEditor) {
+    return renderEditor(ctx);
+  }
+
+  if (editorFactory) {
+    return editorFactory(ctx);
+  }
+
+  const lookupConfig = resolveEditLookupConfig(columnMeta);
+  if (lookupConfig) {
+    return <LookupCellEditor ctx={ctx} config={lookupConfig} />;
+  }
+
+  return <DefaultCellEditor ctx={ctx} />;
 }

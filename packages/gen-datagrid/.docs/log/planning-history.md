@@ -7,6 +7,16 @@ Summarizes completed GenDataGrid planning and gate history that no longer belong
 이 문서는 완료된 계획과 gate 진행 이력을 요약한다. 앞으로 할 일은
 `../plan/remaining-work-plan.md`에서만 관리한다.
 
+## 2026-07-10
+
+### Edit Lookup — architecture + plan
+
+- **목표:** `editType: 'lookup'` / `meta.editLookup` built-in modal lookup editor. grid가 shell·blur·portal 소유, app은 `renderModal`만.
+- **활성:** `editType === 'lookup'` 또는 `editLookup` 정의; `text` + `editLookup` 시 lookup 우선; `renderEditor` 최우선.
+- **옵션:** `allowCellEdit`, `getDisplayValue`, default `blurOwnership: 'modal'`.
+- **비목표:** `GenDataGridEditTypePreset`에 modal 추가, gen-datagrid → ui 강결합.
+- **파일:** `.docs/architecture/edit-lookup-architecture.md`, `.docs/plan/edit-lookup-plan.md`, `plan/remaining-work-plan.md`, `README.md`
+
 ## 2026-07-09
 
 ### P0 구현 완료 — Dirty Baseline Revert · Row Status Context API

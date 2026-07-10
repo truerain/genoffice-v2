@@ -31,6 +31,8 @@ import { createEditorContext } from '../../features/editing/editorContext';
 import { createEditValueHandlers } from '../../features/editing/editValuePipeline';
 import { resolveNextEditableCell } from '../../features/editing/editNavigation';
 import { renderCellEditor } from '../../features/editing/renderEditor';
+import { LookupDisplayCell } from '../../features/editing/LookupDisplayCell';
+import { resolveEditLookupConfig } from '../../features/editing/resolveEditLookup';
 import type { GenDataGridEditingCell } from '../../features/editing/useCellEditing';
 import {
   hasVisibleCellContent,
@@ -345,6 +347,49 @@ export function DataGridBodyRow<TData>({
           });
           onEditCancel();
         };
+        const commitAndKeepEditing = (nextValue = draftValue) => {
+          const committedValue = editValueHandlers.applyCommit(nextValue);
+          applyDraftValue(committedValue);
+          onCellValueChange?.({
+            row: row.original,
+            rowId,
+            rowIndex,
+            columnId,
+            previousValue: editableContext.value,
+            value: committedValue,
+          });
+        };
+        const resolvePatchPreviousValue = (patchColumnId: string) => {
+          if (patchColumnId === columnId) {
+            return editableContext.value;
+          }
+          return (row.original as Record<string, unknown>)[patchColumnId];
+        };
+        const applyRowPatch = (
+          patch: Record<string, unknown>,
+          options?: { keepEditing?: boolean }
+        ) => {
+          for (const [patchColumnId, rawNextValue] of Object.entries(patch)) {
+            const nextValue =
+              patchColumnId === columnId
+                ? editValueHandlers.applyCommit(rawNextValue)
+                : rawNextValue;
+            onCellValueChange?.({
+              row: row.original,
+              rowId,
+              rowIndex,
+              columnId: patchColumnId,
+              previousValue: resolvePatchPreviousValue(patchColumnId),
+              value: nextValue,
+            });
+            if (patchColumnId === columnId) {
+              applyDraftValue(nextValue);
+            }
+          }
+          if (!options?.keepEditing) {
+            onEditCancel();
+          }
+        };
         const requestedBodyColSpan =
           typeof meta?.bodyColSpan === 'function'
             ? meta.bodyColSpan({
@@ -376,6 +421,7 @@ export function DataGridBodyRow<TData>({
         const commitOnBlur = meta?.editCommitOnBlur ?? editCommitOnBlur ?? true;
         const blurOwnership = resolveBlurOwnership({
           editType: meta?.editType,
+          editLookup: meta?.editLookup,
           gridPolicy: editPolicy,
           columnPolicy: meta?.editPolicy,
           columnBlurOwnership: meta?.editBlurOwnership,
@@ -415,11 +461,14 @@ export function DataGridBodyRow<TData>({
           onEditCancel();
           continueEditingAt(next, 'arrowKey');
         };
+        const lookupConfig = resolveEditLookupConfig(meta);
         const editorContext = createEditorContext({
           editableContext,
           draftValue,
           setDraftValue: applyDraftValue,
           commit,
+          commitAndKeepEditing,
+          applyRowPatch,
           cancel: onEditCancel,
           editType: meta?.editType,
           inputEditType: editValueHandlers.inputEditType,
@@ -434,6 +483,7 @@ export function DataGridBodyRow<TData>({
           openOnEditStart: resolvedEditPolicy.openOnEditStart,
           editEntryReason: editingCell?.entryReason,
           blurOwnership,
+          openLookupModal: editingCell?.openLookupModal,
           registerEditorSurface,
           unregisterEditorSurface,
           getGridRoot,
@@ -442,11 +492,31 @@ export function DataGridBodyRow<TData>({
         const content = isEditing
           ? renderCellEditor({
               ctx: editorContext,
+              columnMeta: meta,
               renderEditor: meta?.renderEditor,
               editorFactory,
             })
           : meta?.renderCell
             ? meta.renderCell(editableContext)
+            : lookupConfig
+              ? (
+                  <LookupDisplayCell
+                    config={lookupConfig}
+                    editableContext={editableContext}
+                    disabled={!isEditable || Boolean(readOnly)}
+                    onLookupTrigger={() => {
+                      onActiveCellChange({ rowId, columnId });
+                      onEditStart({
+                        rowId,
+                        columnId,
+                        value: editableContext.value,
+                        openLookupModal: true,
+                        entryReason: 'click',
+                        suppressSelectOnFocus: true,
+                      });
+                    }}
+                  />
+                )
             : cell.column.columnDef.cell
               ? flexRender(cell.column.columnDef.cell, cell.getContext())
               : formatCellValue(cell.getValue());

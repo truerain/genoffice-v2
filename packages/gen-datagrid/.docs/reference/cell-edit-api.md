@@ -42,6 +42,29 @@ follow-up:
   `editEntryReason`, `blurOwnership`, `registerEditorSurface`,
   `unregisterEditorSurface`, `getGridRoot`, and `getEditorSurfaces`.
 
+## Edit Lookup (built-in modal editor)
+
+Status: **implemented** (2026-07-10). Architecture: [`edit-lookup-architecture.md`](../architecture/edit-lookup-architecture.md).
+
+| API | 상태 | 설명 |
+| --- | --- | --- |
+| `meta.editType: 'lookup'` | implemented | builtin lookup editor 종류 |
+| `meta.editLookup` | implemented | lookup 설정 (`renderModal` 필수) |
+| `editLookup.allowCellEdit` | implemented | 셀 인라인 입력 on/off (default `false`) |
+| `editLookup.getDisplayValue` | implemented | 저장값 → 표시 문자열 |
+| `editLookup.mapSelection` | implemented | 선택 결과 → columnId patch (`Record<string, unknown>`) |
+| `GenDataGridLookupModalContext` | implemented | `displayValue`, `keyword`, `closeModal`, `applySelection` 확장 |
+| lookup default `blurOwnership` | implemented | `'modal'` (column override 가능) |
+
+우선순위: `renderEditor` > `editLookup` > built-in `editType`.
+
+Lookup modal에서 `ctx.applySelection(selection)`은 `editLookup.mapSelection`으로
+patch를 만든 뒤 `applyRowPatch` dirty 경로로 반영한다. 편집 상태는 유지한다.
+`mapSelection`이 없으면 현재 `columnId`에 scalar만 반영한다.
+
+`ctx.applyValue(value)`는 단일 컬럼 shortcut이며, lookup modal에서는 편집 유지 경로로 동작한다.
+modal 취소·backdrop·Escape는 `ctx.closeModal()`로 닫고 input focus로 복귀한다.
+
 ## Gate 4.2 Current Status
 
 Gate 4.2 paste application is implemented for plain text clipboard data:
@@ -156,6 +179,7 @@ Built-in default editor는 `editType`에 따라 다음 element를 렌더링한�
 | `commit(nextValue?)` | edit mode를 commit으로 종료한다. |
 | `cancel()` | edit mode를 cancel로 종료한다. |
 | `applyValue(nextValue)` | draft를 설정한 뒤 즉시 commit한다. |
+| `applyRowPatch(patch, options?)` | 동일 row의 여러 columnId를 dirty 경로로 반영한다. `keepEditing: true`면 편집 유지. |
 | `editType` | `renderEditor`와 `editorFactory`에 전달되는 resolved edit type. |
 | `editOptions` | `renderEditor`와 `editorFactory`에 전달되는 select options. |
 | `placeholder` | `renderEditor`와 `editorFactory`에 전달되는 placeholder. |

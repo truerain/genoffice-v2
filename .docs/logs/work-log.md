@@ -8,6 +8,51 @@
 
 ## 2026-07-10
 
+### gen-datagrid — editLookup.mapSelection + applyRowPatch
+
+- **요약:** lookup 선택 시 여러 columnId를 dirty 경로로 반영. `editLookup.mapSelection`, `GenDataGridLookupModalContext.applySelection`, `GenDataGridEditorContext.applyRowPatch` 추가.
+- **demo:** `OrgLookupModal` → `ctx.applySelection(org)`, `userColumns`에 `mapSelection` 정의.
+- **검증:** gen-datagrid test, demo tsc
+- **파일:** `GenDataGrid.types.ts`, `DataGridBodyRow.tsx`, `LookupCellEditor.tsx`, `resolveEditLookup.ts`, `test/interaction.test.tsx`, `apps/demo/.../orgLookupModal.tsx`, `userColumns.ts`
+
+### demo OrgLookupModal — @gen-office/ui StandardDialog 전환
+
+- **요약:** hand-rolled backdrop/dialog 제거. `StandardDialog` + `Input`/`Button` 사용. `DialogContent` ref에 `data-gen-datagrid-editor-surface` 등록으로 grid blur 정책 유지.
+- **연동:** `LookupCellEditor`의 createPortal 래퍼 제거 — 앱 modal이 Radix portal 담당.
+- **파일:** `apps/demo/src/pages/admin/user/orgLookupModal.tsx`, `orgLookupModal.module.css`, `packages/gen-datagrid/src/features/editing/LookupCellEditor.tsx`, `packages/gen-datagrid/src/index.css`
+
+### gen-datagrid — Lookup modal 결과 후 편집 유지
+
+- **요약:** lookup modal 선택은 값 반영 후 editor를 유지하고, 취소·backdrop·Escape도 modal만 닫도록 `commitAndKeepEditing` 경로 적용.
+- **검증:** gen-datagrid test 203/203, demo tsc
+- **파일:** `packages/gen-datagrid/src/GenDataGrid.types.ts`, `features/editing/editorContext.ts`, `LookupCellEditor.tsx`, `apps/demo/src/pages/admin/user/orgLookupModal.tsx`
+
+### demo UserPage — 부서 Lookup 인라인 입력·modal keyword 연동
+
+- **요약:** `orgId` lookup의 `allowCellEdit`을 true로 설정. 셀 input draft가 `LookupCellEditor`의 `ctx.keyword`를 통해 부서 modal 초기 검색어로 전달된다.
+- **파일:** `apps/demo/src/pages/admin/user/userColumns.ts`, `packages/gen-datagrid/src/features/editing/LookupCellEditor.tsx`, `apps/demo/src/pages/admin/user/orgLookupModal.tsx`
+
+### gen-datagrid — Edit Lookup trigger-only modal open
+
+- **요약:** modal 자동 open 제거. 셀 trigger 버튼 클릭 시에만 `renderModal` portal 표시.
+- **파일:** `packages/gen-datagrid/src/features/editing/LookupCellEditor.tsx`, `test/interaction.test.tsx`
+
+### gen-datagrid — Edit Lookup 구현
+
+- **요약:** `editType: 'lookup'` / `editLookup` built-in modal lookup editor. Grid shell + app `renderModal`. demo `orgId` 마이그레이션 (`orgLookupModal.tsx`).
+- **검증:** gen-datagrid test 201/201, demo tsc
+- **파일:** `packages/gen-datagrid/src/features/editing/LookupCellEditor.tsx`, `resolveEditLookup.ts`, `GenDataGrid.types.ts`, `apps/demo/src/pages/admin/user/orgLookupModal.tsx`, `userColumns.ts`
+
+### gen-datagrid — Edit Lookup architecture + plan
+
+- **요약:** `editType: 'lookup'` / `editLookup` built-in modal lookup 설계·실행 계획 문서화. grid shell + app `renderModal` 분리, `allowCellEdit`·우선순위·Gate 4.1-d blur 계약 정의.
+- **파일:** `packages/gen-datagrid/.docs/architecture/edit-lookup-architecture.md`, `packages/gen-datagrid/.docs/plan/edit-lookup-plan.md`, `packages/gen-datagrid/.docs/plan/remaining-work-plan.md`, `packages/gen-datagrid/.docs/README.md`, `packages/gen-datagrid/.docs/log/planning-history.md`
+
+### demo UserPage — MasterDetail horizontal sticky (demo CSS, B)
+
+- **요약:** 행 아래 inline detail + 가로 스크롤 시 panel sticky. 패키지 변경 없음, `UserPage.module.css` scrollport override.
+- **파일:** `apps/demo/src/pages/admin/user/UserPage.module.css`, `userDetailPanel.module.css`, `userDetailPanel.tsx`
+
 ### gen-datagrid / gen-datagrid-crud — MasterDetail chevron toggle + Storybook
 
 - **요약:** chevron expand toggle helper, grid/CRUD Storybook, demo UserPage 적용.

@@ -2412,6 +2412,65 @@ export const Gate41DBlurPolicy: Story = {
           renderEditor: (ctx) => <ModalLookupEditor ctx={ctx} />,
         },
       },
+      {
+        accessorKey: 'city',
+        header: 'Builtin Lookup',
+        size: 200,
+        meta: {
+          editable: true,
+          editType: 'lookup',
+          editLookup: {
+            allowCellEdit: false,
+            getDisplayValue: (value) => String(value ?? ''),
+            renderModal: (ctx) => (
+              <>
+                <button
+                  type="button"
+                  aria-label="Close builtin lookup"
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={ctx.closeModal}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    border: 'none',
+                    padding: 0,
+                    background: 'rgba(27, 31, 36, 0.45)',
+                    cursor: 'default',
+                  }}
+                />
+                <div
+                  role="dialog"
+                  aria-modal="true"
+                  aria-label="Builtin lookup"
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    zIndex: 1,
+                    width: 280,
+                    padding: 16,
+                    border: '1px solid #d0d7de',
+                    borderRadius: 8,
+                    background: '#fff',
+                  }}
+                >
+                  <div style={{ marginBottom: 12 }}>Current: {ctx.displayValue || '(empty)'}</div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      ctx.applyValue('Built-in City');
+                      ctx.closeModal();
+                    }}
+                  >
+                    Apply built-in value
+                  </button>
+                </div>
+              </>
+            ),
+          },
+        },
+      },
     ];
 
     return (

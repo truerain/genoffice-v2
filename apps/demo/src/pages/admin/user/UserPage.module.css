@@ -1,0 +1,20 @@
+/**
+ * @file apps/demo/src/pages/admin/user/UserPage.module.css
+ * @description UserPage grid scoped overrides for sticky master-detail panel.
+ * @created 2026-07-10
+ *
+ * @remark
+ * - detail-panel `overflow: visible` so `.panel` sticky tracks viewport horizontal scroll.
+ * - Scoped to `data-grid-id="demo-user-management"` only.
+ */
+
+.gridShell :global([data-grid-id='demo-user-management'] [data-gen-datagrid-detail-panel='true']) {
+  overflow: visible;
+  padding: 0;
+  background: transparent;
+  border-right: none;
+}
+
+.gridShell :global([data-grid-id='demo-user-management'] [data-gen-datagrid-detail-row='true']) {
+  border-bottom: 1px solid var(--gen-datagrid-body-cell-border, #d0d7de);
+}

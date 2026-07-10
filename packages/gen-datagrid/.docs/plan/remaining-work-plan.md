@@ -103,7 +103,7 @@ Grid props 대응: `editSelectOnFocus`, `editCommitOnBlur`, `editPolicy`, `edito
 | **`editAriaLabel`** | `string` | 전체 | 3차 | `aria-label` override (기본: `{columnId} editor`) |
 | **`editClassName`** | `string` | 전체 | 3차 | editor DOM 추가 class |
 
-**범위 외 (app / custom `renderEditor`):** mask(전화번호)·popover lookup·modal editor·공통코드 `getEditOptions`·도메인 validation message.
+**범위 외 (app / custom `renderEditor`):** mask(전화번호)·popover lookup·공통코드 `getEditOptions`·도메인 validation message. **modal lookup**은 [Edit Lookup Plan](edit-lookup-plan.md)으로 승격 (별도 P1).
 
 #### 값 처리 파이프라인 (구현 계약)
 
@@ -166,6 +166,38 @@ paste / printable-key / flushEditing 경로도 동일 hook
 참고 소비처:
 
 - `apps/demo/src/pages/admin/user/userColumns.ts` (`loginId`, `empNo`)
+
+### Edit Lookup (built-in modal editor)
+
+Status: **complete** (2026-07-10).
+
+배경 (`apps/demo` `orgLookupEditor.tsx`):
+
+- modal lookup를 `renderEditor`로 구현하면 input shell·portal·blur·`registerEditorSurface` 보일러플레이트가 app마다 반복된다.
+- Gate 4.1-d modal contract는 있으나 **선언형 column meta**가 없다.
+
+목표: `meta.editType: 'lookup'` 및/또는 `meta.editLookup`으로 grid가 lookup shell을 제공하고, app은 **`editLookup.renderModal`만** 구현한다.
+
+활성 조건:
+
+- `editType === 'lookup'` **또는** `editLookup` 정의
+- `editType: 'text'` + `editLookup` → **lookup 우선**
+- `renderEditor` → **최우선** (현행)
+
+문서:
+
+- Architecture: [../architecture/edit-lookup-architecture.md](../architecture/edit-lookup-architecture.md)
+- Plan: [edit-lookup-plan.md](edit-lookup-plan.md)
+
+구현 (2026-07-10):
+
+- `GenDataGridEditLookupConfig`, `GenDataGridLookupModalContext`, `editType: 'lookup'`
+- `resolveEditLookup.ts`, `LookupCellEditor.tsx`, `renderEditor` 분기
+- lookup 기본 `blurOwnership: 'modal'`
+- demo `orgId` → `editLookup`, `orgLookupModal.tsx`
+- 테스트·Storybook Gate 4.1-d builtin lookup 컬럼
+
+Deferred: `mode: 'popover'`, `fetchItems` declarative API, CRUD sugar.
 
 ### MasterDetail Expand Toggle Customization
 

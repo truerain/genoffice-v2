@@ -15,8 +15,12 @@ export const GEN_DATAGRID_EDITOR_SURFACE_ATTR = 'data-gen-datagrid-editor-surfac
 export type EditingDeactivateAction = 'commit' | 'cancel';
 
 export function defaultBlurOwnershipForEditType(
-  editType?: GenDataGridEditType
+  editType?: GenDataGridEditType,
+  options?: { isLookupColumn?: boolean }
 ): GenDataGridEditBlurOwnership {
+  if (options?.isLookupColumn || editType === 'lookup') {
+    return 'modal';
+  }
   if (resolveInputEditType(editType) === 'select') {
     return 'portal';
   }
@@ -25,20 +29,23 @@ export function defaultBlurOwnershipForEditType(
 
 export function resolveBlurOwnership({
   editType,
+  editLookup,
   gridPolicy,
   columnPolicy,
   columnBlurOwnership,
 }: {
   editType?: GenDataGridEditType;
+  editLookup?: unknown;
   gridPolicy?: GenDataGridEditPolicy;
   columnPolicy?: GenDataGridEditPolicy;
   columnBlurOwnership?: GenDataGridEditBlurOwnership;
 }): GenDataGridEditBlurOwnership {
+  const lookupColumn = editType === 'lookup' || editLookup != null;
   return (
     columnBlurOwnership ??
     columnPolicy?.blurOwnership ??
     gridPolicy?.blurOwnership ??
-    defaultBlurOwnershipForEditType(editType)
+    defaultBlurOwnershipForEditType(editType, { isLookupColumn: lookupColumn })
   );
 }
 

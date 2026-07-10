@@ -17,21 +17,21 @@
  * - 2026-07-09 userId: meta.renderCell + rowStatus로 신규 행 표시 (sentinel 우회 제거)
  * - 2026-07-10 masterDetail chevron toggle (`renderDetailChevronToggle`) on `_leading`
  * - 2026-07-09 useYn: 셀 render Switch toggle (emitCellValueChange)
- * - 2026-07-09 orgName: 부서 Popup lookup (orgId)
+ * - 2026-07-10 orgId: editLookup.mapSelection으로 orgId·orgName 동시 반영
  * - 2026-07-09 empNo: 최대 10자 editor
  * - 2026-07-09 userId: 신규 행만 셀 표시
  * - 2026-07-09 userColumns.tsx → userColumns.ts
  */
 
-import type * as React from 'react';
+import * as React from 'react';
 import type { GenDataGridCellContext, GenDataGridColumnDef } from '@gen-office/gen-datagrid';
 import type { Lkup } from '../../../shared/domain/lkup.types';
 import type { Org } from '../../../shared/domain/org.types';
-import { lkupNameByCd, toLkupEditOptions } from '../../../shared/domain/lkupResolve';
 import { orgNameById } from '../../../shared/domain/orgResolve';
+import { lkupNameByCd, toLkupEditOptions } from '../../../shared/domain/lkupResolve';
 import type { UserRow } from './user.types';
 import { EMP_NO_MAX_LENGTH } from './user.types';
-import { createOrgLookupEditor } from './orgLookupEditor';
+import { OrgLookupModal } from './orgLookupModal';
 import { createUseYnToggleCell } from './userColumnCells';
 import type { UserGridCellBridge } from './userGridCellBridge';
 
@@ -45,7 +45,6 @@ export function createUserColumns(
 ): GenDataGridColumnDef<UserRow, unknown>[] {
   const titleNameByCd = (titleCd?: string) => lkupNameByCd(titleCodes, titleCd);
   const titleEditOptions = toLkupEditOptions(titleCodes);
-  const orgLookupEditor = createOrgLookupEditor(orgs);
   const useYnToggleCell = createUseYnToggleCell(cellBridgeRef);
 
   return [
@@ -132,18 +131,26 @@ export function createUserColumns(
       },
     },
     {
-      accessorKey: 'orgId',
+      accessorKey: 'orgName',
       header: '부서',
       size: 180,
       meta: {
         editable: true,
         align: 'center',
-        editBlurOwnership: 'modal',
-        renderEditor: orgLookupEditor,
-      },
-      cell: ({ row } ) => {
-        const id = row.original.orgId;
-        return orgNameById(orgs, id) || row.original.orgName || id || '';
+        editType: 'lookup',
+        editLookup: {
+          allowCellEdit: true,
+          triggerAriaLabel: '부서 조회',
+          getDisplayValue: (value, { row }) => {
+            const id = value == null || value === '' ? row.orgId : String(value);
+            return orgNameById(orgs, id) || row.orgName || id || '';
+          },
+          mapSelection: (org: Org) => ({
+            orgId: org.orgId,
+            orgName: org.orgName,
+          }),
+          renderModal: (ctx) => React.createElement(OrgLookupModal, { ctx, orgs }),
+        },
       },
     },
     {
@@ -160,13 +167,13 @@ export function createUserColumns(
       accessorKey: 'lastUpdatedDate',
       header: '최종수정시간',
       size: 150,
-      meta: { editable: true, align: 'center' },
+      meta: { editable: false, align: 'center' },
     },
     {
       accessorKey: 'lastUpdatedName',
       header: '최종수정자',
       size: 160,
-      meta: { editable: true, align: 'center' },
+      meta: { editable: false, align: 'center' },
     },
   ];
 }

@@ -8,6 +8,7 @@ import type {
   GenDataGridEditType,
   GenDataGridEditTypePreset,
 } from '../../GenDataGrid.types';
+import { resolveEditLookupConfig } from './resolveEditLookup';
 
 const EDIT_TYPE_PRESETS = new Set<GenDataGridEditTypePreset>([
   'lowercaseText',
@@ -25,7 +26,10 @@ export function isGenDataGridEditTypePreset(
 export function resolveInputEditType(
   editType?: GenDataGridEditType
 ): GenDataGridBuiltinEditType | undefined {
-  if (!editType || isGenDataGridEditTypePreset(editType)) {
+  if (!editType || editType === 'lookup' || isGenDataGridEditTypePreset(editType)) {
+    if (editType === 'lookup') {
+      return undefined;
+    }
     return 'text';
   }
   return editType;
@@ -93,7 +97,19 @@ export function createEditValueHandlers<TData>({
   meta?: GenDataGridColumnMeta<TData>;
   editableContext: GenDataGridEditableContext<TData>;
 }): GenDataGridEditValueHandlers<TData> {
-  const inputEditType = resolveInputEditType(meta?.editType);
+  const lookupConfig = resolveEditLookupConfig(meta);
+  if (lookupConfig && !lookupConfig.allowCellEdit) {
+    return {
+      inputEditType: undefined,
+      trimOnCommit: false,
+      applyInbound: (rawValue) => rawValue,
+      applyCommit: (rawValue) => rawValue,
+    };
+  }
+
+  const inputEditType = lookupConfig?.allowCellEdit
+    ? 'text'
+    : resolveInputEditType(meta?.editType);
   const presetNormalize = resolvePresetNormalize(meta?.editType);
   const customNormalize = meta?.editNormalize;
   const maxLength =

@@ -9,6 +9,7 @@ import type {
   GenDataGridBuiltinEditType,
   GenDataGridEditorContext,
   GenDataGridEditType,
+  GenDataGridRowPatch,
 } from '../../GenDataGrid.types';
 
 type CreateEditorContextArgs<TData> = {
@@ -16,6 +17,11 @@ type CreateEditorContextArgs<TData> = {
   draftValue: unknown;
   setDraftValue: (nextValue: unknown) => void;
   commit: (nextValue?: unknown) => void;
+  commitAndKeepEditing: (nextValue?: unknown) => void;
+  applyRowPatch: (
+    patch: GenDataGridRowPatch,
+    options?: { keepEditing?: boolean }
+  ) => void;
   cancel: () => void;
   editType?: GenDataGridEditType;
   inputEditType?: GenDataGridBuiltinEditType;
@@ -30,6 +36,7 @@ type CreateEditorContextArgs<TData> = {
   openOnEditStart?: boolean;
   editEntryReason?: GenDataGridEditEntryReason;
   blurOwnership?: GenDataGridEditBlurOwnership;
+  openLookupModal?: boolean;
   registerEditorSurface?: (element: HTMLElement) => void;
   unregisterEditorSurface?: (element: HTMLElement) => void;
   getGridRoot?: () => HTMLElement | null;
@@ -41,6 +48,8 @@ export function createEditorContext<TData>({
   draftValue,
   setDraftValue,
   commit,
+  commitAndKeepEditing,
+  applyRowPatch,
   cancel,
   editType,
   inputEditType,
@@ -55,6 +64,7 @@ export function createEditorContext<TData>({
   openOnEditStart,
   editEntryReason,
   blurOwnership,
+  openLookupModal,
   registerEditorSurface,
   unregisterEditorSurface,
   getGridRoot,
@@ -65,6 +75,8 @@ export function createEditorContext<TData>({
     draftValue,
     setDraftValue,
     commit,
+    commitAndKeepEditing,
+    applyRowPatch,
     cancel,
     applyValue: (nextValue) => {
       setDraftValue(nextValue);
@@ -83,6 +95,7 @@ export function createEditorContext<TData>({
     openOnEditStart,
     editEntryReason,
     blurOwnership,
+    openLookupModal,
     registerEditorSurface,
     unregisterEditorSurface,
     getGridRoot,

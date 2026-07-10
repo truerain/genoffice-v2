@@ -10,6 +10,8 @@ export type GenDataGridEditingCell = {
   columnId: string;
   suppressSelectOnFocus?: boolean;
   entryReason?: GenDataGridEditEntryReason;
+  /** display 셀 trigger로 편집 진입 시 modal을 즉시 연다. */
+  openLookupModal?: boolean;
 };
 
 export type StartCellEditingArgs = GenDataGridEditingCell & {
@@ -44,9 +46,16 @@ export function useCellEditing() {
   const getDraftValue = React.useCallback(() => draftValueRef.current, []);
 
   const startEditing = React.useCallback(
-    ({ rowId, columnId, value, suppressSelectOnFocus, entryReason }: StartCellEditingArgs) => {
+    ({
+      rowId,
+      columnId,
+      value,
+      suppressSelectOnFocus,
+      entryReason,
+      openLookupModal,
+    }: StartCellEditingArgs) => {
       clearEditorSurfaces();
-      setEditingCell({ rowId, columnId, suppressSelectOnFocus, entryReason });
+      setEditingCell({ rowId, columnId, suppressSelectOnFocus, entryReason, openLookupModal });
       updateDraftValue(value);
     },
     [clearEditorSurfaces, updateDraftValue]

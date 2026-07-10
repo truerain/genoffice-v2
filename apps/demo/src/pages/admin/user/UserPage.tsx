@@ -6,8 +6,10 @@
  * @remark
  * - 조회: userQuery(useUsersQuery) / 쓰기: userMutation(useUserMutations)
  * - 필터: StandardFilterBar(draft) → 검색 시 applied 반영 → queryKey 변경으로 refetch
+ * - 상세: MasterDetail inline row + demo CSS horizontal sticky (`userDetailPanel` + `UserPage.module.css`)
  *
  * @history
+ * - 2026-07-10 inline detail horizontal sticky (demo CSS, gridId scoped override)
  * - 2026-07-10 UserPage: `masterDetail.toggle.render` chevron toggle
  * - 2026-07-08 데이터계층: 직접 import → react-query 훅 + httpClient
  * - 2026-07-08 V1 패턴: 파라미터 필터(StandardFilterBar) + 커밋 매핑 격리
@@ -29,12 +31,13 @@ import { useCommonCodesQuery } from '../../../shared/api/commonCodeQuery';
 import { useOrgsQuery } from '../../../shared/api/orgQuery';
 import { LKUP_CLSS_CD } from '../../../shared/domain/lkupClssCd';
 import { createUserColumns } from './userColumns';
+import { UserDetailPanel } from './userDetailPanel';
 import { EMPTY_USER_GRID_CELL_BRIDGE } from './userGridCellBridge';
 import type { UserListParams, UserRow } from './user.types';
 import { useUsersQuery } from './userQuery';
 import { useUserMutations } from './userMutation';
 import styles from '../../../shared/styles/standardLayout.module.css';
-import detailStyles from './userDetailPanel.module.css';
+import pageStyles from './UserPage.module.css';
 
 const EMPTY_FILTERS: UserListParams = { empName: '', useYn: '' };
 
@@ -77,42 +80,7 @@ export function UserPage() {
 
   const renderDetailPanel = useCallback(
     ({ row, collapse }: { row: UserRow; collapse: () => void }) => (
-      <div className={detailStyles.panel}>
-        <div className={detailStyles.titleRow}>
-          <strong>{row.empName || row.loginId || row.userId || '사용자 상세'}</strong>
-          <button
-            type="button"
-            className={detailStyles.collapseButton}
-            onClick={collapse}
-          >
-            닫기
-          </button>
-        </div>
-        <div className={detailStyles.formGrid}>
-          <span className={detailStyles.label}>사용자 ID</span>
-          <span className={detailStyles.value}>{row.userId || '-'}</span>
-          <span className={detailStyles.label}>Login ID</span>
-          <span className={detailStyles.value}>{row.loginId || '-'}</span>
-          <span className={detailStyles.label}>사번</span>
-          <span className={detailStyles.value}>{row.empNo || '-'}</span>
-          <span className={detailStyles.label}>사용자명</span>
-          <span className={detailStyles.value}>{row.empName || '-'}</span>
-          <span className={detailStyles.label}>영문명</span>
-          <span className={detailStyles.value}>{row.empNameEng || '-'}</span>
-          <span className={detailStyles.label}>Email</span>
-          <span className={detailStyles.value}>{row.email || '-'}</span>
-          <span className={detailStyles.label}>부서</span>
-          <span className={detailStyles.value}>{row.orgName || row.orgId || '-'}</span>
-          <span className={detailStyles.label}>직책</span>
-          <span className={detailStyles.value}>{row.titleName || row.titleCd || '-'}</span>
-          <span className={detailStyles.label}>사용 여부</span>
-          <span className={detailStyles.value}>{row.useYn === 'Y' ? '사용' : '미사용'}</span>
-          <span className={detailStyles.label}>최종수정시간</span>
-          <span className={detailStyles.value}>{row.lastUpdatedDate || '-'}</span>
-          <span className={detailStyles.label}>최종수정자</span>
-          <span className={detailStyles.value}>{row.lastUpdatedName || '-'}</span>
-        </div>
-      </div>
+      <UserDetailPanel row={row} onClose={collapse} />
     ),
     [],
   );
@@ -181,7 +149,7 @@ export function UserPage() {
     >
       <div className={styles.workarea}>
         <GenDataGridCrud
-          className={styles.fill}
+          className={`${styles.fill} ${pageStyles.gridShell}`}
           title={t('menu.userManagement')}
           data={rows}
           columns={columns}
@@ -192,6 +160,7 @@ export function UserPage() {
           onCommit={handleCommit}
           gridRef={gridRef}
           gridProps={{
+            gridId: 'demo-user-management',
             enableColumnFilters: true,
             enableColumnSizing: true,
           }}

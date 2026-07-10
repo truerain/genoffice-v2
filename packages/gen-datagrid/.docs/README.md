@@ -9,6 +9,7 @@ Current status: the main GenDataGrid MVP surface has implementation coverage. Ac
 ## Plan
 
 - [Remaining Work Plan](plan/remaining-work-plan.md)
+- [Edit Lookup Plan](plan/edit-lookup-plan.md)
 - [Design Tokens Restructure Plan](plan/design-tokens-restructure-plan.md)
 - [Gate 9 Handle / Data Ownership Readiness Plan](plan/handle-extension-plan.md)
 
@@ -19,6 +20,7 @@ Current status: the main GenDataGrid MVP surface has implementation coverage. Ac
 - [Gate 3 Architecture](architecture/gate-3-architecture.md)
 - [Gate 4 Architecture](architecture/gate-4-architecture.md)
 - [Gate 4.1 Editing Policy Architecture](architecture/gate-4-1-editing-policy-architecture.md)
+- [Edit Lookup Architecture](architecture/edit-lookup-architecture.md)
 - [Gate 4.2 Clipboard Paste Architecture](architecture/gate-4-2-clipboard-paste-architecture.md)
 - [Gate 5 Architecture](architecture/gate-5-architecture.md)
 - [Gate 6 Architecture](architecture/gate-6-architecture.md)

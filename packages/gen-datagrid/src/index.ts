@@ -34,7 +34,10 @@ export type {
   GenDataGridEditBlurOwnership,
   GenDataGridEditPolicy,
   GenDataGridEditStartTriggers,
-  GenDataGridEditOption,
+  GenDataGridEditLookupConfig,
+  GenDataGridEditLookupMode,
+  GenDataGridLookupModalContext,
+  GenDataGridRowPatch,
   GenDataGridBuiltinEditType,
   GenDataGridEditType,
   GenDataGridEditTypePreset,
@@ -66,6 +69,8 @@ export {
   normalizeMaxLength,
   normalizeUppercase,
 } from './features/editing/editValuePipeline';
+export { isLookupColumn, resolveEditLookupConfig } from './features/editing/resolveEditLookup';
+export type { ResolvedGenDataGridEditLookupConfig } from './features/editing/resolveEditLookup';
 export type {
   GenDataGridCellCoord,
   GenDataGridRangeSelection,

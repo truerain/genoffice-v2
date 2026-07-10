@@ -53,7 +53,8 @@ export type GenDataGridBuiltinEditType =
   | 'date'
   | 'select'
   | 'textarea'
-  | 'checkbox';
+  | 'checkbox'
+  | 'lookup';
 
 export type GenDataGridEditTypePreset =
   | 'lowercaseText'
@@ -79,6 +80,29 @@ export type GenDataGridEditEntryReason =
   | 'arrowKey';
 
 export type GenDataGridEditBlurOwnership = 'inline' | 'portal' | 'modal';
+
+export type GenDataGridEditLookupMode = 'modal' | 'popover';
+
+/** columnId-keyed row patch emitted by lookup selection or editor helpers. */
+export type GenDataGridRowPatch = Record<string, unknown>;
+
+export type GenDataGridEditLookupConfig<TData, TSelection = unknown> = {
+  /** @default 'modal' */
+  mode?: GenDataGridEditLookupMode;
+  /**
+   * 셀 input 직접 타이핑 허용.
+   * @default false
+   */
+  allowCellEdit?: boolean;
+  getDisplayValue?: (value: unknown, ctx: GenDataGridEditableContext<TData>) => string;
+  /**
+   * lookup modal 선택 결과를 columnId patch로 변환한다.
+   * 미지정 시 `applySelection`은 현재 columnId에 scalar만 반영한다.
+   */
+  mapSelection?: (selection: TSelection) => GenDataGridRowPatch;
+  renderModal: (ctx: GenDataGridLookupModalContext<TData, TSelection>) => React.ReactNode;
+  triggerAriaLabel?: string;
+};
 
 export type GenDataGridEditableContext<TData> = {
   row: TData;
@@ -148,8 +172,18 @@ export type GenDataGridEditorContext<TData> = GenDataGridEditableContext<TData> 
   draftValue: unknown;
   setDraftValue: (nextValue: unknown) => void;
   commit: (nextValue?: unknown) => void;
+  /** 현재 draft를 외부에 반영하지만 현재 셀의 편집 상태는 유지한다. */
+  commitAndKeepEditing: (nextValue?: unknown) => void;
   cancel: () => void;
   applyValue: (nextValue: unknown) => void;
+  /**
+   * 동일 row의 여러 columnId 값을 dirty 경로로 반영한다.
+   * patch key는 columnId를 사용한다.
+   */
+  applyRowPatch: (
+    patch: GenDataGridRowPatch,
+    options?: { keepEditing?: boolean }
+  ) => void;
   editType?: GenDataGridEditType;
   inputEditType?: GenDataGridBuiltinEditType;
   editMaxLength?: number;
@@ -163,11 +197,23 @@ export type GenDataGridEditorContext<TData> = GenDataGridEditableContext<TData> 
   openOnEditStart?: boolean;
   editEntryReason?: GenDataGridEditEntryReason;
   blurOwnership?: GenDataGridEditBlurOwnership;
+  /** display lookup trigger 진입 시 true — LookupCellEditor 초기 modal open */
+  openLookupModal?: boolean;
   registerEditorSurface?: (element: HTMLElement) => void;
   unregisterEditorSurface?: (element: HTMLElement) => void;
   getGridRoot?: () => HTMLElement | null;
   getEditorSurfaces?: () => Iterable<HTMLElement>;
 };
+
+export type GenDataGridLookupModalContext<TData, TSelection = unknown> =
+  GenDataGridEditorContext<TData> & {
+    allowCellEdit: boolean;
+    displayValue: string;
+    keyword?: string;
+    closeModal: () => void;
+    /** `editLookup.mapSelection`으로 patch를 만들어 반영한다. */
+    applySelection: (selection: TSelection) => void;
+  };
 
 export type GenDataGridEditorFactory<TData> = (
   ctx: GenDataGridEditorContext<TData>
@@ -323,6 +369,7 @@ export type GenDataGridColumnMeta<TData, TValue = unknown> = {
   editMaxLength?: number;
   editNormalize?: (value: unknown, ctx: GenDataGridEditableContext<TData>) => unknown;
   editTrimOnCommit?: boolean;
+  editLookup?: GenDataGridEditLookupConfig<TData, any>;
   renderCell?: (ctx: GenDataGridCellContext<TData>) => React.ReactNode;
   cellClassName?: string | ((ctx: GenDataGridCellContext<TData>) => string | undefined);
   cellStyle?: React.CSSProperties | ((ctx: GenDataGridCellContext<TData>) => React.CSSProperties | undefined);

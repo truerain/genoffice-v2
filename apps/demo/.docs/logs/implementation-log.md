@@ -8,6 +8,23 @@
 -->
 # @gen-office/demo 구현 로그
 
+## 2026-07-10
+
+### UserPage orgId lookup — editLookup.mapSelection
+
+- **요약:** `mapSelection`으로 orgId·orgName 동시 반영. `OrgLookupModal`은 `ctx.applySelection(org)`만 호출.
+- **파일:** `userColumns.ts`, `orgLookupModal.tsx`
+
+### UserPage orgId lookup — StandardDialog modal
+
+- **요약:** `OrgLookupModal`을 `@gen-office/ui` `StandardDialog`로 재작성. 선택 시 `applyValue`+`closeModal`, 취소·닫기는 `closeModal`만.
+- **파일:** `orgLookupModal.tsx`, `orgLookupModal.module.css`
+
+### UserPage MasterDetail horizontal sticky (demo CSS)
+
+- **요약:** expand row 아래 inline detail 유지. `.panel { position: sticky; left: 0 }` + `detail-panel overflow: visible` (gridId `demo-user-management` scoped).
+- **파일:** `UserPage.tsx`, `UserPage.module.css`, `userDetailPanel.tsx`, `userDetailPanel.module.css`
+
 ## 2026-07-09
 
 ### 앱 스타일 template 네이밍 (`demo-ui` → `app-shell`)
