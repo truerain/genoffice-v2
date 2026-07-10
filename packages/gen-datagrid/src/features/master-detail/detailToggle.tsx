@@ -2,6 +2,7 @@
 // Resolves master-detail expand toggle anchor and default renderer.
 
 import type { Cell } from '@tanstack/react-table';
+import { Children, Fragment, isValidElement } from 'react';
 import * as React from 'react';
 
 import type {
@@ -9,6 +10,55 @@ import type {
   GenDataGridDetailToggleProps,
 } from '../../GenDataGrid.types';
 import { isGenDataGridSystemColumnId } from '../system-columns/systemColumns';
+
+export function hasVisibleCellContent(content: React.ReactNode): boolean {
+  if (content == null || typeof content === 'boolean') {
+    return false;
+  }
+
+  if (typeof content === 'string') {
+    return content.trim().length > 0;
+  }
+
+  if (typeof content === 'number') {
+    return true;
+  }
+
+  if (Array.isArray(content)) {
+    return content.some((child) => hasVisibleCellContent(child));
+  }
+
+  if (isValidElement(content)) {
+    const elementProps = content.props as { children?: React.ReactNode };
+
+    if (content.type === Fragment) {
+      return hasVisibleCellContent(elementProps.children);
+    }
+
+    if (elementProps.children !== undefined) {
+      return Children.toArray(elementProps.children).some((child) =>
+        hasVisibleCellContent(child)
+      );
+    }
+
+    return true;
+  }
+
+  return false;
+}
+
+export function resolveCellContentVisibility<TData>(
+  cell: Cell<TData, unknown>,
+  renderedContent: React.ReactNode
+): boolean {
+  const cellDef = cell.column.columnDef.cell;
+
+  if (typeof cellDef === 'function') {
+    return hasVisibleCellContent(cellDef(cell.getContext() as never));
+  }
+
+  return hasVisibleCellContent(renderedContent);
+}
 
 export function resolveDetailToggleCellIndex<TData>(
   orderedCells: Cell<TData, unknown>[],

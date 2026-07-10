@@ -16,6 +16,7 @@ import type {
   GenDataGridCrudProps,
 } from './GenDataGridCrud.types';
 import { useDataGridCrudController } from './crud/useDataGridCrudController';
+import { resolveMasterDetailGridProps } from './features/master-detail/resolveMasterDetailGridProps';
 
 function getFieldError(
   fieldErrors: DataGridCrudFieldErrors,
@@ -45,6 +46,7 @@ export function GenDataGridCrud<TData>(props: GenDataGridCrudProps<TData>) {
     actionBar,
     onStateChange,
     gridProps,
+    masterDetail,
     gridRef: externalGridRef,
     className,
     style,
@@ -74,6 +76,10 @@ export function GenDataGridCrud<TData>(props: GenDataGridCrudProps<TData>) {
   });
   const gridData = React.useMemo(() => [...controller.gridData], [controller.gridData]);
   const gridColumns = React.useMemo(() => [...columns], [columns]);
+  const masterDetailGridProps = React.useMemo(
+    () => resolveMasterDetailGridProps(masterDetail),
+    [masterDetail]
+  );
   const actionBarEnabled = actionBar?.enabled ?? true;
   const userGetCellValidation = gridProps?.getCellValidation;
   const editPolicy = React.useMemo<GenDataGridEditPolicy>(
@@ -129,6 +135,7 @@ export function GenDataGridCrud<TData>(props: GenDataGridCrudProps<TData>) {
       <div className="gen-datagrid-crud__grid">
         <GenDataGrid<TData>
           {...gridProps}
+          {...masterDetailGridProps}
           editSelectOnFocus={gridProps?.editSelectOnFocus ?? true}
           editPolicy={editPolicy}
           {...controller.gridStateProps}

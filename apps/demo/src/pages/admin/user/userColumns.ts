@@ -15,7 +15,7 @@
  * @history
  * - 2026-07-09 loginId/empNo: built-in editor meta로 전환 (userColumnEditors 제거)
  * - 2026-07-09 userId: meta.renderCell + rowStatus로 신규 행 표시 (sentinel 우회 제거)
- * - 2026-07-09 매핑 없는 선행 컬럼 추가(Expand toggle anchor)
+ * - 2026-07-10 masterDetail chevron toggle (`renderDetailChevronToggle`) on `_leading`
  * - 2026-07-09 useYn: 셀 render Switch toggle (emitCellValueChange)
  * - 2026-07-09 orgName: 부서 Popup lookup (orgId)
  * - 2026-07-09 empNo: 최대 10자 editor
@@ -141,7 +141,7 @@ export function createUserColumns(
         editBlurOwnership: 'modal',
         renderEditor: orgLookupEditor,
       },
-      cell: ({ row }) => {
+      cell: ({ row } ) => {
         const id = row.original.orgId;
         return orgNameById(orgs, id) || row.original.orgName || id || '';
       },

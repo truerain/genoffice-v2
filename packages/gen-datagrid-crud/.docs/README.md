@@ -10,10 +10,12 @@ Indexes planning documents for the GenDataGrid CRUD package.
 ## Architecture
 
 - [Design Tokens Architecture (gen-datagrid 정렬)](architecture/design-tokens-architecture.md)
+- [Master-detail Config Architecture](architecture/master-detail-config-architecture.md) — CRUD `masterDetail` prop (grid flat API 유지)
 
 ## Plan
 
 - [Remaining Work Plan](plan/remaining-work-plan.md) — Gate 12 이후 추가 개발·백로그
+- [Master-detail Config Plan](plan/master-detail-config-plan.md) — `masterDetail` prop 구현 slice
 - [Design Tokens Restructure Plan](plan/design-tokens-restructure-plan.md)
 - [Gate 10 Thin Shell Plan](gate-10-thin-shell-plan.md)
 - [Gate 11 CRUD Mutation Completion Plan](gate-11-crud-mutation-plan.md)

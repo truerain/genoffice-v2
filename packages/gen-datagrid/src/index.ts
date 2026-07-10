@@ -80,3 +80,7 @@ export type {
   CollapseTreeExpandedRowsFromDepthArgs,
   GenDataGridTreePath,
 } from './features/tree/treeState';
+export {
+  DetailChevronToggle,
+  renderDetailChevronToggle,
+} from './features/master-detail/detailChevronToggle';

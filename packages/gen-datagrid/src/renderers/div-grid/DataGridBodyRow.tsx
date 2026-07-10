@@ -33,7 +33,9 @@ import { resolveNextEditableCell } from '../../features/editing/editNavigation';
 import { renderCellEditor } from '../../features/editing/renderEditor';
 import type { GenDataGridEditingCell } from '../../features/editing/useCellEditing';
 import {
+  hasVisibleCellContent,
   renderDefaultDetailToggle,
+  resolveCellContentVisibility,
   resolveDetailToggleCellIndex,
 } from '../../features/master-detail/detailToggle';
 import { getColumnPinningInfo } from '../../features/pinning/pinningStyles';
@@ -480,12 +482,15 @@ export function DataGridBodyRow<TData>({
                 ...detailToggleHandlers,
               })
             : null;
+          const cellContent = resolveCellContentVisibility(cell, content) ? (
+            <span className="gen-datagrid__cell-content">{content}</span>
+          ) : null;
 
           if (treeDepth <= 0 && !treeCanExpand) {
             return detailToggle ? (
               <>
                 {detailToggle}
-                <span className="gen-datagrid__cell-content">{content}</span>
+                {cellContent}
               </>
             ) : content;
           }
@@ -524,7 +529,7 @@ export function DataGridBodyRow<TData>({
                 <span className="gen-datagrid__tree-toggle-spacer" aria-hidden="true" />
               )}
               {detailToggle}
-              <span className="gen-datagrid__cell-content">{content}</span>
+              {cellContent}
             </>
           );
         })();

@@ -1,3 +1,17 @@
+## 2026-07-10
+
+### MasterDetail chevron toggle + Storybook
+
+- **요약:** `renderDetailChevronToggle` helper · gen-datagrid/CRUD Storybook masterDetail 예제 · demo UserPage chevron 적용.
+- **검증:** `pnpm -C packages/gen-datagrid test`, `pnpm -C apps/storybook build`
+- **파일:** `features/master-detail/detailChevronToggle.tsx`, `index.css`, `index.ts`, `stories/GenDataGrid.baseline.stories.tsx`, `gen-datagrid-crud/src/stories/GenDataGridCrud.stories.tsx`, `apps/demo/.../UserPage.tsx`
+
+### MasterDetail toggle-only anchor column 정렬
+
+- **요약:** toggle 전용 anchor 컬럼(빈 cell content)에서 `meta.align`에 따라 detail toggle flex 정렬. TanStack flexRender `<cell>` wrapper 대신 cell 함수 직접 호출로 빈 content 판별(`resolveCellContentVisibility`). CSS `:empty` fallback.
+- **검증:** `pnpm -C packages/gen-datagrid test` — 196/196
+- **파일:** `features/master-detail/detailToggle.tsx`, `renderers/div-grid/DataGridBodyRow.tsx`, `index.css`, `test/interaction.test.tsx`, `test/detailToggle.test.tsx`
+
 ## 2026-07-09
 
 ### P1 Built-in Editor Meta (4.3-a) + MasterDetail Expand Toggle 구현

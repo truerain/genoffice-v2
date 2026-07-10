@@ -6,7 +6,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 
-import { GenDataGrid } from '../src';
+import { GenDataGrid, renderDetailChevronToggle } from '../src';
 import type { GenDataGridHandle } from '../src';
 import { createEditorBlurHandler } from '../src/features/editing/blurPolicy';
 import { focusCellInRoot } from '../src/core/dom/cellDom';
@@ -5471,6 +5471,71 @@ describe('Gate 8.7 system columns', () => {
 
     expect(leadingToggle).not.toBeNull();
     expect(nameToggle).toBeNull();
+  });
+
+  it('centers master-detail toggle in a toggle-only anchor column with align center', () => {
+    const masterColumns = [
+      {
+        id: '_leading',
+        header: '',
+        size: 40,
+        cell: () => '',
+        meta: { align: 'center' as const },
+      },
+      { accessorKey: 'name', header: 'Name', size: 120 },
+    ];
+
+    const { container } = render(
+      <GenDataGrid
+        gridId="detail-toggle-center-grid"
+        data={rows}
+        columns={masterColumns}
+        getRowId={(row) => row.id}
+        enableMasterDetail
+        detailToggleColumnId="_leading"
+        renderDetailPanel={({ rowId }) => <span>Detail {rowId}</span>}
+      />
+    );
+
+    const leadingCell = getCell(container, '1', '_leading');
+    const toggle = leadingCell.querySelector('[data-gen-datagrid-detail-toggle="true"]');
+
+    expect(toggle).not.toBeNull();
+    expect(leadingCell.querySelector('.gen-datagrid__cell-content')).toBeNull();
+    expect(window.getComputedStyle(leadingCell).justifyContent).toBe('center');
+  });
+
+  it('renders chevron master-detail toggle through renderDetailChevronToggle', () => {
+    const masterColumns = [
+      {
+        id: '_leading',
+        header: '',
+        size: 40,
+        cell: () => '',
+        meta: { align: 'center' as const },
+      },
+      { accessorKey: 'name', header: 'Name', size: 120 },
+    ];
+
+    const { container } = render(
+      <GenDataGrid
+        gridId="detail-toggle-chevron-grid"
+        data={rows}
+        columns={masterColumns}
+        getRowId={(row) => row.id}
+        enableMasterDetail
+        detailToggleColumnId="_leading"
+        renderDetailToggle={renderDetailChevronToggle}
+        renderDetailPanel={({ rowId }) => <span>Detail {rowId}</span>}
+      />
+    );
+
+    const toggle = container.querySelector<HTMLButtonElement>(
+      '[data-gen-datagrid-cell="true"][data-colid="_leading"] .gen-datagrid__detail-toggle--chevron'
+    );
+
+    expect(toggle).not.toBeNull();
+    expect(toggle?.querySelector('.gen-datagrid__detail-toggle-icon')).not.toBeNull();
   });
 
   it('renders custom master-detail toggle through renderDetailToggle', async () => {

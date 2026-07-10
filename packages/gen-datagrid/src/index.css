@@ -468,6 +468,65 @@
   outline: none;
 }
 
+.gen-datagrid__detail-toggle--chevron {
+  width: var(--gen-datagrid-detail-toggle-chevron-size, 24px);
+  height: var(--gen-datagrid-detail-toggle-chevron-size, 24px);
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--gen-datagrid-detail-toggle-chevron-radius, 4px);
+  background: transparent;
+  color: var(--gen-datagrid-detail-toggle-chevron-color, var(--gen-datagrid-text-muted, #57606a));
+}
+
+.gen-datagrid__detail-toggle--chevron:hover,
+.gen-datagrid__detail-toggle--chevron:focus-visible {
+  border: none;
+  background: var(--gen-datagrid-detail-toggle-chevron-hover-bg, color-mix(in srgb, var(--gen-datagrid-accent) 12%, transparent));
+  color: var(--gen-datagrid-detail-toggle-chevron-hover-color, var(--gen-datagrid-accent));
+}
+
+.gen-datagrid__detail-toggle-icon {
+  width: var(--gen-datagrid-detail-toggle-icon-size, 16px);
+  height: var(--gen-datagrid-detail-toggle-icon-size, 16px);
+  flex: 0 0 auto;
+  transition: transform 0.15s ease;
+}
+
+.gen-datagrid__detail-toggle--chevron.gen-datagrid__detail-toggle--expanded .gen-datagrid__detail-toggle-icon {
+  transform: rotate(90deg);
+}
+
+.gen-datagrid__cell:has([data-gen-datagrid-detail-toggle='true']) .gen-datagrid__cell-content:empty {
+  display: none;
+}
+
+.gen-datagrid__cell[data-align='center']:has([data-gen-datagrid-detail-toggle='true']):not(
+    :has(.gen-datagrid__cell-content:not(:empty))
+  ) {
+  justify-content: center;
+}
+
+.gen-datagrid__cell[data-align='right']:has([data-gen-datagrid-detail-toggle='true']):not(
+    :has(.gen-datagrid__cell-content:not(:empty))
+  ) {
+  justify-content: flex-end;
+}
+
+.gen-datagrid__cell[data-align='left']:has([data-gen-datagrid-detail-toggle='true']):not(
+    :has(.gen-datagrid__cell-content:not(:empty))
+  ) {
+  justify-content: flex-start;
+}
+
+.gen-datagrid__cell[data-align='center']:has([data-gen-datagrid-detail-toggle='true']):not(
+    :has(.gen-datagrid__cell-content:not(:empty))
+  )
+  .gen-datagrid__detail-toggle {
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .gen-datagrid__tree-indent {
   flex: 0 0 auto;
   height: 1px;

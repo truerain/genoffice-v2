@@ -23,6 +23,31 @@ GenDataGridCrud는 thin shell + mutation + demo 연동(Gate 12)까지 완료된 
 
 ## Backlog
 
+### Master-detail Config (`masterDetail` prop)
+
+Status: **complete** (2026-07-10).
+
+배경: CRUD `gridProps`에 MasterDetail flat 키 6~10개가 column sizing/filter와 섞여 가독성이 떨어진다. gen-datagrid API는 Gate 8.2 flat contract **현행 유지**.
+
+목표: `GenDataGridCrud` top-level **`masterDetail?: DataGridCrudMasterDetailConfig`** 추가. 내부 `resolveMasterDetailGridProps()`로 grid flat props 전달. `gridProps`에서는 MasterDetail flat 키 **TypeScript Omit**.
+
+문서:
+
+- Architecture: [../architecture/master-detail-config-architecture.md](../architecture/master-detail-config-architecture.md)
+- Plan: [master-detail-config-plan.md](./master-detail-config-plan.md)
+
+구현:
+
+- `DataGridCrudMasterDetailConfig` · `resolveMasterDetailGridProps`
+- `GenDataGridCrud` `masterDetail` prop · demo `UserPage` 마이그레이션
+- `test/masterDetailConfig.test.tsx`
+
+Exit criteria:
+
+- `masterDetail={{ renderDetailPanel, expandedRows, … }}`만으로 demo UserPage 동작 ✅
+- gen-datagrid 패키지 **코드 변경 없음** ✅
+- `gridProps` + MasterDetail flat 중복 시 compile error ✅
+
 ### Add Row — Focus First Editable Column (Edit Entry)
 
 Status: planned.

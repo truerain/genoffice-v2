@@ -28,6 +28,7 @@ import {
   GenDataGrid,
   collectTreeExpandedRows,
   collapseTreeExpandedRowsFromDepth,
+  renderDetailChevronToggle,
 } from '../index';
 
 type Person = {
@@ -233,6 +234,20 @@ const editableColumns: ColumnDef<Person, unknown>[] = [
     size: 320,
     meta: { editType: 'textarea', editable: true },
   },
+];
+
+const masterDetailLeadingColumns: ColumnDef<Person, unknown>[] = [
+  {
+    id: '_leading',
+    header: '',
+    size: 40,
+    minSize: 40,
+    maxSize: 40,
+    enableResizing: false,
+    meta: { align: 'center' },
+    cell: () => '',
+  },
+  ...editableColumns,
 ];
 
 const gate6Columns: ColumnDef<Person, unknown>[] = [
@@ -1228,6 +1243,64 @@ export const Gate82MasterDetailRow: Story = {
           headerHeight={38}
           style={{
             height: 190,
+            border: '1px solid #d0d7de',
+            borderRadius: 6,
+            background: '#fff',
+          }}
+        />
+      </div>
+    );
+  },
+};
+
+export const Gate82MasterDetailChevronToggle: Story = {
+  render: () => {
+    const [gridData] = React.useState(gate6Data.slice(0, 5));
+    const [expandedRows, setExpandedRows] = React.useState<GenDataGridExpandedRowState>({
+      '1': true,
+    });
+
+    return (
+      <div style={{ width: 980, padding: 16, display: 'grid', gap: 10 }}>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+          <button type="button" onClick={() => setExpandedRows({ '1': true, '2': true })}>
+            Expand rows 1 and 2
+          </button>
+          <button type="button" onClick={() => setExpandedRows({})}>
+            Collapse all
+          </button>
+          <span>Leading column chevron toggle via `renderDetailChevronToggle`</span>
+        </div>
+        <GenDataGrid<Person>
+          data={gridData}
+          columns={masterDetailLeadingColumns}
+          getRowId={(row) => row.id}
+          gridId="storybook-gen-datagrid-gate-8-2-chevron-toggle"
+          defaultActiveCell={{ rowId: '1', columnId: 'name' }}
+          enableMasterDetail
+          expandedRows={expandedRows}
+          onExpandedRowsChange={setExpandedRows}
+          detailToggleColumnId="_leading"
+          renderDetailToggle={renderDetailChevronToggle}
+          renderDetailPanel={({ row, collapse }) => (
+            <div style={{ display: 'grid', gap: 8 }}>
+              <div style={{ fontWeight: 600 }}>{row.name}</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 6, fontSize: 13 }}>
+                <span>Role</span>
+                <span>{row.role}</span>
+                <span>Location</span>
+                <span>{row.location}</span>
+              </div>
+              <button type="button" onClick={collapse}>
+                Collapse detail
+              </button>
+            </div>
+          )}
+          detailPanelHeight={140}
+          rowHeight={36}
+          headerHeight={40}
+          style={{
+            height: 360,
             border: '1px solid #d0d7de',
             borderRadius: 6,
             background: '#fff',

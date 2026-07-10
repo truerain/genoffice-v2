@@ -8,7 +8,7 @@
  * - 필터: StandardFilterBar(draft) → 검색 시 applied 반영 → queryKey 변경으로 refetch
  *
  * @history
- * - 2026-07-09 Gate 8.2 패턴: MasterDetail Row 사용자 상세 폼 조회
+ * - 2026-07-10 UserPage: `masterDetail.toggle.render` chevron toggle
  * - 2026-07-08 데이터계층: 직접 import → react-query 훅 + httpClient
  * - 2026-07-08 V1 패턴: 파라미터 필터(StandardFilterBar) + 커밋 매핑 격리
  * - 2026-07-08 데이터 훅 분리: userQuery(조회)/userMutation(쓰기) 컨벤션
@@ -20,6 +20,7 @@
 
 import { useCallback, useMemo, useRef, useState } from 'react';
 import type { GenDataGridHandle } from '@gen-office/gen-datagrid';
+import { renderDetailChevronToggle } from '@gen-office/gen-datagrid';
 import { GenDataGridCrud } from '@gen-office/gen-datagrid-crud';
 import { PageHeader, PageLayout, StandardFilterBar } from '@gen-office/ui';
 import type { FilterField } from '@gen-office/ui';
@@ -193,12 +194,13 @@ export function UserPage() {
           gridProps={{
             enableColumnFilters: true,
             enableColumnSizing: true,
-            enableMasterDetail: true,
+          }}
+          masterDetail={{
             expandedRows,
             onExpandedRowsChange: setExpandedRows,
             renderDetailPanel,
-            detailToggleColumnId: '_leading',
-            detailPanelHeight: 248,
+            panelHeight: 248,
+            toggle: { columnId: '_leading', render: renderDetailChevronToggle },
           }}
         />
       </div>

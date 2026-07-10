@@ -4,6 +4,25 @@ Records GenDataGridCrud package planning and implementation changes.
 
 # GenDataGridCrud 구현 로그
 
+## 2026-07-10
+
+### MasterDetail chevron toggle + Storybook (CRUD `masterDetail`)
+
+- **요약:** `renderDetailChevronToggle` re-export 소비 · CRUD Storybook `MasterDetailLeadingColumn`/`MasterDetailChevronToggle` · demo UserPage chevron.
+- **검증:** `pnpm -C packages/gen-datagrid-crud test`
+- **파일:** `packages/gen-datagrid-crud/src/stories/GenDataGridCrud.stories.tsx`, `packages/gen-datagrid/src/features/master-detail/detailChevronToggle.tsx`, `apps/demo/src/pages/admin/user/UserPage.tsx`
+
+### Master-detail Config (`masterDetail` prop) 구현
+
+- **요약:** CRUD top-level `masterDetail` prop · `resolveMasterDetailGridProps` · demo UserPage 마이그레이션. gen-datagrid 변경 없음.
+- **검증:** `pnpm -C packages/gen-datagrid-crud test`
+- **파일:** `src/GenDataGridCrud.types.ts`, `src/GenDataGridCrud.tsx`, `src/features/master-detail/resolveMasterDetailGridProps.ts`, `src/index.ts`, `test/masterDetailConfig.test.tsx`, `apps/demo/src/pages/admin/user/UserPage.tsx`
+
+### Master-detail Config architecture + plan (CRUD `masterDetail` prop)
+
+- **요약:** gen-datagrid flat API 유지, CRUD top-level `masterDetail` 통합 설계·구현 slice 문서화.
+- **파일:** `.docs/architecture/master-detail-config-architecture.md`, `.docs/plan/master-detail-config-plan.md`, `.docs/plan/remaining-work-plan.md`, `.docs/gen-datagrid-crud-package-design.md`, `.docs/README.md`
+
 ## 2026-07-09
 
 ### Remaining Work Plan — Dirty baseline revert cross-link

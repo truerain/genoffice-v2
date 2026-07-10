@@ -6,9 +6,14 @@ import type { RowSelectionState } from '@tanstack/react-table';
 import type {
   GenDataGridChangeSet,
   GenDataGridColumnDef,
+  GenDataGridDetailPanelContext,
+  GenDataGridDetailToggleContext,
+  GenDataGridDetailToggleProps,
   GenDataGridDirtyState,
+  GenDataGridExpandedRowState,
   GenDataGridHandle,
   GenDataGridProps,
+  GenDataGridRowContext,
 } from '@gen-office/gen-datagrid';
 
 type GridPropsOwnedByCrud =
@@ -24,6 +29,35 @@ type GridPropsOwnedByCrud =
   | 'rowSelection'
   | 'onRowSelectionChange'
   | 'ref';
+
+type GridPropsOwnedByCrudMasterDetail =
+  | 'enableMasterDetail'
+  | 'expandedRows'
+  | 'defaultExpandedRows'
+  | 'onExpandedRowsChange'
+  | 'getRowCanExpand'
+  | 'renderDetailPanel'
+  | 'detailPanelHeight'
+  | 'detailToggleColumnId'
+  | 'renderDetailToggle'
+  | 'detailToggleProps';
+
+export type DataGridCrudMasterDetailToggleConfig<TData> = {
+  columnId?: string;
+  render?: (ctx: GenDataGridDetailToggleContext<TData>) => React.ReactNode;
+  props?: GenDataGridDetailToggleProps;
+};
+
+export type DataGridCrudMasterDetailConfig<TData> = {
+  enabled?: boolean;
+  expandedRows?: GenDataGridExpandedRowState;
+  defaultExpandedRows?: GenDataGridExpandedRowState;
+  onExpandedRowsChange?: (next: GenDataGridExpandedRowState) => void;
+  getRowCanExpand?: (ctx: GenDataGridRowContext<TData>) => boolean;
+  renderDetailPanel: (ctx: GenDataGridDetailPanelContext<TData>) => React.ReactNode;
+  panelHeight?: number;
+  toggle?: DataGridCrudMasterDetailToggleConfig<TData>;
+};
 
 export type DataGridCrudBuiltInActionKey =
   | 'add'
@@ -185,7 +219,11 @@ export type GenDataGridCrudProps<TData> = {
   onExport?: (args: DataGridCrudExportArgs<TData>) => void | Promise<void>;
   actionBar?: DataGridCrudActionBarOptions<TData>;
   onStateChange?: (state: DataGridCrudUiState<TData>) => void;
-  gridProps?: Omit<GenDataGridProps<TData>, GridPropsOwnedByCrud>;
+  masterDetail?: DataGridCrudMasterDetailConfig<TData>;
+  gridProps?: Omit<
+    GenDataGridProps<TData>,
+    GridPropsOwnedByCrud | GridPropsOwnedByCrudMasterDetail
+  >;
   /** GenDataGrid handle ref (emitCellValueChange 등 imperative API용) */
   gridRef?: React.Ref<GenDataGridHandle<TData>>;
   className?: string;

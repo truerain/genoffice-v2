@@ -65,6 +65,9 @@ packages/gen-datagrid-crud/
       DataGridCrudActionBar.tsx
     crud/
       useDataGridCrudController.tsx
+    features/
+      master-detail/
+        resolveMasterDetailGridProps.ts
   test/
     thinShell.test.tsx
   .docs/
@@ -95,11 +98,38 @@ type GenDataGridCrudProps<TData> = {
   onValidationError?: (result: { error?: unknown; fieldErrors: DataGridCrudFieldErrors }) => void;
   actionBar?: DataGridCrudActionBarOptions<TData>;
   onStateChange?: (state: DataGridCrudUiState<TData>) => void;
-  gridProps?: Omit<GenDataGridProps<TData>, GridPropsOwnedByCrud>;
+  masterDetail?: DataGridCrudMasterDetailConfig<TData>;
+  gridProps?: Omit<
+    GenDataGridProps<TData>,
+    GridPropsOwnedByCrud | GridPropsOwnedByCrudMasterDetail
+  >;
 };
 ```
 
-`gridProps`는 wrapper가 소유하는 data, columns, dirty, row status, current row, row selection props를 제외한 `GenDataGrid` 기능을 통과시킨다.
+`gridProps`는 wrapper가 소유하는 data, columns, dirty, row status, current row, row selection props를 제외한 `GenDataGrid` 기능을 통과시킨다. MasterDetail flat 키는 **`masterDetail` prop**으로 전달한다 (TypeScript Omit). normalize: [architecture/master-detail-config-architecture.md](./architecture/master-detail-config-architecture.md).
+
+## Master-detail config
+
+CRUD 화면 전용 sugar. gen-datagrid flat API는 변경하지 않는다.
+
+```ts
+type DataGridCrudMasterDetailConfig<TData> = {
+  enabled?: boolean;
+  expandedRows?: GenDataGridExpandedRowState;
+  defaultExpandedRows?: GenDataGridExpandedRowState;
+  onExpandedRowsChange?: (next: GenDataGridExpandedRowState) => void;
+  getRowCanExpand?: (ctx: GenDataGridRowContext<TData>) => boolean;
+  renderDetailPanel: (ctx: GenDataGridDetailPanelContext<TData>) => React.ReactNode;
+  panelHeight?: number;
+  toggle?: {
+    columnId?: string;
+    render?: (ctx: GenDataGridDetailToggleContext<TData>) => React.ReactNode;
+    props?: GenDataGridDetailToggleProps;
+  };
+};
+```
+
+구현: [plan/master-detail-config-plan.md](./plan/master-detail-config-plan.md) (complete 2026-07-10).
 
 ## State model
 

@@ -6,6 +6,28 @@
 -->
 # GenOffice V2 작업 로그
 
+## 2026-07-10
+
+### gen-datagrid / gen-datagrid-crud — MasterDetail chevron toggle + Storybook
+
+- **요약:** chevron expand toggle helper, grid/CRUD Storybook, demo UserPage 적용.
+- **파일:** `packages/gen-datagrid/src/features/master-detail/detailChevronToggle.tsx`, `packages/gen-datagrid-crud/src/stories/GenDataGridCrud.stories.tsx`, `apps/demo/src/pages/admin/user/UserPage.tsx`
+
+### gen-datagrid — MasterDetail toggle-only anchor column 정렬
+
+- **요약:** `_leading` 등 toggle 전용 컬럼에서 expand 버튼 `align: center` 적용. 빈 cell-content flex spacer 제거.
+- **파일:** `packages/gen-datagrid/src/features/master-detail/detailToggle.tsx`, `DataGridBodyRow.tsx`, `index.css`
+
+### gen-datagrid-crud — Master-detail Config (`masterDetail` prop) 구현
+
+- **요약:** CRUD `masterDetail` prop 추가, grid flat props normalize, demo UserPage 마이그레이션.
+- **파일:** `packages/gen-datagrid-crud/src/features/master-detail/resolveMasterDetailGridProps.ts`, `GenDataGridCrud.types.ts`, `GenDataGridCrud.tsx`, `apps/demo/src/pages/admin/user/UserPage.tsx`
+
+### gen-datagrid-crud — Master-detail Config architecture + plan
+
+- **요약:** grid flat API 유지, CRUD `masterDetail` prop 통합 설계. architecture·plan·remaining-work·package-design·README 갱신.
+- **파일:** `packages/gen-datagrid-crud/.docs/architecture/master-detail-config-architecture.md`, `plan/master-detail-config-plan.md`, `gen-datagrid-crud-package-design.md`, `plan/remaining-work-plan.md`, `README.md`
+
 ## 2026-07-09
 
 ### gen-datagrid — P1 Built-in Editor Meta + MasterDetail Toggle 구현
