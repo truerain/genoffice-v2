@@ -3,10 +3,31 @@
 
 import type * as React from 'react';
 
-import type { GenDataGridEditType, GenDataGridEditorContext } from '../../GenDataGrid.types';
+import type {
+  GenDataGridBuiltinEditType,
+  GenDataGridEditType,
+  GenDataGridEditorContext,
+} from '../../GenDataGrid.types';
 
-export function delegatesArrowKeysToGrid(editType?: GenDataGridEditType) {
-  return editType !== 'textarea' && editType !== 'select';
+function isTextareaEditType(
+  editType?: GenDataGridEditType,
+  inputEditType?: GenDataGridBuiltinEditType
+) {
+  return editType === 'textarea' || inputEditType === 'textarea';
+}
+
+function isSelectEditType(
+  editType?: GenDataGridEditType,
+  inputEditType?: GenDataGridBuiltinEditType
+) {
+  return editType === 'select' || inputEditType === 'select';
+}
+
+export function delegatesArrowKeysToGrid(
+  editType?: GenDataGridEditType,
+  inputEditType?: GenDataGridBuiltinEditType
+) {
+  return !isTextareaEditType(editType, inputEditType) && !isSelectEditType(editType, inputEditType);
 }
 
 export function handleBuiltinEditorArrowNavigation<TData>(
@@ -22,7 +43,7 @@ export function handleBuiltinEditorArrowNavigation<TData>(
     return false;
   }
 
-  if (!delegatesArrowKeysToGrid(ctx.editType) || !ctx.arrowNavigate) {
+  if (!delegatesArrowKeysToGrid(ctx.editType, ctx.inputEditType) || !ctx.arrowNavigate) {
     return false;
   }
 
@@ -45,7 +66,7 @@ export function handleBuiltinEditorKeyDown<TData>(
     return;
   }
 
-  if (event.key === 'Enter' && ctx.editType !== 'textarea') {
+  if (event.key === 'Enter' && !isTextareaEditType(ctx.editType, ctx.inputEditType)) {
     event.preventDefault();
     ctx.commit();
     return;

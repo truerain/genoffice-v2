@@ -76,6 +76,27 @@ export {
   resolveEditPattern,
   resolveSelectEditOptions,
 } from './features/editing/editValuePipeline';
+export {
+  delegatesArrowKeysToGrid,
+  handleBuiltinEditorArrowNavigation,
+  handleBuiltinEditorKeyDown,
+} from './features/editing/builtinEditorKeyboard';
+export {
+  createEditorBlurHandler,
+  GEN_DATAGRID_EDITOR_SURFACE_ATTR,
+  isInsideEditorSurface,
+  shouldIgnoreEditorBlur,
+} from './features/editing/blurPolicy';
+export type { EditingDeactivateAction } from './features/editing/blurPolicy';
+export {
+  BuiltinTextEditor,
+  createBuiltinTextEditor,
+  useBuiltinEditorHandlers,
+} from './features/editing/builtinTextEditor';
+export type {
+  BuiltinTextEditorAs,
+  CreateBuiltinTextEditorOptions,
+} from './features/editing/builtinTextEditor';
 export { isLookupColumn, resolveEditLookupConfig } from './features/editing/resolveEditLookup';
 export type { ResolvedGenDataGridEditLookupConfig } from './features/editing/resolveEditLookup';
 export type {

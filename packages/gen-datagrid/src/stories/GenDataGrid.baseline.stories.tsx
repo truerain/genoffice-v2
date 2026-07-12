@@ -28,6 +28,7 @@ import {
   GenDataGrid,
   collectTreeExpandedRows,
   collapseTreeExpandedRowsFromDepth,
+  createBuiltinTextEditor,
   renderDetailChevronToggle,
 } from '../index';
 
@@ -456,7 +457,7 @@ export const Gate43BuiltinEditorMeta: Story = {
       },
       {
         accessorKey: 'location',
-        header: 'Code (digits)',
+        header: 'Code (factory)',
         size: 140,
         meta: {
           editable: true,
@@ -466,8 +467,8 @@ export const Gate43BuiltinEditorMeta: Story = {
           editInputMode: 'numeric',
           editAutoCapitalize: false,
           editAutoCorrect: false,
-          editClassName: 'gate43-digits-editor',
-          editPlaceholder: 'digits only',
+          editPlaceholder: 'digits via factory',
+          renderEditor: createBuiltinTextEditor({ className: 'gate43-factory-editor' }),
         },
       },
       {
@@ -488,8 +489,8 @@ export const Gate43BuiltinEditorMeta: Story = {
     return (
       <div style={{ width: 920, padding: 16 }}>
         <p style={{ margin: '0 0 12px', fontSize: 13, color: '#57606a' }}>
-          Gate 4.3-b/c: number min·max·step, textarea rows·cols, select empty option, editPattern,
-          inputMode, HTML attribute meta.
+          Gate 4.3-b/c/d: number min·max·step, textarea rows·cols, select empty option, editPattern,
+          inputMode, HTML attribute meta, createBuiltinTextEditor factory (Code column).
         </p>
         <GenDataGrid<Person>
           data={gridData}

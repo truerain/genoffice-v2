@@ -21,6 +21,8 @@ describe('builtinEditorKeyboard', () => {
   it('keeps Arrow keys editor-local for textarea and select editors', () => {
     expect(delegatesArrowKeysToGrid('textarea')).toBe(false);
     expect(delegatesArrowKeysToGrid('select')).toBe(false);
+    expect(delegatesArrowKeysToGrid('text', 'textarea')).toBe(false);
+    expect(delegatesArrowKeysToGrid(undefined, 'select')).toBe(false);
   });
 
   it('does not route textarea Arrow keys to grid navigation', () => {
@@ -65,6 +67,18 @@ describe('builtinEditorKeyboard', () => {
       } as React.KeyboardEvent<HTMLElement>,
       {
         editType: 'textarea',
+        commit,
+      } as never
+    );
+
+    handleBuiltinEditorKeyDown(
+      {
+        key: 'Enter',
+        preventDefault: vi.fn(),
+      } as React.KeyboardEvent<HTMLElement>,
+      {
+        editType: 'text',
+        inputEditType: 'textarea',
         commit,
       } as never
     );

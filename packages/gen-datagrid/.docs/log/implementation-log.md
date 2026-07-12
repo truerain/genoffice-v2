@@ -2,6 +2,12 @@
 
 ## 2026-07-12
 
+### Gate 4.3-d — createBuiltinTextEditor + helper export
+
+- **요약:** `createBuiltinTextEditor` / `BuiltinTextEditor` / `useBuiltinEditorHandlers`. keyboard·blur helper public export. DefaultCellEditor text/textarea 재사용.
+- **검증:** `createBuiltinTextEditor.test.tsx`, `builtinEditorKeyboard.test.ts`
+- **파일:** `builtinTextEditor.tsx`, `builtinEditorAttrs.ts`, `renderEditor.tsx`, `index.ts`, stories, plan/reference docs
+
 ### editing cell — active outline 억제
 
 - **요약:** `[data-editing-cell='true'] { outline: none }`. active outline이 editor 위에 보이던 문제.

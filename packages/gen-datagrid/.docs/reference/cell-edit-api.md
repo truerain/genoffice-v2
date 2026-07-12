@@ -176,6 +176,27 @@ Built-in default editor는 `editType`에 따라 다음 element를 렌더링한�
 | `editAutoComplete` / `editAutoCapitalize` / `editAutoCorrect` / `editSpellCheck` | text 계열 | HTML attrs (4.3-c) |
 | `editAriaLabel` / `editClassName` | 전체 built-in | a11y / class override (4.3-c) |
 
+### Built-in editor factory (Gate 4.3-d)
+
+Custom `renderEditor`가 keyboard/blur를 다시 구현하지 않도록 공개 API:
+
+| Export | 용도 |
+| --- | --- |
+| `createBuiltinTextEditor(options?)` | `renderEditor` / `editorFactory`용 text·textarea factory |
+| `BuiltinTextEditor` | 동일 DOM을 컴포넌트로 직접 사용 |
+| `useBuiltinEditorHandlers` | custom DOM에 blur/keydown만 연결 |
+| `handleBuiltinEditorKeyDown` / `handleBuiltinEditorArrowNavigation` | Gate 4.1-c 키보드 소유권 |
+| `createEditorBlurHandler` / `shouldIgnoreEditorBlur` | Gate 4.1-d blur 소유권 |
+
+```ts
+meta: {
+  editable: true,
+  editType: 'text',
+  editMaxLength: 10,
+  renderEditor: createBuiltinTextEditor({ className: 'login-editor' }),
+}
+```
+
 ## 6. Editor Context
 
 `renderEditor`와 `editorFactory`는 동일한 `GenDataGridEditorContext`를 받는다. Column-level editor가 grid-level fallback editor보다 좁은 기능을 받지 않도록 context surface는 대칭으로 유지한다.

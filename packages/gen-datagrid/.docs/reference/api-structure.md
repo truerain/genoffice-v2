@@ -415,7 +415,7 @@ Implementation status: column meta `align` and `headerAlign` are implemented on 
 | `editLookup` | built-in modal lookup | Gate lookup |
 | `renderEditor` | custom editor | MVP |
 
-Implementation status: Editing meta above is defined on TanStack `ColumnMeta` and wired into the editable cell predicate, value pipeline (4.3-a/c), built-in editors (4.3-b/c attrs/options), and lookup shell. Column `renderEditor` has priority over grid-level `editorFactory`, then the built-in default editor is used. Column `editSelectOnFocus` and `editCommitOnBlur` override their grid-level defaults and are exposed through the shared editor context.
+Implementation status: Editing meta above is defined on TanStack `ColumnMeta` and wired into the editable cell predicate, value pipeline (4.3-a/c), built-in editors (4.3-b/c attrs/options), lookup shell, and `createBuiltinTextEditor` factory (4.3-d). Column `renderEditor` has priority over grid-level `editorFactory`, then the built-in default editor is used. Column `editSelectOnFocus` and `editCommitOnBlur` override their grid-level defaults and are exposed through the shared editor context. Public helpers: `createBuiltinTextEditor`, `handleBuiltinEditorKeyDown`, `createEditorBlurHandler`.
 
 ### 7.1a Display Cell Meta (Row Status Context)
 

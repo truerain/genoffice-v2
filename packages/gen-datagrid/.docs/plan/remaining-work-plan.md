@@ -53,7 +53,7 @@ Deferred:
 
 ### Built-in Editor Column Meta Extensions
 
-Status: complete (2026-07-09, slice 4.3-a; **4.3-b / 4.3-c 2026-07-12**).
+Status: complete (2026-07-09, slice 4.3-a; **4.3-b / 4.3-c / 4.3-d 2026-07-12**).
 
 배경 (2026-07-09, `apps/demo` `userColumnEditors.tsx`):
 
@@ -132,7 +132,7 @@ paste / printable-key / flushEditing 경로도 동일 hook
 | **4.3-a** | `editMaxLength`, `editNormalize`, preset `editType`, `editTrimOnCommit` | `DefaultCellEditor`, paste, context, tests | **complete** |
 | **4.3-b** | `editMin`/`editMax`/`editStep`, `editRows`/`editCols`, select empty/clearable | number/textarea/select built-in | **complete** (2026-07-12) |
 | **4.3-c** | `editPattern`, `editInputMode`, HTML attribute meta | 고급 text 제약 | **complete** (2026-07-12) |
-| **4.3-d** | `createBuiltinTextEditor` factory, keyboard/blur helper export | custom editor 복제 제거 | pending |
+| **4.3-d** | `createBuiltinTextEditor` factory, keyboard/blur helper export | custom editor 복제 제거 | **complete** (2026-07-12) |
 
 #### Scope
 
@@ -175,6 +175,13 @@ paste / printable-key / flushEditing 경로도 동일 hook
 - `editPattern` (`RegExp` | `digitsOnly` | `alphanumeric` | `lettersOnly`) — 거부 시 이전 draft 유지, 빈 문자열 허용
 - `editInputMode`, `editAutoComplete` / `editAutoCapitalize` / `editAutoCorrect` / `editSpellCheck`, `editAriaLabel`, `editClassName`
 - Storybook `Gate43BuiltinEditorMeta` (4.3-b + 4.3-c)
+
+구현 (4.3-d, 2026-07-12):
+
+- `createBuiltinTextEditor` / `BuiltinTextEditor` / `useBuiltinEditorHandlers`
+- public export: `handleBuiltinEditorKeyDown`, `createEditorBlurHandler` 등
+- DefaultCellEditor가 text/textarea를 `BuiltinTextEditor`로 재사용
+- Storybook Code 컬럼 `renderEditor: createBuiltinTextEditor(...)`
 
 참고 소비처:
 

@@ -8,6 +8,11 @@
 
 ## 2026-07-12
 
+### gen-datagrid Gate 4.3-d — createBuiltinTextEditor + helper export
+
+- **요약:** custom `renderEditor`가 built-in text editor·keyboard/blur를 재사용할 수 있게 factory·helpers public export. Gate 4.3 slice 완료.
+- **파일:** `packages/gen-datagrid/src/features/editing/builtinTextEditor.tsx`, `index.ts`, `test/createBuiltinTextEditor.test.tsx`, plan/reference docs
+
 ### gen-datagrid editor — active outline 편집 중 숨김
 
 - **요약:** `data-editing-cell`일 때 active `outline` 제거. outline이 editor 위에 그려져 border와 겹치던 문제. 편집 focus는 editor border 담당.

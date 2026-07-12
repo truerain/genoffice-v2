@@ -214,8 +214,9 @@ Storybook 경로: `gen-datagrid / Gates / Baseline`
 ```text
 src/features/editing/
   editPolicy.ts              # 4.1-b merged policy resolution
-  builtinEditorKeyboard.ts   # 4.1-c built-in key ownership
-  blurPolicy.ts              # 4.1-d blur ownership and editor surface guards
+  builtinEditorKeyboard.ts   # 4.1-c built-in key ownership (public export)
+  blurPolicy.ts              # 4.1-d blur ownership and editor surface guards (public export)
+  builtinTextEditor.tsx      # 4.3-d createBuiltinTextEditor / BuiltinTextEditor
   editingCellActivation.ts   # other-cell activation commit/cancel handling
   editingDeactivate.ts       # shared deactivate commit/cancel policy
   renderEditor.tsx           # built-in reference editors

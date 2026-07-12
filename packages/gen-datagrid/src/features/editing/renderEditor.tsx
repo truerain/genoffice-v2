@@ -10,54 +10,12 @@ import type {
   GenDataGridEditorFactory,
 } from '../../GenDataGrid.types';
 import { createEditorBlurHandler } from './blurPolicy';
+import { resolveEditorAriaLabel, normalizeEditorValue } from './builtinEditorAttrs';
 import { handleBuiltinEditorKeyDown } from './builtinEditorKeyboard';
+import { BuiltinTextEditor } from './builtinTextEditor';
 import { LookupCellEditor } from './LookupCellEditor';
 import { resolveEditLookupConfig } from './resolveEditLookup';
 import { resolveSelectEditOptions } from './editValuePipeline';
-
-function normalizeEditorValue(value: unknown) {
-  if (value == null) return '';
-  if (typeof value === 'string' || typeof value === 'number') return value;
-  if (typeof value === 'boolean') return value;
-  return String(value);
-}
-
-function resolveEditorAriaLabel<TData>(ctx: GenDataGridEditorContext<TData>): string {
-  return ctx.editAriaLabel ?? `${ctx.columnId} editor`;
-}
-
-function resolveAutoCapitalize<TData>(
-  ctx: GenDataGridEditorContext<TData>
-): 'off' | 'none' | 'sentences' | 'words' | 'characters' | undefined {
-  if (ctx.editAutoCapitalize === false || ctx.editAutoCapitalize === 'off') {
-    return 'off';
-  }
-  if (typeof ctx.editAutoCapitalize === 'string') {
-    return ctx.editAutoCapitalize;
-  }
-  if (ctx.editAutoCapitalize === true) {
-    return 'sentences';
-  }
-  if (ctx.editType === 'lowercaseText') {
-    return 'off';
-  }
-  return undefined;
-}
-
-function resolveAutoCorrect<TData>(
-  ctx: GenDataGridEditorContext<TData>
-): 'on' | 'off' | undefined {
-  if (ctx.editAutoCorrect === false) return 'off';
-  if (ctx.editAutoCorrect === true) return 'on';
-  if (ctx.editType === 'lowercaseText') return 'off';
-  return undefined;
-}
-
-function resolveSpellCheck<TData>(ctx: GenDataGridEditorContext<TData>): boolean | undefined {
-  if (ctx.editSpellCheck != null) return ctx.editSpellCheck;
-  if (ctx.editType === 'lowercaseText') return false;
-  return undefined;
-}
 
 function useOpenOnEditStart<TElement extends HTMLElement>(
   ref: React.RefObject<TElement | null>,
@@ -119,32 +77,7 @@ function DefaultCellEditor<TData>({ ctx }: { ctx: GenDataGridEditorContext<TData
   );
 
   if (inputEditType === 'textarea') {
-    return (
-      <textarea
-        aria-label={ariaLabel}
-        autoCapitalize={resolveAutoCapitalize(ctx)}
-        autoCorrect={resolveAutoCorrect(ctx)}
-        autoFocus
-        className={clsx(
-          'gen-datagrid__editor',
-          'gen-datagrid__editor--textarea',
-          ctx.editClassName
-        )}
-        cols={ctx.editCols}
-        maxLength={ctx.editMaxLength}
-        placeholder={ctx.placeholder}
-        rows={ctx.editRows}
-        spellCheck={resolveSpellCheck(ctx)}
-        value={String(normalizeEditorValue(ctx.draftValue))}
-        onFocus={(event) => {
-          if (!ctx.selectOnFocus) return;
-          event.currentTarget.select();
-        }}
-        onChange={(event) => ctx.setDraftValue(event.currentTarget.value)}
-        onBlur={handleBlur}
-        onKeyDown={(event) => handleBuiltinEditorKeyDown(event, ctx)}
-      />
-    );
+    return <BuiltinTextEditor ctx={ctx} as="textarea" />;
   }
 
   if (inputEditType === 'select') {
@@ -188,38 +121,7 @@ function DefaultCellEditor<TData>({ ctx }: { ctx: GenDataGridEditorContext<TData
     );
   }
 
-  const htmlInputType =
-    inputEditType === 'number' || inputEditType === 'date' ? inputEditType : 'text';
-  const supportsRangeAttrs = htmlInputType === 'number' || htmlInputType === 'date';
-  const supportsTextAttrs = htmlInputType === 'text' || htmlInputType === 'number';
-
-  return (
-    <input
-      ref={inputRef}
-      aria-label={ariaLabel}
-      autoComplete={supportsTextAttrs ? ctx.editAutoComplete : undefined}
-      autoCapitalize={supportsTextAttrs ? resolveAutoCapitalize(ctx) : undefined}
-      autoCorrect={supportsTextAttrs ? resolveAutoCorrect(ctx) : undefined}
-      autoFocus
-      className={clsx('gen-datagrid__editor', ctx.editClassName)}
-      inputMode={supportsTextAttrs ? ctx.editInputMode : undefined}
-      max={supportsRangeAttrs ? ctx.editMax : undefined}
-      maxLength={ctx.editMaxLength}
-      min={supportsRangeAttrs ? ctx.editMin : undefined}
-      placeholder={ctx.placeholder}
-      spellCheck={supportsTextAttrs ? resolveSpellCheck(ctx) : undefined}
-      step={htmlInputType === 'number' ? ctx.editStep : undefined}
-      type={htmlInputType}
-      value={String(normalizeEditorValue(ctx.draftValue))}
-      onFocus={(event) => {
-        if (!ctx.selectOnFocus) return;
-        event.currentTarget.select();
-      }}
-      onChange={(event) => ctx.setDraftValue(event.currentTarget.value)}
-      onBlur={handleBlur}
-      onKeyDown={(event) => handleBuiltinEditorKeyDown(event, ctx)}
-    />
-  );
+  return <BuiltinTextEditor ctx={ctx} inputRef={inputRef} />;
 }
 
 type RenderCellEditorArgs<TData> = {
