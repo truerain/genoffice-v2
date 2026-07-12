@@ -39,6 +39,10 @@ export type {
   GenDataGridLookupModalContext,
   GenDataGridRowPatch,
   GenDataGridBuiltinEditType,
+  GenDataGridEditEmptyOption,
+  GenDataGridEditInputMode,
+  GenDataGridEditPattern,
+  GenDataGridEditPatternPreset,
   GenDataGridEditType,
   GenDataGridEditTypePreset,
   GenDataGridFilterMode,
@@ -63,11 +67,14 @@ export type {
   GenDataGridVisualRowMergeState,
 } from './GenDataGrid.types';
 export {
+  matchesEditPattern,
   normalizeAlphanumeric,
   normalizeDigitsOnly,
   normalizeLowercase,
   normalizeMaxLength,
   normalizeUppercase,
+  resolveEditPattern,
+  resolveSelectEditOptions,
 } from './features/editing/editValuePipeline';
 export { isLookupColumn, resolveEditLookupConfig } from './features/editing/resolveEditLookup';
 export type { ResolvedGenDataGridEditLookupConfig } from './features/editing/resolveEditLookup';

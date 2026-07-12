@@ -5,6 +5,10 @@ import type {
   GenDataGridBuiltinEditType,
   GenDataGridColumnMeta,
   GenDataGridEditableContext,
+  GenDataGridEditEmptyOption,
+  GenDataGridEditOption,
+  GenDataGridEditPattern,
+  GenDataGridEditPatternPreset,
   GenDataGridEditType,
   GenDataGridEditTypePreset,
 } from '../../GenDataGrid.types';
@@ -16,6 +20,12 @@ const EDIT_TYPE_PRESETS = new Set<GenDataGridEditTypePreset>([
   'digitsOnly',
   'alphanumeric',
 ]);
+
+const EDIT_PATTERN_PRESETS: Record<GenDataGridEditPatternPreset, RegExp> = {
+  digitsOnly: /^\d*$/,
+  alphanumeric: /^[a-zA-Z0-9]*$/,
+  lettersOnly: /^[a-zA-Z]*$/,
+};
 
 export function isGenDataGridEditTypePreset(
   editType?: GenDataGridEditType
@@ -61,6 +71,54 @@ export function normalizeMaxLength(value: string, maxLength: number): string {
   return value.slice(0, maxLength);
 }
 
+/**
+ * Resolve `editPattern` meta to a RegExp (Gate 4.3-c).
+ */
+export function resolveEditPattern(pattern?: GenDataGridEditPattern): RegExp | undefined {
+  if (!pattern) return undefined;
+  if (pattern instanceof RegExp) return pattern;
+  return EDIT_PATTERN_PRESETS[pattern];
+}
+
+/**
+ * Empty string is always allowed so users can clear the field.
+ * Non-empty values must fully match the resolved pattern.
+ */
+export function matchesEditPattern(value: string, pattern: RegExp): boolean {
+  if (value === '') return true;
+  return pattern.test(value);
+}
+
+/**
+ * Resolve select options with optional empty/clearable leading option (Gate 4.3-b).
+ */
+export function resolveSelectEditOptions(
+  options: readonly GenDataGridEditOption[] | undefined,
+  meta?: {
+    editEmptyOption?: GenDataGridEditEmptyOption;
+    editSelectClearable?: boolean;
+  }
+): GenDataGridEditOption[] {
+  const base = options ? [...options] : [];
+  const emptyMeta = meta?.editEmptyOption;
+  const clearable = Boolean(meta?.editSelectClearable);
+
+  if (!emptyMeta && !clearable) {
+    return base;
+  }
+
+  const emptyOption: GenDataGridEditOption = emptyMeta
+    ? { label: emptyMeta.label, value: emptyMeta.value ?? '' }
+    : { label: '', value: '' };
+
+  const emptyKey = String(emptyOption.value);
+  if (base.some((option) => String(option.value) === emptyKey)) {
+    return base;
+  }
+
+  return [emptyOption, ...base];
+}
+
 function resolvePresetNormalize(
   editType?: GenDataGridEditType
 ): ((value: unknown) => unknown) | undefined {
@@ -86,8 +144,9 @@ export type GenDataGridEditValueHandlers<TData> = {
   inputEditType: GenDataGridBuiltinEditType | undefined;
   maxLength?: number;
   trimOnCommit: boolean;
-  applyInbound: (rawValue: unknown) => unknown;
-  applyCommit: (rawValue: unknown) => unknown;
+  pattern?: RegExp;
+  applyInbound: (rawValue: unknown, previousValue?: unknown) => unknown;
+  applyCommit: (rawValue: unknown, previousValue?: unknown) => unknown;
 };
 
 export function createEditValueHandlers<TData>({
@@ -119,8 +178,12 @@ export function createEditValueHandlers<TData>({
   const trimOnCommit = Boolean(
     supportsTextEditMeta(inputEditType) && meta?.editTrimOnCommit
   );
+  const pattern =
+    supportsTextEditMeta(inputEditType) && meta?.editPattern != null
+      ? resolveEditPattern(meta.editPattern)
+      : undefined;
 
-  const applyInbound = (rawValue: unknown) => {
+  const applyInbound = (rawValue: unknown, previousValue?: unknown) => {
     let next = rawValue;
     if (presetNormalize) {
       next = presetNormalize(next);
@@ -131,11 +194,17 @@ export function createEditValueHandlers<TData>({
     if (maxLength != null) {
       next = normalizeMaxLength(toEditableString(next), maxLength);
     }
+    if (pattern && !matchesEditPattern(toEditableString(next), pattern)) {
+      if (previousValue !== undefined) {
+        return previousValue;
+      }
+      return '';
+    }
     return next;
   };
 
-  const applyCommit = (rawValue: unknown) => {
-    let next = applyInbound(rawValue);
+  const applyCommit = (rawValue: unknown, previousValue: unknown = rawValue) => {
+    let next = applyInbound(rawValue, previousValue);
     if (trimOnCommit && typeof next === 'string') {
       next = next.trim();
     }
@@ -146,6 +215,7 @@ export function createEditValueHandlers<TData>({
     inputEditType,
     maxLength,
     trimOnCommit,
+    pattern,
     applyInbound,
     applyCommit,
   };

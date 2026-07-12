@@ -5734,6 +5734,197 @@ describe('Gate 8.7 system columns', () => {
     });
   });
 
+  it('applies editMin/editMax/editStep on number editors', async () => {
+    const scoreColumns = [
+      {
+        accessorKey: 'age',
+        header: 'Age',
+        size: 80,
+        meta: {
+          editable: true,
+          editType: 'number' as const,
+          editMin: 0,
+          editMax: 100,
+          editStep: 5,
+        },
+      },
+      { accessorKey: 'name', header: 'Name', size: 120 },
+    ];
+
+    const { container } = render(
+      <GenDataGrid
+        gridId="edit-meta-number-grid"
+        data={rows}
+        columns={scoreColumns}
+        getRowId={(row) => row.id}
+      />
+    );
+
+    const cell = getCell(container, '1', 'age');
+    fireEvent.doubleClick(cell);
+    const editor = cell.querySelector<HTMLInputElement>('input[aria-label="age editor"]');
+    if (!editor) throw new Error('Missing number editor');
+
+    expect(editor.type).toBe('number');
+    expect(editor.min).toBe('0');
+    expect(editor.max).toBe('100');
+    expect(editor.step).toBe('5');
+  });
+
+  it('applies editRows/editCols on textarea editors', async () => {
+    const noteColumns = [
+      {
+        accessorKey: 'name',
+        header: 'Note',
+        size: 160,
+        meta: {
+          editable: true,
+          editType: 'textarea' as const,
+          editRows: 4,
+          editCols: 24,
+        },
+      },
+      { accessorKey: 'age', header: 'Age', size: 80 },
+    ];
+
+    const { container } = render(
+      <GenDataGrid
+        gridId="edit-meta-textarea-grid"
+        data={rows}
+        columns={noteColumns}
+        getRowId={(row) => row.id}
+      />
+    );
+
+    const cell = getCell(container, '1', 'name');
+    fireEvent.doubleClick(cell);
+    const editor = cell.querySelector<HTMLTextAreaElement>('textarea[aria-label="name editor"]');
+    if (!editor) throw new Error('Missing textarea editor');
+
+    expect(editor.rows).toBe(4);
+    expect(editor.cols).toBe(24);
+  });
+
+  it('prepends editEmptyOption for select editors', async () => {
+    const roleColumns = [
+      {
+        accessorKey: 'name',
+        header: 'Role',
+        size: 120,
+        meta: {
+          editable: true,
+          editType: 'select' as const,
+          editOptions: [
+            { label: 'Admin', value: 'admin' },
+            { label: 'User', value: 'user' },
+          ],
+          editEmptyOption: { label: '(없음)', value: '' },
+        },
+      },
+      { accessorKey: 'age', header: 'Age', size: 80 },
+    ];
+
+    const { container } = render(
+      <GenDataGrid
+        gridId="edit-meta-select-empty-grid"
+        data={rows}
+        columns={roleColumns}
+        getRowId={(row) => row.id}
+      />
+    );
+
+    const cell = getCell(container, '1', 'name');
+    fireEvent.doubleClick(cell);
+    const editor = cell.querySelector<HTMLSelectElement>('select[aria-label="name editor"]');
+    if (!editor) throw new Error('Missing select editor');
+
+    const optionLabels = Array.from(editor.options).map((option) => option.textContent);
+    expect(optionLabels[0]).toBe('(없음)');
+    expect(editor.options[0]?.value).toBe('');
+  });
+
+  it('rejects editPattern mismatches while typing and keeps previous draft', async () => {
+    const codeColumns = [
+      {
+        accessorKey: 'name',
+        header: 'Code',
+        size: 120,
+        meta: {
+          editable: true,
+          editType: 'text' as const,
+          editPattern: 'digitsOnly' as const,
+        },
+      },
+      { accessorKey: 'age', header: 'Age', size: 80 },
+    ];
+
+    const { container } = render(
+      <GenDataGrid
+        gridId="edit-meta-pattern-grid"
+        data={rows}
+        columns={codeColumns}
+        getRowId={(row) => row.id}
+      />
+    );
+
+    const cell = getCell(container, '1', 'name');
+    fireEvent.doubleClick(cell);
+    const editor = cell.querySelector<HTMLInputElement>('input[aria-label="name editor"]');
+    if (!editor) throw new Error('Missing editor');
+
+    fireEvent.change(editor, { target: { value: '12' } });
+    await waitFor(() => {
+      expect(editor.value).toBe('12');
+    });
+
+    fireEvent.change(editor, { target: { value: '12a' } });
+    await waitFor(() => {
+      expect(editor.value).toBe('12');
+    });
+  });
+
+  it('applies editInputMode and HTML attribute meta on text editors', async () => {
+    const codeColumns = [
+      {
+        accessorKey: 'name',
+        header: 'Login',
+        size: 140,
+        meta: {
+          editable: true,
+          editType: 'text' as const,
+          editInputMode: 'email' as const,
+          editAutoComplete: 'username',
+          editAutoCapitalize: false,
+          editAutoCorrect: false,
+          editSpellCheck: false,
+          editAriaLabel: 'login editor',
+          editClassName: 'story-login-editor',
+        },
+      },
+      { accessorKey: 'age', header: 'Age', size: 80 },
+    ];
+
+    const { container } = render(
+      <GenDataGrid
+        gridId="edit-meta-html-attrs-grid"
+        data={rows}
+        columns={codeColumns}
+        getRowId={(row) => row.id}
+      />
+    );
+
+    const cell = getCell(container, '1', 'name');
+    fireEvent.doubleClick(cell);
+    const editor = cell.querySelector<HTMLInputElement>('input[aria-label="login editor"]');
+    if (!editor) throw new Error('Missing editor');
+
+    expect(editor.inputMode).toBe('email');
+    expect(editor.autocomplete).toBe('username');
+    expect(editor.getAttribute('autocapitalize')).toBe('off');
+    expect(editor.getAttribute('spellcheck')).toBe('false');
+    expect(editor.classList.contains('story-login-editor')).toBe(true);
+  });
+
   it('anchors master-detail toggle to detailToggleColumnId', () => {
     const masterColumns = [
       { id: '_leading', header: '', size: 40, cell: () => '' },

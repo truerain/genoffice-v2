@@ -53,7 +53,7 @@ Deferred:
 
 ### Built-in Editor Column Meta Extensions
 
-Status: complete (2026-07-09, slice 4.3-a).
+Status: complete (2026-07-09, slice 4.3-a; **4.3-b / 4.3-c 2026-07-12**).
 
 배경 (2026-07-09, `apps/demo` `userColumnEditors.tsx`):
 
@@ -113,7 +113,7 @@ Grid props 대응: `editSelectOnFocus`, `editCommitOnBlur`, `editPolicy`, `edito
 raw input
   → editNormalize (및 editType preset)
   → editMaxLength slice
-  → editPattern 필터 (거부 시 이전 draft 유지 또는 partial accept — architecture에서 확정)
+  → editPattern 필터 (**거부 시 이전 draft 유지**; paste는 이전 cell value. 빈 문자열은 항상 허용)
   → draft
 commit 시 (선택) editTrimOnCommit
 paste / printable-key / flushEditing 경로도 동일 hook
@@ -129,10 +129,10 @@ paste / printable-key / flushEditing 경로도 동일 hook
 
 | Slice | 항목 | 산출 |
 | --- | --- | --- |
-| **4.3-a** | `editMaxLength`, `editNormalize`, preset `editType`, `editTrimOnCommit` | `DefaultCellEditor`, paste, context, tests |
-| **4.3-b** | `editMin`/`editMax`/`editStep`, `editRows`/`editCols`, select empty/clearable | number/textarea/select built-in |
-| **4.3-c** | `editPattern`, `editInputMode`, HTML attribute meta | 고급 text 제약 |
-| **4.3-d** | `createBuiltinTextEditor` factory, keyboard/blur helper export | custom editor 복제 제거 |
+| **4.3-a** | `editMaxLength`, `editNormalize`, preset `editType`, `editTrimOnCommit` | `DefaultCellEditor`, paste, context, tests | **complete** |
+| **4.3-b** | `editMin`/`editMax`/`editStep`, `editRows`/`editCols`, select empty/clearable | number/textarea/select built-in | **complete** (2026-07-12) |
+| **4.3-c** | `editPattern`, `editInputMode`, HTML attribute meta | 고급 text 제약 | **complete** (2026-07-12) |
+| **4.3-d** | `createBuiltinTextEditor` factory, keyboard/blur helper export | custom editor 복제 제거 | pending |
 
 #### Scope
 
@@ -162,6 +162,19 @@ paste / printable-key / flushEditing 경로도 동일 hook
 - `DefaultCellEditor`, paste, printable-key, `flushEditing` 연동
 - normalize helper export
 - demo `userColumns` meta 전환, `userColumnEditors.tsx` 제거
+
+구현 (4.3-b, 2026-07-12):
+
+- `editMin` / `editMax` / `editStep` → number·date `<input>` HTML attrs
+- `editRows` / `editCols` → textarea
+- `editEmptyOption` / `editSelectClearable` → `resolveSelectEditOptions` + select leading empty option
+- unit + interaction 테스트
+
+구현 (4.3-c, 2026-07-12):
+
+- `editPattern` (`RegExp` | `digitsOnly` | `alphanumeric` | `lettersOnly`) — 거부 시 이전 draft 유지, 빈 문자열 허용
+- `editInputMode`, `editAutoComplete` / `editAutoCapitalize` / `editAutoCorrect` / `editSpellCheck`, `editAriaLabel`, `editClassName`
+- Storybook `Gate43BuiltinEditorMeta` (4.3-b + 4.3-c)
 
 참고 소비처:
 

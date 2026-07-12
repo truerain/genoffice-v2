@@ -644,6 +644,8 @@
   z-index: 4;
   overflow: visible;
   padding: 0 4px;
+  /* outline paints above descendants; editor border is the edit focus cue */
+  outline: none;
 }
 
 .gen-datagrid__cell[data-editing-cell='true']:has(.gen-datagrid__lookup-editor) {
@@ -783,7 +785,8 @@
   height: calc(100% - 6px);
   border: 1px solid var(--gen-datagrid-editor-border-color);
   border-radius: 2px;
-  height: max-content;
+  background: var(--gen-datagrid-editor-bg);
+  color: var(--gen-datagrid-body-cell-text);
   font: inherit;
   user-select: text;
   box-sizing: border-box;
@@ -795,6 +798,7 @@
 
 .gen-datagrid__editor--textarea {
   resize: none;
+  overflow: auto;
 }
 
 .gen-datagrid__lookup-editor {

@@ -204,7 +204,7 @@ export function applyClipboardPaste<TData>({
         rowIndex: candidate.row.index,
         columnId: candidate.column.id,
         previousValue: candidate.editableContext.value,
-        value: applyCommit(candidate.value),
+        value: applyCommit(candidate.value, candidate.editableContext.value),
       });
     }
   }

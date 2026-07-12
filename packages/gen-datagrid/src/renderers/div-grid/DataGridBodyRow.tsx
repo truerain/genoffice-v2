@@ -334,7 +334,27 @@ export function DataGridBodyRow<TData>({
         const meta = cell.column.columnDef.meta;
         const editValueHandlers = createEditValueHandlers({ meta, editableContext });
         const applyDraftValue = (nextValue: unknown) => {
-          setDraftValue(editValueHandlers.applyInbound(nextValue));
+          const resolved = editValueHandlers.applyInbound(nextValue, draftValue);
+          setDraftValue(resolved);
+          // Pattern reject can return the same draft; React may bail out and leave the DOM ahead.
+          if (
+            Object.is(resolved, draftValue) &&
+            !Object.is(String(nextValue ?? ''), String(draftValue ?? ''))
+          ) {
+            requestAnimationFrame(() => {
+              const active = document.activeElement;
+              if (
+                !(active instanceof HTMLInputElement) &&
+                !(active instanceof HTMLTextAreaElement)
+              ) {
+                return;
+              }
+              const nextText = String(resolved ?? '');
+              if (active.value !== nextText) {
+                active.value = nextText;
+              }
+            });
+          }
         };
         const commit = (nextValue = draftValue) => {
           onCellValueChange?.({
@@ -474,6 +494,21 @@ export function DataGridBodyRow<TData>({
           inputEditType: editValueHandlers.inputEditType,
           editMaxLength: editValueHandlers.maxLength,
           editTrimOnCommit: editValueHandlers.trimOnCommit,
+          editMin: meta?.editMin,
+          editMax: meta?.editMax,
+          editStep: meta?.editStep,
+          editRows: meta?.editRows,
+          editCols: meta?.editCols,
+          editEmptyOption: meta?.editEmptyOption,
+          editSelectClearable: meta?.editSelectClearable,
+          editPattern: editValueHandlers.pattern,
+          editInputMode: meta?.editInputMode,
+          editAutoComplete: meta?.editAutoComplete,
+          editAutoCapitalize: meta?.editAutoCapitalize,
+          editAutoCorrect: meta?.editAutoCorrect,
+          editSpellCheck: meta?.editSpellCheck,
+          editAriaLabel: meta?.editAriaLabel,
+          editClassName: meta?.editClassName,
           editOptions,
           placeholder: meta?.editPlaceholder,
           selectOnFocus,

@@ -87,6 +87,7 @@
     var(--gen-datagrid-bg)
   );
   --gen-datagrid-editor-border-color: var(--gen-datagrid-accent);
+  --gen-datagrid-editor-bg: var(--gen-datagrid-bg);
 
   /* ── Features · Row status (V2 literal; theme --color-status-* 미연결) ── */
   --gen-datagrid-row-status-created: #1a7f37;

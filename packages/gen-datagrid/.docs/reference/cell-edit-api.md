@@ -163,6 +163,19 @@ Built-in default editor는 `editType`에 따라 다음 element를 렌더링한�
 | `'textarea'` | `<textarea>` |
 | `'checkbox'` | `<input type="checkbox">` |
 
+### Column meta (built-in editor, Gate 4.3)
+
+| Meta | 적용 | 설명 |
+| --- | --- | --- |
+| `editMaxLength` / `editNormalize` / `editTrimOnCommit` / text presets | text 계열 | 4.3-a |
+| `editMin` / `editMax` / `editStep` | `number`, `date` (`step`은 number만) | HTML attrs (4.3-b) |
+| `editRows` / `editCols` | `textarea` | HTML attrs (4.3-b). Display size is CSS cell-fill (`height: calc(100% - 6px)`); short `rowHeight` may hide the visual effect of `rows`. |
+| `editEmptyOption` / `editSelectClearable` | `select` | leading empty option (4.3-b) |
+| `editPattern` | `text`, `textarea` | inbound allow-list; reject keeps previous (4.3-c) |
+| `editInputMode` | `text`, `number` | HTML `inputMode` (4.3-c) |
+| `editAutoComplete` / `editAutoCapitalize` / `editAutoCorrect` / `editSpellCheck` | text 계열 | HTML attrs (4.3-c) |
+| `editAriaLabel` / `editClassName` | 전체 built-in | a11y / class override (4.3-c) |
+
 ## 6. Editor Context
 
 `renderEditor`와 `editorFactory`는 동일한 `GenDataGridEditorContext`를 받는다. Column-level editor가 grid-level fallback editor보다 좁은 기능을 받지 않도록 context surface는 대칭으로 유지한다.

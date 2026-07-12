@@ -403,14 +403,19 @@ Implementation status: column meta `align` and `headerAlign` are implemented on 
 | --- | --- | --- |
 | `editable` | editable boolean/predicate | MVP |
 | `editType` | built-in editor type | MVP |
-| `editOptions` | select options | MVP |
-| `getEditOptions` | row-based select options | MVP |
+| `editOptions` / `getEditOptions` | select options | MVP |
 | `editPlaceholder` | editor placeholder | MVP |
 | `editSelectOnFocus` | 기본 input editor focus 시 전체 선택 | MVP |
 | `editCommitOnBlur` | 기본 editor blur 시 commit | MVP |
+| `editMaxLength` / `editNormalize` / `editTrimOnCommit` | text inbound pipeline | Gate 4.3-a |
+| `editMin` / `editMax` / `editStep` | number/date HTML attrs | Gate 4.3-b |
+| `editRows` / `editCols` | textarea size | Gate 4.3-b |
+| `editEmptyOption` / `editSelectClearable` | select empty option | Gate 4.3-b |
+| `editPattern` / `editInputMode` / HTML attr meta | pattern + input attrs | Gate 4.3-c |
+| `editLookup` | built-in modal lookup | Gate lookup |
 | `renderEditor` | custom editor | MVP |
 
-Implementation status: `editable`, `editType`, `editOptions`, `getEditOptions`, `editPlaceholder`, `editSelectOnFocus`, `editCommitOnBlur`, and `renderEditor` are defined on TanStack `ColumnMeta`. These fields are wired into the editable cell predicate model and runtime editor rendering. Column `renderEditor` has priority over grid-level `editorFactory`, then the built-in default editor is used. Column `editSelectOnFocus` and `editCommitOnBlur` override their grid-level defaults and are exposed through the shared editor context.
+Implementation status: Editing meta above is defined on TanStack `ColumnMeta` and wired into the editable cell predicate, value pipeline (4.3-a/c), built-in editors (4.3-b/c attrs/options), and lookup shell. Column `renderEditor` has priority over grid-level `editorFactory`, then the built-in default editor is used. Column `editSelectOnFocus` and `editCommitOnBlur` override their grid-level defaults and are exposed through the shared editor context.
 
 ### 7.1a Display Cell Meta (Row Status Context)
 

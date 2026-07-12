@@ -388,6 +388,132 @@ export const Gate4Editing: Story = {
   },
 };
 
+export const Gate43BuiltinEditorMeta: Story = {
+  name: 'Gate 4.3 Builtin Editor Meta',
+  render: () => {
+    const [gridData, setGridData] = React.useState(data);
+
+    const handleCellValueChange = React.useCallback(
+      ({ rowId, columnId, value }: GenDataGridCellValueChange<Person>) => {
+        setGridData((previous) =>
+          previous.map((row) =>
+            row.id === rowId
+              ? {
+                  ...row,
+                  [columnId]: columnId === 'score' ? Number(value) : value,
+                }
+              : row
+          )
+        );
+      },
+      []
+    );
+
+    const metaColumns: ColumnDef<Person, unknown>[] = [
+      {
+        accessorKey: 'name',
+        header: 'Name (lettersOnly)',
+        size: 160,
+        meta: {
+          editable: true,
+          editType: 'text',
+          editPattern: 'lettersOnly',
+          editInputMode: 'text',
+          editAutoComplete: 'off',
+          editSpellCheck: false,
+          editAriaLabel: 'name letters editor',
+          editPlaceholder: 'A-Z only',
+        },
+      },
+      {
+        accessorKey: 'role',
+        header: 'Role (select clearable)',
+        size: 200,
+        meta: {
+          editable: true,
+          editType: 'select',
+          editOptions: [
+            { label: 'Engineer', value: 'Engineer' },
+            { label: 'Computer Scientist', value: 'Computer Scientist' },
+            { label: 'Mathematician', value: 'Mathematician' },
+            { label: 'Researcher', value: 'Researcher' },
+          ],
+          editEmptyOption: { label: '(없음)', value: '' },
+        },
+      },
+      {
+        accessorKey: 'score',
+        header: 'Score (min/max/step)',
+        size: 130,
+        meta: {
+          editable: true,
+          editType: 'number',
+          editMin: 0,
+          editMax: 100,
+          editStep: 5,
+          editInputMode: 'numeric',
+        },
+      },
+      {
+        accessorKey: 'location',
+        header: 'Code (digits)',
+        size: 140,
+        meta: {
+          editable: true,
+          editType: 'text',
+          editPattern: 'digitsOnly',
+          editMaxLength: 6,
+          editInputMode: 'numeric',
+          editAutoCapitalize: false,
+          editAutoCorrect: false,
+          editClassName: 'gate43-digits-editor',
+          editPlaceholder: 'digits only',
+        },
+      },
+      {
+        accessorKey: 'note',
+        header: 'Note (textarea)',
+        size: 220,
+        meta: {
+          editable: true,
+          editType: 'textarea',
+          editRows: 3,
+          editCols: 28,
+          editPattern: /^[A-Za-z0-9 .,!?]*$/,
+          editSpellCheck: true,
+        },
+      },
+    ];
+
+    return (
+      <div style={{ width: 920, padding: 16 }}>
+        <p style={{ margin: '0 0 12px', fontSize: 13, color: '#57606a' }}>
+          Gate 4.3-b/c: number min·max·step, textarea rows·cols, select empty option, editPattern,
+          inputMode, HTML attribute meta.
+        </p>
+        <GenDataGrid<Person>
+          data={gridData}
+          columns={metaColumns}
+          getRowId={(row) => row.id}
+          gridId="storybook-gen-datagrid-gate-4-3"
+          defaultActiveCell={{ rowId: '1', columnId: 'name' }}
+          rowHeight={36}
+          headerHeight={40}
+          editSelectOnFocus
+          editCommitOnBlur={false}
+          onCellValueChange={handleCellValueChange}
+          style={{
+            height: 280,
+            border: '1px solid #d0d7de',
+            borderRadius: 6,
+            background: '#fff',
+          }}
+        />
+      </div>
+    );
+  },
+};
+
 export const Gate5PinningSizingReorder: Story = {
   render: () => {
     const [gridData, setGridData] = React.useState(gate6Data);

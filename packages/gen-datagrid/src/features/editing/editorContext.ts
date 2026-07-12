@@ -4,7 +4,9 @@
 import type {
   GenDataGridEditableContext,
   GenDataGridEditBlurOwnership,
+  GenDataGridEditEmptyOption,
   GenDataGridEditEntryReason,
+  GenDataGridEditInputMode,
   GenDataGridEditOption,
   GenDataGridBuiltinEditType,
   GenDataGridEditorContext,
@@ -27,6 +29,21 @@ type CreateEditorContextArgs<TData> = {
   inputEditType?: GenDataGridBuiltinEditType;
   editMaxLength?: number;
   editTrimOnCommit?: boolean;
+  editMin?: number | string;
+  editMax?: number | string;
+  editStep?: number;
+  editRows?: number;
+  editCols?: number;
+  editEmptyOption?: GenDataGridEditEmptyOption;
+  editSelectClearable?: boolean;
+  editPattern?: RegExp;
+  editInputMode?: GenDataGridEditInputMode;
+  editAutoComplete?: string;
+  editAutoCapitalize?: boolean | 'off' | 'none' | 'sentences' | 'words' | 'characters';
+  editAutoCorrect?: boolean;
+  editSpellCheck?: boolean;
+  editAriaLabel?: string;
+  editClassName?: string;
   editOptions?: readonly GenDataGridEditOption[];
   placeholder?: string;
   selectOnFocus?: boolean;
@@ -55,6 +72,21 @@ export function createEditorContext<TData>({
   inputEditType,
   editMaxLength,
   editTrimOnCommit,
+  editMin,
+  editMax,
+  editStep,
+  editRows,
+  editCols,
+  editEmptyOption,
+  editSelectClearable,
+  editPattern,
+  editInputMode,
+  editAutoComplete,
+  editAutoCapitalize,
+  editAutoCorrect,
+  editSpellCheck,
+  editAriaLabel,
+  editClassName,
   editOptions,
   placeholder,
   selectOnFocus,
@@ -86,6 +118,21 @@ export function createEditorContext<TData>({
     inputEditType,
     editMaxLength,
     editTrimOnCommit,
+    editMin,
+    editMax,
+    editStep,
+    editRows,
+    editCols,
+    editEmptyOption,
+    editSelectClearable,
+    editPattern,
+    editInputMode,
+    editAutoComplete,
+    editAutoCapitalize,
+    editAutoCorrect,
+    editSpellCheck,
+    editAriaLabel,
+    editClassName,
     editOptions,
     placeholder,
     selectOnFocus,

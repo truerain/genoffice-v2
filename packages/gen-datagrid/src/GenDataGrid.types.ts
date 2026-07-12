@@ -69,6 +69,32 @@ export type GenDataGridEditOption = {
   value: string | number | boolean;
 };
 
+/** Empty / clear option for built-in `select` editors (Gate 4.3-b). */
+export type GenDataGridEditEmptyOption = {
+  label: string;
+  /** Defaults to `''` when omitted. */
+  value?: string | number | boolean;
+};
+
+/** Named presets for `editPattern` (Gate 4.3-c). Intermediate input uses `*` anchors. */
+export type GenDataGridEditPatternPreset =
+  | 'digitsOnly'
+  | 'alphanumeric'
+  | 'lettersOnly';
+
+export type GenDataGridEditPattern = RegExp | GenDataGridEditPatternPreset;
+
+/** HTML `inputMode` for built-in text/number editors (Gate 4.3-c). */
+export type GenDataGridEditInputMode =
+  | 'none'
+  | 'text'
+  | 'decimal'
+  | 'numeric'
+  | 'tel'
+  | 'search'
+  | 'email'
+  | 'url';
+
 export type GenDataGridEditEntryReason =
   | 'reclick'
   | 'doubleClick'
@@ -188,6 +214,22 @@ export type GenDataGridEditorContext<TData> = GenDataGridEditableContext<TData> 
   inputEditType?: GenDataGridBuiltinEditType;
   editMaxLength?: number;
   editTrimOnCommit?: boolean;
+  editMin?: number | string;
+  editMax?: number | string;
+  editStep?: number;
+  editRows?: number;
+  editCols?: number;
+  editEmptyOption?: GenDataGridEditEmptyOption;
+  editSelectClearable?: boolean;
+  /** Resolved `editPattern` (Gate 4.3-c). */
+  editPattern?: RegExp;
+  editInputMode?: GenDataGridEditInputMode;
+  editAutoComplete?: string;
+  editAutoCapitalize?: boolean | 'off' | 'none' | 'sentences' | 'words' | 'characters';
+  editAutoCorrect?: boolean;
+  editSpellCheck?: boolean;
+  editAriaLabel?: string;
+  editClassName?: string;
   editOptions?: readonly GenDataGridEditOption[];
   placeholder?: string;
   selectOnFocus?: boolean;
@@ -369,6 +411,39 @@ export type GenDataGridColumnMeta<TData, TValue = unknown> = {
   editMaxLength?: number;
   editNormalize?: (value: unknown, ctx: GenDataGridEditableContext<TData>) => unknown;
   editTrimOnCommit?: boolean;
+  /** HTML min for `number` / `date` editors (Gate 4.3-b). */
+  editMin?: number | string;
+  /** HTML max for `number` / `date` editors (Gate 4.3-b). */
+  editMax?: number | string;
+  /** HTML step for `number` editors (Gate 4.3-b). */
+  editStep?: number;
+  /** textarea rows (Gate 4.3-b). */
+  editRows?: number;
+  /** textarea cols (Gate 4.3-b). */
+  editCols?: number;
+  /** Prepend empty option for `select` (Gate 4.3-b). */
+  editEmptyOption?: GenDataGridEditEmptyOption;
+  /** Allow clearing `select` via empty option when `editEmptyOption` omitted (Gate 4.3-b). */
+  editSelectClearable?: boolean;
+  /**
+   * Allow-list pattern for `text` / `textarea` inbound values (Gate 4.3-c).
+   * Reject keeps the previous draft (or previous cell value on paste). Empty string always allowed.
+   */
+  editPattern?: GenDataGridEditPattern;
+  /** HTML `inputMode` for `text` / `number` editors (Gate 4.3-c). */
+  editInputMode?: GenDataGridEditInputMode;
+  /** HTML `autocomplete` (Gate 4.3-c). */
+  editAutoComplete?: string;
+  /** HTML `autocapitalize` — `false` maps to `'off'` (Gate 4.3-c). */
+  editAutoCapitalize?: boolean | 'off' | 'none' | 'sentences' | 'words' | 'characters';
+  /** HTML `autocorrect` — `false` → `'off'`, `true` → `'on'` (Gate 4.3-c). */
+  editAutoCorrect?: boolean;
+  /** HTML `spellCheck` (Gate 4.3-c). */
+  editSpellCheck?: boolean;
+  /** Override default `{columnId} editor` aria-label (Gate 4.3-c). */
+  editAriaLabel?: string;
+  /** Extra class on the built-in editor DOM (Gate 4.3-c). */
+  editClassName?: string;
   editLookup?: GenDataGridEditLookupConfig<TData, any>;
   renderCell?: (ctx: GenDataGridCellContext<TData>) => React.ReactNode;
   cellClassName?: string | ((ctx: GenDataGridCellContext<TData>) => string | undefined);

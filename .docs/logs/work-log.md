@@ -8,6 +8,31 @@
 
 ## 2026-07-12
 
+### gen-datagrid editor — active outline 편집 중 숨김
+
+- **요약:** `data-editing-cell`일 때 active `outline` 제거. outline이 editor 위에 그려져 border와 겹치던 문제. 편집 focus는 editor border 담당.
+- **파일:** `packages/gen-datagrid/src/index.css`
+
+### gen-datagrid editor — 불투명 배경 추가
+
+- **요약:** `.gen-datagrid__editor`에 `background: var(--gen-datagrid-editor-bg)` 추가. textarea 등 편집 중 아래 행/셀이 비치던 문제 해소. 토큰 `--gen-datagrid-editor-bg`.
+- **파일:** `packages/gen-datagrid/src/index.css`, `styles/tokens.css`
+
+### gen-datagrid textarea editor — 셀 높이 레이아웃 복구
+
+- **요약:** 전역 editor `height: max-content` 제거로 textarea가 행을 뚫던 문제 수정. textarea 내부 스크롤, lookup은 기존 max-content 유지.
+- **파일:** `packages/gen-datagrid/src/index.css`, `packages/gen-datagrid/.docs/reference/cell-edit-api.md`
+
+### gen-datagrid Gate 4.3-c — editPattern / HTML attribute meta + Storybook
+
+- **요약:** `editPattern`·`editInputMode`·autocomplete/autocapitalize/autocorrect/spellCheck·`editAriaLabel`·`editClassName` 추가. 4.3-b/c 통합 Storybook `Gate43BuiltinEditorMeta`.
+- **파일:** `packages/gen-datagrid/src/**`, `test/*`, `.docs/plan/remaining-work-plan.md`, `reference/cell-edit-api.md`, `api-structure.md`, stories
+
+### gen-datagrid Gate 4.3-b — number/textarea/select editor meta
+
+- **요약:** `editMin`/`editMax`/`editStep`, `editRows`/`editCols`, `editEmptyOption`/`editSelectClearable` 추가. `resolveSelectEditOptions` export. unit·interaction 테스트.
+- **파일:** `GenDataGrid.types.ts`, `editValuePipeline.ts`, `editorContext.ts`, `renderEditor.tsx`, `DataGridBodyRow.tsx`, `index.ts`, `test/*`, `.docs/plan/remaining-work-plan.md`, `reference/cell-edit-api.md`, `api-structure.md`
+
 ### gen-datagrid lookup input — focus outline 제거
 
 - **요약:** theme `*:focus-visible`이 lookup input에 적용되며 gap 오른쪽 세로선처럼 보이던 문제. wrapper가 아닌 `.gen-datagrid__editor--lookup:focus-visible`에 `outline: none`.
