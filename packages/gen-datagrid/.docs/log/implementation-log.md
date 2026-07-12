@@ -2,6 +2,11 @@
 
 ## 2026-07-12
 
+### remaining-work-plan P0/P1 이관
+
+- **요약:** 완료 P1(4.3·Lookup·MasterDetail toggle·Row Status display)을 planning-history로 이동. remaining-work-plan은 P2+Deferred만 유지.
+- **파일:** `.docs/plan/remaining-work-plan.md`, `.docs/log/planning-history.md`
+
 ### Gate 4.3-d — createBuiltinTextEditor + helper export
 
 - **요약:** `createBuiltinTextEditor` / `BuiltinTextEditor` / `useBuiltinEditorHandlers`. keyboard·blur helper public export. DefaultCellEditor text/textarea 재사용.

@@ -8,6 +8,11 @@
 
 ## 2026-07-12
 
+### gen-datagrid remaining-work-plan — P0/P1 이관·P2 정리
+
+- **요약:** 완료된 P0·P1(Editor 4.3·Lookup·MasterDetail toggle·Row Status display)을 `planning-history.md`로 옮기고, `remaining-work-plan.md`는 P2·Deferred 이월만 항목별로 재구성.
+- **파일:** `packages/gen-datagrid/.docs/plan/remaining-work-plan.md`, `.docs/log/planning-history.md`
+
 ### gen-datagrid Gate 4.3-d — createBuiltinTextEditor + helper export
 
 - **요약:** custom `renderEditor`가 built-in text editor·keyboard/blur를 재사용할 수 있게 factory·helpers public export. Gate 4.3 slice 완료.

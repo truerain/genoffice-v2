@@ -7,6 +7,46 @@ Summarizes completed GenDataGrid planning and gate history that no longer belong
 이 문서는 완료된 계획과 gate 진행 이력을 요약한다. 앞으로 할 일은
 `../plan/remaining-work-plan.md`에서만 관리한다.
 
+## 2026-07-12
+
+### Remaining Work Plan — P0/P1 완료분 이관
+
+- `../plan/remaining-work-plan.md`에서 P0·P1 완료 섹션을 제거하고 **P2 + Deferred 이월**만 active backlog로 유지했다.
+- 이관·요약 대상: Row Status Display Context, Built-in Editor Meta 4.3-a~d, Edit Lookup, MasterDetail Expand Toggle.
+
+### P1. Built-in Editor Column Meta Extensions (4.3-a ~ 4.3-d) — complete
+
+- **목표:** built-in editor column meta로 format·길이·범위 등을 선언하고, typing/paste/printable-key에 동일 파이프라인 적용.
+- **패키지 소유:** `@gen-office/gen-datagrid` (CRUD는 editor 미제공).
+- **파이프라인:** normalize/preset → maxLength → editPattern(거부 시 이전 draft) → draft; commit 시 trim.
+- **Slice:**
+  - **4.3-a:** `editMaxLength`, `editNormalize`, preset `editType`, `editTrimOnCommit`
+  - **4.3-b:** `editMin`/`editMax`/`editStep`, `editRows`/`editCols`, `editEmptyOption`/`editSelectClearable`
+  - **4.3-c:** `editPattern`, `editInputMode`, HTML attr meta (`editAutoComplete` 등), `editAriaLabel`/`editClassName`
+  - **4.3-d:** `createBuiltinTextEditor` / `BuiltinTextEditor` / `useBuiltinEditorHandlers`; keyboard·blur helper public export
+- **소비처:** demo `userColumns` (`loginId`, `empNo`); Storybook `Gate43BuiltinEditorMeta`
+- **API 정본:** `../reference/cell-edit-api.md`
+- **P2로 이월:** `editMinLength`, `editParse`/`editFormat`, IME·regex UX, `@gen-office/datagrid-editors` 분리
+
+### P1. Edit Lookup (built-in modal editor) — complete (2026-07-10)
+
+- **목표:** `editType: 'lookup'` / `meta.editLookup`; app은 `renderModal`만.
+- **구현:** `LookupCellEditor`, `resolveEditLookup`, 기본 `blurOwnership: 'modal'`, demo `orgLookupModal`.
+- **문서:** `../architecture/edit-lookup-architecture.md`, `../plan/edit-lookup-plan.md`
+- **P2로 이월:** `mode: 'popover'`, `fetchItems`, CRUD sugar
+
+### P1. MasterDetail Expand Toggle Customization — complete (2026-07-09)
+
+- **API:** `detailToggleColumnId`, `renderDetailToggle`, `detailToggleProps`
+- **구현:** `features/master-detail/detailToggle.tsx`; demo `UserPage` `_leading` anchor
+- **P2로 이월:** 함수형 동적 anchor, tree/detail toggle pinning zone, 아이콘 패키지 강결합
+
+### P1. Row Status Cell Display Context — complete (2026-07-09)
+
+- `meta.renderCell` / `cellClassName` / `cellStyle`에 `GenDataGridCellContext`(`rowStatus` 포함)
+- `renderCell` > TanStack `cell` > `formatCellValue`
+- **P2로 이월:** grid prop `getCellClassName`/`getCellStyle`, color sugar meta
+
 ## 2026-07-10
 
 ### Edit Lookup — architecture + plan
