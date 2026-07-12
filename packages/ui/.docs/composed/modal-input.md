@@ -60,12 +60,27 @@ composed/ModalInput   ← localFilter, fetchItems, list/table, draft commit
 | 영역 | 결정 방식 |
 | --- | --- |
 | **가로** | CSS `min(42rem, 100vw - 2rem)`; `modalWidth`로 override |
-| **모달 전체 세로** | `max-height: 85vh`, `overflow: hidden` — **헤더·푸터 고정** |
-| **본문** | `modalHeight` 미지정 시 header/footer 사이 **flex fill** |
-| **본문** | `modalHeight` 지정 시 `max-height: min(prop, 100%)` 상한 |
+| **모달 전체 세로** | `modalHeight` 지정 시 Dialog에 **고정 height** (`min(prop, 85vh)`). 미지정 시 내용만큼 커지고 `max-height: 85vh` |
+| **본문** | header/footer 사이 flex fill; 목록만 스크롤 |
 | **목록 스크롤** | `.listWrap`만 `overflow: auto` |
 
+### grid lookup (`hideTrigger`)
+
+GenDataGrid `editLookup.renderModal`처럼 **셀 shell은 grid가 소유**할 때:
+
+| Prop | 용도 |
+| --- | --- |
+| `hideTrigger` | 필드 Input/trigger 숨김, Dialog만 렌더 |
+| `open` / `onOpenChange` | portal 생명주기와 동기화 |
+| `defaultSearchValue` | 셀 draft keyword → 모달 검색 초기값 |
+| `commitOnItemClick` | single에서 행 클릭 즉시 commit (Confirm 숨김) |
+| `dialogContentRef` | `registerEditorSurface`용 DialogContent |
+| `draggable={false}` | lookup 모달에서 드래그 비활성(선택) |
+
+`DialogContent`에 `data-gen-datagrid-editor-surface`를 설정한다. demo 예: `apps/demo/.../orgLookupModal.tsx`.
+
 ### multi `selectedTooltip`
+
 
 | Prop | 기본 | 설명 |
 | --- | --- | --- |

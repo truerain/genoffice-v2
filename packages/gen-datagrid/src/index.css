@@ -809,6 +809,12 @@
   overflow: hidden;
 }
 
+.gen-datagrid__lookup-editor > .gen-datagrid__editor--lookup:focus,
+.gen-datagrid__lookup-editor > .gen-datagrid__editor--lookup:focus-visible {
+  /* theme *:focus-visible outline — gap 사이에서 오른쪽 세로선처럼 보임 */
+  outline: none;
+}
+
 .gen-datagrid__lookup-display {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;

@@ -27,6 +27,11 @@ const semanticVars = [
 const componentVars: Record<string, string[]> = {
   'components/button.css': ['--button-primary-bg', '--button-focus-ring'],
   'components/dialog.css': ['--dialog-bg', '--dialog-border'],
+  'components/filter-bar.css': [
+    '--filter-bar-label-font-size',
+    '--filter-bar-label-font-weight',
+    '--filter-bar-label-color',
+  ],
 };
 
 describe('CSS token files', () => {

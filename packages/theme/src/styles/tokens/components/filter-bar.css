@@ -1,7 +1,11 @@
 /**
  * @file packages/theme/src/styles/tokens/components/filter-bar.css
- * @description Component-level CSS variables for FilterBar field sizing and layout.
+ * @description Component-level CSS variables for FilterBar field sizing, chrome, and label typography.
  * @created 2026-06-25
+ * @updated 2026-07-12
+ *
+ * @remark
+ * - Label typography: --filter-bar-label-font-size|weight|color (override at :root or page scope)
  */
 :root {
   --filter-field-width-xs: 120px;
@@ -18,4 +22,8 @@
   --filter-bar-border: var(--color-border-default);
   --filter-bar-bg: var(--color-bg-secondary);
   --filter-bar-radius: var(--border-radius-lg, 0.5rem);
+
+  --filter-bar-label-font-size: var(--font-size-sm);
+  --filter-bar-label-font-weight: var(--font-weight-medium);
+  --filter-bar-label-color: var(--color-fg-primary);
 }

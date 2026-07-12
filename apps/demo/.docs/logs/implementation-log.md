@@ -8,6 +8,13 @@
 -->
 # @gen-office/demo 구현 로그
 
+## 2026-07-12
+
+### OrgLookupModal — ModalInput hideTrigger
+
+- **요약:** StandardDialog hand-roll을 `ModalInput`(`hideTrigger`·`commitOnItemClick`)으로 교체. `userColumns` `renderModal` 시그니처 유지.
+- **파일:** `orgLookupModal.tsx`, `orgLookupModal.module.css`(삭제)
+
 ## 2026-07-10
 
 ### UserPage orgId lookup — editLookup.mapSelection

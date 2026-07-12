@@ -2,13 +2,15 @@
  * @file packages/ui/src/composed/modalInput/ModalInput.types.ts
  * @description Public props and selection types for ModalInput.
  * @created 2026-06-25
+ * @updated 2026-07-12
  *
  * @remark
  * - Exports: ModalInputSelection, ModalInputListColumn, ModalInputProps
  * - mode discriminated union: single | multi
  * - multi: selectedTooltip 'auto' — 2+ 선택 시 tooltip (modal open 중 비활성)
+ * - hideTrigger: dialog-only for grid lookup renderModal shells
  */
-import type { ReactNode } from 'react';
+import type { ReactNode, Ref } from 'react';
 
 export type ModalInputSelectedTooltip = boolean | 'auto';
 
@@ -44,6 +46,16 @@ type ModalInputBaseProps<TData = unknown> = {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
+  /** When true, hide the field trigger and render the dialog only (grid lookup portals). */
+  hideTrigger?: boolean;
+  /** Initial modal search box value (e.g. cell draft keyword). */
+  defaultSearchValue?: string;
+  /** single: commit immediately on list item click (skip Confirm). */
+  commitOnItemClick?: boolean;
+  /** Dialog header drag. Default true. */
+  draggable?: boolean;
+  /** Forward DialogContent element (grid editor surface registration). */
+  dialogContentRef?: Ref<HTMLDivElement | null>;
   triggerAriaLabel?: string;
   triggerIcon?: ReactNode;
   label?: string;
@@ -60,6 +72,10 @@ type ModalInputBaseProps<TData = unknown> = {
   confirmOnDoubleClick?: boolean;
   autoFocusSearch?: boolean;
   modalWidth?: number | string;
+  /**
+   * Fixed dialog height (not content-driven). List area scrolls inside.
+   * Applied as `height: min(value, 85vh)` on DialogContent.
+   */
   modalHeight?: number | string;
   listColumns?: ModalInputListColumn<TData>[];
   className?: string;

@@ -57,6 +57,8 @@
   max-width: min(42rem, calc(100vw - 2rem));
   max-height: 85vh;
   overflow: hidden;
+  /* Override DialogContent grid + content-sized height when modalHeight is set via style */
+  box-sizing: border-box;
 }
 
 .dialogHeader {

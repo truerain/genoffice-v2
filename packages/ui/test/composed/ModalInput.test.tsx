@@ -50,6 +50,33 @@ describe('ModalInput', () => {
     );
   });
 
+  it('hideTrigger opens dialog without field trigger and commits on item click', async () => {
+    const user = userEvent.setup();
+    const onCommit = vi.fn();
+
+    render(
+      <ModalInput
+        mode="single"
+        hideTrigger
+        open
+        commitOnItemClick
+        items={items}
+        title="Vendor lookup"
+        onCommit={onCommit}
+        cancelLabel="Cancel"
+      />
+    );
+
+    expect(screen.queryByRole('button', { name: 'Open search modal' })).not.toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Confirm' })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /Beta Trading/i }));
+    expect(onCommit).toHaveBeenCalledWith(
+      expect.objectContaining({ value: 'B', label: 'Beta Trading' })
+    );
+  });
+
   it('filters local items in modal search', async () => {
     const user = userEvent.setup();
 

@@ -6,6 +6,39 @@
 -->
 # GenOffice V2 작업 로그
 
+## 2026-07-12
+
+### gen-datagrid lookup input — focus outline 제거
+
+- **요약:** theme `*:focus-visible`이 lookup input에 적용되며 gap 오른쪽 세로선처럼 보이던 문제. wrapper가 아닌 `.gen-datagrid__editor--lookup:focus-visible`에 `outline: none`.
+- **파일:** `packages/gen-datagrid/src/index.css`
+
+### demo OrgLookupModal — ModalInput hideTrigger 연동
+
+- **요약:** hand-rolled StandardDialog 목록을 `@gen-office/ui` ModalInput(`hideTrigger` + `commitOnItemClick`)으로 교체. `userColumns`의 `editLookup.renderModal` API는 동일.
+- **파일:** `orgLookupModal.tsx`, `orgLookupModal.module.css`(삭제), `packages/ui/.../ModalInput.*`
+
+### ModalInput — modalHeight를 Dialog 고정 높이로 적용
+
+- **요약:** `modalHeight`가 content `maxHeight`만 주던 동작을 DialogContent **고정 height**로 변경. 항목 수와 무관하게 높이 유지, 목록만 스크롤. OrgLookupModal `modalHeight={420}`.
+- **파일:** `ModalInput.tsx`, `ModalInput.types.ts`, `ModalInput.module.css`, `modal-input.md`, `orgLookupModal.tsx`
+
+### FilterBar — 라벨 font 토큰 추가
+
+- **요약:** theme `filter-bar.css`에 `--filter-bar-label-font-size|weight|color` 추가. `FilterBar.module.css` 라벨이 `--font-size-base`(1rem)와 폴백 0.875rem이 어긋나던 문제를 `sm` 기준으로 정리.
+- **파일:** `packages/theme/src/styles/tokens/components/filter-bar.css`, `packages/theme/test/cssTokens.test.ts`, `packages/ui/src/composed/filterBar/FilterBar.module.css`, `packages/ui/.docs/composed/filter-bar.md`
+
+### 기술 스택 문서 — V1 언급 제거
+
+- **요약:** `.docs/11-TECH-STACK.md`에서 V1·`frontend`·대비/이식 서술을 빼고, 현재 V2 채택 스택만 설명하도록 정리.
+- **파일:** `.docs/11-TECH-STACK.md`, `.docs/logs/work-log.md`
+
+### 기술 스택 문서 추가 (`.docs/11-TECH-STACK.md`)
+
+- **요약:** 채택 스택 목록과 항목별 장단점·채택 이유 문서를 추가. 버전 핀은 `package.json` `pnpm.overrides`, 트레이드오프 설명은 11번 문서를 정본으로 둠.
+- **연계:** `.docs/README.md` 읽는 순서·문서 목록, 루트 `README.md` 기술 스택 절에 정본 링크.
+- **파일:** `.docs/11-TECH-STACK.md`, `.docs/README.md`, `README.md`, `.docs/logs/work-log.md`
+
 ## 2026-07-10
 
 ### gen-datagrid — editLookup.mapSelection + applyRowPatch

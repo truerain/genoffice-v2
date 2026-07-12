@@ -2,14 +2,16 @@
  * @file packages/ui/src/composed/modalInput/ModalInput.tsx
  * @description Search modal lookup picker on core Input + Dialog (single/multi).
  * @created 2026-06-25
+ * @updated 2026-07-12
  *
  * @remark
  * - Exports: ModalInput
  * - Local filter or fetchItems remote search; draft → confirm/cancel
- * - data-gen-grid-editor-overlay on DialogContent for grid editor integration
+ * - data-gen-grid-editor-overlay + data-gen-datagrid-editor-surface on DialogContent
+ * - hideTrigger: dialog-only mode for GenDataGrid editLookup.renderModal
  * - multi selectedTooltip 'auto': full labels when 2+ selected (hidden while modal open)
  */
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type Ref } from 'react';
 import { Search, X } from 'lucide-react';
 import { clsx } from 'clsx';
 import { Button } from '../../core/button';
@@ -38,6 +40,14 @@ import type {
 } from './ModalInput.types';
 import styles from './ModalInput.module.css';
 
+function assignRef<T>(ref: Ref<T> | undefined, value: T) {
+  if (!ref) return;
+  if (typeof ref === 'function') {
+    ref(value);
+    return;
+  }
+  (ref as { current: T }).current = value;
+}
 function localFilter<TData>(list: ModalInputSelection<TData>[], keyword: string) {
   const normalized = keyword.trim().toLowerCase();
   if (!normalized) return list;
@@ -90,6 +100,11 @@ export function ModalInput<TData = unknown>(props: ModalInputProps<TData>) {
     open: openProp,
     defaultOpen = false,
     onOpenChange,
+    hideTrigger = false,
+    defaultSearchValue = '',
+    commitOnItemClick = false,
+    draggable = true,
+    dialogContentRef,
     triggerAriaLabel = 'Open search modal',
     triggerIcon,
     label,
@@ -119,7 +134,7 @@ export function ModalInput<TData = unknown>(props: ModalInputProps<TData>) {
   const [internalSelectedItems, setInternalSelectedItems] = useState<
     ModalInputSelection<TData>[]
   >([]);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(defaultSearchValue);
   const [inputValue, setInputValue] = useState('');
   const [draftSelectedItems, setDraftSelectedItems] = useState<ModalInputSelection<TData>[]>([]);
   const [showSelectedOnly, setShowSelectedOnly] = useState(false);
@@ -133,6 +148,10 @@ export function ModalInput<TData = unknown>(props: ModalInputProps<TData>) {
   );
   const contentRef = useRef<HTMLDivElement | null>(null);
 
+  const setDialogContentNode = (node: HTMLDivElement | null) => {
+    contentRef.current = node;
+    assignRef(dialogContentRef, node);
+  };
   const open = openProp ?? internalOpen;
   const singleSelectedItem =
     mode === 'single' ? (props as { selectedItem?: ModalInputSelection<TData> | null }).selectedItem : undefined;
@@ -182,13 +201,28 @@ export function ModalInput<TData = unknown>(props: ModalInputProps<TData>) {
       setSearchValue('');
       return;
     }
-    if (mode === 'multi') {
+    const keyword = defaultSearchValue.trim();
+    if (keyword) {
+      setSearchValue(keyword);
+      return;
+    }
+    if (mode === 'multi' || hideTrigger) {
       setSearchValue('');
       return;
     }
     const seed = readOnly ? resolvedDisplayValue : inputValue;
     setSearchValue(seed.trim());
-  }, [clearSearchOnOpen, inputValue, mode, open, readOnly, resolvedDisplayValue, resolvedSelectedItems]);
+  }, [
+    clearSearchOnOpen,
+    defaultSearchValue,
+    hideTrigger,
+    inputValue,
+    mode,
+    open,
+    readOnly,
+    resolvedDisplayValue,
+    resolvedSelectedItems,
+  ]);
 
   useEffect(() => {
     if (!open || !fetchItems) return;
@@ -274,6 +308,15 @@ export function ModalInput<TData = unknown>(props: ModalInputProps<TData>) {
     });
   };
 
+  const handleItemActivate = (item: ModalInputSelection<TData>) => {
+    if (item.disabled) return;
+    if (mode === 'single' && commitOnItemClick) {
+      commitSelection([item]);
+      return;
+    }
+    toggleDraftSelection(item);
+  };
+
   const toCssSize = (size: number | string) => (typeof size === 'number' ? `${size}px` : size);
   const resolvedModalWidth = modalWidth != null ? toCssSize(modalWidth) : undefined;
   const resolvedModalHeight = modalHeight != null ? toCssSize(modalHeight) : undefined;
@@ -287,6 +330,7 @@ export function ModalInput<TData = unknown>(props: ModalInputProps<TData>) {
     : undefined;
 
   const handleHeaderPointerDown: React.PointerEventHandler<HTMLDivElement> = (event) => {
+    if (!draggable) return;
     if (event.button !== 0) return;
 
     const target = event.target as HTMLElement;
@@ -383,38 +427,56 @@ export function ModalInput<TData = unknown>(props: ModalInputProps<TData>) {
   );
 
   return (
-    <div className={clsx(styles.root, fullWidth && styles.fullWidth, className)}>
-      {showSelectedTooltip ? (
-        <TooltipProvider delayDuration={300}>
-          <Tooltip open={open ? false : undefined}>
-            <TooltipTrigger asChild>
-              <div className={styles.triggerAnchor}>{renderTriggerInput(inputAriaLabel)}</div>
-            </TooltipTrigger>
-            <TooltipContent
-              side="top"
-              align="start"
-              className={styles.selectedTooltipContent}
-            >
-              {selectedTooltipContent}
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      ) : (
-        renderTriggerInput(inputAriaLabel)
+    <div
+      className={clsx(
+        !hideTrigger && styles.root,
+        !hideTrigger && fullWidth && styles.fullWidth,
+        className
       )}
+    >
+      {!hideTrigger ? (
+        showSelectedTooltip ? (
+          <TooltipProvider delayDuration={300}>
+            <Tooltip open={open ? false : undefined}>
+              <TooltipTrigger asChild>
+                <div className={styles.triggerAnchor}>{renderTriggerInput(inputAriaLabel)}</div>
+              </TooltipTrigger>
+              <TooltipContent
+                side="top"
+                align="start"
+                className={styles.selectedTooltipContent}
+              >
+                {selectedTooltipContent}
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        ) : (
+          renderTriggerInput(inputAriaLabel)
+        )
+      ) : null}
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
-          ref={contentRef}
+          ref={setDialogContentNode}
           className={clsx(styles.dialog, dialogClassName)}
           showClose={false}
           data-gen-grid-editor-overlay="true"
+          data-gen-datagrid-editor-surface="true"
           style={
             {
               ...(resolvedModalWidth
                 ? {
                     width: resolvedModalWidth,
                     maxWidth: resolvedModalWidth,
+                  }
+                : {}),
+              ...(resolvedModalHeight
+                ? {
+                    height: `min(${resolvedModalHeight}, 85vh)`,
+                    maxHeight: '85vh',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'column',
                   }
                 : {}),
               ...(position
@@ -428,7 +490,7 @@ export function ModalInput<TData = unknown>(props: ModalInputProps<TData>) {
           }
         >
           <DialogHeader
-            className={clsx(styles.dialogHeader, styles.draggableHeader)}
+            className={clsx(styles.dialogHeader, draggable && styles.draggableHeader)}
             onPointerDown={handleHeaderPointerDown}
             onPointerMove={handleHeaderPointerMove}
             onPointerUp={handleHeaderPointerUp}
@@ -449,14 +511,7 @@ export function ModalInput<TData = unknown>(props: ModalInputProps<TData>) {
             </div>
           </DialogHeader>
           <DialogBody className={styles.dialogBody}>
-            <div
-              className={styles.content}
-              style={
-                resolvedModalHeight
-                  ? { maxHeight: `min(${resolvedModalHeight}, 100%)` }
-                  : undefined
-              }
-            >
+            <div className={styles.content}>
               {modalDescription ? <div className={styles.itemMeta}>{modalDescription}</div> : null}
               <div className={styles.searchRow}>
                 <Input
@@ -537,9 +592,11 @@ export function ModalInput<TData = unknown>(props: ModalInputProps<TData>) {
                             style={gridTemplateColumns ? { gridTemplateColumns } : undefined}
                             disabled={item.disabled}
                             aria-selected={selected}
-                            onClick={() => toggleDraftSelection(item)}
+                            onClick={() => handleItemActivate(item)}
                             onDoubleClick={() => {
-                              if (mode !== 'single' || !confirmOnDoubleClick) return;
+                              if (mode !== 'single' || !confirmOnDoubleClick || commitOnItemClick) {
+                                return;
+                              }
                               commitSelection([item]);
                             }}
                           >
@@ -577,9 +634,11 @@ export function ModalInput<TData = unknown>(props: ModalInputProps<TData>) {
                           data-selected={selected ? 'true' : 'false'}
                           disabled={item.disabled}
                           aria-selected={selected}
-                          onClick={() => toggleDraftSelection(item)}
+                          onClick={() => handleItemActivate(item)}
                           onDoubleClick={() => {
-                            if (mode !== 'single' || !confirmOnDoubleClick) return;
+                            if (mode !== 'single' || !confirmOnDoubleClick || commitOnItemClick) {
+                              return;
+                            }
                             commitSelection([item]);
                           }}
                         >
@@ -607,14 +666,16 @@ export function ModalInput<TData = unknown>(props: ModalInputProps<TData>) {
               <Button type="button" variant="ghost" onClick={() => setOpen(false)}>
                 {cancelLabel}
               </Button>
-              <Button
-                type="button"
-                variant="primary"
-                onClick={() => commitSelection(draftSelectedItems)}
-                disabled={mode === 'single' && draftSelectedItems.length === 0}
-              >
-                {confirmLabel}
-              </Button>
+              {!(mode === 'single' && commitOnItemClick) ? (
+                <Button
+                  type="button"
+                  variant="primary"
+                  onClick={() => commitSelection(draftSelectedItems)}
+                  disabled={mode === 'single' && draftSelectedItems.length === 0}
+                >
+                  {confirmLabel}
+                </Button>
+              ) : null}
             </div>
           </DialogFooter>
         </DialogContent>

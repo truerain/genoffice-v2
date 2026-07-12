@@ -151,6 +151,9 @@ Public export: `FilterBar`, `StandardFilterBar`, `FilterBarFieldSize`, `FilterBa
 | `--filter-bar-actions-gap` | actions 버튼 gap (column stack) |
 | `--filter-bar-actions-min-width` | actions column 최소 너비 |
 | `--filter-bar-border` / `bg` / `radius` | StandardFilterBar panel |
+| `--filter-bar-label-font-size` | 필드 라벨 크기 (기본 `--font-size-sm`) |
+| `--filter-bar-label-font-weight` | 필드 라벨 굵기 (기본 `--font-weight-medium`) |
+| `--filter-bar-label-color` | 필드 라벨 색 (기본 `--color-fg-primary`) |
 
 fields grid: `align-items: end` — 줄마다 컨트롤 bottom 정렬.
 

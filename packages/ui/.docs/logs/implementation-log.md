@@ -6,6 +6,18 @@
 -->
 # UI 구현 로그
 
+## 2026-07-12
+
+### FilterBar 라벨 font 토큰
+
+- theme `--filter-bar-label-font-size|weight|color` 추가, `.filterItemLabel`에 연결. 기존 `--font-size-base`/폴백 불일치 해소(`sm` 기준).
+- 관련 파일: `FilterBar.module.css`, `packages/theme/.../filter-bar.css`, `filter-bar.md`
+
+### ModalInput — hideTrigger (grid lookup)
+
+- `hideTrigger` / `defaultSearchValue` / `commitOnItemClick` / `draggable` / `dialogContentRef` 추가. DialogContent에 `data-gen-datagrid-editor-surface`.
+- 관련 파일: `ModalInput.tsx`, `ModalInput.types.ts`, `ModalInput.test.tsx`, `modal-input.md`
+
 ## 2026-07-01
 
 ### RangeDatePicker DateRange 타입 정렬

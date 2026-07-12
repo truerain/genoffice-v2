@@ -32,7 +32,8 @@ V1이 table DOM 기반 `@gen-office/gen-grid`를 중심으로 성장했다면, V
 
 ## 기술 스택
 
-정본: 루트 `package.json`의 `pnpm.overrides`.
+- **버전 핀:** 루트 `package.json`의 `pnpm.overrides`
+- **장단점·채택 이유 정본:** [`.docs/11-TECH-STACK.md`](./.docs/11-TECH-STACK.md)
 
 | 항목 | V1 (`frontend`) | V2 (`genoffice-v2`) |
 | --- | --- | --- |

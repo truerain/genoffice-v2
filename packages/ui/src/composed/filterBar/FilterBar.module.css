@@ -2,9 +2,11 @@
  * @file packages/ui/src/composed/filterBar/FilterBar.module.css
  * @description CSS Modules for FilterBar layout chrome.
  * @created 2026-06-25
+ * @updated 2026-07-12
  *
  * @remark
- * - Tokens: --filter-field-width-*, --filter-field-gap, --filter-bar-actions-gap
+ * - Tokens: --filter-field-width-*, --filter-field-gap, --filter-bar-actions-gap,
+ *   --filter-bar-label-font-size|weight|color
  * - Two-zone layout: filterFields (12-col grid) + filterActionsColumn (right, stacked)
  */
 .filterBar {
@@ -189,8 +191,9 @@
 }
 
 .filterItemLabel {
-  font-size: var(--font-size-base, 0.875rem);
-  color: var(--color-fg-primary);
+  font-size: var(--filter-bar-label-font-size, var(--font-size-sm, 0.875rem));
+  font-weight: var(--filter-bar-label-font-weight, var(--font-weight-medium, 500));
+  color: var(--filter-bar-label-color, var(--color-fg-primary, #24292f));
   margin-bottom: var(--spacing-xs, 0.25rem);
 }
 
