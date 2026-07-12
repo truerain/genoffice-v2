@@ -381,8 +381,10 @@ export function useDataGridCrudController<TData>(
   const addRow = React.useCallback(() => {
     if (readonly || !createRow) return;
     const row = createRow({ data: gridData });
-    setCreatedRows((current) => [...current, row]);
-  }, [createRow, gridData, readonly]);
+    setCreatedRows((current) =>
+      createdRowPosition === 'top' ? [row, ...current] : [...current, row]
+    );
+  }, [createRow, createdRowPosition, gridData, readonly]);
 
   const exportExcel = React.useCallback(() => {
     if (!onExport) return undefined;

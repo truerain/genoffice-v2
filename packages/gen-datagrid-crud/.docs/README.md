@@ -21,10 +21,16 @@ Indexes planning documents for the GenDataGrid CRUD package.
 - [Gate 11 CRUD Mutation Completion Plan](gate-11-crud-mutation-plan.md)
 - [Gate 12 App Integration / Migration Plan](gate-12-app-integration-plan.md)
 
+Quick reference:
+
+- `createdRowPosition`: `'top'`(기본, 연속 Add는 prepend) | `'bottom'` — [Package Design § Created row position](gen-datagrid-crud-package-design.md#created-row-position)
+- `onStateChange` / headless ActionBar — [Package Design § onStateChange](gen-datagrid-crud-package-design.md#onstatechange-구독-가이드)
+
 ## 문서
 
 - [GenDataGrid CRUD Readiness Audit](gen-datagrid-crud-readiness-audit.md)
 - [GenDataGridCrud Package Design](gen-datagrid-crud-package-design.md)
+- [Workflow Patterns (readonly / export / mutation)](workflow-patterns.md)
 - [GenGridCrud To GenDataGridCrud Migration Guide](gen-grid-crud-migration-guide.md)
 - [App Integration QA Guide](app-integration-qa-guide.md)
 - [Implementation Log](implementation-log.md)

@@ -4,6 +4,23 @@ Records GenDataGridCrud package planning and implementation changes.
 
 # GenDataGridCrud 구현 로그
 
+## 2026-07-12
+
+### #3 App Integration Expansion — workflow · QA · readonly ActionBar
+
+- **요약:** `workflow-patterns.md` (A/B/C) · QA 가이드 demo 4화면 갱신. readonly 시 ActionBar 기본 `includeBuiltIns`에서 mutation 숨김. thinShell 테스트. remaining-work-plan #3 complete. Lkup/Role 등 추가 admin 이식은 demo D4 follow-up.
+- **파일:** `DataGridCrudActionBar.tsx`, `GenDataGridCrud.types.ts`, `test/thinShell.test.tsx`, `.docs/workflow-patterns.md`, `.docs/app-integration-qa-guide.md`, `.docs/gen-datagrid-crud-package-design.md`, `.docs/README.md`, `plan/remaining-work-plan.md`
+
+### #2 Package Surface Cleanup — onStateChange 가이드 + headless Storybook
+
+- **요약:** package-design에 `onStateChange` 구독 가이드·headless controller 예시 추가. Storybook `HeadlessControllerCustomActionBar`.
+- **파일:** `gen-datagrid-crud-package-design.md`, `GenDataGridCrud.types.ts`, `stories/GenDataGridCrud.stories.tsx`, `plan/remaining-work-plan.md`
+
+### #1 Add Row Insert Position — top prepend + docs/tests
+
+- **요약:** `createdRowPosition: 'top'`일 때 연속 Add를 prepend(최신=0번). bottom append 유지. package-design·README 예시, thinShell 순서·commit 테스트.
+- **파일:** `useDataGridCrudController.tsx`, `GenDataGridCrud.types.ts`, `test/thinShell.test.tsx`, `.docs/gen-datagrid-crud-package-design.md`, `.docs/README.md`, `plan/remaining-work-plan.md`
+
 ## 2026-07-10
 
 ### MasterDetail chevron toggle + Storybook (CRUD `masterDetail`)

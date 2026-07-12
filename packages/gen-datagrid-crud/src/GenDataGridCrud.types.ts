@@ -158,6 +158,11 @@ export type DataGridCrudActionItem<TData> = {
 export type DataGridCrudActionBarOptions<TData> = {
   enabled?: boolean;
   title?: React.ReactNode;
+  /**
+   * Built-in action keys to render. When omitted:
+   * - editable → add, delete, save, reset, filter, columnReorder, excel
+   * - `readonly` → filter, columnReorder, excel (mutation actions hidden)
+   */
   includeBuiltIns?: readonly DataGridCrudBuiltInActionKey[];
   customActions?: readonly DataGridCrudActionItem<TData>[];
   showTotalRows?: boolean;
@@ -202,6 +207,11 @@ export type GenDataGridCrudProps<TData> = {
   getRowId: (row: TData, index: number) => string;
   dataVersion?: string | number;
   createRow?: (ctx: DataGridCrudCreateRowContext<TData>) => TData;
+  /**
+   * Where the created-row block sits relative to `data`.
+   * - `'top'` (default): created block above data; each Add **prepends** so the newest row is index 0.
+   * - `'bottom'`: created block below data; each Add **appends**.
+   */
   createdRowPosition?: DataGridCrudCreatedRowPosition;
   onCommit?: (args: DataGridCrudCommitArgs<TData>) => Promise<DataGridCrudCommitResult<TData>>;
   beforeCommit?: (
@@ -218,6 +228,12 @@ export type GenDataGridCrudProps<TData> = {
   }) => void;
   onExport?: (args: DataGridCrudExportArgs<TData>) => void | Promise<void>;
   actionBar?: DataGridCrudActionBarOptions<TData>;
+  /**
+   * Fired when the CRUD UI `state` object changes (created/dirty/selection/…).
+   * Callback identity is stored in a ref — changing only `onStateChange` does not re-fire.
+   * Prefer syncing small derived fields; avoid feeding the whole state back into parent props
+   * that recreate the grid every notification. See package-design § onStateChange.
+   */
   onStateChange?: (state: DataGridCrudUiState<TData>) => void;
   masterDetail?: DataGridCrudMasterDetailConfig<TData>;
   gridProps?: Omit<

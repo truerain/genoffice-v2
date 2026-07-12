@@ -4,9 +4,11 @@
 import * as React from 'react';
 import type { Meta } from '@storybook/react';
 import type { ColumnDef } from '@tanstack/react-table';
+import { GenDataGrid, renderDetailChevronToggle } from '@gen-office/gen-datagrid';
 import { Settings } from 'lucide-react';
-import { renderDetailChevronToggle } from '@gen-office/gen-datagrid';
 
+import { DataGridCrudActionBar } from '../components/DataGridCrudActionBar';
+import { useDataGridCrudController } from '../crud/useDataGridCrudController';
 import { GenDataGridCrud } from '../GenDataGridCrud';
 import type { DataGridCrudCommitArgs } from '../GenDataGridCrud.types';
 
@@ -87,6 +89,7 @@ function DirtySaveShellStory() {
         setRows((current) => applyCommit(current, args));
         return { ok: true };
       }}
+      createdRowPosition='bottom'
       gridProps={{ style: { height: 320 } }}
     />
   );
@@ -182,6 +185,92 @@ export const CustomActions = {
       gridProps={{ style: { height: 320 } }}
     />
   ),
+};
+
+function HeadlessControllerCustomActionBarStory() {
+  const [rows, setRows] = React.useState(initialRows);
+  const [statusLine, setStatusLine] = React.useState('idle');
+
+  const controller = useDataGridCrudController<Person>({
+    data: rows,
+    getRowId: (row) => row.id,
+    createRow: ({ data }) => ({
+      id: `new-${data.length + 1}`,
+      name: 'New person',
+      role: 'Analyst',
+      active: true,
+    }),
+    onCommit: async (args) => {
+      setRows((current) => applyCommit(current, args));
+      return { ok: true };
+    },
+    onStateChange: (state) => {
+      setStatusLine(
+        state.isCommitting
+          ? 'committing…'
+          : `dirty=${state.dirty} selected=${state.selectedRowIds.length} created=${state.createdRows.length}`
+      );
+    },
+  });
+
+  return (
+    <div style={{ display: 'grid', gap: 8 }}>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 8,
+          alignItems: 'center',
+        }}
+      >
+        <button type="button" onClick={() => controller.actionApi.addRow()}>
+          Custom Add
+        </button>
+        <button
+          type="button"
+          disabled={controller.state.readonly || controller.state.isCommitting}
+          onClick={() => void controller.actionApi.save()}
+        >
+          Custom Save
+        </button>
+        <DataGridCrudActionBar
+          state={controller.state}
+          actionApi={controller.actionApi}
+          options={{
+            title: 'Headless shell',
+            includeBuiltIns: ['reset', 'filter'],
+            customActions: [
+              {
+                key: 'settings',
+                label: 'Settings',
+                icon: <Settings aria-hidden size={16} />,
+                side: 'right',
+                order: 5,
+                onClick: ({ state }) => {
+                  window.alert(`Rows: ${state.data.length}`);
+                },
+              },
+            ],
+          }}
+        />
+        <span style={{ fontSize: 12, color: '#57606a' }}>{statusLine}</span>
+      </div>
+      <GenDataGrid<Person>
+        ref={controller.gridRef}
+        {...controller.gridStateProps}
+        data={[...controller.gridData]}
+        columns={columns}
+        getRowId={(row) => row.id}
+        editSelectOnFocus
+        style={{ height: 320, border: '1px solid #d0d7de', borderRadius: 6 }}
+      />
+    </div>
+  );
+}
+
+/** Controller + custom toolbar + GenDataGrid (no GenDataGridCrud wrapper). */
+export const HeadlessControllerCustomActionBar = {
+  render: () => <HeadlessControllerCustomActionBarStory />,
 };
 
 export const MasterDetailLeadingColumn = {

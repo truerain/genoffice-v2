@@ -108,6 +108,28 @@ type GenDataGridCrudProps<TData> = {
 
 `gridProps`는 wrapper가 소유하는 data, columns, dirty, row status, current row, row selection props를 제외한 `GenDataGrid` 기능을 통과시킨다. MasterDetail flat 키는 **`masterDetail` prop**으로 전달한다 (TypeScript Omit). normalize: [architecture/master-detail-config-architecture.md](./architecture/master-detail-config-architecture.md).
 
+## Created row position
+
+`createdRowPosition`은 아직 저장되지 않은 `createdRows` 블록이 `data` 기준 어디에 붙는지 정한다.
+
+| 값 | 표시 | 연속 Add |
+| --- | --- | --- |
+| `'top'` (기본) | `[...createdRows, ...data]` | **prepend** — 최신 행이 항상 0번 |
+| `'bottom'` | `[...data, ...createdRows]` | **append** — 최신 행이 created 블록 끝 |
+
+```tsx
+<GenDataGridCrud
+  data={users}
+  columns={userColumns}
+  getRowId={(row) => row.userId}
+  createRow={() => createEmptyUser()}
+  createdRowPosition="bottom" // 목록 하단에만 신규 행 쌓기
+  onCommit={saveUsers}
+/>
+```
+
+`changeSet.created` 순서는 `createdRows` 배열 순서와 같다 (`top`이면 최신이 앞).
+
 ## Master-detail config
 
 CRUD 화면 전용 sugar. gen-datagrid flat API는 변경하지 않는다.
@@ -151,6 +173,81 @@ type DataGridCrudUiState<TData> = {
 ```
 
 `dirtyState`와 `lastChangeSet`은 `GenDataGrid` handle에서 읽은 상태를 기준으로 한다. CRUD controller는 별도 dirty model을 만들지 않는다.
+
+## `onStateChange` 구독 가이드
+
+`onStateChange?: (state: DataGridCrudUiState<TData>) => void`는 controller `state` 객체가 **바뀔 때마다** 호출된다 (`useEffect` on `[state]`).
+
+### 언제 발행되는가
+
+의미 있는 UI/workflow 변화가 `state` memo 입력을 바꿀 때:
+
+- created rows / dirty / deleted / selection / current row
+- filter · column reorder 토글
+- commit 중(`isCommitting`) · fieldErrors · validationError
+- `readonly` · `canCreateRow` · `canExport` (boolean; 함수 prop identity와 무관)
+- `data` / `sourceData` / `createdRows` 참조 변경
+
+### 안전장치 (이미 구현됨)
+
+- callback은 **ref**로 보관 → `onStateChange` identity 변경만으로 effect가 재실행되지 않음
+- `canCreateRow` / `canExport`는 boolean → inline `createRow`/`onExport`만으로는 state가 재생성되지 않음
+- 자세한 회귀 사례: [customer-info-loading-loop.md](./customer-info-loading-loop.md)
+
+### 소비자 권장
+
+```tsx
+// 좋음: 필요한 필드만 올리거나 비교 후 setState
+onStateChange={(state) => {
+  setDirty(state.dirty);
+  setSelectedCount(state.selectedRowIds.length);
+}}
+
+// 피함: state 전체를 부모 state에 무조건 넣고 다시 CRUD props로 돌리기
+// → 부모가 매 통지마다 렌더되면(다른 이유로) MDI 등에서 비용이 커질 수 있음
+```
+
+- `onStateChange` 안에서 **비용 큰 부수효과**(네트워크, 전역 store)를 넣지 말 것. dirty 요약·버튼 enable만 동기화하는 용도가 적합하다.
+- ActionBar를 커스텀할 때는 wrapper의 `onStateChange` 대신 `useDataGridCrudController`의 `state` / `actionApi`를 직접 구독하는 편이 단순하다 (아래 headless 예시).
+
+## Headless controller + custom ActionBar
+
+`GenDataGridCrud` 대신 controller만 쓰고 레이아웃을 직접 조립할 수 있다.
+
+```tsx
+const controller = useDataGridCrudController({
+  data: rows,
+  getRowId: (row) => row.id,
+  createRow: () => createEmptyRow(),
+  onCommit: saveRows,
+});
+
+return (
+  <>
+    <DataGridCrudActionBar
+      state={controller.state}
+      actionApi={controller.actionApi}
+      options={{
+        title: 'People',
+        includeBuiltIns: ['add', 'save', 'reset'],
+        customActions: [/* ... */],
+      }}
+    />
+    {/* 또는 완전 커스텀 툴바에서 controller.actionApi.addRow() 등 호출 */}
+    <GenDataGrid
+      ref={controller.gridRef}
+      {...controller.gridStateProps}
+      data={[...controller.gridData]}
+      columns={columns}
+      getRowId={(row) => row.id}
+    />
+  </>
+);
+```
+
+Storybook: `Packages/GenDataGridCrud/GenDataGridCrud` → **HeadlessControllerCustomActionBar**.
+
+Excel 실파일 생성(`onExport` 본문)은 app/workflow 후속이며, ActionBar Excel 버튼은 `onExport`가 있을 때만 활성이다.
 
 ## Save flow
 
@@ -214,6 +311,15 @@ Built-in action:
 - `filter`
 - `columnReorder`
 - `excel`
+
+`includeBuiltIns` 기본값:
+
+| `state.readonly` | 생략 시 기본 |
+| --- | --- |
+| `false` | add · delete · save · reset · filter · columnReorder · excel |
+| `true` | filter · columnReorder · excel (mutation 숨김) |
+
+명시적으로 `includeBuiltIns`를 주면 그 목록만 사용한다. 워크플로 패턴: [workflow-patterns.md](./workflow-patterns.md).
 
 ActionBar는 다음 입력만 사용한다.
 

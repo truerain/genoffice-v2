@@ -32,6 +32,13 @@ const DEFAULT_BUILT_INS: readonly DataGridCrudBuiltInActionKey[] = [
   'excel',
 ];
 
+/** Readonly inquiry screens omit mutation actions unless `includeBuiltIns` is set explicitly. */
+const DEFAULT_READONLY_BUILT_INS: readonly DataGridCrudBuiltInActionKey[] = [
+  'filter',
+  'columnReorder',
+  'excel',
+];
+
 function resolveRule<TData>(
   rule: boolean | ((ctx: DataGridCrudActionContext<TData>) => boolean) | undefined,
   fallback: boolean,
@@ -57,7 +64,9 @@ export function DataGridCrudActionBar<TData>(props: {
     () => ({ state, actionApi }),
     [actionApi, state]
   );
-  const includeBuiltIns = options?.includeBuiltIns ?? DEFAULT_BUILT_INS;
+  const includeBuiltIns =
+    options?.includeBuiltIns ??
+    (state.readonly ? DEFAULT_READONLY_BUILT_INS : DEFAULT_BUILT_INS);
 
   const builtInActions = React.useMemo<DataGridCrudActionItem<TData>[]>(() => {
     const actions: Record<DataGridCrudBuiltInActionKey, DataGridCrudActionItem<TData>> = {

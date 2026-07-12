@@ -43,7 +43,7 @@ flowchart LR
 | **D1** | App shell + MDI | 아니오 | D0 | ✅ |
 | **D2** | API · menu · registry · i18n | 아니오 | D1 | ✅ |
 | **D3** | Chart / Dashboard demo | 아니오 | D2, gen-chart Phase 1 ✅ | ✅ |
-| **D4** | Admin CRUD 페이지 | **예** | D3, gen-datagrid-crud | 🔄 (UserManagement, MenuManagement, Actuals) |
+| **D4** | Admin CRUD 페이지 | **예** | D3, gen-datagrid-crud | 🔄 (User·Menu·Actuals·CustomerInfo ✅ / Lkup·Role·… ⏸) |
 | **D5** | Actuals · grid 시연 | **예** | D4, gen-datagrid-chart | ⏸ |
 
 ```text
@@ -170,7 +170,9 @@ gen-chart **C8의 demo 부분을 선행** 완료 ([phase.md](../../../../package
 
 ## 6. D4 — Admin CRUD (진행 중)
 
-**상태:** 🔄 `gen-datagrid`·`gen-datagrid-crud` workspace 연동 완료 — 2화면 이관
+**상태:** 🔄 CRUD 패키지 Gate 12 + workflow 패턴 정리 완료 — 핵심 4화면 연동. 잔여 admin은 follow-up.
+
+워크플로: [`packages/gen-datagrid-crud/.docs/workflow-patterns.md`](../../../packages/gen-datagrid-crud/.docs/workflow-patterns.md)
 
 ### 선행 조건
 
@@ -184,16 +186,17 @@ gen-chart **C8의 demo 부분을 선행** 완료 ([phase.md](../../../../package
 | --- | --- | --- | --- |
 | 1 | UserManagement | reference CRUD 패턴 | ✅ mock CRUD |
 | 2 | MenuManagement | 계층·트리 | ✅ tree CRUD |
-| 3 | LkupManagement | lookup modal | ⏸ |
-| 4 | RoleManagement | | ⏸ |
-| 5 | Actuals (readonly) | Gate 12 | ✅ mock 조회 |
-| 6 | Notice / Message / UserRole | | ⏸ |
+| 3 | CustomerInfo | editor 회귀 | ✅ mock CRUD |
+| 4 | Actuals (readonly) | Gate 12 / export shell | ✅ mock 조회 |
+| 5 | LkupManagement | lookup modal | ⏸ follow-up |
+| 6 | RoleManagement | | ⏸ follow-up |
+| 7 | Notice / Message / UserRole | | ⏸ follow-up |
 
 각 페이지:
 
 - [x] `GenGrid*` import **zero** (demo 소스)
-- [x] `AdminPageLayout` + `GenDataGridCrud` (UserManagement, Actuals)
-- [x] flex height — `contentVariant="fill"` + crud wrapper
+- [x] `GenDataGridCrud` (User · Menu · Actuals · CustomerInfo)
+- [x] flex height — standard layout + crud wrapper
 - [x] mock smoke (in-memory)
 
 ### Gate

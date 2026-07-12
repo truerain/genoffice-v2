@@ -76,6 +76,26 @@ afterEach(() => {
 });
 
 describe('GenDataGridCrud thin shell', () => {
+  it('hides mutation actions by default when readonly', () => {
+    const { queryByRole, getByRole } = render(
+      <GenDataGridCrud
+        title="Readonly"
+        readonly
+        data={rows}
+        columns={columns}
+        getRowId={(row) => row.id}
+        onExport={() => undefined}
+      />
+    );
+
+    expect(queryByRole('button', { name: 'Add' })).toBeNull();
+    expect(queryByRole('button', { name: 'Save' })).toBeNull();
+    expect(queryByRole('button', { name: 'Delete' })).toBeNull();
+    expect(queryByRole('button', { name: 'Reset' })).toBeNull();
+    expect(getByRole('button', { name: 'Filter' })).toBeTruthy();
+    expect(getByRole('button', { name: 'Excel' })).toBeTruthy();
+  });
+
   it('selects text on focus by default for CRUD editors', async () => {
     const selectSpy = vi
       .spyOn(window.HTMLInputElement.prototype, 'select')
@@ -425,6 +445,70 @@ describe('GenDataGridCrud thin shell', () => {
         { id: 'new-1', name: 'Created Ada', age: 0 },
       ]);
       expect(onCommit.mock.calls[0]?.[0].changeSet.updated).toEqual([]);
+    });
+  });
+
+  it('places created rows after data when createdRowPosition is bottom', async () => {
+    let addCount = 0;
+    const { container, getByRole } = render(
+      <GenDataGridCrud
+        data={rows}
+        columns={columns}
+        getRowId={(row) => row.id}
+        createdRowPosition="bottom"
+        createRow={() => {
+          addCount += 1;
+          return { id: `new-${addCount}`, name: `New ${addCount}`, age: 0 };
+        }}
+      />
+    );
+
+    fireEvent.click(getByRole('button', { name: 'Add' }));
+    fireEvent.click(getByRole('button', { name: 'Add' }));
+
+    await waitFor(() => getCell(container, 'new-2', 'name'));
+
+    const bodyRowIds = Array.from(
+      container.querySelectorAll<HTMLElement>('[role="row"][data-rowid]')
+    ).map((row) => row.getAttribute('data-rowid'));
+
+    expect(bodyRowIds).toEqual(['1', '2', 'new-1', 'new-2']);
+  });
+
+  it('prepends each Add at the top when createdRowPosition is top (default)', async () => {
+    let addCount = 0;
+    const onCommit = vi.fn(async () => ({ ok: true }));
+    const { container, getByRole } = render(
+      <GenDataGridCrud
+        data={rows}
+        columns={columns}
+        getRowId={(row) => row.id}
+        createRow={() => {
+          addCount += 1;
+          return { id: `new-${addCount}`, name: `New ${addCount}`, age: 0 };
+        }}
+        onCommit={onCommit}
+      />
+    );
+
+    fireEvent.click(getByRole('button', { name: 'Add' }));
+    fireEvent.click(getByRole('button', { name: 'Add' }));
+
+    await waitFor(() => getCell(container, 'new-2', 'name'));
+
+    const bodyRowIds = Array.from(
+      container.querySelectorAll<HTMLElement>('[role="row"][data-rowid]')
+    ).map((row) => row.getAttribute('data-rowid'));
+
+    expect(bodyRowIds).toEqual(['new-2', 'new-1', '1', '2']);
+
+    fireEvent.click(getByRole('button', { name: 'Save' }));
+
+    await waitFor(() => {
+      expect(onCommit.mock.calls[0]?.[0].changeSet.created).toEqual([
+        { id: 'new-2', name: 'New 2', age: 0 },
+        { id: 'new-1', name: 'New 1', age: 0 },
+      ]);
     });
   });
 

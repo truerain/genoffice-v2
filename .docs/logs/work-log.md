@@ -8,6 +8,21 @@
 
 ## 2026-07-12
 
+### gen-datagrid-crud #3 App Integration Expansion
+
+- **요약:** workflow patterns·QA 갱신. readonly ActionBar 기본값(mutation 숨김). remaining-work-plan actionable #1–#3 모두 complete. demo 추가 admin은 D4 follow-up.
+- **파일:** `packages/gen-datagrid-crud/src/components/DataGridCrudActionBar.tsx`, `.docs/workflow-patterns.md`, `.docs/app-integration-qa-guide.md`, `plan/remaining-work-plan.md`
+
+### gen-datagrid-crud #2 Package Surface Cleanup
+
+- **요약:** `onStateChange` 구독 가이드·headless controller+ActionBar Storybook. remaining-work-plan #2 complete.
+- **파일:** `packages/gen-datagrid-crud/.docs/gen-datagrid-crud-package-design.md`, `src/stories/GenDataGridCrud.stories.tsx`
+
+### gen-datagrid-crud #1 Insert Position — top prepend
+
+- **요약:** Add 시 `top`은 prepend·`bottom`은 append. 문서·thinShell 테스트. remaining-work-plan actionable #1 complete / #2·#3 planned.
+- **파일:** `packages/gen-datagrid-crud/src/crud/useDataGridCrudController.tsx`, `test/thinShell.test.tsx`, `.docs/*`
+
 ### gen-datagrid remaining-work-plan — P0/P1 이관·P2 정리
 
 - **요약:** 완료된 P0·P1(Editor 4.3·Lookup·MasterDetail toggle·Row Status display)을 `planning-history.md`로 옮기고, `remaining-work-plan.md`는 P2·Deferred 이월만 항목별로 재구성.
