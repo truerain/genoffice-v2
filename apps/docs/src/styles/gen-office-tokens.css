@@ -1,0 +1,29 @@
+/**
+ * @file apps/docs/src/styles/gen-office-tokens.css
+ * @description Theme CSS variables only (no global reset) for live docs examples.
+ * @created 2026-07-13
+ *
+ * @remark
+ * - Do NOT import `@gen-office/theme/index.css` here — it includes reset (`ul/ol/a/body`)
+ *   that breaks Fumadocs layout/typography.
+ * - Tokens come from theme source; examples scope fonts under `.gen-docs-example`.
+ */
+
+@import '../../../../packages/theme/src/styles/tokens/base.css';
+@import '../../../../packages/theme/src/styles/tokens/semantic.css';
+@import '../../../../packages/theme/src/styles/tokens/components/button.css';
+@import '../../../../packages/theme/src/styles/tokens/components/dialog.css';
+@import '../../../../packages/theme/src/styles/tokens/components/filter-bar.css';
+
+.gen-docs-example {
+  font-family: var(
+    --font-family-primary,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif
+  );
+  font-size: var(--font-size-sm, 0.875rem);
+  color: var(--color-fg-primary, #1d1d1b);
+  background: var(--color-bg-primary, #fff);
+}

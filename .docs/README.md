@@ -59,6 +59,13 @@ GenOffice V2 설계·이식·운영에 관한 문서 모음입니다.
 | `gen-frame` | [packages/gen-frame/.docs/](../packages/gen-frame/.docs/) |
 | `theme` · `ui` · `mdi` | 각 `packages/<name>/.docs/review-log.md` |
 
+## 앱 `.docs/`
+
+| 앱 | 문서 |
+| --- | --- |
+| `demo` | [apps/demo/.docs/plan/plan.md](../apps/demo/.docs/plan/plan.md) — reference demo Phase D0~D5 |
+| `docs` | [apps/docs/.docs/plan/docs-site-plan.md](../apps/docs/.docs/plan/docs-site-plan.md) — 공개 Docs 사이트 계획 (스캐폴드 전) |
+
 ## 앞으로 추가될 문서 (예정)
 
 | 문서 | 역할 |

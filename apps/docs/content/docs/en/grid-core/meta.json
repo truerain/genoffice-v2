@@ -1,0 +1,15 @@
+{
+  "title": "GenDataGrid — Core",
+  "pages": [
+    "index",
+    "columns",
+    "rows",
+    "cells",
+    "filtering",
+    "selection",
+    "editing",
+    "clipboard",
+    "virtualization",
+    "layout"
+  ]
+}

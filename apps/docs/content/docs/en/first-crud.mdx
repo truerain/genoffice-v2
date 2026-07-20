@@ -1,0 +1,52 @@
+---
+title: First CRUD Page
+description: Build an editable grid with GenDataGridCrud ActionBar
+---
+
+# First CRUD Page
+
+`GenDataGridCrud` wraps GenDataGrid with create / dirty / commit / ActionBar.
+
+## Minimal example
+
+```tsx
+import { GenDataGridCrud } from '@gen-office/gen-datagrid-crud';
+import '@gen-office/gen-datagrid-crud/index.css';
+
+<GenDataGridCrud
+  title="People"
+  data={rows}
+  columns={columns}
+  getRowId={(row) => row.id}
+  createRow={({ data }) => ({
+    id: `new-${data.length + 1}`,
+    name: 'New person',
+    role: 'Analyst',
+    active: true,
+  })}
+  onCommit={async (args) => {
+    // persist args.changeSet then return { ok: true }
+    return { ok: true };
+  }}
+  gridProps={{ style: { height: 280 } }}
+/>
+```
+
+## Live example
+
+Try **Add**, edit a cell, then **Save** / **Discard**.
+
+<CrudGrid />
+
+## Tips
+
+- Prefer `createRow` + `onCommit` over re-implementing dirty state.
+- `createdRowPosition`: `'top'` (default) or `'bottom'`.
+- For readonly screens, omit mutation handlers so ActionBar hides write actions.
+
+## Next
+
+<Cards>
+  <Card title="Theme & UI Setup" href="/docs/theme-setup" />
+  <Card title="Key Features" href="/docs/key-features" />
+</Cards>

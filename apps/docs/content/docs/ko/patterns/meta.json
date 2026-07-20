@@ -1,0 +1,10 @@
+{
+  "title": "Patterns",
+  "pages": [
+    "index",
+    "admin-crud",
+    "filterbar-grid",
+    "lookup-modal",
+    "chart-from-selection"
+  ]
+}

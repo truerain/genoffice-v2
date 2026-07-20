@@ -6,6 +6,70 @@
 -->
 # GenOffice V2 작업 로그
 
+## 2026-07-20
+
+### demo — PageLayout 페이지 헤더 앱 설정 토글
+
+- **요약:** 환경설정에서 PageHeader 표시 on/off. ui `PageLayoutChromeProvider` + demo localStorage(`gen-office-demo-page-chrome`). Filter·본문은 유지. 기존 페이지 코드 변경 없음.
+- **파일:** `packages/ui/.../PageLayoutChrome.tsx`, `PageLayout.tsx`, `apps/demo/.../useDemoPageChrome.ts`, `DemoSettingsModal.tsx`, `AppShell.tsx`, i18n ko/en, `page-conventions.md`
+
+## 2026-07-13
+
+### apps/docs — Phase 재정리 (D2가 다음)
+
+- **요약:** D0·D1·D1b 완료로 기록. 향후 D2=GenFrame+Grid Core 본문, D3=Products/Patterns/Migration, D4=Vercel·품질.
+- **파일:** `apps/docs/.docs/plan/docs-site-plan.md`
+
+### apps/docs — Left Panel IA 골격 (placeholder)
+
+- **요약:** Products / GenDataGrid Core·Advanced / Patterns / API / Migration 폴더·스텁 MDX를 en/ko 사이드바에 고정. Getting Started 본문은 유지. `scripts/scaffold-ia-skeleton.mjs`.
+- **파일:** `content/docs/{en,ko}/{products,grid-core,grid-advanced,patterns,api,migration}/**`, `meta.json`
+
+### apps/docs — Quick Start를 GenFrame 첫 앱 경로로 전환
+
+- **요약:** Getting Started 정본을 WorkspaceFrame + SinglePageHost + 첫 페이지 그리드로 재정의. 홈 CTA·Installation·계획 IA·decisions 반영. 라이브 `QuickStartApp` (theme reset 회피용 `@/lib/gen-frame` 소스 재export).
+- **파일:** `content/docs/{en,ko}/quick-start.mdx`, `installation.mdx`, `index.mdx`, `key-features.mdx`, `src/examples/QuickStartApp.tsx`, `src/lib/gen-frame.ts`, `apps/docs/.docs/plan/docs-site-plan.md`
+
+### apps/docs — React script 경고 근본 수정 (next-themes shim)
+
+- **요약:** beta override만으로는 경고가 남음. `next-themes`를 docs 로컬 shim으로 alias하고 FOUC 스크립트는 root Server layout `<head>`에만 둠. override 제거.
+- **파일:** `apps/docs/src/lib/next-themes-compat.tsx`, `apps/docs/src/app/layout.tsx`, `apps/docs/next.config.mjs`, 루트 `package.json`
+
+### apps/docs — React script 경고 (next-themes)
+
+- **요약:** Fumadocs RootProvider의 `next-themes@0.4.6`이 client에서 `<script>` children을 렌더해 React 19 경고 발생. `pnpm.overrides`로 `next-themes@1.0.0-beta.0`(dangerouslySetInnerHTML)로 고정. DocsExample에서 ThemeProvider 제거. → 이후 shim으로 대체.
+- **파일:** 루트 `package.json`, `pnpm-lock.yaml`, `DocsExample.tsx`
+
+### apps/docs — UI CSS reset이 prose padding 붕괴
+
+- **요약:** `@gen-office/ui/index.css`가 theme reset을 재도입해 h1/p/ul padding이 사라짐. UI CSS-module만 추출해 사용, DocsExample에서 ui/theme index.css import 제거.
+- **파일:** `DocsExample.tsx`, `styles/gen-office-ui-modules.css`, `scripts/extract-ui-modules-css.mjs`
+
+### apps/docs — Fumadocs 스타일 깨짐 수정
+
+- **요약:** `@gen-office/theme/index.css`의 global reset(`ul/ol/a/body`)이 Fumadocs를 덮어씀. 토큰-only CSS로 교체. Turbopack workspace alias(상대 경로)로 패키지 resolve 보강.
+- **파일:** `DocsExample.tsx`, `styles/gen-office-tokens.css`, `next.config.mjs`
+
+### apps/docs — `/` 404 수정 (locale redirect)
+
+- **요약:** 루트 `/`에 페이지가 없어 404. `app/page.tsx` → `/en` redirect, `proxy` named export + 상대 import, root `html/body` 복구.
+- **파일:** `apps/docs/src/app/page.tsx`, `layout.tsx`, `[lang]/layout.tsx`, `proxy.ts`, `components/LangHtml.tsx`
+
+### apps/docs — D1 MVP (한/영 · 라이브 그리드)
+
+- **요약:** `/en|/ko` i18n, Getting Started 6페이지, GenDataGrid/Crud 라이브 예제. `next build` 29 라우트 생성 통과.
+- **파일:** `apps/docs/src/**`, `apps/docs/content/docs/**`, `apps/docs/.docs/**`, `pnpm-lock.yaml`
+
+### apps/docs — §8 확정 + D0 Fumadocs 스캐폴드 완료
+
+- **요약:** 한/영·외부·Vercel·Fumadocs·즉시 착수 확정. `create-fumadocs-app`(+next+fuma-docs-mdx)를 `apps/docs`에 병합. `@gen-office/docs` · `pnpm -C apps/docs build` 통과. i18n·D1 본문은 후속.
+- **파일:** `apps/docs/**`, `pnpm-lock.yaml`, `.gitignore` (`.source/`), 루트 `package.json`(`docs` script), `.docs/logs/decisions.md`, `apps/docs/.docs/*`
+
+### apps/docs — Docs 사이트 개발 계획 문서화
+
+- **요약:** AG Grid Getting Started 벤치마크 기준으로 공개 Docs(`apps/docs`) IA·스택·Phase·Vercel 분리 배포 계획을 `apps/docs/.docs`에 작성. 앱 스캐폴드는 미착수(§8 열린 결정 대기).
+- **파일:** `apps/docs/.docs/README.md`, `apps/docs/.docs/plan/docs-site-plan.md`, `.docs/README.md`, `.docs/logs/work-log.md`
+
 ## 2026-07-12
 
 ### gen-datagrid-crud #3 App Integration Expansion

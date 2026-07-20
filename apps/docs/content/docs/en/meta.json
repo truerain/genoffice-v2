@@ -1,0 +1,24 @@
+{
+  "title": "Documentation",
+  "pages": [
+    "---Getting Started---",
+    "index",
+    "quick-start",
+    "installation",
+    "key-features",
+    "first-crud",
+    "theme-setup",
+    "---Products---",
+    "products",
+    "---GenDataGrid Core---",
+    "grid-core",
+    "---GenDataGrid Advanced---",
+    "grid-advanced",
+    "---Patterns---",
+    "patterns",
+    "---API Reference---",
+    "api",
+    "---Migration---",
+    "migration"
+  ]
+}

@@ -1,0 +1,52 @@
+---
+title: First CRUD Page
+description: GenDataGridCrud ActionBar로 편집 그리드 만들기
+---
+
+# First CRUD Page
+
+`GenDataGridCrud`는 GenDataGrid 위에 생성 · dirty · commit · ActionBar를 얹습니다.
+
+## 최소 예제
+
+```tsx
+import { GenDataGridCrud } from '@gen-office/gen-datagrid-crud';
+import '@gen-office/gen-datagrid-crud/index.css';
+
+<GenDataGridCrud
+  title="People"
+  data={rows}
+  columns={columns}
+  getRowId={(row) => row.id}
+  createRow={({ data }) => ({
+    id: `new-${data.length + 1}`,
+    name: 'New person',
+    role: 'Analyst',
+    active: true,
+  })}
+  onCommit={async (args) => {
+    // args.changeSet 저장 후 { ok: true } 반환
+    return { ok: true };
+  }}
+  gridProps={{ style: { height: 280 } }}
+/>
+```
+
+## 라이브 예제
+
+**Add** → 셀 편집 → **Save** / **Discard**를 눌러 보세요.
+
+<CrudGrid />
+
+## 팁
+
+- dirty 상태를 직접 재구현하지 말고 `createRow` + `onCommit`을 쓰세요.
+- `createdRowPosition`: `'top'`(기본) 또는 `'bottom'`.
+- 조회 전용 화면은 mutation 핸들러를 생략하면 ActionBar가 쓰기 버튼을 숨깁니다.
+
+## 다음
+
+<Cards>
+  <Card title="Theme & UI Setup" href="/docs/theme-setup" />
+  <Card title="Key Features" href="/docs/key-features" />
+</Cards>

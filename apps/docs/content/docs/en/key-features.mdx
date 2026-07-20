@@ -1,0 +1,41 @@
+---
+title: Key Features
+description: Common GenDataGrid capabilities overview
+---
+
+# Key Features
+
+A short tour of **GenDataGrid** features you will use on most screens. Deep dives land in Phase D2.
+
+Already have a shell from [Quick Start](/docs/quick-start)? This page is the grid-only track.
+
+## Showing data
+
+Map fields with TanStack `ColumnDef` (`accessorKey` / `header` / `size`).
+
+<QuickStartGrid />
+
+## Editing
+
+Set `meta.editable: true` (or an `editType`) and handle `onCellValueChange`.
+
+<EditableGrid />
+
+Double-click a cell (or press Enter when focused) to edit.
+
+## Selection & keyboard
+
+GenDataGrid supports cell focus, range selection, and clipboard flows used by back-office apps. Details: D2 docs.
+
+## Virtualization
+
+Large row sets use TanStack Virtual under the hood — keep a fixed container height.
+
+## CRUD workflow
+
+For Add / Save / Discard / Delete toolbars, use **GenDataGridCrud** instead of wiring ActionBar by hand.
+
+<Cards>
+  <Card title="First CRUD Page" href="/docs/first-crud" />
+  <Card title="Theme & UI Setup" href="/docs/theme-setup" />
+</Cards>

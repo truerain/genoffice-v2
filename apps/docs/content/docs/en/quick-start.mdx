@@ -1,0 +1,106 @@
+---
+title: Quick Start
+description: Create a GenOffice back-office app shell, then open your first page
+---
+
+# Quick Start
+
+Start a **new back-office app** with GenFrame — layout chrome, menu, and a workarea — then put GenDataGrid on the first page.
+
+If you only need to embed a grid in an existing shell, jump to [Key Features](/docs/key-features).
+
+## 1. Install
+
+```bash
+pnpm add @gen-office/theme @gen-office/ui @gen-office/gen-frame @gen-office/gen-datagrid
+```
+
+Add `@gen-office/mdi` when you move to multi-tab (MDI) navigation.  
+Add `@gen-office/gen-datagrid-crud` for ActionBar CRUD workflows ([First CRUD Page](/docs/first-crud)).
+
+## 2. Load theme CSS once
+
+Packages reference tokens; they do not self-import theme in the B convention.
+
+```tsx
+import '@gen-office/theme/index.css';
+import '@gen-office/ui/index.css';
+import '@gen-office/gen-frame/index.css';
+import '@gen-office/gen-datagrid/index.css';
+```
+
+Ensure `html, body, #root { height: 100% }` so the frame can fill the viewport.
+
+## 3. App shell + single-page navigation
+
+```tsx
+import {
+  WorkspaceFrame,
+  FrameBrand,
+  SinglePageHost,
+  useSingleNavigationController,
+  type FrameMenuItem,
+  type FrameOpenPagePayload,
+} from '@gen-office/gen-frame';
+import { GenDataGrid } from '@gen-office/gen-datagrid';
+
+const menuItems: FrameMenuItem[] = [
+  { id: 'cars', label: 'Cars' },
+];
+
+function resolvePage(payload: FrameOpenPagePayload) {
+  return {
+    content: (
+      <GenDataGrid
+        data={/* your rows */}
+        columns={/* your columns */}
+        getRowId={(row) => row.id}
+        style={{ height: '100%', width: '100%' }}
+      />
+    ),
+  };
+}
+
+function App() {
+  const { controller, currentPage } = useSingleNavigationController({
+    resolvePage,
+  });
+
+  return (
+    <WorkspaceFrame
+      layout="leftPanel"
+      header={<FrameBrand alt="My App" />}
+      menu={{ items: menuItems }}
+      menuTitle="Menu"
+      menuAriaLabel="Main navigation"
+      activeMenuId={currentPage?.pageId}
+      onMenuSelect={(item) =>
+        controller.open({ pageId: item.id, title: item.label })
+      }
+      workarea={
+        <SinglePageHost
+          page={currentPage}
+          emptyContent={<span>Select a menu item</span>}
+        />
+      }
+    />
+  );
+}
+```
+
+`WorkspaceFrame` owns the height chain. Prefer **single-page** host first; switch to `MdiPageHost` when you need tabs.
+
+## 4. Live example
+
+Click **About** / **Cars** in the menu to switch pages. The grid page opens by default.
+
+<QuickStartApp />
+
+## Next steps
+
+<Cards>
+  <Card title="Installation" href="/docs/installation" />
+  <Card title="First CRUD Page" href="/docs/first-crud" />
+  <Card title="Key Features (grid)" href="/docs/key-features" />
+  <Card title="Theme & UI Setup" href="/docs/theme-setup" />
+</Cards>

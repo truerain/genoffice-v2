@@ -1,0 +1,39 @@
+---
+title: Theme & UI Setup
+description: GenOffice 앱의 ThemeProvider와 CSS 로드 순서
+---
+
+# Theme & UI Setup
+
+## ThemeProvider
+
+```tsx
+import { ThemeProvider } from '@gen-office/theme';
+import '@gen-office/theme/index.css';
+
+export function App() {
+  return (
+    <ThemeProvider defaultMode="light" storageKey="my-app-theme">
+      {/* pages */}
+    </ThemeProvider>
+  );
+}
+```
+
+## 토큰
+
+- 디자인 토큰은 `@gen-office/theme`에 있습니다.
+- feature 패키지(`gen-datagrid` 등)는 `--gen-datagrid-*`를 자체 정의하고 semantic 색을 폴백과 함께 참조합니다.
+- 앱이 theme CSS를 한 번 로드하고, 라이브러리는 theme를 self-`@import` 하지 않습니다 (컨벤션 **B**).
+
+## UI 패키지
+
+`@gen-office/ui`는 Radix 기반 프리미티브·조합 컴포넌트(FilterBar, DatePicker 등)를 제공합니다. 사용 시 CSS를 import하세요.
+
+```tsx
+import '@gen-office/ui/index.css';
+```
+
+## Docs 예제
+
+이 사이트의 라이브 그리드는 위 CSS 순서와 `ThemeProvider`로 감싸 demo/Storybook과 맞춥니다.

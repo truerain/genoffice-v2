@@ -1,0 +1,12 @@
+{
+  "title": "API Reference",
+  "pages": [
+    "index",
+    "gen-frame",
+    "gen-datagrid",
+    "gen-datagrid-crud",
+    "gen-chart",
+    "ui",
+    "theme"
+  ]
+}

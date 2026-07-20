@@ -1,0 +1,41 @@
+---
+title: Key Features
+description: GenDataGrid에서 자주 쓰는 기능 요약
+---
+
+# Key Features
+
+대부분의 화면에서 쓰는 **GenDataGrid** 기능을 짧게 소개합니다. 상세는 Phase D2에서 다룹니다.
+
+[Quick Start](/docs/quick-start)로 셸을 이미 만들었다면, 이 페이지는 그리드 전용 트랙입니다.
+
+## 데이터 표시
+
+TanStack `ColumnDef`로 필드를 매핑합니다 (`accessorKey` / `header` / `size`).
+
+<QuickStartGrid />
+
+## 편집
+
+`meta.editable: true`(또는 `editType`)를 주고 `onCellValueChange`를 처리합니다.
+
+<EditableGrid />
+
+셀을 더블클릭하거나 포커스 후 Enter로 편집합니다.
+
+## 선택 · 키보드
+
+셀 포커스, 범위 선택, 클립보드 흐름을 지원합니다. 상세는 D2.
+
+## 가상화
+
+대량 행은 TanStack Virtual을 사용합니다. 컨테이너에 고정 높이를 주세요.
+
+## CRUD 워크플로
+
+Add / Save / Discard / Delete 툴바는 **GenDataGridCrud**를 사용하세요.
+
+<Cards>
+  <Card title="First CRUD Page" href="/docs/first-crud" />
+  <Card title="Theme & UI Setup" href="/docs/theme-setup" />
+</Cards>

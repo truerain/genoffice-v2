@@ -1,0 +1,106 @@
+---
+title: Quick Start
+description: GenOffice 백오피스 앱 셸을 만들고 첫 페이지를 엽니다
+---
+
+# Quick Start
+
+**새 백오피스 앱**은 GenFrame으로 시작합니다 — 레이아웃 크롬, 메뉴, workarea — 그다음 첫 페이지에 GenDataGrid를 올립니다.
+
+이미 셸이 있고 그리드만 붙이려면 [Key Features](/docs/key-features)로 이동하세요.
+
+## 1. 설치
+
+```bash
+pnpm add @gen-office/theme @gen-office/ui @gen-office/gen-frame @gen-office/gen-datagrid
+```
+
+멀티 탭(MDI)으로 갈 때 `@gen-office/mdi`를 추가합니다.  
+ActionBar CRUD는 `@gen-office/gen-datagrid-crud` ([First CRUD Page](/docs/first-crud)).
+
+## 2. theme CSS를 한 번 로드
+
+패키지는 토큰을 참조만 합니다 (B 컨벤션, theme self-import 없음).
+
+```tsx
+import '@gen-office/theme/index.css';
+import '@gen-office/ui/index.css';
+import '@gen-office/gen-frame/index.css';
+import '@gen-office/gen-datagrid/index.css';
+```
+
+뷰포트를 채우려면 `html, body, #root { height: 100% }`가 필요합니다.
+
+## 3. 앱 셸 + 단일 페이지 네비게이션
+
+```tsx
+import {
+  WorkspaceFrame,
+  FrameBrand,
+  SinglePageHost,
+  useSingleNavigationController,
+  type FrameMenuItem,
+  type FrameOpenPagePayload,
+} from '@gen-office/gen-frame';
+import { GenDataGrid } from '@gen-office/gen-datagrid';
+
+const menuItems: FrameMenuItem[] = [
+  { id: 'cars', label: 'Cars' },
+];
+
+function resolvePage(payload: FrameOpenPagePayload) {
+  return {
+    content: (
+      <GenDataGrid
+        data={/* rows */}
+        columns={/* columns */}
+        getRowId={(row) => row.id}
+        style={{ height: '100%', width: '100%' }}
+      />
+    ),
+  };
+}
+
+function App() {
+  const { controller, currentPage } = useSingleNavigationController({
+    resolvePage,
+  });
+
+  return (
+    <WorkspaceFrame
+      layout="leftPanel"
+      header={<FrameBrand alt="My App" />}
+      menu={{ items: menuItems }}
+      menuTitle="Menu"
+      menuAriaLabel="Main navigation"
+      activeMenuId={currentPage?.pageId}
+      onMenuSelect={(item) =>
+        controller.open({ pageId: item.id, title: item.label })
+      }
+      workarea={
+        <SinglePageHost
+          page={currentPage}
+          emptyContent={<span>메뉴를 선택하세요</span>}
+        />
+      }
+    />
+  );
+}
+```
+
+`WorkspaceFrame`이 높이 체인을 보장합니다. 처음에는 **single-page** host로 시작하고, 탭이 필요하면 `MdiPageHost`로 바꾸세요.
+
+## 4. 라이브 예제
+
+메뉴에서 **About** / **Cars**로 페이지를 전환합니다. 그리드 페이지가 기본으로 열립니다.
+
+<QuickStartApp />
+
+## 다음 단계
+
+<Cards>
+  <Card title="Installation" href="/docs/installation" />
+  <Card title="First CRUD Page" href="/docs/first-crud" />
+  <Card title="Key Features (그리드)" href="/docs/key-features" />
+  <Card title="Theme & UI Setup" href="/docs/theme-setup" />
+</Cards>

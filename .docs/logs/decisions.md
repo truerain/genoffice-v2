@@ -8,6 +8,23 @@
 
 역시간순. 같은 날짜 섹션 안에서도 **최신 항목이 위**.
 
+## 2026-07-13
+
+### 공개 Docs Quick Start: GenFrame 첫 앱 경로
+
+- **결정:** Getting Started / 홈 CTA의 정본은 **GenFrame으로 새 백오피스 앱 셸을 만드는 것**이다. GenDataGrid-only 임베드는 Key Features 등 보조 트랙.
+- **배경:** 도입 질문의 중심은 “그리드를 어떻게 붙이나”가 아니라 “GenOffice 프로젝트를 어떻게 시작하나”이다. `gen-frame`이 layout·메뉴·workarea·navigation 계약을 소유한다.
+- **트레이드오프:** AG Grid식 그리드-first Quick Start와 달라진다. 기능 문서 분량은 여전히 그리드가 크다.
+- **문서:** [apps/docs/.docs/plan/docs-site-plan.md](../../apps/docs/.docs/plan/docs-site-plan.md)
+
+### 공개 Docs 사이트: Fumadocs + Next.js / 한·영 / 외부 / Vercel
+
+- **결정:** `apps/docs`에 공개 문서 사이트를 둔다. 스택은 **Fumadocs + Next.js + Fumadocs MDX**. 언어는 **한/영**, 공개 범위는 **외부**, 배포는 **Vercel**(demo와 별도 Project). 2026-07-13부터 D0 착수.
+- **배경:** AG Grid식 학습 경로·라이브 예제가 필요하나 멀티 프레임워크 codegen은 불필요. Storybook만으로는 튜토리얼·SEO·외부 Docs에 부족. Vite+MDX 직접 구축보다 Fumadocs가 검색·레이아웃·Vercel 적합.
+- **트레이드오프:** 모노레포에 Next 런타임이 추가된다(기존 앱은 Vite). demo/docs/storybook 역할을 엄격히 분리해 이중 유지보수를 제한한다.
+- **비채택:** Storybook Docs only, 순수 Vite+MDX, Docusaurus/VitePress, AG Grid Astro+Markdoc 파이프라인 복제, 사내-only Docs.
+- **문서:** [apps/docs/.docs/plan/docs-site-plan.md](../../apps/docs/.docs/plan/docs-site-plan.md)
+
 ## 2026-07-09
 
 ### gen-datagrid 토큰 계층: 하이브리드 구조 확정 (D4 정제)

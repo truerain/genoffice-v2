@@ -1,0 +1,69 @@
+---
+title: Installation
+description: Add GenOffice packages to a React app or monorepo
+---
+
+# Installation
+
+## Prerequisites
+
+- Node.js 20+
+- React 19
+- pnpm 9+ (this monorepo)
+
+## Recommended starter set (new back-office app)
+
+```bash
+pnpm add @gen-office/theme @gen-office/ui @gen-office/gen-frame @gen-office/gen-datagrid
+```
+
+| Package | When |
+| --- | --- |
+| `@gen-office/mdi` | Multi-tab (MDI) navigation |
+| `@gen-office/gen-datagrid-crud` | ActionBar CRUD pages |
+| `@gen-office/gen-chart` | Charts |
+
+Then follow [Quick Start](/docs/quick-start) for the GenFrame shell.
+
+## Workspace (this repository)
+
+Packages are already linked via pnpm workspaces:
+
+```bash
+pnpm install
+pnpm -C packages/theme build
+pnpm -C packages/gen-frame build
+pnpm -C packages/gen-datagrid build
+```
+
+In an app (`apps/demo`, `apps/docs`, …):
+
+```json
+{
+  "dependencies": {
+    "@gen-office/theme": "workspace:*",
+    "@gen-office/ui": "workspace:*",
+    "@gen-office/gen-frame": "workspace:*",
+    "@gen-office/gen-datagrid": "workspace:*",
+    "@gen-office/gen-datagrid-crud": "workspace:*"
+  }
+}
+```
+
+## CSS load order
+
+1. `@gen-office/theme/index.css` — design tokens
+2. `@gen-office/ui/index.css` — UI components (as needed)
+3. `@gen-office/gen-frame/index.css` — frame chrome
+4. `@gen-office/gen-datagrid/index.css` — grid styles
+5. `@gen-office/gen-datagrid-crud/index.css` — CRUD chrome (as needed)
+
+Wrap interactive UI with `ThemeProvider` from `@gen-office/theme` when your app uses it.
+
+## Docs site locally
+
+```bash
+pnpm -C apps/docs dev
+```
+
+Opens on port **3001**. English: `/en/docs`, Korean: `/ko/docs`.

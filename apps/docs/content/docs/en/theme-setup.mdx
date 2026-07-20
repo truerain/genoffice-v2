@@ -1,0 +1,39 @@
+---
+title: Theme & UI Setup
+description: ThemeProvider and CSS load order for GenOffice apps
+---
+
+# Theme & UI Setup
+
+## ThemeProvider
+
+```tsx
+import { ThemeProvider } from '@gen-office/theme';
+import '@gen-office/theme/index.css';
+
+export function App() {
+  return (
+    <ThemeProvider defaultMode="light" storageKey="my-app-theme">
+      {/* pages */}
+    </ThemeProvider>
+  );
+}
+```
+
+## Tokens
+
+- Design tokens live in `@gen-office/theme`.
+- Feature packages (`gen-datagrid`, …) define their own `--gen-datagrid-*` tokens and reference semantic colors with fallbacks.
+- Apps load theme CSS once; libraries should not self-`@import` theme (convention **B**).
+
+## UI package
+
+`@gen-office/ui` provides Radix-based primitives and composed controls (FilterBar, DatePicker, …). Import its CSS when you use those components:
+
+```tsx
+import '@gen-office/ui/index.css';
+```
+
+## Docs examples
+
+Live grids on this site wrap content with `ThemeProvider` + the CSS order above so examples match demo/Storybook.
