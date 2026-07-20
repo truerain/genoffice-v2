@@ -6,6 +6,14 @@
 -->
 # UI 구현 로그
 
+## 2026-07-20
+
+### PageLayoutChrome — 헤더 표시 컨텍스트
+
+- `PageLayoutChromeProvider` / `usePageLayoutChrome` 추가. `PageLayout`이 `showHeader=false`일 때 header 슬롯만 생략(filter·content 유지).
+- 앱 설정으로 전역 토글할 때 페이지별 수정 없이 사용.
+- 관련 파일: `composed/pageLayout/PageLayoutChrome.tsx`, `PageLayout.tsx`, `pageLayout/index.ts`
+
 ## 2026-07-12
 
 ### FilterBar 라벨 font 토큰

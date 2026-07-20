@@ -2,14 +2,16 @@
  * @file apps/demo/src/app/AppShell.tsx
  * @description Authenticated shell — gen-frame WorkspaceFrame + MDI (Gate F3).
  * @created 2026-06-28
- * @updated 2026-06-29
+ * @updated 2026-07-20
  *
  * @remark
  * - @gen-office/gen-frame: layout chrome, menu, MdiPageHost
  * - Welcome pin: `pinnedPages` on AppShell → `useOpenPage({ pinnedPages })`
  * - URL `?menu=` → openMenuItem (same as menu click), then clear URL
+ * - PageLayoutChromeProvider: settings-driven page header visibility
  *
  * @history
+ * - 2026-07-20 PageLayoutChromeProvider + page header toggle in settings
  * - 2026-06-29 pinnedPages defined on AppShell, passed to useOpenPage
  * - 2026-06-29 URL deep link via useDemoMenuDeepLink (not useUrlSync)
  * - 2026-06-29 FrameBrand + demo brand-logo.png override
@@ -25,7 +27,7 @@ import {
   type FrameOpenPagePayload,
 } from '@gen-office/gen-frame';
 import { useMDIStore } from '@gen-office/mdi';
-import { Button } from '@gen-office/ui';
+import { Button, PageLayoutChromeProvider } from '@gen-office/ui';
 import { Settings } from 'lucide-react';
 import demoBrandLogo from '../assets/brand-logo.png';
 import { useAppToast } from './providers/AppToastProvider';
@@ -36,6 +38,7 @@ import { findAppMenuItemByPageId, mapAppMenuToFrameItems } from './menu/mapAppMe
 import { DemoNavigationProvider } from './navigation/DemoNavigationContext';
 import { useDemoMenuDeepLink } from './url/useDemoMenuDeepLink';
 import { DemoSettingsModal } from './settings/DemoSettingsModal';
+import { useDemoPageChrome } from './settings/useDemoPageChrome';
 import { useI18n } from '../i18n';
 import styles from './AppShell.module.css';
 
@@ -66,6 +69,7 @@ export function AppShell() {
 
   const { openMenuItem } = useOpenPage({ pinnedPages });
   const { layout, setLayout } = useFrameLayout('leftPanel', DEMO_FRAME_LAYOUT_STORAGE_KEY);
+  const { showPageHeader, setShowPageHeader } = useDemoPageChrome(true);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const activeTabId = useMDIStore((state) => state.activeTabId);
 
@@ -147,22 +151,24 @@ export function AppShell() {
         activeMenuId={activeTabId ?? undefined}
         onMenuSelect={handleMenuSelect}
         workarea={
-          isMenuLoading ? (
-            <p className={styles.status}>{t('common.loading')}</p>
-          ) : menuError ? (
-            <p className={styles.error}>{menuError.message}</p>
-          ) : (
-            <div className={styles.workareaHost} data-app-workarea="">
-              <MdiPageHost
-                maxTabs={DEMO_MAX_TABS}
-                tabPosition="bottom"
-                tabBarLabels={TAB_BAR_LABELS_KO}
-                onMaxTabsReached={handleMaxTabsReached}
-                emptyContent={<p className={styles.empty}>{t('mdi.empty')}</p>}
-                className={styles.mdi}
-              />
-            </div>
-          )
+          <PageLayoutChromeProvider showHeader={showPageHeader}>
+            {isMenuLoading ? (
+              <p className={styles.status}>{t('common.loading')}</p>
+            ) : menuError ? (
+              <p className={styles.error}>{menuError.message}</p>
+            ) : (
+              <div className={styles.workareaHost} data-app-workarea="">
+                <MdiPageHost
+                  maxTabs={DEMO_MAX_TABS}
+                  tabPosition="bottom"
+                  tabBarLabels={TAB_BAR_LABELS_KO}
+                  onMaxTabsReached={handleMaxTabsReached}
+                  emptyContent={<p className={styles.empty}>{t('mdi.empty')}</p>}
+                  className={styles.mdi}
+                />
+              </div>
+            )}
+          </PageLayoutChromeProvider>
         }
       />
       <DemoSettingsModal
@@ -170,6 +176,8 @@ export function AppShell() {
         onOpenChange={setSettingsOpen}
         layout={layout}
         onLayoutChange={setLayout}
+        showPageHeader={showPageHeader}
+        onShowPageHeaderChange={setShowPageHeader}
       />
       </div>
     </DemoNavigationProvider>

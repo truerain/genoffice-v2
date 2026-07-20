@@ -4,10 +4,11 @@
   "description": "Gen-Office V2 - Backoffice framework",
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev --filter=@gen-office/demo -- --port 8081",
+    "demo": "turbo run dev --filter=@gen-office/demo -- --port 8081",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "storybook": "turbo run --filter=@gen-office/storybook dev"
+    "storybook": "turbo run --filter=@gen-office/storybook dev",
+    "docs": "turbo run --filter=@gen-office/docs dev"
   },
   "devDependencies": {
     "turbo": "latest",

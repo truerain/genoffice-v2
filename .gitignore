@@ -9,6 +9,7 @@ build/
 .next/
 out/
 .turbo/
+.source/
 
 # Testing
 coverage/

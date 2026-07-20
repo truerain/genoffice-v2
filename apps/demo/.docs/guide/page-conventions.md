@@ -68,6 +68,7 @@ export function useUserMutations() { /* ... */ }
   - `.workarea`: 콘텐츠 채움 컬럼(`flex:1; min-height:0; gap:--spacing-md`)
   - `.fill`: 남는 공간을 채우는 자식(그리드 등). 세로 균등 다중 그리드면 여러 개에 적용.
 - **역할 분담**: `ui`의 `PageLayout`은 외곽(패딩·갭·헤더·필터), `standardLayout`은 content 안쪽 채움. 중복 정의 금지.
+- **페이지 헤더 토글**: demo 환경설정(`PageLayoutChromeProvider`)으로 `PageHeader`를 숨길 수 있다. Filter·content는 유지된다.
 - **화면 고유 배치**(비율·가로·스플리터·마스터디테일)는 공유 모듈에 넣지 말고 **그 화면 모듈**에서 정의합니다. `standardLayout`은 "높이 체인 원자"만 담습니다.
 
 ### 4.2 CSS import 이름

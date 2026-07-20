@@ -1,15 +1,17 @@
 /**
  * @file apps/demo/src/app/settings/DemoSettingsModal.tsx
- * @description Demo environment settings — frame layout (top / left).
+ * @description Demo environment settings — frame layout and page chrome.
  * @created 2026-06-29
+ * @updated 2026-07-20
  *
  * @remark
+ * - Frame layout (titleBar / leftPanel) + PageLayout page header toggle
  * - Replaces header FrameLayoutToggle + logout
  *
  */
 
 import type { FrameLayoutMode } from '@gen-office/gen-frame';
-import { Button, Label, Radio, RadioGroup, StandardDialog } from '@gen-office/ui';
+import { Button, Label, Radio, RadioGroup, StandardDialog, Switch } from '@gen-office/ui';
 import { useI18n } from '../../i18n';
 import styles from './DemoSettingsModal.module.css';
 
@@ -20,6 +22,8 @@ export interface DemoSettingsModalProps {
   onOpenChange: (open: boolean) => void;
   layout: FrameLayoutMode;
   onLayoutChange: (layout: FrameLayoutMode) => void;
+  showPageHeader: boolean;
+  onShowPageHeaderChange: (show: boolean) => void;
 }
 
 export function DemoSettingsModal({
@@ -27,6 +31,8 @@ export function DemoSettingsModal({
   onOpenChange,
   layout,
   onLayoutChange,
+  showPageHeader,
+  onShowPageHeaderChange,
 }: DemoSettingsModalProps) {
   const { t } = useI18n();
 
@@ -36,7 +42,7 @@ export function DemoSettingsModal({
       onOpenChange={onOpenChange}
       title={t('settings.title')}
       size="sm"
-      initialHeight={320}
+      initialHeight={420}
       bodyScrollable={false}
       footer={
         <Button type="button" size="sm" onClick={() => onOpenChange(false)}>
@@ -64,6 +70,24 @@ export function DemoSettingsModal({
             );
           })}
         </RadioGroup>
+
+        <p className={styles.sectionTitle}>{t('settings.pageChrome.section')}</p>
+        <div className={styles.option}>
+          <div className={styles.optionLabel}>
+            <Label htmlFor="demo-settings-show-page-header" className={styles.optionTitle}>
+              {t('settings.pageChrome.showHeader.title')}
+            </Label>
+            <span className={styles.optionHint}>
+              {t('settings.pageChrome.showHeader.hint')}
+            </span>
+          </div>
+          <Switch
+            id="demo-settings-show-page-header"
+            checked={showPageHeader}
+            onCheckedChange={onShowPageHeaderChange}
+            aria-label={t('settings.pageChrome.showHeader.title')}
+          />
+        </div>
       </div>
     </StandardDialog>
   );

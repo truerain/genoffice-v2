@@ -161,6 +161,13 @@ const en: MessageTree = {
         hint: 'Show navigation in the left sidebar.',
       },
     },
+    pageChrome: {
+      section: 'Page layout',
+      showHeader: {
+        title: 'Show page header',
+        hint: 'Show each page title and description (PageHeader). Filters and content stay.',
+      },
+    },
   },
 };
 

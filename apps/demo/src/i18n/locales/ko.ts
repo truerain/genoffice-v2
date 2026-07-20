@@ -160,6 +160,13 @@ const ko = {
         hint: '메뉴를 왼쪽 패널에 세로로 표시합니다.',
       },
     },
+    pageChrome: {
+      section: '페이지 레이아웃',
+      showHeader: {
+        title: '페이지 헤더 표시',
+        hint: '각 화면의 제목·설명(PageHeader)을 표시합니다. 필터·본문은 유지됩니다.',
+      },
+    },
   },
 } as const;
 
