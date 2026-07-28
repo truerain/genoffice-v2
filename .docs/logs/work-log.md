@@ -6,7 +6,19 @@
 -->
 # GenOffice V2 작업 로그
 
+## 2026-07-29
+
+### ui — MultiDatePicker / MultiMonthPicker
+
+- **요약:** V1 Multi date/month picker를 V2 DatePicker 패밀리에 Range* chrome으로 포팅. summary 표시 util·정규화 helpers 추가. FilterBar multi 필드 타입은 D-004로 후속.
+- **파일:** `packages/ui/src/composed/datePicker/Multi*.tsx`, `multiSelectionDisplay.ts`, `datePickerUtils.ts`, tests/stories, `.docs/composed/date-picker.md`, `.docs/deferred.md`
+
 ## 2026-07-20
+
+### demo — ActionBar 아이콘 버튼 환경설정 토글
+
+- **요약:** CRUD ActionBar `buttonMode: icon|label`. `DataGridCrudChromeProvider` + demo 설정 Switch. `useDemoPageChrome` storage에 `actionBarButtonMode` 필드 추가. 페이지 코드 변경 없음.
+- **파일:** `packages/gen-datagrid-crud/...`, `apps/demo/.../useDemoPageChrome.ts`, `DemoSettingsModal.tsx`, `AppShell.tsx`, i18n ko/en
 
 ### demo — PageLayout 페이지 헤더 앱 설정 토글
 

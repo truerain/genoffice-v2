@@ -6,11 +6,13 @@
  *
  * @remark
  * - Frame layout (titleBar / leftPanel) + PageLayout page header toggle
+ * - CRUD ActionBar icon-only toggle via DataGridCrudChromeProvider
  * - Replaces header FrameLayoutToggle + logout
  *
  */
 
 import type { FrameLayoutMode } from '@gen-office/gen-frame';
+import type { DataGridCrudActionBarButtonMode } from '@gen-office/gen-datagrid-crud';
 import { Button, Label, Radio, RadioGroup, StandardDialog, Switch } from '@gen-office/ui';
 import { useI18n } from '../../i18n';
 import styles from './DemoSettingsModal.module.css';
@@ -24,6 +26,8 @@ export interface DemoSettingsModalProps {
   onLayoutChange: (layout: FrameLayoutMode) => void;
   showPageHeader: boolean;
   onShowPageHeaderChange: (show: boolean) => void;
+  actionBarButtonMode: DataGridCrudActionBarButtonMode;
+  onActionBarButtonModeChange: (mode: DataGridCrudActionBarButtonMode) => void;
 }
 
 export function DemoSettingsModal({
@@ -33,6 +37,8 @@ export function DemoSettingsModal({
   onLayoutChange,
   showPageHeader,
   onShowPageHeaderChange,
+  actionBarButtonMode,
+  onActionBarButtonModeChange,
 }: DemoSettingsModalProps) {
   const { t } = useI18n();
 
@@ -42,7 +48,7 @@ export function DemoSettingsModal({
       onOpenChange={onOpenChange}
       title={t('settings.title')}
       size="sm"
-      initialHeight={420}
+      initialHeight={500}
       bodyScrollable={false}
       footer={
         <Button type="button" size="sm" onClick={() => onOpenChange(false)}>
@@ -86,6 +92,24 @@ export function DemoSettingsModal({
             checked={showPageHeader}
             onCheckedChange={onShowPageHeaderChange}
             aria-label={t('settings.pageChrome.showHeader.title')}
+          />
+        </div>
+        <div className={styles.option}>
+          <div className={styles.optionLabel}>
+            <Label htmlFor="demo-settings-actionbar-icon" className={styles.optionTitle}>
+              {t('settings.pageChrome.actionBarIcon.title')}
+            </Label>
+            <span className={styles.optionHint}>
+              {t('settings.pageChrome.actionBarIcon.hint')}
+            </span>
+          </div>
+          <Switch
+            id="demo-settings-actionbar-icon"
+            checked={actionBarButtonMode === 'icon'}
+            onCheckedChange={(checked) =>
+              onActionBarButtonModeChange(checked ? 'icon' : 'label')
+            }
+            aria-label={t('settings.pageChrome.actionBarIcon.title')}
           />
         </div>
       </div>

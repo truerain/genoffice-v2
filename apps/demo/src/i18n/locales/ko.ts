@@ -166,6 +166,10 @@ const ko = {
         title: '페이지 헤더 표시',
         hint: '각 화면의 제목·설명(PageHeader)을 표시합니다. 필터·본문은 유지됩니다.',
       },
+      actionBarIcon: {
+        title: 'ActionBar 아이콘만',
+        hint: 'CRUD ActionBar 버튼을 아이콘만 표시합니다. 툴팁·aria-label은 유지됩니다.',
+      },
     },
   },
 } as const;

@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@gen-office/ui';
 
+import { useDataGridCrudChrome } from '../chrome/DataGridCrudChrome';
 import type {
   DataGridCrudActionApi,
   DataGridCrudActionBarOptions,
@@ -60,6 +61,9 @@ export function DataGridCrudActionBar<TData>(props: {
   className?: string;
 }) {
   const { state, actionApi, options, className } = props;
+  const chrome = useDataGridCrudChrome();
+  const buttonMode = options?.buttonMode ?? chrome.buttonMode ?? 'label';
+  const isIconMode = buttonMode === 'icon';
   const ctx = React.useMemo<DataGridCrudActionContext<TData>>(
     () => ({ state, actionApi }),
     [actionApi, state]
@@ -158,16 +162,16 @@ export function DataGridCrudActionBar<TData>(props: {
       <Button
         key={item.key}
         type="button"
-        size="sm"
+        size={isIconMode ? 'icon' : 'sm'}
         variant={item.key === 'save' ? 'primary' : 'secondary'}
-        leftIcon={item.icon}
+        leftIcon={isIconMode ? undefined : item.icon}
         disabled={disabled}
         loading={loading}
         title={ariaLabel}
         aria-label={ariaLabel}
         onClick={() => void item.onClick?.(ctx)}
       >
-        {label}
+        {isIconMode ? (item.icon ?? label) : label}
       </Button>
     );
   };

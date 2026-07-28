@@ -2,14 +2,18 @@
  * @file packages/ui/src/composed/datePicker/DatePicker.stories.tsx
  * @description Storybook stories for date picker composed family.
  * @created 2026-06-25
+ * @updated 2026-07-29
  *
  * @remark
  * - title: UI/Composed/DatePicker
+ * - Includes MultiDatePicker / MultiMonthPicker
  */
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { DatePicker } from './DatePicker';
 import { MonthPicker } from './MonthPicker';
+import { MultiDatePicker } from './MultiDatePicker';
+import { MultiMonthPicker } from './MultiMonthPicker';
 import { RangeDatePicker } from './RangeDatePicker';
 import { RangeMonthPicker } from './RangeMonthPicker';
 import type { DateRange } from './RangeDatePicker.types';
@@ -109,5 +113,48 @@ export const RangeMonthDefault: Story = {
   render: () => {
     const [value, setValue] = useState<MonthRange | undefined>();
     return <RangeMonthPicker value={value} onChange={setValue} />;
+  },
+};
+
+export const MultiDateDefault: Story = {
+  render: () => {
+    const [value, setValue] = useState<Date[] | undefined>();
+    return <MultiDatePicker value={value} onChange={setValue} />;
+  },
+};
+
+export const MultiDateConfirmClear: Story = {
+  render: () => (
+    <MultiDatePicker
+      clearable
+      value={[new Date(2026, 5, 1), new Date(2026, 5, 15), new Date(2026, 6, 1)]}
+      onChange={() => {}}
+    />
+  ),
+};
+
+export const MultiMonthDefault: Story = {
+  render: () => {
+    const [value, setValue] = useState<Date[] | undefined>();
+    return <MultiMonthPicker value={value} onChange={setValue} />;
+  },
+};
+
+export const MultiMonthTwoYears: Story = {
+  render: () => {
+    const [value, setValue] = useState<Date[] | undefined>([
+      new Date(2026, 0, 1),
+      new Date(2026, 5, 1),
+      new Date(2027, 2, 1),
+    ]);
+    return (
+      <MultiMonthPicker
+        value={value}
+        onChange={setValue}
+        visibleYears={2}
+        fromMonth={new Date(2025, 0, 1)}
+        toMonth={new Date(2027, 11, 1)}
+      />
+    );
   },
 };

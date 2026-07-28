@@ -155,6 +155,8 @@ export type DataGridCrudActionItem<TData> = {
   onClick?: (ctx: DataGridCrudActionContext<TData>) => void | Promise<void>;
 };
 
+export type DataGridCrudActionBarButtonMode = 'label' | 'icon';
+
 export type DataGridCrudActionBarOptions<TData> = {
   enabled?: boolean;
   title?: React.ReactNode;
@@ -166,6 +168,8 @@ export type DataGridCrudActionBarOptions<TData> = {
   includeBuiltIns?: readonly DataGridCrudBuiltInActionKey[];
   customActions?: readonly DataGridCrudActionItem<TData>[];
   showTotalRows?: boolean;
+  /** Action button presentation. Overrides DataGridCrudChromeProvider when set. */
+  buttonMode?: DataGridCrudActionBarButtonMode;
 };
 
 export type DataGridCrudController<TData> = {

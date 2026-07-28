@@ -2,10 +2,12 @@
  * @file packages/ui/src/composed/datePicker/datePickerUtils.ts
  * @description Shared format/parse helpers for date picker composed components.
  * @created 2026-06-25
+ * @updated 2026-07-29
  *
  * @remark
  * - Uses @gen-office/utils wire formats; MaskedInput owns display formatting
  * - custom format/parse props receive display strings (legacy-compatible)
+ * - Multi*: normalizeDay/Dates, normalizeMonths + signature helpers for draft sync
  */
 import {
   formatDateString,
@@ -72,10 +74,52 @@ export function parseYmDisplay(
   return Number.isNaN(date.getTime()) ? undefined : date;
 }
 
+export function normalizeDay(date?: Date): Date | undefined {
+  return date ? new Date(date.getFullYear(), date.getMonth(), date.getDate()) : undefined;
+}
+
+export function dayKey(date: Date): number {
+  return date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
+}
+
+export function normalizeDates(dates?: Date[]): Date[] {
+  if (!dates?.length) return [];
+  const byKey = new Map<number, Date>();
+  for (const item of dates) {
+    const next = normalizeDay(item);
+    if (!next) continue;
+    byKey.set(dayKey(next), next);
+  }
+  return Array.from(byKey.values()).sort((a, b) => dayKey(a) - dayKey(b));
+}
+
+export function datesSignature(dates?: Date[]): string {
+  return normalizeDates(dates)
+    .map((date) => dayKey(date))
+    .join(',');
+}
+
 export function normalizeMonth(date?: Date): Date | undefined {
   return date ? new Date(date.getFullYear(), date.getMonth(), 1) : undefined;
 }
 
 export function monthKey(date: Date): number {
   return date.getFullYear() * 12 + date.getMonth();
+}
+
+export function normalizeMonths(months?: Date[]): Date[] {
+  if (!months?.length) return [];
+  const byKey = new Map<number, Date>();
+  for (const item of months) {
+    const next = normalizeMonth(item);
+    if (!next) continue;
+    byKey.set(monthKey(next), next);
+  }
+  return Array.from(byKey.values()).sort((a, b) => monthKey(a) - monthKey(b));
+}
+
+export function monthsSignature(months?: Date[]): string {
+  return normalizeMonths(months)
+    .map((date) => monthKey(date))
+    .join(',');
 }

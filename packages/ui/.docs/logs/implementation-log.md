@@ -6,6 +6,15 @@
 -->
 # UI 구현 로그
 
+## 2026-07-29
+
+### MultiDatePicker · MultiMonthPicker 포팅
+
+- V1 비연속 다중 선택을 V2 Range* chrome(`Input` readOnly + `CalendarTrigger` + confirm/clear)으로 추가.
+- `multiSelectionDisplay` summary label, `datePickerUtils` day/month 배열 normalize.
+- FilterBar `date-multi` / `month-multi`는 deferred **D-004**.
+- 관련 파일: `composed/datePicker/Multi*.tsx`, `multiSelectionDisplay.ts`, `datePickerUtils.ts`, `DatePicker.module.css`, `DatePicker.stories.tsx`, `DatePicker.test.tsx`, `.docs/composed/date-picker.md`, `.docs/deferred.md`
+
 ## 2026-07-20
 
 ### PageLayoutChrome — 헤더 표시 컨텍스트

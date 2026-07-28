@@ -167,6 +167,10 @@ const en: MessageTree = {
         title: 'Show page header',
         hint: 'Show each page title and description (PageHeader). Filters and content stay.',
       },
+      actionBarIcon: {
+        title: 'ActionBar icon only',
+        hint: 'Show CRUD ActionBar buttons as icons only. Tooltips and aria-labels stay.',
+      },
     },
   },
 };

@@ -6,7 +6,7 @@ import type { GenDataGridColumnDef } from '@gen-office/gen-datagrid';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, waitFor } from '@testing-library/react';
 
-import { DataGridCrudActionBar, GenDataGridCrud } from '../src';
+import { DataGridCrudActionBar, DataGridCrudChromeProvider, GenDataGridCrud } from '../src';
 import type { DataGridCrudUiState } from '../src';
 
 type Person = {
@@ -679,5 +679,91 @@ describe('GenDataGridCrud thin shell', () => {
 
     expect(actionApi.save).toHaveBeenCalledTimes(1);
     expect(actionApi.toggleFilters).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders icon-only ActionBar buttons when buttonMode is icon', () => {
+    const state: DataGridCrudUiState<Person> = {
+      readonly: false,
+      canCreateRow: true,
+      canExport: true,
+      data: rows,
+      sourceData: rows,
+      createdRows: [],
+      createdRowIds: [],
+      dirtyState: {
+        cells: [],
+        rowIds: ['1'],
+        deletedRowIds: [],
+      },
+      dirty: true,
+      isCommitting: false,
+      fieldErrors: {},
+      currentRowId: '1',
+      selectedRowIds: [],
+      filterEnabled: false,
+      columnReorderEnabled: false,
+    };
+    const actionApi = {
+      addRow: vi.fn(),
+      deleteSelectedRows: vi.fn(),
+      save: vi.fn(async () => {}),
+      reset: vi.fn(),
+      clearFilters: vi.fn(),
+      toggleFilters: vi.fn(),
+      toggleColumnReorder: vi.fn(),
+      exportExcel: vi.fn(),
+    };
+    const { getByRole } = render(
+      <DataGridCrudActionBar
+        state={state}
+        actionApi={actionApi}
+        options={{ title: 'People', buttonMode: 'icon' }}
+      />
+    );
+
+    const saveBtn = getByRole('button', { name: 'Save' });
+    expect(saveBtn).toBeInTheDocument();
+    expect(saveBtn).not.toHaveTextContent('Save');
+  });
+
+  it('uses DataGridCrudChromeProvider buttonMode when options omit buttonMode', () => {
+    const state: DataGridCrudUiState<Person> = {
+      readonly: false,
+      canCreateRow: true,
+      canExport: true,
+      data: rows,
+      sourceData: rows,
+      createdRows: [],
+      createdRowIds: [],
+      dirtyState: {
+        cells: [],
+        rowIds: [],
+        deletedRowIds: [],
+      },
+      dirty: false,
+      isCommitting: false,
+      fieldErrors: {},
+      currentRowId: null,
+      selectedRowIds: [],
+      filterEnabled: false,
+      columnReorderEnabled: false,
+    };
+    const actionApi = {
+      addRow: vi.fn(),
+      deleteSelectedRows: vi.fn(),
+      save: vi.fn(async () => {}),
+      reset: vi.fn(),
+      clearFilters: vi.fn(),
+      toggleFilters: vi.fn(),
+      toggleColumnReorder: vi.fn(),
+      exportExcel: vi.fn(),
+    };
+    const { getByRole } = render(
+      <DataGridCrudChromeProvider buttonMode="icon">
+        <DataGridCrudActionBar state={state} actionApi={actionApi} />
+      </DataGridCrudChromeProvider>
+    );
+
+    expect(getByRole('button', { name: 'Add' })).not.toHaveTextContent('Add');
   });
 });

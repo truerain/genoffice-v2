@@ -4,6 +4,13 @@ Records GenDataGridCrud package planning and implementation changes.
 
 # GenDataGridCrud 구현 로그
 
+## 2026-07-20
+
+### ActionBar buttonMode + DataGridCrudChrome
+
+- **요약:** `actionBar.buttonMode: 'label' | 'icon'` 추가. `DataGridCrudChromeProvider`로 앱 전역 토글. icon 모드는 `Button size="icon"`, `aria-label`/`title` 유지. demo 환경설정 Switch + localStorage.
+- **파일:** `DataGridCrudActionBar.tsx`, `GenDataGridCrud.types.ts`, `chrome/DataGridCrudChrome.tsx`, `index.ts`, `test/thinShell.test.tsx`, `apps/demo/.../useDemoPageChrome.ts`, `DemoSettingsModal.tsx`, `AppShell.tsx`
+
 ## 2026-07-12
 
 ### #3 App Integration Expansion — workflow · QA · readonly ActionBar

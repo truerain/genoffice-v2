@@ -9,8 +9,10 @@
  * - Welcome pin: `pinnedPages` on AppShell → `useOpenPage({ pinnedPages })`
  * - URL `?menu=` → openMenuItem (same as menu click), then clear URL
  * - PageLayoutChromeProvider: settings-driven page header visibility
+ * - DataGridCrudChromeProvider: settings-driven ActionBar button mode
  *
  * @history
+ * - 2026-07-20 DataGridCrudChromeProvider + ActionBar icon mode in settings
  * - 2026-07-20 PageLayoutChromeProvider + page header toggle in settings
  * - 2026-06-29 pinnedPages defined on AppShell, passed to useOpenPage
  * - 2026-06-29 URL deep link via useDemoMenuDeepLink (not useUrlSync)
@@ -27,6 +29,7 @@ import {
   type FrameOpenPagePayload,
 } from '@gen-office/gen-frame';
 import { useMDIStore } from '@gen-office/mdi';
+import { DataGridCrudChromeProvider } from '@gen-office/gen-datagrid-crud';
 import { Button, PageLayoutChromeProvider } from '@gen-office/ui';
 import { Settings } from 'lucide-react';
 import demoBrandLogo from '../assets/brand-logo.png';
@@ -69,7 +72,8 @@ export function AppShell() {
 
   const { openMenuItem } = useOpenPage({ pinnedPages });
   const { layout, setLayout } = useFrameLayout('leftPanel', DEMO_FRAME_LAYOUT_STORAGE_KEY);
-  const { showPageHeader, setShowPageHeader } = useDemoPageChrome(true);
+  const { showPageHeader, setShowPageHeader, actionBarButtonMode, setActionBarButtonMode } =
+    useDemoPageChrome();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const activeTabId = useMDIStore((state) => state.activeTabId);
 
@@ -152,22 +156,24 @@ export function AppShell() {
         onMenuSelect={handleMenuSelect}
         workarea={
           <PageLayoutChromeProvider showHeader={showPageHeader}>
-            {isMenuLoading ? (
-              <p className={styles.status}>{t('common.loading')}</p>
-            ) : menuError ? (
-              <p className={styles.error}>{menuError.message}</p>
-            ) : (
-              <div className={styles.workareaHost} data-app-workarea="">
-                <MdiPageHost
-                  maxTabs={DEMO_MAX_TABS}
-                  tabPosition="bottom"
-                  tabBarLabels={TAB_BAR_LABELS_KO}
-                  onMaxTabsReached={handleMaxTabsReached}
-                  emptyContent={<p className={styles.empty}>{t('mdi.empty')}</p>}
-                  className={styles.mdi}
-                />
-              </div>
-            )}
+            <DataGridCrudChromeProvider buttonMode={actionBarButtonMode}>
+              {isMenuLoading ? (
+                <p className={styles.status}>{t('common.loading')}</p>
+              ) : menuError ? (
+                <p className={styles.error}>{menuError.message}</p>
+              ) : (
+                <div className={styles.workareaHost} data-app-workarea="">
+                  <MdiPageHost
+                    maxTabs={DEMO_MAX_TABS}
+                    tabPosition="bottom"
+                    tabBarLabels={TAB_BAR_LABELS_KO}
+                    onMaxTabsReached={handleMaxTabsReached}
+                    emptyContent={<p className={styles.empty}>{t('mdi.empty')}</p>}
+                    className={styles.mdi}
+                  />
+                </div>
+              )}
+            </DataGridCrudChromeProvider>
           </PageLayoutChromeProvider>
         }
       />
@@ -178,6 +184,8 @@ export function AppShell() {
         onLayoutChange={setLayout}
         showPageHeader={showPageHeader}
         onShowPageHeaderChange={setShowPageHeader}
+        actionBarButtonMode={actionBarButtonMode}
+        onActionBarButtonModeChange={setActionBarButtonMode}
       />
       </div>
     </DemoNavigationProvider>
