@@ -250,6 +250,29 @@ Gate 정의: [packages/gen-datagrid/.docs/README.md](../packages/gen-datagrid/.d
 
 ---
 
+## Phase 4b — (선택) gen-datagrid-pivot
+
+**목표:** AG Grid식 Pivot 확장 패키지 (`@gen-office/gen-datagrid-pivot`)
+
+**선행:** Phase 4 진행 또는 완료. MVP 블로커 아님.
+
+**설계 정본 (구현 즉시 착수 가능):** [packages/gen-datagrid-pivot/.docs/README.md](../packages/gen-datagrid-pivot/.docs/README.md)
+
+### 작업
+
+- [ ] Gate P0 — 패키지 scaffold
+- [ ] Gate P1a — 집계 엔진 + fixtures
+- [ ] Gate P1b — `GenDataGridPivot` shell + Storybook/demo
+- [ ] Gate P1c — state · sort · `maxPivotColumns`
+- [ ] (후속) P2 drill-through · P3 Panel · P4 server contract
+
+### 완료 기준
+
+- [ ] P0~P1c 체크리스트 ([implementation-plan.md](../packages/gen-datagrid-pivot/.docs/implementation-plan.md))
+- [ ] `gen-datagrid`에 Pivot 엔진 미포함 · 역의존 없음
+
+---
+
 ## Phase 5 — (선택) 플랫폼 업그레이드
 
 **목표**: 그리드 MVP 안정 후 기술 스택 한 단계 업

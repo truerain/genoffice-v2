@@ -8,6 +8,11 @@
 
 ## 2026-07-29
 
+### gen-datagrid-pivot — 설계 문서 정본 (구현 대기)
+
+- **요약:** V1 gen-grid-pivot 조사를 V2 gen-datagrid 기반으로 재타깃. 패키지 분리·Gate·API·결정을 `.docs`에 잠가 추후 즉시 구현 가능하도록 함. 소스 scaffold는 미착수.
+- **파일:** `packages/gen-datagrid-pivot/.docs/*`, `fixtures/car_sales.sample.json`, `.docs/04-ROADMAP.md` Phase 4b, `.docs/02-ARCHITECTURE.md`
+
 ### ui — MultiDatePicker / MultiMonthPicker
 
 - **요약:** V1 Multi date/month picker를 V2 DatePicker 패밀리에 Range* chrome으로 포팅. summary 표시 util·정규화 helpers 추가. FilterBar multi 필드 타입은 D-004로 후속.

@@ -13,6 +13,7 @@ GenOffice V2는 **pnpm workspace + Turbo** 기반 모노레포입니다. 앱은 
 ┌──────────────────────────▼──────────────────────────────┐
 │  feature packages                                       │
 │  gen-frame, gen-datagrid-crud, gen-datagrid-chart,      │
+│  gen-datagrid-pivot (설계 문서 · 구현 backlog),          │
 │  mdi, gen-chart                                         │
 └──────────────────────────┬──────────────────────────────┘
                            │
@@ -70,6 +71,7 @@ apps → feature packages → gen-datagrid → ui → theme/utils
 | `gen-datagrid` | div 기반 DataGrid. TanStack Table 상태 + virtualization + selection + editing |
 | `gen-datagrid-crud` | CRUD 액션 바, row status, dirty 연동, Excel export, i18n 메시지 |
 | `gen-datagrid-chart` | selection range → chart model, preview dialog |
+| `gen-datagrid-pivot` | AG Grid식 Pivot (집계·result columns). **설계 문서만** — 구현은 Phase 4b backlog. 정본: [packages/gen-datagrid-pivot/.docs](../packages/gen-datagrid-pivot/.docs/README.md) |
 
 `gen-datagrid-chart`는 **새 gen-chart API**(`GenChartOptions`, `CartesianChart` 등)만 사용합니다.
 

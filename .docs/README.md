@@ -55,6 +55,7 @@ GenOffice V2 설계·이식·운영에 관한 문서 모음입니다.
 | --- | --- |
 | `gen-datagrid` | [packages/gen-datagrid/.docs/README.md](../packages/gen-datagrid/.docs/README.md) — Gate 0~9, architecture, QA |
 | `gen-datagrid-crud` | [packages/gen-datagrid-crud/.docs/README.md](../packages/gen-datagrid-crud/.docs/README.md) — Gate 10~12, migration |
+| `gen-datagrid-pivot` | [packages/gen-datagrid-pivot/.docs/README.md](../packages/gen-datagrid-pivot/.docs/README.md) — 설계·Gate (구현 backlog Phase 4b) |
 | `gen-chart` | [packages/gen-chart/.docs/](../packages/gen-chart/.docs/) |
 | `gen-frame` | [packages/gen-frame/.docs/](../packages/gen-frame/.docs/) |
 | `theme` · `ui` · `mdi` | 각 `packages/<name>/.docs/review-log.md` |

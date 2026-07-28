@@ -1,0 +1,402 @@
+[
+  {
+    "REGION": "서울 지점",
+    "NAME": "아반테",
+    "MODEL": "1.6 GDi",
+    "COLOR": "Blue",
+    "PRICE": 1384000,
+    "COUNT": 1,
+    "DATE": "2015/01/01",
+    "TOTAL": 1384000
+  },
+  {
+    "REGION": "부산 지점",
+    "NAME": "소나타",
+    "MODEL": "2.0 Turbo GDi",
+    "COLOR": "Silver",
+    "PRICE": 2651000,
+    "COUNT": 3,
+    "DATE": "2015/01/01",
+    "TOTAL": 7953000
+  },
+  {
+    "REGION": "대구 지점",
+    "NAME": "산타페",
+    "MODEL": "e-VGT R2.0",
+    "COLOR": "Silver",
+    "PRICE": 2765000,
+    "COUNT": 1,
+    "DATE": "2015/01/01",
+    "TOTAL": 2765000
+  },
+  {
+    "REGION": "인천 지점",
+    "NAME": "산타페",
+    "MODEL": "e-VGT R2.2",
+    "COLOR": "Green",
+    "PRICE": 3058000,
+    "COUNT": 2,
+    "DATE": "2015/01/02",
+    "TOTAL": 6116000
+  },
+  {
+    "REGION": "광주 지점",
+    "NAME": "산타페",
+    "MODEL": "e-VGT R2.2",
+    "COLOR": "White",
+    "PRICE": 3058000,
+    "COUNT": 1,
+    "DATE": "2015/01/02",
+    "TOTAL": 3058000
+  },
+  {
+    "REGION": "광주 지점",
+    "NAME": "소나타",
+    "MODEL": "2.0CVVL",
+    "COLOR": "Silver",
+    "PRICE": 2214000,
+    "COUNT": 1,
+    "DATE": "2015/01/02",
+    "TOTAL": 2214000
+  },
+  {
+    "REGION": "부산 지점",
+    "NAME": "아반테",
+    "MODEL": "2.0 CVVT",
+    "COLOR": "Green",
+    "PRICE": 1934000,
+    "COUNT": 1,
+    "DATE": "2015/01/02",
+    "TOTAL": 1934000
+  },
+  {
+    "REGION": "대구 지점",
+    "NAME": "그랜저",
+    "MODEL": "2.4 가솔린",
+    "COLOR": "White",
+    "PRICE": 2933000,
+    "COUNT": 2,
+    "DATE": "2015/01/02",
+    "TOTAL": 5866000
+  },
+  {
+    "REGION": "대구 지점",
+    "NAME": "스타렉스",
+    "MODEL": "디젤 12인승 2WD",
+    "COLOR": "Silver",
+    "PRICE": 2290000,
+    "COUNT": 2,
+    "DATE": "2015/01/02",
+    "TOTAL": 4580000
+  },
+  {
+    "REGION": "포항 지점",
+    "NAME": "아반테",
+    "MODEL": "1.6 e-VGT",
+    "COLOR": "Black",
+    "PRICE": 1600000,
+    "COUNT": 3,
+    "DATE": "2015/01/02",
+    "TOTAL": 4800000
+  },
+  {
+    "REGION": "부산 지점",
+    "NAME": "스타렉스",
+    "MODEL": "디젤 12인승 4WD",
+    "COLOR": "Red",
+    "PRICE": 2740000,
+    "COUNT": 2,
+    "DATE": "2015/01/02",
+    "TOTAL": 5480000
+  },
+  {
+    "REGION": "인천 지점",
+    "NAME": "제너시스",
+    "MODEL": "G330 RWD",
+    "COLOR": "Yellow",
+    "PRICE": 4565000,
+    "COUNT": 1,
+    "DATE": "2015/01/02",
+    "TOTAL": 4565000
+  },
+  {
+    "REGION": "춘천 지점",
+    "NAME": "제너시스",
+    "MODEL": "G330 AWD",
+    "COLOR": "Silver",
+    "PRICE": 4807000,
+    "COUNT": 1,
+    "DATE": "2015/01/02",
+    "TOTAL": 4807000
+  },
+  {
+    "REGION": "인천 지점",
+    "NAME": "스타렉스",
+    "MODEL": "디젤 12인승 4WD",
+    "COLOR": "White",
+    "PRICE": 2740000,
+    "COUNT": 3,
+    "DATE": "2015/01/02",
+    "TOTAL": 8220000
+  },
+  {
+    "REGION": "대구 지점",
+    "NAME": "투싼",
+    "MODEL": "2.0 e-VGT 4WD",
+    "COLOR": "Yellow",
+    "PRICE": 2386000,
+    "COUNT": 2,
+    "DATE": "2015/01/02",
+    "TOTAL": 4772000
+  },
+  {
+    "REGION": "서울 지점",
+    "NAME": "산타페",
+    "MODEL": "e-VGT R2.2",
+    "COLOR": "Red",
+    "PRICE": 3058000,
+    "COUNT": 1,
+    "DATE": "2015/01/02",
+    "TOTAL": 3058000
+  },
+  {
+    "REGION": "춘천 지점",
+    "NAME": "투싼",
+    "MODEL": "1.6T GDi",
+    "COLOR": "Green",
+    "PRICE": 2199000,
+    "COUNT": 3,
+    "DATE": "2015/01/03",
+    "TOTAL": 6597000
+  },
+  {
+    "REGION": "대전 지점",
+    "NAME": "투싼",
+    "MODEL": "2.0 e-VGT 4WD",
+    "COLOR": "Orange",
+    "PRICE": 2386000,
+    "COUNT": 2,
+    "DATE": "2015/01/03",
+    "TOTAL": 4772000
+  },
+  {
+    "REGION": "서울 지점",
+    "NAME": "그랜저",
+    "MODEL": "3.0 가솔린",
+    "COLOR": "Gray",
+    "PRICE": 3259000,
+    "COUNT": 3,
+    "DATE": "2015/01/03",
+    "TOTAL": 9777000
+  },
+  {
+    "REGION": "부산 지점",
+    "NAME": "그랜저",
+    "MODEL": "더 타임리스",
+    "COLOR": "Blue",
+    "PRICE": 3680000,
+    "COUNT": 3,
+    "DATE": "2015/01/03",
+    "TOTAL": 11040000
+  },
+  {
+    "REGION": "대전 지점",
+    "NAME": "그랜저",
+    "MODEL": "2.2 디젤",
+    "COLOR": "Silver",
+    "PRICE": 3156000,
+    "COUNT": 1,
+    "DATE": "2015/01/03",
+    "TOTAL": 3156000
+  },
+  {
+    "REGION": "대구 지점",
+    "NAME": "제너시스",
+    "MODEL": "G380 RWD",
+    "COLOR": "Gray",
+    "PRICE": 5363000,
+    "COUNT": 3,
+    "DATE": "2015/01/03",
+    "TOTAL": 16089000
+  },
+  {
+    "REGION": "대구 지점",
+    "NAME": "소나타",
+    "MODEL": "2.0CVVL",
+    "COLOR": "Blue",
+    "PRICE": 2214000,
+    "COUNT": 2,
+    "DATE": "2015/01/03",
+    "TOTAL": 4428000
+  },
+  {
+    "REGION": "대구 지점",
+    "NAME": "투싼",
+    "MODEL": "2.0 e-VGT 4WD",
+    "COLOR": "White",
+    "PRICE": 2386000,
+    "COUNT": 3,
+    "DATE": "2015/01/03",
+    "TOTAL": 7158000
+  },
+  {
+    "REGION": "대전 지점",
+    "NAME": "산타페",
+    "MODEL": "e-VGT R2.0",
+    "COLOR": "Yellow",
+    "PRICE": 2765000,
+    "COUNT": 1,
+    "DATE": "2015/01/03",
+    "TOTAL": 2765000
+  },
+  {
+    "REGION": "광주 지점",
+    "NAME": "그랜저",
+    "MODEL": "3.0 가솔린",
+    "COLOR": "White",
+    "PRICE": 3259000,
+    "COUNT": 1,
+    "DATE": "2015/01/03",
+    "TOTAL": 3259000
+  },
+  {
+    "REGION": "인천 지점",
+    "NAME": "소나타",
+    "MODEL": "1.7 e-VGT",
+    "COLOR": "Blue",
+    "PRICE": 2459000,
+    "COUNT": 2,
+    "DATE": "2015/01/03",
+    "TOTAL": 4918000
+  },
+  {
+    "REGION": "춘천 지점",
+    "NAME": "소나타",
+    "MODEL": "2.0 Turbo GDi",
+    "COLOR": "Red",
+    "PRICE": 2651000,
+    "COUNT": 2,
+    "DATE": "2015/01/03",
+    "TOTAL": 5302000
+  },
+  {
+    "REGION": "포항 지점",
+    "NAME": "제너시스",
+    "MODEL": "G330 AWD",
+    "COLOR": "White",
+    "PRICE": 4807000,
+    "COUNT": 1,
+    "DATE": "2015/01/03",
+    "TOTAL": 4807000
+  },
+  {
+    "REGION": "인천 지점",
+    "NAME": "그랜저",
+    "MODEL": "3.0 가솔린",
+    "COLOR": "Gray",
+    "PRICE": 3259000,
+    "COUNT": 3,
+    "DATE": "2015/01/03",
+    "TOTAL": 9777000
+  },
+  {
+    "REGION": "춘천 지점",
+    "NAME": "소나타",
+    "MODEL": "1.7 e-VGT",
+    "COLOR": "Green",
+    "PRICE": 2459000,
+    "COUNT": 2,
+    "DATE": "2015/01/03",
+    "TOTAL": 4918000
+  },
+  {
+    "REGION": "광주 지점",
+    "NAME": "소나타",
+    "MODEL": "2.0CVVL",
+    "COLOR": "Yellow",
+    "PRICE": 2214000,
+    "COUNT": 3,
+    "DATE": "2015/01/03",
+    "TOTAL": 6642000
+  },
+  {
+    "REGION": "포항 지점",
+    "NAME": "투싼",
+    "MODEL": "1.6T GDi",
+    "COLOR": "White",
+    "PRICE": 2199000,
+    "COUNT": 1,
+    "DATE": "2015/01/03",
+    "TOTAL": 2199000
+  },
+  {
+    "REGION": "서울 지점",
+    "NAME": "산타페",
+    "MODEL": "e-VGT R2.2",
+    "COLOR": "White",
+    "PRICE": 3058000,
+    "COUNT": 2,
+    "DATE": "2015/01/04",
+    "TOTAL": 6116000
+  },
+  {
+    "REGION": "광주 지점",
+    "NAME": "소나타",
+    "MODEL": "2.0 Turbo GDi",
+    "COLOR": "Blue",
+    "PRICE": 2651000,
+    "COUNT": 1,
+    "DATE": "2015/01/04",
+    "TOTAL": 2651000
+  },
+  {
+    "REGION": "대전 지점",
+    "NAME": "제너시스",
+    "MODEL": "G380 RWD",
+    "COLOR": "White",
+    "PRICE": 5363000,
+    "COUNT": 1,
+    "DATE": "2015/01/04",
+    "TOTAL": 5363000
+  },
+  {
+    "REGION": "부산 지점",
+    "NAME": "스타렉스",
+    "MODEL": "LPi 12인승 2WD",
+    "COLOR": "Orange",
+    "PRICE": 2175000,
+    "COUNT": 1,
+    "DATE": "2015/01/04",
+    "TOTAL": 2175000
+  },
+  {
+    "REGION": "포항 지점",
+    "NAME": "산타페",
+    "MODEL": "e-VGT R2.0",
+    "COLOR": "Green",
+    "PRICE": 2765000,
+    "COUNT": 1,
+    "DATE": "2015/01/04",
+    "TOTAL": 2765000
+  },
+  {
+    "REGION": "부산 지점",
+    "NAME": "소나타",
+    "MODEL": "1.7 e-VGT",
+    "COLOR": "Yellow",
+    "PRICE": 2459000,
+    "COUNT": 1,
+    "DATE": "2015/01/04",
+    "TOTAL": 2459000
+  },
+  {
+    "REGION": "대구 지점",
+    "NAME": "제너시스",
+    "MODEL": "G380 AWD",
+    "COLOR": "Blue",
+    "PRICE": 5605000,
+    "COUNT": 1,
+    "DATE": "2015/01/04",
+    "TOTAL": 5605000
+  }
+]
