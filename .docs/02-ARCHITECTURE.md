@@ -22,7 +22,7 @@ GenOffice V2는 **pnpm workspace + Turbo** 기반 모노레포입니다. 앱은 
 └──────────────────────────┬──────────────────────────────┘
                            │
 ┌──────────────────────────▼──────────────────────────────┐
-│  ui, theme, utils                                       │
+│  ui, theme, utils, debug (DEV 옵트인)                    │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -30,6 +30,7 @@ GenOffice V2는 **pnpm workspace + Turbo** 기반 모노레포입니다. 앱은 
 
 ```text
 apps → feature packages → gen-datagrid → ui → theme/utils
+apps / feature (선택) → debug
 ```
 
 ### 허용
@@ -38,6 +39,7 @@ apps → feature packages → gen-datagrid → ui → theme/utils
 - `gen-datagrid-crud` → `gen-datagrid`, `ui`, `utils`, `theme`
 - `gen-datagrid` → `ui`, `utils`
 - `ui` → `theme`, `utils`
+- apps·feature → `debug` (DEV 옵트인; 프로덕션 필수 경로에 두지 않음)
 
 ### 금지
 
@@ -52,7 +54,8 @@ apps → feature packages → gen-datagrid → ui → theme/utils
 | 패키지 | 책임 |
 | --- | --- |
 | `theme` | 디자인 토큰, 글로벌 스타일, 폰트, 테마 primitive |
-| `utils` | 도메인 무관 공통 유틸 |
+| `utils` | 도메인 무관 공통 유틸 (React 금지 · 포맷/정규화/검증) |
+| `debug` | DEV 지향 상태·리렌더 관찰 훅 (`useDebugState` 등). `utils`에 합치지 않음 |
 | `ui` | 버튼, 입력, 다이얼로그, Combobox, DatePicker 등 범용 UI |
 
 `ui`에 무거운 에디터 엔진(TipTap 등)을 계속 두지 않고, 성숙 시 `@gen-office/html-editor`로 분리하는 것을 V2 로드맵에 둡니다.

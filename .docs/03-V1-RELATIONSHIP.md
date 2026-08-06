@@ -32,6 +32,7 @@ V2는 V1을 **대체**하는 것이 목표이며, 장기적으로 두 그리드 
 
 | V1 | V2 | 변경 내용 |
 | --- | --- | --- |
+| `packages/debug` | `packages/debug` | React 19 peer · V2 스캐폴드·`.docs/`. Dialog/그리드 뷰어 backlog는 미포함 |
 | `packages/gen-datagrid` | `packages/gen-datagrid` | V2 workspace 이관 · Gate 0~9 ✅ |
 | `apps/demo` 페이지 | `apps/demo` 페이지 | `GenGrid` → `GenDataGrid`, CRUD config 재작성 |
 | `docs/` (V1) | `.docs/` | V2 기준으로 재작성 (본 문서군) |

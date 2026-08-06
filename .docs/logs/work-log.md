@@ -6,6 +6,18 @@
 -->
 # GenOffice V2 작업 로그
 
+## 2026-08-06
+
+### demo — UserPage에 `@gen-office/debug` 훅 적용
+
+- **요약:** UserPage에서 draft/applied 필터·확장행·쿼리 파라미터를 DEV 콘솔로 관찰.
+- **파일:** `apps/demo/src/pages/admin/user/UserPage.tsx`
+
+### debug — V1 `@gen-office/debug` MVP 이식
+
+- **요약:** DEV 상태·리렌더 관찰 훅 패키지를 V2 foundation으로 추가. React 19 peer, `development` → src export. demo `LoginPage`에 스모크 연결.
+- **파일:** `packages/debug/**`, `apps/demo/package.json`, `apps/demo/src/app/login/LoginPage.tsx`, `.docs/02-ARCHITECTURE.md`, `.docs/03-V1-RELATIONSHIP.md`, `.docs/06-PACKAGE-REVIEW-PLAN.md`, `.docs/logs/decisions.md`, `AGENTS.md`
+
 ## 2026-07-29
 
 ### gen-datagrid-pivot — 설계 문서 정본 (구현 대기)

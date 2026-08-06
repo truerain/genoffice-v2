@@ -4,17 +4,26 @@
  * @created 2026-06-28
  *
  * @remark
+ * - DEV 스모크: `@gen-office/debug` 훅 (상태·렌더 관찰)
  *
  * @history
+ * - 2026-08-06 @gen-office/debug 스모크 훅 연결
  * - 2026-06-28 D2: username/password form + authApi
  */
 
 import { useState, type FormEvent } from 'react';
+import {
+  useDebugState,
+  useRenderCount,
+  useWhyRender,
+} from '@gen-office/debug';
 import { Button, Input, Label } from '@gen-office/ui';
 import { DemoSurface } from '../../shared/components/DemoSurface';
 import { useAuth } from '../providers/AuthProvider';
 import { useI18n } from '../../i18n';
 import styles from './LoginPage.module.css';
+
+const debugEnabled = import.meta.env.DEV;
 
 export function LoginPage() {
   const { login } = useAuth();
@@ -23,6 +32,14 @@ export function LoginPage() {
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useRenderCount('LoginPage', { enabled: debugEnabled, log: true });
+  useDebugState('Login.username', username, { enabled: debugEnabled });
+  useWhyRender(
+    'LoginPage',
+    { username, password, isSubmitting, error },
+    { enabled: debugEnabled },
+  );
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();

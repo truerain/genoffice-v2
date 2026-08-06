@@ -63,6 +63,9 @@ importers:
 
   apps/demo:
     dependencies:
+      '@gen-office/debug':
+        specifier: workspace:*
+        version: link:../../packages/debug
       '@gen-office/gen-chart':
         specifier: workspace:*
         version: link:../../packages/gen-chart
@@ -264,6 +267,30 @@ importers:
       vite:
         specifier: 6.4.3
         version: 6.4.3(@types/node@22.15.32)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0)
+
+  packages/debug:
+    devDependencies:
+      '@types/react':
+        specifier: 19.2.17
+        version: 19.2.17
+      '@types/react-dom':
+        specifier: 19.2.3
+        version: 19.2.3(@types/react@19.2.17)
+      react:
+        specifier: 19.2.7
+        version: 19.2.7
+      react-dom:
+        specifier: 19.2.7
+        version: 19.2.7(react@19.2.7)
+      typescript:
+        specifier: 5.9.3
+        version: 5.9.3
+      vite:
+        specifier: 6.4.3
+        version: 6.4.3(@types/node@22.15.32)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0)
+      vite-plugin-dts:
+        specifier: 5.0.2
+        version: 5.0.2(esbuild@0.28.1)(rollup@4.62.2)(typescript@5.9.3)(vite@6.4.3(@types/node@22.15.32)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0))
 
   packages/gen-chart:
     dependencies:
@@ -10158,9 +10185,9 @@ snapshots:
     dependencies:
       reusify: 1.1.0
 
-  fdir@6.5.0(picomatch@4.0.4):
+  fdir@6.5.0(picomatch@4.0.5):
     optionalDependencies:
-      picomatch: 4.0.4
+      picomatch: 4.0.5
 
   figures@3.2.0:
     dependencies:
@@ -12569,8 +12596,8 @@ snapshots:
 
   tinyglobby@0.2.17:
     dependencies:
-      fdir: 6.5.0(picomatch@4.0.4)
-      picomatch: 4.0.4
+      fdir: 6.5.0(picomatch@4.0.5)
+      picomatch: 4.0.5
 
   tinyrainbow@2.0.0: {}
 
@@ -12769,7 +12796,7 @@ snapshots:
     dependencies:
       '@jridgewell/remapping': 2.3.5
       acorn: 8.17.0
-      picomatch: 4.0.4
+      picomatch: 4.0.5
       webpack-virtual-modules: 0.6.2
 
   unrs-resolver@1.12.2:
@@ -12865,8 +12892,8 @@ snapshots:
   vite@6.4.3(@types/node@22.15.32)(jiti@2.7.0)(lightningcss@1.32.0)(yaml@2.9.0):
     dependencies:
       esbuild: 0.25.12
-      fdir: 6.5.0(picomatch@4.0.4)
-      picomatch: 4.0.4
+      fdir: 6.5.0(picomatch@4.0.5)
+      picomatch: 4.0.5
       postcss: 8.5.18
       rollup: 4.62.2
       tinyglobby: 0.2.17

@@ -27,7 +27,7 @@ When working in this repository:
 
 - Do **not** add or restore V1 packages `gen-grid`, `gen-grid-crud`, or `gen-grid-chart`.
 - Do **not** port V1 `GenChart.tsx` monolith into V2; follow [`.docs/05-GEN-CHART.md`](./.docs/05-GEN-CHART.md).
-- Prefer the package review order: `tsconfig` → `theme` → `utils` → `ui` → `mdi` → `gen-chart` → … → apps.
+- Prefer the package review order: `tsconfig` → `theme` → `utils` → `debug` → `ui` → `mdi` → `gen-chart` → … → apps.
 - Touch `gen-datagrid-chart` or demo grid pages after confirming `gen-datagrid` public API for the target screen.
 
 ## Core Stack
@@ -53,6 +53,7 @@ Keep package responsibilities clear.
 - `packages/tsconfig`: shared TypeScript configuration.
 - `packages/theme`: design tokens, global styles, fonts, and theme primitives.
 - `packages/utils`: shared, domain-neutral utility functions (no React dependency).
+- `packages/debug`: DEV-oriented state/render inspection hooks (React peer; not folded into `utils`).
 - `packages/ui`: domain-neutral UI components built on Radix and theme tokens.
 - `packages/mdi`: multiple document interface layout and tab/window behavior.
 - `packages/gen-datagrid`: **core** div-based data grid (TanStack Table + div renderer). Owned by the grid track.
@@ -67,6 +68,7 @@ Preferred dependency direction:
 ```text
 apps -> feature packages (gen-datagrid-crud, gen-datagrid-chart, mdi, gen-chart)
      -> gen-datagrid -> ui -> theme/utils
+apps / feature (optional) -> debug
 ```
 
 Avoid reverse dependencies and circular dependencies.

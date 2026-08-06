@@ -50,6 +50,7 @@ tsconfig
 theme ──┐
         ├──→ ui ──→ mdi ──→ gen-frame
 utils ──┘      │
+debug (DEV) ───┘  (apps/feature 옵트인; utils에 합치지 않음)
                  ├──→ gen-chart (재작성)
                  │
 gen-datagrid ────┼──→ gen-datagrid-crud   ✅ Gate 10~11
@@ -66,6 +67,7 @@ gen-datagrid ────┼──→ gen-datagrid-crud   ✅ Gate 10~11
 | 0 | `packages/tsconfig` | 이식 | 공유 TS 설정. 소스 검토는 가볍게 |
 | 1 | `packages/theme` | 수정 이식 | 토큰·폰트·ThemeProvider. **시작점** |
 | 2 | `packages/utils` | 이식 | `clsx` 등. React 무관 |
+| 2b | `packages/debug` | 수정 이식 | DEV 훅 MVP ✅ · React 19 peer. Dialog/그리드 뷰어는 backlog |
 | 3 | `packages/ui` | 수정 이식 | Radix 래퍼·composed. TipTap 분리는 보류 가능 |
 | 4 | `packages/mdi` | 수정 이식 | Zustand store·탭·창 |
 | 4b | `packages/gen-frame` | **신규** | 앱 layout·navigation·URL — [plan.md](../packages/gen-frame/.docs/plan.md); **F0~F3 ✅** |

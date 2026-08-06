@@ -7,8 +7,10 @@
  * - 조회: userQuery(useUsersQuery) / 쓰기: userMutation(useUserMutations)
  * - 필터: StandardFilterBar(draft) → 검색 시 applied 반영 → queryKey 변경으로 refetch
  * - 상세: MasterDetail inline row + demo CSS horizontal sticky (`userDetailPanel` + `UserPage.module.css`)
+ * - DEV: `@gen-office/debug`로 필터·확장행·쿼리 파라미터 관찰
  *
  * @history
+ * - 2026-08-06 @gen-office/debug 훅 적용 (필터·렌더 관찰)
  * - 2026-07-10 inline detail horizontal sticky (demo CSS, gridId scoped override)
  * - 2026-07-10 UserPage: `masterDetail.toggle.render` chevron toggle
  * - 2026-07-08 데이터계층: 직접 import → react-query 훅 + httpClient
@@ -21,6 +23,11 @@
  */
 
 import { useCallback, useMemo, useRef, useState } from 'react';
+import {
+  useDebugState,
+  useRenderCount,
+  useWhyRender,
+} from '@gen-office/debug';
 import type { GenDataGridHandle } from '@gen-office/gen-datagrid';
 import { renderDetailChevronToggle } from '@gen-office/gen-datagrid';
 import { GenDataGridCrud } from '@gen-office/gen-datagrid-crud';
@@ -40,6 +47,7 @@ import styles from '../../../shared/styles/standardLayout.module.css';
 import pageStyles from './UserPage.module.css';
 
 const EMPTY_FILTERS: UserListParams = { empName: '', useYn: '' };
+const debugEnabled = import.meta.env.DEV;
 
 export function UserPage() {
   const { t } = useI18n();
@@ -77,6 +85,22 @@ export function UserPage() {
   const { data: rows = [], dataUpdatedAt, refetch } = useUsersQuery(queryParams);
   // CUD용 Hook 호출
   const { newRow, validateCommit, handleCommit } = useUserMutations();
+
+  useRenderCount('UserPage', { enabled: debugEnabled, log: true });
+  useDebugState('User.draftFilters', draftFilters, { enabled: debugEnabled });
+  useDebugState('User.appliedFilters', appliedFilters, { enabled: debugEnabled });
+  useWhyRender(
+    'UserPage',
+    {
+      draftFilters,
+      appliedFilters,
+      expandedRows,
+      queryParams,
+      rowCount: rows.length,
+      dataUpdatedAt,
+    },
+    { enabled: debugEnabled },
+  );
 
   const renderDetailPanel = useCallback(
     ({ row, collapse }: { row: UserRow; collapse: () => void }) => (

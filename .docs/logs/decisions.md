@@ -8,6 +8,16 @@
 
 역시간순. 같은 날짜 섹션 안에서도 **최신 항목이 위**.
 
+## 2026-08-06
+
+### `@gen-office/debug` foundation 패키지 채택
+
+- **결정:** V1 `@gen-office/debug` MVP(`useDebugState` / `useRenderCount` / `useWhyRender` / `resolveDebugEnabled`)를 V2 `packages/debug`로 이식한다. `utils`에 합치지 않는다.
+- **배경:** utils는 React 금지·포맷/정규화/검증 중심. debug는 React peer + console 기반 DEV 훅이라 경계가 다름. V1 도메인(`gen-grid` 등) 의존이 없어 포팅 비용이 낮다.
+- **제약:** Dialog UI·DataGrid 데이터셋 뷰어·CRUD 내부 디버그는 포함하지 않음. apps/feature가 `enabled: import.meta.env.DEV`로 옵트인.
+- **비채택:** utils 확장, feature 패키지에 프로덕션 필수 의존으로 강제 연결.
+- **문서:** [packages/debug/.docs/README.md](../../packages/debug/.docs/README.md), [.docs/02-ARCHITECTURE.md](../02-ARCHITECTURE.md)
+
 ## 2026-07-13
 
 ### 공개 Docs Quick Start: GenFrame 첫 앱 경로
