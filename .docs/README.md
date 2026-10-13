@@ -16,6 +16,7 @@ GenOffice V2 설계·이식·운영에 관한 문서 모음입니다.
 8. [08-DESIGN-TOKENS-GUIDE.md](./08-DESIGN-TOKENS-GUIDE.md) — **디자이너·퍼블리셔** 디자인 토큰·색상 작업 가이드
 9. [09-SOURCE-CONVENTIONS.md](./09-SOURCE-CONVENTIONS.md) — **개발·에이전트** 소스 편집·파일 헤더·인코딩 규칙
 10. [11-TECH-STACK.md](./11-TECH-STACK.md) — 채택 기술 스택 목록·장단점·채택 이유
+11. [12-NPM-PUBLISH.md](./12-NPM-PUBLISH.md) — `@gen-office/*` npmjs 배포·다른 저장소 설치
 
 ### 역할별 추천
 
@@ -48,6 +49,7 @@ GenOffice V2 설계·이식·운영에 관한 문서 모음입니다.
 | [09-SOURCE-CONVENTIONS.md](./09-SOURCE-CONVENTIONS.md) | 소스 편집·파일 헤더(`@remark`/`@history`)·UTF-8·인코딩 가드 |
 | [10-THEME-TOKEN-MIGRATION-PLAN.md](./10-THEME-TOKEN-MIGRATION-PLAN.md) | theme ↔ 패키지 토큰 이관 계획 |
 | [11-TECH-STACK.md](./11-TECH-STACK.md) | 채택 기술 스택 목록, 항목별 장단점·채택 이유 |
+| [12-NPM-PUBLISH.md](./12-NPM-PUBLISH.md) | `@gen-office/*` npmjs 공개 배포, 버전, 다른 저장소 설치 |
 
 ## 패키지 `.docs/` (V2 정본)
 

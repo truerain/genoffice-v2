@@ -8,6 +8,15 @@
 
 역시간순. 같은 날짜 섹션 안에서도 **최신 항목이 위**.
 
+## 2026-10-13
+
+### `@gen-office/*`는 npmjs 공개 패키지로 배포
+
+- **결정:** 다른 저장소는 이 모노레포를 workspace로 묶지 않고, npmjs의 `@gen-office/*` 버전을 설치한다. 라이브러리 소스의 내부 의존성은 `workspace:*`로 두고, `pnpm publish --access public`이 배포본에서 정확한 버전으로 바꾼다.
+- **배경:** `workspace:*`는 이 저장소 밖에서 해석되지 않는다. GitHub Packages는 스코프가 저장소 소유자(`truerain`)와 같아야 하므로 `@gen-office`에는 쓰지 않는다.
+- **제약:** 루트와 `apps/*`는 `private`이라 배포하지 않는다. 같은 버전은 덮어쓸 수 없다. React peer는 `^19.0.0`을 유지하고, React 20은 테스트 후에만 범위를 넓힌다.
+- **문서:** [.docs/12-NPM-PUBLISH.md](../12-NPM-PUBLISH.md)
+
 ## 2026-08-06
 
 ### `@gen-office/debug` foundation 패키지 채택

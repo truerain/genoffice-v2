@@ -6,6 +6,13 @@
 -->
 # GenOffice V2 작업 로그
 
+## 2026-10-13
+
+### npmjs 배포 절차 문서
+
+- **요약:** `packages/*`를 npmjs 공개 패키지로 배포하는 절차를 정리. `workspace:*`는 소스에 유지하고 배포 시 정확한 버전으로 바꿈. 앱·루트는 배포하지 않음.
+- **파일:** `.docs/12-NPM-PUBLISH.md`, `.docs/README.md`, `.docs/logs/decisions.md`
+
 ## 2026-08-06
 
 ### demo — UserPage에 `@gen-office/debug` 훅 적용
