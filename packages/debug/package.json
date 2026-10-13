@@ -1,6 +1,6 @@
 {
   "name": "@gen-office/debug",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {

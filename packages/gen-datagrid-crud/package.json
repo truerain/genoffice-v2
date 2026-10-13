@@ -1,7 +1,6 @@
 {
   "name": "@gen-office/gen-datagrid-crud",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.2.0",
   "description": "GenOffice V2 CRUD toolbar and row status on GenDataGrid",
   "type": "module",
   "main": "./dist/index.mjs",

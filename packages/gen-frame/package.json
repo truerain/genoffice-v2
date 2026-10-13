@@ -1,7 +1,6 @@
 {
   "name": "@gen-office/gen-frame",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.2.0",
   "description": "GenOffice V2 app frame — layout chrome, navigation orchestration, URL sync",
   "type": "module",
   "main": "./dist/index.js",
