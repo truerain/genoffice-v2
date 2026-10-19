@@ -21,8 +21,8 @@ function resolveSeriesLabel(
   return seriesList.find((series) => series.id === seriesId)?.label;
 }
 
-function resolveCartesianSeriesType(
-  seriesList: CartesianChartSeries<unknown>[],
+function resolveCartesianSeriesType<TDatum>(
+  seriesList: CartesianChartSeries<TDatum>[],
   seriesId: string,
 ): ChartTooltipFormatterContext['seriesType'] | undefined {
   return seriesList.find((series) => series.id === seriesId)?.type;

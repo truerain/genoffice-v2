@@ -4,16 +4,17 @@
  * @created 2026-06-27
  *
  * @remark
+ * - CartesianChartSeries는 union이라 interface extends가 불가하다. intersection type으로 둔다.
  */
 
 import type { CartesianChartSeries } from '../types/series';
 import { warnDuplicateSeriesId, warnNoFiniteY } from './warnings';
 import { isFiniteNumber } from './utils/isFiniteNumber';
 
-export interface NormalizedCartesianSeries<TDatum> extends CartesianChartSeries<TDatum> {
+export type NormalizedCartesianSeries<TDatum> = CartesianChartSeries<TDatum> & {
   /** True when the series has no finite y values (excluded from domain/geometry). */
   excluded: boolean;
-}
+};
 
 export function seriesHasFiniteY<TDatum>(series: CartesianChartSeries<TDatum>): boolean {
   return series.data.some((datum, index) => isFiniteNumber(series.y(datum, index)));

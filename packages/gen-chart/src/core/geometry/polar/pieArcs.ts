@@ -35,9 +35,10 @@ export function buildPieArcs<TDatum>(
     return [];
   }
 
-  const innerRadius = series.isDonut
-    ? layout.outerRadius * (series.innerRadiusRatio ?? 0.5)
-    : 0;
+  const innerRadius =
+    series.isDonut && 'innerRadiusRatio' in series
+      ? layout.outerRadius * (series.innerRadiusRatio ?? 0.5)
+      : 0;
 
   const pieGen = pie<SliceDatum<TDatum>>()
     .value((d) => d.value)

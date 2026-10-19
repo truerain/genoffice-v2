@@ -82,9 +82,11 @@ pnpm build
 3. 레지스트리에 올리지 않고, 의존성이 버전으로 바뀌었는지 확인합니다.
 
 ```powershell
-pnpm --filter @gen-office/ui pack --pack-destination $env:TEMP\gen-office-pack
+pnpm --dir packages/ui pack --pack-destination $env:TEMP\gen-office-pack
 tar -xOf "$env:TEMP\gen-office-pack\gen-office-ui-0.2.0.tgz" package/package.json
 ```
+
+pnpm 9.15에서 `pnpm --filter … pack`은 `Unknown option: recursive`로 실패합니다. 패키지 디렉터리에서 `pnpm pack`을 실행합니다.
 
 `dependencies`에 `"@gen-office/theme": "0.2.0"`, `"@gen-office/utils": "0.2.0"`이 있으면 됩니다. 워크스페이스의 `package.json`은 `workspace:*`인 채로 남습니다.
 

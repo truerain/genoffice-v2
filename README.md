@@ -93,6 +93,7 @@ apps → feature packages → ui → theme/utils
 | [.docs/04-ROADMAP.md](./.docs/04-ROADMAP.md) | 단계별 마이그레이션 로드맵 |
 | [.docs/05-GEN-CHART.md](./.docs/05-GEN-CHART.md) | GenChart V2 재설계·API·품질 Gate |
 | [.docs/06-PACKAGE-REVIEW-PLAN.md](./.docs/06-PACKAGE-REVIEW-PLAN.md) | 패키지별 소스 검토 순서·분담 |
+| [.docs/12-NPM-PUBLISH.md](./.docs/12-NPM-PUBLISH.md) | `@gen-office/*` npmjs 배포 |
 
 ## V1과의 관계
 

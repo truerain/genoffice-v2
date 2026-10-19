@@ -4,6 +4,7 @@
  * @created 2026-06-27
  *
  * @remark
+ * - PolarChartSeriesDef는 union이라 interface extends가 불가하다. intersection type으로 둔다.
  */
 
 import type { DonutSeriesDef, PieSeriesDef } from '../types/series';
@@ -12,10 +13,10 @@ import { isFiniteNumber } from './utils/isFiniteNumber';
 
 export type PolarChartSeriesDef<TDatum> = PieSeriesDef<TDatum> | DonutSeriesDef<TDatum>;
 
-export interface NormalizedPolarSeries<TDatum> extends PolarChartSeriesDef<TDatum> {
+export type NormalizedPolarSeries<TDatum> = PolarChartSeriesDef<TDatum> & {
   excluded: boolean;
   isDonut: boolean;
-}
+};
 
 export function seriesHasFiniteValue<TDatum>(series: PolarChartSeriesDef<TDatum>): boolean {
   return series.data.some((datum, index) => {

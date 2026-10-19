@@ -6,9 +6,10 @@
  * @remark
  * - Lib build uses Vite/esbuild JSX (no @vitejs/plugin-react)
  * - visx / d3-scale added in Gate C1+; C0 is types + stub exports only
+ * - Declaration(.d.ts) emit는 build script의 `tsc -p tsconfig.build.json`가 담당
+ *   (vite-plugin-dts@5는 composite+references 조합에서 파일을 쓰지 않음)
  */
 import { defineConfig } from 'vite';
-import dts from 'vite-plugin-dts';
 import { resolve } from 'path';
 
 const themeCss = resolve(__dirname, '../theme/src/index.css');
@@ -22,12 +23,6 @@ export default defineConfig({
   esbuild: {
     jsx: 'automatic',
   },
-  plugins: [
-    dts({
-      insertTypesEntry: true,
-      exclude: ['src/**/*.stories.tsx', 'src/**/*.stories.ts'],
-    }),
-  ],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),

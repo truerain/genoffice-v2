@@ -13,9 +13,6 @@ import { resolveChartTokens } from '../../../themes/resolveChartTokens';
 import { PolarChartContextProvider } from '../../context/PolarChartContext';
 import { usePolarChart } from '../../hooks/usePolarChart';
 import { useChartMotion } from '../../motion/useChartMotion';
-import { DonutSeries } from './DonutSeries';
-import { PieSeries } from './PieSeries';
-import { PolarPlot } from './PolarPlot';
 
 export { PolarPlot } from './PolarPlot';
 export type { PolarPlotProps } from './PolarPlot';

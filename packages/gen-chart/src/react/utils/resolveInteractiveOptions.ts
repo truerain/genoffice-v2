@@ -6,11 +6,7 @@
  * @remark
  */
 
-import type {
-  ChartInteractiveOptions,
-  ChartLegendOptions,
-  ChartTooltipOptions,
-} from '../../types/interaction';
+import type { ChartLegendOptions, ChartTooltipOptions } from '../../types/interaction';
 
 export interface ResolvedTooltipOptions<TDatum> extends ChartTooltipOptions<TDatum> {
   enabled: boolean;

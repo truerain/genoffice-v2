@@ -6,6 +6,13 @@
 -->
 # @gen-office/gen-chart 구현 로그
 
+## 2026-10-19
+
+### 배포용 declaration emit
+
+- **요약:** `vite-plugin-dts`가 `composite`+`references`에서 `.d.ts`를 쓰지 않아 `tsc -p tsconfig.build.json`으로 선언을 낸다. union series를 interface가 extend하던 오류와 donut `innerRadiusRatio` 좁히기를 고쳐 빌드가 통과한다.
+- **파일:** `tsconfig.build.json`, `vite.config.ts`, `package.json`, `src/core/normalizeSeries.ts`, `src/core/normalizePolarSeries.ts`, `src/core/geometry/polar/pieArcs.ts`, `src/react/components/chrome/formatTooltipContent.ts`, `src/react/components/polar/index.tsx`, `src/react/utils/resolveInteractiveOptions.ts`
+
 ## 2026-07-09
 
 ### 디자인 토큰·theme 연동 architecture (정본)

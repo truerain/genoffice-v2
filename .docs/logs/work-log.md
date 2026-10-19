@@ -6,6 +6,13 @@
 -->
 # GenOffice V2 작업 로그
 
+## 2026-10-19
+
+### npmjs 배포 전 점검
+
+- **요약:** 라이브러리 9개 `0.2.0` 빌드와 pack 확인. `ui` 내부 의존성을 `workspace:*`로 되돌려 배포본이 `0.2.0`이 되게 함. `gen-chart`는 `tsc -p tsconfig.build.json`으로 `.d.ts`를 내고, union을 interface로 extend하던 타입 오류를 고침. npm 로그인이 없어 실제 배포는 하지 않음.
+- **파일:** `packages/ui/package.json`, `packages/gen-chart/**`, `.docs/12-NPM-PUBLISH.md`, `README.md`
+
 ## 2026-10-13
 
 ### npmjs 배포 절차 문서
